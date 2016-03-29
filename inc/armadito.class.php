@@ -119,6 +119,33 @@ class PluginArmaditoArmadito extends CommonDBTM {
       return true;
    }
 
+   function getSearchOptions() {
+
+      $tab = array();
+      $tab['common'] = "Header Needed";
+
+      $tab[1]['table']     = 'glpi_plugin_armadito_armaditos';
+      $tab[1]['field']     = 'name';
+      $tab[1]['name']      = __('Name');
+
+      /*
+      $tab[2]['table']     = 'glpi_plugin_armadito_dropdowns';
+      $tab[2]['field']     = 'name';
+      $tab[2]['name']      = __('Dropdown'); */
+
+      $tab[3]['table']     = 'glpi_plugin_armadito_armaditos';
+      $tab[3]['field']     = 'serial';
+      $tab[3]['name']      = __('Serial number');
+      $tab[3]['usehaving'] = true;
+      $tab[3]['searchtype'] = 'equals';
+
+      $tab[30]['table']     = 'glpi_plugin_armadito_armaditos';
+      $tab[30]['field']     = 'id';
+      $tab[30]['name']      = __('ID');
+
+      return $tab;
+   }
+
 
 }
 

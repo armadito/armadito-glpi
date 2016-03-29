@@ -33,5 +33,6 @@ if ($_SESSION["glpiactiveprofile"]["interface"] == "central") {
 
 Search::show('PluginArmaditoArmadito');
 
+
 Html::footer();
 ?>
