@@ -1,10 +1,25 @@
-<?php
+<?php 
 
-// LICENSE HERE
+/* This file is part of ArmaditoPlugin.
+
+ArmaditoPlugin is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+ArmaditoPlugin is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with ArmaditoPlugin.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
 
 // ----------------------------------------------------------------------
-// Original Author of file:
-// Purpose of file:
+// Original Author of file: Valentin HAMON
+// Purpose of file: 
 // ----------------------------------------------------------------------
 
 // Init the hooks of the plugins -Needed
@@ -13,13 +28,21 @@ function plugin_init_armadito() {
 
    $PLUGIN_HOOKS['csrf_compliant']['armadito'] = TRUE;
 
-   /* $types = array('Central', 'Computer', 'ComputerDisk', 'Notification', 'Phone',
+   $types = array('Central', 'Computer', 'ComputerDisk', 'Notification', 'Phone',
                   'Preference', 'Profile', 'Supplier');
 
-   Plugin::registerClass('ArmaditoMainClass',
+   Plugin::registerClass('PluginArmaditoArmadito',
                          array('addtabon'  => $types,
                               'link_types' => true));
-   */  
+
+   // Definition du profil
+   $_SESSION["glpi_plugin_armadito_profile"]['armadito'] = 'w';
+   if (isset($_SESSION["glpi_plugin_armadito_profile"])) { // Right set in change_profile hook
+
+      $PLUGIN_HOOKS['menu_toadd']['armadito'] = array('plugins' => 'PluginArmaditoArmadito');
+
+     // $PLUGIN_HOOKS["helpdesk_menu_entry"]['armadito'] = true;
+   }
 
 }
 
@@ -28,7 +51,7 @@ function plugin_version_armadito() {
    return array('name'           => 'Plugin Armadito',
                 'version'        => '0.1',
                 'author'         => 'Valentin HAMON',
-                'license'        => 'GPLv2+',
+                'license'        => 'GPLv3',
                 'homepage'       => 'http://uhuru-am.com/en/',
                 'minGlpiVersion' => '0.85');// For compatibility / no install in version < 0.80
 }
@@ -54,7 +77,7 @@ function plugin_armadito_check_config($verbose=false) {
    }
 
    if ($verbose) {
-      _e('Installed / not configured', 'example');
+      _e('Installed / not configured', 'armadito');
    }
    return false;
 }

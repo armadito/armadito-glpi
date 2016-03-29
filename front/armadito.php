@@ -1,5 +1,4 @@
-<?php 
-
+<?php
 /* This file is part of ArmaditoPlugin.
 
 ArmaditoPlugin is free software: you can redistribute it and/or modify
@@ -22,29 +21,17 @@ along with ArmaditoPlugin.  If not, see <http://www.gnu.org/licenses/>.
 // Purpose of file: 
 // ----------------------------------------------------------------------
 
-// Hook called on profile change
-// Good place to evaluate the user right on this plugin
-// And to save it in the session
-function plugin_change_profile_armadito() {
-   // For example : same right of computer
-   if (Session::haveRight('computer','w')) {
-      $_SESSION["glpi_plugin_armadito_profile"] = array('armadito' => 'w');
+include ('../../../inc/includes.php');
 
-   } else if (Session::haveRight('computer','r')) {
-      $_SESSION["glpi_plugin_armadito_profile"] = array('armadito' => 'r');
-
-   } else {
-      unset($_SESSION["glpi_plugin_armadito_profile"]);
-   }
+if ($_SESSION["glpiactiveprofile"]["interface"] == "central") {
+   Html::header("TITRE", $_SERVER['PHP_SELF'],"plugins","pluginarmaditoarmadito","");
+} else {
+   Html::helpHeader("TITRE", $_SERVER['PHP_SELF']);
 }
 
+//checkTypeRight('PluginExampleExample',"r");
 
-function plugin_armadito_install() {
-    return true;
-}
+Search::show('PluginArmaditoArmadito');
 
-function plugin_armadito_uninstall() {
-    return true;
-}
-
+Html::footer();
 ?>

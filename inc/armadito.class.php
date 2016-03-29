@@ -22,29 +22,35 @@ along with ArmaditoPlugin.  If not, see <http://www.gnu.org/licenses/>.
 // Purpose of file: 
 // ----------------------------------------------------------------------
 
-// Hook called on profile change
-// Good place to evaluate the user right on this plugin
-// And to save it in the session
-function plugin_change_profile_armadito() {
-   // For example : same right of computer
-   if (Session::haveRight('computer','w')) {
-      $_SESSION["glpi_plugin_armadito_profile"] = array('armadito' => 'w');
 
-   } else if (Session::haveRight('computer','r')) {
-      $_SESSION["glpi_plugin_armadito_profile"] = array('armadito' => 'r');
+// Class of the defined type
+class PluginArmaditoArmadito extends CommonDBTM {
 
-   } else {
-      unset($_SESSION["glpi_plugin_armadito_profile"]);
+     static function canCreate() {
+
+      if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
+         return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w');
+      }
+      return false;
    }
-}
 
 
-function plugin_armadito_install() {
-    return true;
-}
+   static function canView() {
 
-function plugin_armadito_uninstall() {
-    return true;
+      if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
+         return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w'
+                 || $_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'r');
+      }
+      return false;
+   }
+
+   /**
+    * @see CommonGLPI::getMenuName()
+   **/
+   static function getMenuName() {
+      return __('Plugin Armadito');
+   }
+
 }
 
 ?>
