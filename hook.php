@@ -22,28 +22,41 @@ along with ArmaditoPlugin.  If not, see <http://www.gnu.org/licenses/>.
 // Purpose of file: 
 // ----------------------------------------------------------------------
 
-// Hook called on profile change
-// Good place to evaluate the user right on this plugin
-// And to save it in the session
-function plugin_change_profile_armadito() {
-   // For example : same right of computer
-   if (Session::haveRight('computer','w')) {
-      $_SESSION["glpi_plugin_armadito_profile"] = array('armadito' => 'w');
-
-   } else if (Session::haveRight('computer','r')) {
-      $_SESSION["glpi_plugin_armadito_profile"] = array('armadito' => 'r');
-
-   } else {
-      unset($_SESSION["glpi_plugin_armadito_profile"]);
-   }
-}
-
-
 function plugin_armadito_install() {
+   global $DB;
+
+   // Création de la table uniquement lors de la première installation
+   if (!TableExists("glpi_plugin_armadito_config")) {
+        // Création de la table config
+        $query = "CREATE TABLE `glpi_plugin_armadito_config` (
+        `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+        `status` char(32) NOT NULL default '',
+        `enabled` char(1) NOT NULL default '1'
+        )ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+        $DB->query($query) or die($DB->error());
+   }
+
+   if (!TableExists("glpi_plugin_armadito_devices")) {
+        // Création de la table config
+        $query = "CREATE TABLE `glpi_plugin_armadito_devices` (
+        `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+        `agent_id` char(32) NOT NULL default '',
+        `alive` char(1) NOT NULL default '1'
+        )ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+        $DB->query($query) or die($DB->error());
+   }
+
     return true;
 }
 
 function plugin_armadito_uninstall() {
+    global $DB;
+
+    $tables = array("glpi_plugin_armadito_config", "glpi_plugin_armadito_devices");
+
+    foreach($tables as $table) 
+        {$DB->query("DROP TABLE IF EXISTS `$table`;");}
+
     return true;
 }
 
