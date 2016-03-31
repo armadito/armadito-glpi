@@ -40,9 +40,11 @@ function plugin_init_armadito() {
    if (isset($_SESSION["glpi_plugin_armadito_profile"])) { // Right set in change_profile hook
 
       $PLUGIN_HOOKS['menu_toadd']['armadito'] = array('plugins' => 'PluginArmaditoArmadito');
-
-     // $PLUGIN_HOOKS["helpdesk_menu_entry"]['armadito'] = true;
    }
+
+   // Ajout des hooks 
+   $PLUGIN_HOOKS['item_update']['armadito']  = array('Computer' => array('PluginArmaditoArmadito',
+                                                                           'item_update_computer'));
 
 }
 
@@ -50,7 +52,7 @@ function plugin_version_armadito() {
 
    return array('name'           => 'Plugin Armadito',
                 'version'        => '0.1',
-                'author'         => 'Valentin HAMON',
+                'author'         => '<a href="mailto:vhamon@teclib.com">Valentin HAMON</a>',
                 'license'        => 'GPLv3',
                 'homepage'       => 'http://uhuru-am.com/en/',
                 'minGlpiVersion' => '0.85');// For compatibility / no install in version < 0.80

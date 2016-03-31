@@ -26,6 +26,18 @@ along with ArmaditoPlugin.  If not, see <http://www.gnu.org/licenses/>.
 // Class of the defined type
 class PluginArmaditoArmadito extends CommonDBTM {
 
+
+   /**
+   * Get name of this type
+   *
+   * @return text name of this type by language of the user connected
+   *
+   **/
+   static function getTypeName($nb=0) {
+      return __('Armadito', 'armadito');
+   }
+
+
      static function canCreate() {
 
       if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
@@ -122,30 +134,57 @@ class PluginArmaditoArmadito extends CommonDBTM {
    function getSearchOptions() {
 
       $tab = array();
-      $tab['common'] = "Header Needed";
+      $tab['common'] = __('Armadito', 'armadito');
 
-      $tab[1]['table']     = 'glpi_plugin_armadito_armaditos';
+      $tab[1]['table']     = $this->getTable();
       $tab[1]['field']     = 'name';
       $tab[1]['name']      = __('Name');
+      $tab[1]['datatype']  = 'itemlink';
 
-      /*
-      $tab[2]['table']     = 'glpi_plugin_armadito_dropdowns';
-      $tab[2]['field']     = 'name';
-      $tab[2]['name']      = __('Dropdown'); */
+      $tab[2]['table']     = $this->getTable();
+      $tab[2]['field']     = 'inventory_id';
+      $tab[2]['name']      = __('Inventory ID');
 
-      $tab[3]['table']     = 'glpi_plugin_armadito_armaditos';
+      $tab[3]['table']     = $this->getTable();
       $tab[3]['field']     = 'serial';
-      $tab[3]['name']      = __('Serial number');
-      $tab[3]['usehaving'] = true;
-      $tab[3]['searchtype'] = 'equals';
+      $tab[3]['name']      = __('Serial Number');
+      $tab[3]['datatype']  = 'text';
 
-      $tab[30]['table']     = 'glpi_plugin_armadito_armaditos';
-      $tab[30]['field']     = 'id';
-      $tab[30]['name']      = __('ID');
+      $tab[4]['table']     = $this->getTable();
+      $tab[4]['field']     = 'version_av';
+     // $tab[4]['linkfield'] = 'version_av';
+      $tab[4]['name']      = __('Armadito Version');
+      $tab[4]['datatype']  = 'text';
+      $tab[4]['massiveaction'] = FALSE;
+
+      $tab[5]['table']     = $this->getTable();
+      $tab[5]['field']     = 'version_agent';
+     // $tab[5]['linkfield'] = 'version_agent';
+      $tab[5]['name']      = __('Agent Version');
+      $tab[5]['datatype']  = 'text';
+      $tab[5]['massiveaction'] = FALSE;
 
       return $tab;
    }
 
+   static function item_update_computer(Computer$item) {
+      global $DB;
+
+      if ($item->getFromDB($item->getID())) {
+            Session::addMessageAfterRedirect("- ".$item->getField("name"), true);
+      } 
+
+      ## TODO if inventory_id already existing in base, update table of this id
+      $query = "INSERT INTO `glpi_plugin_armadito_armaditos`
+                       (`id`,`inventory_id`, `name`, `serial`, `version_av`, `version_agent`)
+                VALUES (NULL,".$item->getID().", '".$item->getField('name')."', '".$item->getField('serial')."','', '')";
+
+      $DB->query($query) or die("error populate glpi_plugin_armadito ".$DB->error());
+
+      Session::addMessageAfterRedirect("Add Armadito Computer Hook, NAME=".$item->getField('name')." ID=".$item->getID(), true);
+      
+      return true;
+   }
 
 }
 

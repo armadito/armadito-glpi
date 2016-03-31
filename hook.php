@@ -22,6 +22,31 @@ along with ArmaditoPlugin.  If not, see <http://www.gnu.org/licenses/>.
 // Purpose of file: 
 // ----------------------------------------------------------------------
 
+function setDefaultDisplayPreferences(){
+   global $DB;
+
+   // Set preferences for search_options
+   $query = "INSERT INTO `glpi_displaypreferences` (`id`, `itemtype`, `num`, `rank`,
+                        `users_id`)
+		      VALUES (NULL, 'PluginArmaditoArmadito', '1', '1', '0'),
+			     (NULL, 'PluginArmaditoArmadito', '2', '2', '0'),
+			     (NULL, 'PluginArmaditoArmadito', '3', '3', '0'),
+			     (NULL, 'PluginArmaditoArmadito', '4', '4', '0'),
+			     (NULL, 'PluginArmaditoArmadito', '5', '5', '0')";
+
+   $DB->query($query) or die("error insert into display_preferences ". $DB->error());
+
+}
+
+function cleanDefaultDisplayPreferences(){
+   global $DB;
+
+   $sql = "DELETE FROM `glpi_displaypreferences`
+      WHERE `itemtype`='PluginArmaditoArmadito'";
+
+   $DB->query($sql);
+}
+
 function plugin_armadito_install() {
    global $DB;
 
@@ -39,42 +64,50 @@ function plugin_armadito_install() {
    }
 
    
+   // 
+   // SELECT agent_id FROM glpi_plugin_fusioninventory_agents WHERE  
+
    if (!TableExists("glpi_plugin_armadito_armaditos")) {
       $query = "CREATE TABLE `glpi_plugin_armadito_armaditos` (
                   `id` int(11) NOT NULL auto_increment,
+		  `inventory_id` int(11) NOT NULL,
                   `name` varchar(255) collate utf8_unicode_ci default NULL,
                   `serial` varchar(255) collate utf8_unicode_ci NOT NULL,
-                  `plugin_armadito_dropdowns_id` int(11) NOT NULL default '0',
-                  `is_deleted` tinyint(1) NOT NULL default '0',
-                  `is_template` tinyint(1) NOT NULL default '0',
-                  `template_name` varchar(255) collate utf8_unicode_ci default NULL,
+                  `version_av` varchar(255) collate utf8_unicode_ci NOT NULL,
+                  `version_agent` varchar(255) collate utf8_unicode_ci NOT NULL,
                 PRIMARY KEY (`id`)
                ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
 
-      $DB->query($query) or die("error creating glpi_plugin_armadito_armaditos ". $DB->error());
+      $DB->query($query) or die("error creating glpi_plugin_armadito_devices ". $DB->error());
 
-      $query = "INSERT INTO `glpi_plugin_armadito_armaditos`
-                       (`id`, `name`, `serial`, `plugin_armadito_dropdowns_id`, `is_deleted`,
-                        `is_template`, `template_name`)
-                VALUES (1, 'armadito 1', 'serial 1', 1, 0, 0, NULL),
-                       (2, 'armadito 2', 'serial 2', 2, 0, 0, NULL),
-                       (3, 'armadito 3', 'serial 3', 1, 0, 0, NULL)";
-
-      $DB->query($query) or die("error populate glpi_plugin_armadito ". $DB->error());
+      // $DB->query($query) or die("error populate glpi_plugin_armadito ". $DB->error());
    }
 
-    return true;
+   cleanDefaultDisplayPreferences();
+   setDefaultDisplayPreferences();
+
+   return true;
 }
 
 function plugin_armadito_uninstall() {
-    global $DB;
+   global $DB;
 
-    $tables = array("glpi_plugin_armadito_config", "glpi_plugin_armadito_devices");
+   ProfileRight::deleteProfileRights(array('armadito:read'));
 
-    foreach($tables as $table) 
-        {$DB->query("DROP TABLE IF EXISTS `$table`;");}
+   // Current version tables
+   if (TableExists("glpi_plugin_armadito_config")) {
+      $query = "DROP TABLE `glpi_plugin_armadito_config`";
+      $DB->query($query) or die("error deleting glpi_plugin_armadito_config");
+   }
 
-    return true;
+   // Current version tables
+   if (TableExists("glpi_plugin_armadito_armaditos")) {
+      $query = "DROP TABLE `glpi_plugin_armadito_armaditos`";
+      $DB->query($query) or die("error deleting glpi_plugin_armadito_armaditos");
+   }
+
+   cleanDefaultDisplayPreferences();
+
+   return true;
 }
-
 ?>
