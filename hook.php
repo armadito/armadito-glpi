@@ -70,7 +70,7 @@ function plugin_armadito_install() {
    if (!TableExists("glpi_plugin_armadito_armaditos")) {
       $query = "CREATE TABLE `glpi_plugin_armadito_armaditos` (
                   `id` int(11) NOT NULL auto_increment,
-		  `inventory_id` int(11) NOT NULL,
+		  `computers_id` int(11) NOT NULL,
                   `name` varchar(255) collate utf8_unicode_ci default NULL,
                   `serial` varchar(255) collate utf8_unicode_ci NOT NULL,
                   `version_av` varchar(255) collate utf8_unicode_ci NOT NULL,

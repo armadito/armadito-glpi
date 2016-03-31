@@ -136,31 +136,33 @@ class PluginArmaditoArmadito extends CommonDBTM {
       $tab = array();
       $tab['common'] = __('Armadito', 'armadito');
 
-      $tab[1]['table']     = $this->getTable();
+      $tab[1]['table']     = 'glpi_computers'; // $this->getTable();
       $tab[1]['field']     = 'name';
-      $tab[1]['name']      = __('Name');
+      $tab[1]['name']      = __('Name', 'armadito');
       $tab[1]['datatype']  = 'itemlink';
+      $tab[1]['itemlink_type'] = 'Computer';
+      $tab[1]['massiveaction'] = FALSE;
 
       $tab[2]['table']     = $this->getTable();
-      $tab[2]['field']     = 'inventory_id';
-      $tab[2]['name']      = __('Inventory ID');
+      $tab[2]['field']     = 'computers_id';
+      $tab[2]['name']      = __('Inventory ID', 'armadito');
 
       $tab[3]['table']     = $this->getTable();
       $tab[3]['field']     = 'serial';
-      $tab[3]['name']      = __('Serial Number');
+      $tab[3]['name']      = __('Serial Number', 'armadito');
       $tab[3]['datatype']  = 'text';
 
       $tab[4]['table']     = $this->getTable();
       $tab[4]['field']     = 'version_av';
      // $tab[4]['linkfield'] = 'version_av';
-      $tab[4]['name']      = __('Armadito Version');
+      $tab[4]['name']      = __('Armadito Version', 'armadito');
       $tab[4]['datatype']  = 'text';
       $tab[4]['massiveaction'] = FALSE;
 
       $tab[5]['table']     = $this->getTable();
       $tab[5]['field']     = 'version_agent';
      // $tab[5]['linkfield'] = 'version_agent';
-      $tab[5]['name']      = __('Agent Version');
+      $tab[5]['name']      = __('Agent Version', 'armadito');
       $tab[5]['datatype']  = 'text';
       $tab[5]['massiveaction'] = FALSE;
 
@@ -176,7 +178,7 @@ class PluginArmaditoArmadito extends CommonDBTM {
 
       ## TODO if inventory_id already existing in base, update table of this id
       $query = "INSERT INTO `glpi_plugin_armadito_armaditos`
-                       (`id`,`inventory_id`, `name`, `serial`, `version_av`, `version_agent`)
+                       (`id`,`computers_id`, `name`, `serial`, `version_av`, `version_agent`)
                 VALUES (NULL,".$item->getID().", '".$item->getField('name')."', '".$item->getField('serial')."','', '')";
 
       $DB->query($query) or die("error populate glpi_plugin_armadito ".$DB->error());
