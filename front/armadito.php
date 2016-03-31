@@ -31,6 +31,8 @@ if ($_SESSION["glpiactiveprofile"]["interface"] == "central") {
 
 //checkTypeRight('PluginExampleExample',"r");
 
+PluginArmaditoArmadito::showArmaditoHeader();
+
 Search::show('PluginArmaditoArmadito');
 
 
