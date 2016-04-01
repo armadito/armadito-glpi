@@ -235,6 +235,8 @@ class PluginArmaditoArmadito extends CommonDBTM {
 
    static function item_update_agent(PluginFusioninventoryAgent $item){
 
+      Alog::logE("item_update_agent !");
+
       if($item->getFromDB($item->getID())) {
          PluginArmaditoArmadito::insertOrUpdateAgentInDB($item);
       } 

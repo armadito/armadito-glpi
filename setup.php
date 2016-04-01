@@ -22,6 +22,16 @@ along with ArmaditoPlugin.  If not, see <http://www.gnu.org/licenses/>.
 // Purpose of file: 
 // ----------------------------------------------------------------------
 
+class Alog {
+
+   static function logE($text) {
+
+      $ok = error_log(date("Y-m-d H:i:s")." ".$text."\n", 3, GLPI_LOG_DIR."/armadito.log"); 
+      return $ok;
+   }
+
+}
+
 // Init the hooks of the plugins -Needed
 function plugin_init_armadito() {
    global $PLUGIN_HOOKS,$CFG_GLPI;
