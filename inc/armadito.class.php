@@ -169,22 +169,79 @@ class PluginArmaditoArmadito extends CommonDBTM {
       return $tab;
    }
 
-   static function item_update_computer(Computer$item) {
+   static function isAgentAlreadyInDB (PluginFusioninventoryAgent $item){
       global $DB;
 
-      if ($item->getFromDB($item->getID())) {
-            Session::addMessageAfterRedirect("- ".$item->getField("name"), true);
+      $query = "SELECT * FROM `glpi_plugin_armadito_armaditos`
+                 WHERE `computers_id`='".$item->getField("computers_id")."'";
+      $ret = $DB->query($query); 
+       
+      if(!$ret){
+         Session::addMessageAfterRedirect("Error isAgentAlreadyInDB : ".$DB->error(), true);
+         return false;
+      }
+           
+      if($DB->numrows($ret) > 0){
+	 Session::addMessageAfterRedirect("isAgentAlreadyInDB count : ".$DB->numrows($ret), true);
+         return true;
       } 
+      
+      return false;
+   }
 
-      ## TODO if inventory_id already existing in base, update table of this id
+   static function insertAgentInDB (PluginFusioninventoryAgent $item){
+      global $DB;
+
       $query = "INSERT INTO `glpi_plugin_armadito_armaditos`
                        (`id`,`computers_id`, `name`, `serial`, `version_av`, `version_agent`)
-                VALUES (NULL,".$item->getID().", '".$item->getField('name')."', '".$item->getField('serial')."','', '')";
+                VALUES (NULL,".$item->getField("computers_id").", '', '','', '')";
 
-      $DB->query($query) or die("error populate glpi_plugin_armadito ".$DB->error());
+      $ret = $DB->query($query);
+      if($ret){
+         Session::addMessageAfterRedirect("Successfully inserting into glpi_plugin_armadito_armaditos for id : ".$item->getField("computers_id")." -".$DB->error(), true);
+      }
+      else{ 
+         Session::addMessageAfterRedirect("Error inserting into glpi_plugin_armadito_armaditos for id : ".$item->getField("computers_id")." -".$DB->error(), true);
+      }
 
-      Session::addMessageAfterRedirect("Add Armadito Computer Hook, NAME=".$item->getField('name')." ID=".$item->getID(), true);
-      
+   }
+
+   static function updateAgentInDB (PluginFusioninventoryAgent $item){
+      global $DB;
+
+      $query = "UPDATE `glpi_plugin_armadito_armaditos`
+                 SET `name`='updated' WHERE `computers_id`=".$item->getField("computers_id");
+
+      $ret = $DB->query($query);
+      if($ret){
+         Session::addMessageAfterRedirect("Successfully updated glpi_plugin_armadito_armaditos for id :".$item->getField("computers_id"), true);
+      } 
+      else{ // We insert into if there is nothing yet in database
+	 Session::addMessageAfterRedirect("Error updating glpi_plugin_armadito_armaditos for id : ".$item->getField("computers_id")." -".$DB->error(), true);
+      }
+
+   }
+
+   static function insertOrUpdateAgentInDB (PluginFusioninventoryAgent $item){
+      global $DB;
+   
+      if(PluginArmaditoArmadito::isAgentAlreadyInDB($item)){
+         PluginArmaditoArmadito::updateAgentInDB($item);
+      }
+      else{
+         PluginArmaditoArmadito::insertAgentInDB($item);
+      }
+   }
+
+   static function item_update_agent(PluginFusioninventoryAgent $item){
+
+      if($item->getFromDB($item->getID())) {
+         PluginArmaditoArmadito::insertOrUpdateAgentInDB($item);
+      } 
+      else{
+         Session::addMessageAfterRedirect("Error - can't get PluginFusioninventoryAgent object fromDB.", true);
+      }
+
       return true;
    }
 

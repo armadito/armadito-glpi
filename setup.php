@@ -42,10 +42,9 @@ function plugin_init_armadito() {
       $PLUGIN_HOOKS['menu_toadd']['armadito'] = array('plugins' => 'PluginArmaditoArmadito');
    }
 
-   // Ajout des hooks 
-   $PLUGIN_HOOKS['item_update']['armadito']  = array('Computer' => array('PluginArmaditoArmadito',
-                                                                           'item_update_computer'));
-
+   // Ajout du hook de l'update d'un agent Fusion dans la bdd
+   $PLUGIN_HOOKS['item_update']['armadito']  = array('PluginFusioninventoryAgent' => array('PluginArmaditoArmadito',
+                                                                           'item_update_agent'));
 }
 
 function plugin_version_armadito() {
