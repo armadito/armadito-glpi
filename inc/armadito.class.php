@@ -23,29 +23,20 @@ along with ArmaditoPlugin.  If not, see <http://www.gnu.org/licenses/>.
 // ----------------------------------------------------------------------
 
 
-// Class of the defined type
 class PluginArmaditoArmadito extends CommonDBTM {
 
-
-   /**
-   * Get name of this type
-   *
-   * @return text name of this type by language of the user connected
-   *
-   **/
    static function getTypeName($nb=0) {
       return __('Armadito', 'armadito');
    }
 
 
-     static function canCreate() {
+   static function canCreate() {
 
       if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
          return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w');
       }
       return false;
    }
-
 
    static function canView() {
 
@@ -56,9 +47,6 @@ class PluginArmaditoArmadito extends CommonDBTM {
       return false;
    }
 
-   /**
-    * @see CommonGLPI::getMenuName()
-   **/
    static function getMenuName() {
       return __('Plugin Armadito');
    }
@@ -154,14 +142,14 @@ class PluginArmaditoArmadito extends CommonDBTM {
 
       $tab[4]['table']     = $this->getTable();
       $tab[4]['field']     = 'version_av';
-     // $tab[4]['linkfield'] = 'version_av';
+      // $tab[4]['linkfield'] = 'version_av';
       $tab[4]['name']      = __('Armadito Version', 'armadito');
       $tab[4]['datatype']  = 'text';
       $tab[4]['massiveaction'] = FALSE;
 
       $tab[5]['table']     = $this->getTable();
       $tab[5]['field']     = 'version_agent';
-     // $tab[5]['linkfield'] = 'version_agent';
+      // $tab[5]['linkfield'] = 'version_agent';
       $tab[5]['name']      = __('Agent Version', 'armadito');
       $tab[5]['datatype']  = 'text';
       $tab[5]['massiveaction'] = FALSE;
@@ -182,7 +170,6 @@ class PluginArmaditoArmadito extends CommonDBTM {
       }
            
       if($DB->numrows($ret) > 0){
-	 Alog::logE("isAgentAlreadyInDB count : ".$DB->numrows($ret));
          return true;
       } 
       
@@ -196,14 +183,7 @@ class PluginArmaditoArmadito extends CommonDBTM {
                        (`id`,`computers_id`, `name`, `serial`, `version_av`, `version_agent`)
                 VALUES (NULL,".$item->getField("computers_id").", '', '','', '')";
 
-      $ret = $DB->query($query);
-      if($ret){
-         Alog::logE("Successfully inserting into glpi_plugin_armadito_armaditos for id : ".$item->getField("computers_id")." -".$DB->error());
-      }
-      else{ 
-         Alog::logE("Error inserting into glpi_plugin_armadito_armaditos for id : ".$item->getField("computers_id")." -".$DB->error());
-      }
-
+      DBtools::ExecQuery($query);
    }
 
    static function updateAgentInDB (PluginFusioninventoryAgent $item){
@@ -212,14 +192,7 @@ class PluginArmaditoArmadito extends CommonDBTM {
       $query = "UPDATE `glpi_plugin_armadito_armaditos`
                  SET `name`='updated' WHERE `computers_id`=".$item->getField("computers_id");
 
-      $ret = $DB->query($query);
-      if($ret){
-         Alog::logE("Successfully updated glpi_plugin_armadito_armaditos for id :".$item->getField("computers_id"));
-      } 
-      else{ // We insert into if there is nothing yet in database
-	 Alog::logE("Error updating glpi_plugin_armadito_armaditos for id : ".$item->getField("computers_id")." -".$DB->error());
-      }
-
+      DBtools::ExecQuery($query);
    }
 
    static function insertOrUpdateAgentInDB (PluginFusioninventoryAgent $item){
@@ -235,13 +208,11 @@ class PluginArmaditoArmadito extends CommonDBTM {
 
    static function item_update_agent(PluginFusioninventoryAgent $item){
 
-      Alog::logE("item_update_agent !");
-
       if($item->getFromDB($item->getID())) {
          PluginArmaditoArmadito::insertOrUpdateAgentInDB($item);
       } 
       else{
-         Alog::logE("Error - can't get PluginFusioninventoryAgent object fromDB.");
+         Alog::logE("Error - Can't get PluginFusioninventoryAgent object fromDB.");
       }
 
       return true;

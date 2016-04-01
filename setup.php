@@ -32,6 +32,21 @@ class Alog {
 
 }
 
+class DBtools {
+ 
+   static function ExecQuery ($query){
+      global $DB;
+ 
+      if($DB->query($query)){
+         return true;
+      }
+      else{
+         Alog::logE("Error $query :".$DB->error());
+         return false;
+      }
+   }
+}
+
 // Init the hooks of the plugins -Needed
 function plugin_init_armadito() {
    global $PLUGIN_HOOKS,$CFG_GLPI;
