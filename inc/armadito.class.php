@@ -177,12 +177,12 @@ class PluginArmaditoArmadito extends CommonDBTM {
       $ret = $DB->query($query); 
        
       if(!$ret){
-         Session::addMessageAfterRedirect("Error isAgentAlreadyInDB : ".$DB->error(), true);
+         Alog::logE("Error isAgentAlreadyInDB : ".$DB->error());
          return false;
       }
            
       if($DB->numrows($ret) > 0){
-	 Session::addMessageAfterRedirect("isAgentAlreadyInDB count : ".$DB->numrows($ret), true);
+	 Alog::logE("isAgentAlreadyInDB count : ".$DB->numrows($ret));
          return true;
       } 
       
@@ -198,10 +198,10 @@ class PluginArmaditoArmadito extends CommonDBTM {
 
       $ret = $DB->query($query);
       if($ret){
-         Session::addMessageAfterRedirect("Successfully inserting into glpi_plugin_armadito_armaditos for id : ".$item->getField("computers_id")." -".$DB->error(), true);
+         Alog::logE("Successfully inserting into glpi_plugin_armadito_armaditos for id : ".$item->getField("computers_id")." -".$DB->error());
       }
       else{ 
-         Session::addMessageAfterRedirect("Error inserting into glpi_plugin_armadito_armaditos for id : ".$item->getField("computers_id")." -".$DB->error(), true);
+         Alog::logE("Error inserting into glpi_plugin_armadito_armaditos for id : ".$item->getField("computers_id")." -".$DB->error());
       }
 
    }
@@ -214,10 +214,10 @@ class PluginArmaditoArmadito extends CommonDBTM {
 
       $ret = $DB->query($query);
       if($ret){
-         Session::addMessageAfterRedirect("Successfully updated glpi_plugin_armadito_armaditos for id :".$item->getField("computers_id"), true);
+         Alog::logE("Successfully updated glpi_plugin_armadito_armaditos for id :".$item->getField("computers_id"));
       } 
       else{ // We insert into if there is nothing yet in database
-	 Session::addMessageAfterRedirect("Error updating glpi_plugin_armadito_armaditos for id : ".$item->getField("computers_id")." -".$DB->error(), true);
+	 Alog::logE("Error updating glpi_plugin_armadito_armaditos for id : ".$item->getField("computers_id")." -".$DB->error());
       }
 
    }
@@ -241,7 +241,7 @@ class PluginArmaditoArmadito extends CommonDBTM {
          PluginArmaditoArmadito::insertOrUpdateAgentInDB($item);
       } 
       else{
-         Session::addMessageAfterRedirect("Error - can't get PluginFusioninventoryAgent object fromDB.", true);
+         Alog::logE("Error - can't get PluginFusioninventoryAgent object fromDB.");
       }
 
       return true;
