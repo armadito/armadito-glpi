@@ -31,7 +31,12 @@ function setDefaultDisplayPreferences(){
 			     (NULL, 'PluginArmaditoArmadito', '2', '2', '0'),
 			     (NULL, 'PluginArmaditoArmadito', '3', '3', '0'),
 			     (NULL, 'PluginArmaditoArmadito', '4', '4', '0'),
-			     (NULL, 'PluginArmaditoArmadito', '5', '5', '0')";
+			     (NULL, 'PluginArmaditoArmadito', '5', '5', '0'),
+                             (NULL, 'PluginArmaditoArmadito', '6', '6', '0'),
+			     (NULL, 'PluginArmaditoArmadito', '7', '7', '0'),
+			     (NULL, 'PluginArmaditoArmadito', '8', '8', '0'),
+			     (NULL, 'PluginArmaditoArmadito', '9', '9', '0')     
+   ";
 
    if(!DBtools::ExecQuery($query)){
       die();
@@ -73,11 +78,14 @@ function plugin_armadito_install() {
    if (!TableExists("glpi_plugin_armadito_armaditos")) {
       $query = "CREATE TABLE `glpi_plugin_armadito_armaditos` (
                   `id` int(11) NOT NULL auto_increment,
+                  `entities_id` int(11) NOT NULL default 0,
 		  `computers_id` int(11) NOT NULL,
-                  `name` varchar(255) collate utf8_unicode_ci default NULL,
-                  `serial` varchar(255) collate utf8_unicode_ci NOT NULL,
+		  `plugin_fusioninventory_agents_id` int(11) NOT NULL,
                   `version_av` varchar(255) collate utf8_unicode_ci NOT NULL,
-                  `version_agent` varchar(255) collate utf8_unicode_ci NOT NULL,
+                  `version_agent` varchar(255) collate utf8_unicode_ci default NULL,
+		  `agent_port` varchar(6) collate utf8_unicode_ci default NULL,	
+                  `device_id` varchar(255) collate utf8_unicode_ci default NULL,
+                  `last_contact` datetime default NULL, 
                 PRIMARY KEY (`id`)
                ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
 

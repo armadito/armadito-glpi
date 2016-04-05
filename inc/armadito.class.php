@@ -29,7 +29,6 @@ class PluginArmaditoArmadito extends CommonDBTM {
       return __('Armadito', 'armadito');
    }
 
-
    static function canCreate() {
 
       if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
@@ -131,14 +130,18 @@ class PluginArmaditoArmadito extends CommonDBTM {
       $tab[1]['itemlink_type'] = 'Computer';
       $tab[1]['massiveaction'] = FALSE;
 
-      $tab[2]['table']     = $this->getTable();
-      $tab[2]['field']     = 'computers_id';
-      $tab[2]['name']      = __('Inventory ID', 'armadito');
+      $tab[2]['table']     = 'glpi_plugin_fusioninventory_agents'; // $this->getTable();
+      $tab[2]['field']     = 'useragent';
+      $tab[2]['name']      = __('Agent', 'armadito');
+      $tab[2]['datatype']  = 'itemlink';
+      $tab[2]['itemlink_type'] = 'PluginFusioninventoryAgent';
+      $tab[2]['massiveaction'] = FALSE;
 
       $tab[3]['table']     = $this->getTable();
-      $tab[3]['field']     = 'serial';
-      $tab[3]['name']      = __('Serial Number', 'armadito');
+      $tab[3]['field']     = 'last_contact';
+      $tab[3]['name']      = __('Last Contact', 'armadito');
       $tab[3]['datatype']  = 'text';
+      $tab[3]['massiveaction'] = FALSE;
 
       $tab[4]['table']     = $this->getTable();
       $tab[4]['field']     = 'version_av';
@@ -149,7 +152,6 @@ class PluginArmaditoArmadito extends CommonDBTM {
 
       $tab[5]['table']     = $this->getTable();
       $tab[5]['field']     = 'version_agent';
-      // $tab[5]['linkfield'] = 'version_agent';
       $tab[5]['name']      = __('Agent Version', 'armadito');
       $tab[5]['datatype']  = 'text';
       $tab[5]['massiveaction'] = FALSE;
@@ -180,19 +182,30 @@ class PluginArmaditoArmadito extends CommonDBTM {
       global $DB;
 
       $query = "INSERT INTO `glpi_plugin_armadito_armaditos`
-                       (`id`,`computers_id`, `name`, `serial`, `version_av`, `version_agent`)
-                VALUES (NULL,".$item->getField("computers_id").", '', '','', '')";
+                       (`id`, `entities_id`, `computers_id`, `plugin_fusioninventory_agents_id`, `version_av`, `version_agent`, `agent_port`, `device_id`, `last_contact` )
+                VALUES (NULL, ".$item->getField("entities_id").", ".$item->getField("computers_id").", ".$item->getField("id").",'',
+		'".$item->getField("version")."', '".$item->getField("agent_port")."', '".$item->getField("device_id")."', '".$item->getField("last_contact")."' )";
 
-      DBtools::ExecQuery($query);
+      if(DBtools::ExecQuery($query)){
+         Alog::logE("Agent ".$item->getField("id")." (c".$item->getField("computers_id").") successfully inserted in db.");
+      }
    }
 
    static function updateAgentInDB (PluginFusioninventoryAgent $item){
       global $DB;
 
       $query = "UPDATE `glpi_plugin_armadito_armaditos`
-                 SET `name`='updated' WHERE `computers_id`=".$item->getField("computers_id");
+                 SET `entities_id`=".$item->getField("entities_id").", 
+                     `agent_port`='".$item->getField("agent_port")."',
+                     `device_id`='".$item->getField("device_id")."',
+                     `last_contact`='".$item->getField("last_contact")."',
+                     `computers_id`=".$item->getField("computers_id").",
+		     `version_agent`='".$item->getField("version")."'
+               WHERE `plugin_fusioninventory_agents_id`=".$item->getField("id");
 
-      DBtools::ExecQuery($query);
+      if(DBtools::ExecQuery($query)){
+         Alog::logE("Agent ".$item->getField("id")." (c".$item->getField("computers_id").") successfully updated in db.");
+      }
    }
 
    static function insertOrUpdateAgentInDB (PluginFusioninventoryAgent $item){
