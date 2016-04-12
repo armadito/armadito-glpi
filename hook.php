@@ -22,6 +22,8 @@ along with ArmaditoPlugin.  If not, see <http://www.gnu.org/licenses/>.
 // Purpose of file: 
 // ----------------------------------------------------------------------
 
+include_once ("inc/armadito-includes.php");
+
 function setDefaultDisplayPreferences(){
    
     // Set preferences for search_options

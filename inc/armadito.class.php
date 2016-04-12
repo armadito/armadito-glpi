@@ -22,6 +22,7 @@ along with ArmaditoPlugin.  If not, see <http://www.gnu.org/licenses/>.
 // Purpose of file: 
 // ----------------------------------------------------------------------
 
+include_once ("armadito-includes.php");
 
 class PluginArmaditoArmadito extends CommonDBTM {
 
