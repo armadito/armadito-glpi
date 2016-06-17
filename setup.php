@@ -22,6 +22,8 @@ along with ArmaditoPlugin.  If not, see <http://www.gnu.org/licenses/>.
 // Purpose of file: 
 // ----------------------------------------------------------------------
 
+define ("PLUGIN_ARMADITO_VERSION", "9.1+0.1");
+
 include_once ("inc/armadito-includes.php");
 
 // Init the hooks of the plugins -Needed

@@ -2,14 +2,13 @@
 
 // Page qui reçoit les requêtes de l'agent
 
-// include_once ("../../inc/includes.php");
+include_once ("../../inc/includes.php");
 include_once ("inc/armadito-includes.php");
+include_once ("inc/armadito-state.php");
 
-if($_SERVER['REQUEST_METHOD'] == "POST"){ 
+function parseIncomingRequest($json_content){
 
-   if(isset($_POST['content-json'])){
-
-      $json = json_decode($_POST['content-json']);
+      $json = json_decode($json_content);
 
       if(json_last_error() == JSON_ERROR_NONE)
       {
@@ -20,7 +19,24 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
       {
          echo "json::".json_last_error_msg();
       }
-   }
+}
+
+$rawdata = file_get_contents("php://input");
+if ((isset($_GET['action'])
+   && isset($_GET['machineid']))
+      || !empty($rawdata)) {
+
+   include_once("front/communication.php");
+}
+else{
+  header("Content-Type: application/json");
+  echo '{ glpi_response : "invalid GET request"}';
+}
+
+if($_SERVER['REQUEST_METHOD'] == "POST"){ 
+
+    header("Content-Type: application/json");
+    echo '{ glpi_response : "ok_post"}';
 }
 
 ?>
