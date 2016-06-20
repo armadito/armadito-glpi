@@ -1,26 +1,24 @@
 <?php 
 
-/* This file is part of ArmaditoPlugin.
+/**
+   Copyright (C) 2016 Teclib'
 
-ArmaditoPlugin is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+   This file is part of Armadito Plugin for GLPI.
 
-ArmaditoPlugin is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+   Armadito Plugin for GLPI is free software: you can redistribute it and/or modify
+   it under the terms of the GNU Affero General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-You should have received a copy of the GNU General Public License
-along with ArmaditoPlugin.  If not, see <http://www.gnu.org/licenses/>.
+   Armadito Plugin for GLPI is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+   GNU Affero General Public License for more details.
 
-*/
+   You should have received a copy of the GNU Affero General Public License
+   along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 
-// ----------------------------------------------------------------------
-// Original Author of file: Valentin HAMON
-// Purpose of file: 
-// ----------------------------------------------------------------------
+**/
 
 define ("PLUGIN_ARMADITO_VERSION", "9.1+0.1");
 
@@ -56,8 +54,8 @@ function plugin_version_armadito() {
    return array('name'           => 'Plugin Armadito',
                 'version'        => '0.1',
                 'author'         => '<a href="mailto:vhamon@teclib.com">Valentin HAMON</a>',
-                'license'        => 'GPLv3',
-                'homepage'       => 'http://uhuru-am.com/en/',
+                'license'        => 'AGPLv3',
+                'homepage'       => 'https://github.com/armadito/',
                 'minGlpiVersion' => '0.85');// For compatibility / no install in version < 0.80
 }
 
