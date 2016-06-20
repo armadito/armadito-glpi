@@ -37,14 +37,14 @@ function plugin_init_armadito() {
                          array('addtabon'  => $types,
                               'link_types' => true));
 
-   // Definition du profil
+   // Profile definition
    $_SESSION["glpi_plugin_armadito_profile"]['armadito'] = 'w';
    if (isset($_SESSION["glpi_plugin_armadito_profile"])) { // Right set in change_profile hook
 
       $PLUGIN_HOOKS['menu_toadd']['armadito'] = array('plugins' => 'PluginArmaditoArmadito');
    }
 
-   // Ajout du hook de l'update d'un agent Fusion dans la bdd
+   // Add fusion plugin hook
    $PLUGIN_HOOKS['item_update']['armadito']  = array('PluginFusioninventoryAgent' => array('PluginArmaditoArmadito',
                                                                            'item_update_agent'));
 }
@@ -56,7 +56,7 @@ function plugin_version_armadito() {
                 'author'         => '<a href="mailto:vhamon@teclib.com">Valentin HAMON</a>',
                 'license'        => 'AGPLv3',
                 'homepage'       => 'https://github.com/armadito/',
-                'minGlpiVersion' => '0.85');// For compatibility / no install in version < 0.80
+                'minGlpiVersion' => '0.85');
 }
 
 

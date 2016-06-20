@@ -57,10 +57,9 @@ function plugin_armadito_install() {
 
    ProfileRight::addProfileRights(array('armadito:read'));
 
-   // Création de la table uniquement lors de la première installation
+   // Create table only the first time
    if (!TableExists("glpi_plugin_armadito_config")) {
 
-        // Création de la table config
         $query = "CREATE TABLE `glpi_plugin_armadito_config` (
         `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
         `status` char(32) NOT NULL default '',
