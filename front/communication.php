@@ -1,5 +1,21 @@
 <?php
 
+/*
+function parseIncomingRequest($json_content){
+
+      $json = json_decode($json_content);
+
+      if(json_last_error() == JSON_ERROR_NONE)
+      {
+         echo "json::success";
+         var_dump($json);
+      }
+      else
+      {
+         echo "json::".json_last_error_msg();
+      }
+}*/
+
 ob_start();
 ini_set("memory_limit", "-1");
 ini_set("max_execution_time", "0");
@@ -37,17 +53,19 @@ if (!class_exists("PluginArmaditoArmadito")) {
    exit();
 }
 
-// API REST for Agent GET Requests
 // $paCommunication  = new PluginArmaditoCommunication();
 if (!isset($rawdata)) {
-   $rawdata = file_get_contents("php://input");
+   // GET requests
    header("Content-Type: application/json");
-   echo '{ "plugin_response" : "Plugin armadito rawdata empty ! }';
+   echo '{ "plugin_response" : "Plugin armadito GET OK ! }';
 }
 else{
+   // POST requests
+   $rawdata = file_get_contents("php://input");
    header("Content-Type: application/json");
-   echo '{ "plugin_response" : "Plugin armadito OK ! }';
+   echo '{ "plugin_response" : "Plugin armadito POST OK ! }';
 }
+
 session_destroy();
 
 ?>
