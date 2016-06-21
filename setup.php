@@ -54,7 +54,7 @@ function plugin_version_armadito() {
    return array('name'           => 'Plugin Armadito',
                 'shortname'      => 'armadito',
                 'version'        => PLUGIN_ARMADITO_VERSION,
-                'author'         => '<a href="mailto:armadito@teclib.com">Teclib'</a>',
+                'author'         => '<a href="mailto:armadito@teclib.com">Teclib\'</a>',
                 'license'        => 'AGPLv3+',
                 'homepage'       => 'https://github.com/armadito/',
                 'minGlpiVersion' => '9.1');
