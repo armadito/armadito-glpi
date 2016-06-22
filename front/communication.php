@@ -69,7 +69,7 @@ header("server-type: glpi/armadito ".PLUGIN_ARMADITO_VERSION);
 
 if (!class_exists("PluginArmaditoArmadito")) {
    header("Content-Type: application/json");
-   echo '{ "plugin_response" : "Plugin armadito not installed." }';
+   echo '{ "plugin_response" :  { "version": "'.PLUGIN_ARMADITO_VERSION.'", "msg": "Plugin armadito is not installed." }}';
    session_destroy();
    exit();
 }
@@ -78,13 +78,13 @@ if (!class_exists("PluginArmaditoArmadito")) {
 if (!isset($rawdata)) {
    // GET requests
    header("Content-Type: application/json");
-   echo '{ "plugin_response" : "Plugin armadito GET OK ! }';
+   echo '{ "plugin_response" :  { "version": "'.PLUGIN_ARMADITO_VERSION.'", "msg": "Plugin armadito POST OK." }}';
 }
 else{
    // POST requests
    $rawdata = file_get_contents("php://input");
    header("Content-Type: application/json");
-   echo '{ "plugin_response" : "Plugin armadito POST OK ! }';
+   echo '{ "plugin_response" :  { "version": "'.PLUGIN_ARMADITO_VERSION.'", "msg": "Plugin armadito GET OK." }}';
 }
 
 session_destroy();

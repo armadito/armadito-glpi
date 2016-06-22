@@ -28,15 +28,15 @@ include_once ("inc/armadito-includes.php");
 include_once ("inc/armadito-state.php");
 
 $rawdata = file_get_contents("php://input");
-if ((isset($_GET['action'])
-   && isset($_GET['machineid']))
+if (isset($_GET['action'])
       || !empty($rawdata)) {
    // GET or POST
    include_once("front/communication.php");
 }
 else{
+  http_response_code(400);
   header("Content-Type: application/json");
-  echo '{ glpi_response : "invalid request"}';
+  echo '{ "plugin_response" : "invalid request"}';
 }
 
 ?>
