@@ -74,7 +74,8 @@ if (!class_exists("PluginArmaditoArmadito")) {
    exit();
 }
 
-// $paCommunication  = new PluginArmaditoCommunication();
+$paCommunication  = new PluginArmaditoCommunication();
+
 if (!isset($rawdata)) {
    // GET requests
    header("Content-Type: application/json");
