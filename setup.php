@@ -22,8 +22,6 @@
 
 define ("PLUGIN_ARMADITO_VERSION", "9.1+0.1");
 
-include_once ("inc/armadito-includes.php");
-
 // Init the hooks of the plugins -Needed
 function plugin_init_armadito() {
    global $PLUGIN_HOOKS,$CFG_GLPI;

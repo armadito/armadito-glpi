@@ -21,11 +21,7 @@
 
 **/
 
-// Agent Request Handling
-
 include_once ("../../inc/includes.php");
-include_once ("inc/armadito-includes.php");
-include_once ("inc/armadito-state.php");
 
 $rawdata = file_get_contents("php://input");
 if (isset($_GET['action'])

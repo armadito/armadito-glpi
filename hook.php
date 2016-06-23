@@ -20,8 +20,6 @@
 
 **/
 
-include_once ("inc/armadito-includes.php");
-
 function setDefaultDisplayPreferences(){
    
     // Set preferences for search_options
@@ -38,7 +36,7 @@ function setDefaultDisplayPreferences(){
 			     (NULL, 'PluginArmaditoArmadito', '9', '9', '0')     
    ";
 
-   if(!DBtools::ExecQuery($query)){
+   if(!PluginArmaditoToolbox::ExecQuery($query)){
       die();
    }
 }
@@ -49,7 +47,7 @@ function cleanDefaultDisplayPreferences(){
    $query = "DELETE FROM `glpi_displaypreferences`
       WHERE `itemtype`='PluginArmaditoArmadito'";
 
-   DBtools::ExecQuery($query);
+   PluginArmaditoToolbox::ExecQuery($query);
 }
 
 function plugin_armadito_install() {
@@ -66,7 +64,7 @@ function plugin_armadito_install() {
         `enabled` char(1) NOT NULL default '1'
         )ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
 
-        if(!DBtools::ExecQuery($query)){
+        if(!PluginArmaditoToolbox::ExecQuery($query)){
            die();
         }
    }
@@ -88,7 +86,7 @@ function plugin_armadito_install() {
                 PRIMARY KEY (`id`)
                ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
 
-       if(!DBtools::ExecQuery($query)){
+       if(!PluginArmaditoToolbox::ExecQuery($query)){
           die();
        }
    }
@@ -108,7 +106,7 @@ function plugin_armadito_uninstall() {
    // Current version tables
    if (TableExists("glpi_plugin_armadito_config")) {
       $query = "DROP TABLE `glpi_plugin_armadito_config`";
-      if(!DBtools::ExecQuery($query)){
+      if(!PluginArmaditoToolbox::ExecQuery($query)){
          die();
       }
    }
@@ -116,7 +114,7 @@ function plugin_armadito_uninstall() {
    // Current version tables
    if (TableExists("glpi_plugin_armadito_armaditos")) {
       $query = "DROP TABLE `glpi_plugin_armadito_armaditos`";
-      if(!DBtools::ExecQuery($query)){
+      if(!PluginArmaditoToolbox::ExecQuery($query)){
          die();
       }
    }

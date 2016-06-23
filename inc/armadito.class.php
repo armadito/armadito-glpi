@@ -21,8 +21,6 @@
 
 **/
 
-include_once ("armadito-includes.php");
-
 class PluginArmaditoArmadito extends CommonDBTM {
 
    static function getTypeName($nb=0) {
@@ -186,7 +184,7 @@ class PluginArmaditoArmadito extends CommonDBTM {
                 VALUES (NULL, ".$item->getField("entities_id").", ".$item->getField("computers_id").", ".$item->getField("id").",'',
 		'".$item->getField("version")."', '".$item->getField("agent_port")."', '".$item->getField("device_id")."', '".$item->getField("last_contact")."' )";
 
-      if(DBtools::ExecQuery($query)){
+      if(PluginArmaditoToolbox::ExecQuery($query)){
          PluginArmaditoToolbox::logE("Agent ".$item->getField("id")." (c".$item->getField("computers_id").") successfully inserted in db.");
       }
    }
@@ -203,7 +201,7 @@ class PluginArmaditoArmadito extends CommonDBTM {
 		     `version_agent`='".$item->getField("version")."'
                WHERE `plugin_fusioninventory_agents_id`=".$item->getField("id");
 
-      if(DBtools::ExecQuery($query)){
+      if(PluginArmaditoToolbox::ExecQuery($query)){
          PluginArmaditoToolbox::logE("Agent ".$item->getField("id")." (c".$item->getField("computers_id").") successfully updated in db.");
       }
    }

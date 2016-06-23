@@ -51,5 +51,20 @@ class PluginArmaditoToolbox {
       $ok = error_log(date("Y-m-d H:i:s")." ".$text."\n", 3, GLPI_LOG_DIR."/armadito.log");
       return $ok;
    }
+
+   /**
+    * Executes a query in database
+    */
+   static function ExecQuery ($query){
+      global $DB;
+
+      if($DB->query($query)){
+         return true;
+      }
+      else{
+         PluginArmaditoToolbox::logE("Error $query :".$DB->error());
+         return false;
+      }
+   }
 }
 ?>
