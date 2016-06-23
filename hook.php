@@ -1,6 +1,7 @@
 <?php 
 
 /**
+   Copyright (C) 2010-2016 by the FusionInventory Development Team.
    Copyright (C) 2016 Teclib'
 
    This file is part of Armadito Plugin for GLPI.
@@ -55,42 +56,37 @@ function cleanDefaultDisplayPreferences(){
 function plugin_armadito_install() {
    global $DB;
 
-   ProfileRight::addProfileRights(array('armadito:read'));
+   // ProfileRight::addProfileRights(array('armadito:read'));
 
-   // Create table only the first time
-   if (!TableExists("glpi_plugin_armadito_config")) {
+   ini_set("max_execution_time", "0");
 
-        $query = "CREATE TABLE `glpi_plugin_armadito_config` (
-        `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-        `status` char(32) NOT NULL default '',
-        `enabled` char(1) NOT NULL default '1'
-        )ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
-
-        if(!PluginArmaditoToolbox::ExecQuery($query)){
-           die();
-        }
+   if (basename($_SERVER['SCRIPT_NAME']) != "cli_install.php") {
+      Html::header(__('Setup'), $_SERVER['PHP_SELF'], "config", "plugins");
+      $migrationname = 'Migration';
+   } else {
+      $migrationname = 'CliMigration';
    }
 
-   // 
-   // SELECT agent_id FROM glpi_plugin_fusioninventory_agents WHERE  
+   require_once (GLPI_ROOT . "/plugins/armadito/install/update.php");
+   $version_detected = pluginArmaditoGetCurrentVersion();
 
-   if (!TableExists("glpi_plugin_armadito_armaditos")) {
-      $query = "CREATE TABLE `glpi_plugin_armadito_armaditos` (
-                  `id` int(11) NOT NULL auto_increment,
-                  `entities_id` int(11) NOT NULL default 0,
-		  `computers_id` int(11) NOT NULL,
-		  `plugin_fusioninventory_agents_id` int(11) NOT NULL,
-                  `version_av` varchar(255) collate utf8_unicode_ci NOT NULL,
-                  `version_agent` varchar(255) collate utf8_unicode_ci default NULL,
-		  `agent_port` varchar(6) collate utf8_unicode_ci default NULL,	
-                  `device_id` varchar(255) collate utf8_unicode_ci default NULL,
-                  `last_contact` datetime default NULL, 
-                PRIMARY KEY (`id`)
-               ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
-
-       if(!PluginArmaditoToolbox::ExecQuery($query)){
-          die();
-       }
+   if (
+      isset($version_detected)
+      AND (
+         defined('FORCE_UPGRADE')
+         OR (
+            $version_detected != PLUGIN_ARMADITO_VERSION
+            AND $version_detected!='0'
+         )
+      )
+   ) {
+      pluginFusioninventoryUpdate($version_detected, $migrationname);
+   } else if ((isset($version_detected))
+           && ($version_detected == PLUGIN_ARMADITO_VERSION)) {
+         //Same version : Nothing to do
+   } else {
+      require_once (GLPI_ROOT . "/plugins/armadito/install/install.php");
+      pluginArmaditoInstall(PLUGIN_ARMADITO_VERSION, $migrationname);
    }
 
    // erase user display preferences and set default instead
@@ -106,8 +102,8 @@ function plugin_armadito_uninstall() {
    ProfileRight::deleteProfileRights(array('armadito:read'));
 
    // Current version tables
-   if (TableExists("glpi_plugin_armadito_config")) {
-      $query = "DROP TABLE `glpi_plugin_armadito_config`";
+   if (TableExists("glpi_plugin_armadito_configs")) {
+      $query = "DROP TABLE `glpi_plugin_armadito_configs`";
       if(!PluginArmaditoToolbox::ExecQuery($query)){
          die();
       }
