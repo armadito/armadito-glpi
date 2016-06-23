@@ -42,5 +42,14 @@ class PluginArmaditoToolbox {
          Toolbox::logInFile($file, $message);
      //}
    }
+
+   /**
+    * Log error message
+    */
+   static function logE($text) {
+
+      $ok = error_log(date("Y-m-d H:i:s")." ".$text."\n", 3, GLPI_LOG_DIR."/armadito.log");
+      return $ok;
+   }
 }
 ?>

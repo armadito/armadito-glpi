@@ -167,7 +167,7 @@ class PluginArmaditoArmadito extends CommonDBTM {
       $ret = $DB->query($query); 
        
       if(!$ret){
-         Alog::logE("Error isAgentAlreadyInDB : ".$DB->error());
+         PluginArmaditoToolbox::logE("Error isAgentAlreadyInDB : ".$DB->error());
          return false;
       }
            
@@ -187,7 +187,7 @@ class PluginArmaditoArmadito extends CommonDBTM {
 		'".$item->getField("version")."', '".$item->getField("agent_port")."', '".$item->getField("device_id")."', '".$item->getField("last_contact")."' )";
 
       if(DBtools::ExecQuery($query)){
-         Alog::logE("Agent ".$item->getField("id")." (c".$item->getField("computers_id").") successfully inserted in db.");
+         PluginArmaditoToolbox::logE("Agent ".$item->getField("id")." (c".$item->getField("computers_id").") successfully inserted in db.");
       }
    }
 
@@ -204,7 +204,7 @@ class PluginArmaditoArmadito extends CommonDBTM {
                WHERE `plugin_fusioninventory_agents_id`=".$item->getField("id");
 
       if(DBtools::ExecQuery($query)){
-         Alog::logE("Agent ".$item->getField("id")." (c".$item->getField("computers_id").") successfully updated in db.");
+         PluginArmaditoToolbox::logE("Agent ".$item->getField("id")." (c".$item->getField("computers_id").") successfully updated in db.");
       }
    }
 
@@ -225,7 +225,7 @@ class PluginArmaditoArmadito extends CommonDBTM {
          PluginArmaditoArmadito::insertOrUpdateAgentInDB($item);
       } 
       else{
-         Alog::logE("Error - Can't get PluginFusioninventoryAgent object fromDB.");
+         PluginArmaditoToolbox::logE("Error - Can't get PluginFusioninventoryAgent object fromDB.");
       }
 
       return true;
