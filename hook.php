@@ -20,6 +20,8 @@
 
 **/
 
+include_once("inc/toolbox.class.php");
+
 function setDefaultDisplayPreferences(){
    
     // Set preferences for search_options

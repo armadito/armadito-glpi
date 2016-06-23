@@ -21,6 +21,8 @@
 
 **/
 
+include_once("../inc/toolbox.class.php");
+
 class PluginArmaditoArmadito extends CommonDBTM {
 
    static function getTypeName($nb=0) {
