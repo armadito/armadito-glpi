@@ -49,5 +49,13 @@ function pluginArmaditoInstall($version, $migrationname='Migration') {
       else{
          $migration->displayMessage("Installation of plugin Armadito successful");
       }
+
+
+   /*
+    * Add config
+    */
+      $migration->displayMessage("Initialize configuration");
+      $pfConfig = new PluginArmaditoConfig();
+      $pfConfig->initConfigModule();
 }
 ?>
