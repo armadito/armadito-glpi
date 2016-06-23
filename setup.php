@@ -20,7 +20,7 @@
 
 **/
 
-include_once("./inc/toolbox.class.php");
+include_once("inc/toolbox.class.php");
 
 define ("PLUGIN_ARMADITO_VERSION", "9.1+0.1");
 

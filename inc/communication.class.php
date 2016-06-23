@@ -21,7 +21,8 @@
 
 **/
 
-include_once("../inc/toolbox.class.php");
+include_once("toolbox.class.php");
+include_once("state.class.php");
 
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access directly to this file");
@@ -137,6 +138,8 @@ class PluginArmaditoCommunication {
           $communication->sendMessage();
           return;
       }
+
+      $state = new PluginArmaditoState($jobj);
 
       $communication->setMessage("handlePOSTRequest OK");
       $communication->sendMessage();

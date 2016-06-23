@@ -21,7 +21,7 @@
 
 **/
 
-include_once("../inc/toolbox.class.php");
+include_once("toolbox.class.php");
 
 class PluginArmaditoArmadito extends CommonDBTM {
 
