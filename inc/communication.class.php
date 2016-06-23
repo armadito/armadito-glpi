@@ -51,7 +51,7 @@ class PluginArmaditoCommunication {
    }
 
    /**
-    * Send data, using given compression algorithm
+    * Send response to agent
     *
     **/
    function sendMessage($compressmode = 'none') {
@@ -59,6 +59,47 @@ class PluginArmaditoCommunication {
       if (!$this->message) {
          return;
       }
+
+      echo $this->message;
+   }
+
+   /**
+    * Set JSON message (basic encapsulation)
+    *
+    * @param $message JSON message
+    *
+    * @return nothing
+    **/
+   function setMessage($message) {
+      $this->message = '{ "plugin_response" :  { "version": "'.PLUGIN_ARMADITO_VERSION.'", "msg": "'.$message.'" }}';
+   }
+
+   /**
+    * Handle incoming GET requests (REST API)
+    *
+    **/
+   function handleGETRequest() {
+      // TODO
+
+      $config = new PluginArmaditoConfig();
+      $user   = new User();
+
+      $communication  = new PluginArmaditoCommunication();
+      $communication->setMessage("handleGETRequest OK");
+      $communication->sendMessage();
+   }
+
+   /**
+    * Handle incoming POST requests
+    *
+    **/
+   function handlePOSTRequest($rawdata) {
+      $config = new PluginArmaditoConfig();
+      $user   = new User();
+
+      $communication  = new PluginArmaditoCommunication();
+      $communication->setMessage("handlePOSTRequest OK");
+      $communication->sendMessage();
    }
 }
 ?>

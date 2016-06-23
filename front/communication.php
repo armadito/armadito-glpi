@@ -76,16 +76,14 @@ if (!class_exists("PluginArmaditoArmadito")) {
 
 $paCommunication  = new PluginArmaditoCommunication();
 
-if (!isset($rawdata)) {
-   // GET requests
-   header("Content-Type: application/json");
-   echo '{ "plugin_response" :  { "version": "'.PLUGIN_ARMADITO_VERSION.'", "msg": "Plugin armadito POST OK." }}';
+if (isset($_GET['action'])) {
+   $paCommunication->handleGETRequest();
 }
 else{
-   // POST requests
-   $rawdata = file_get_contents("php://input");
-   header("Content-Type: application/json");
-   echo '{ "plugin_response" :  { "version": "'.PLUGIN_ARMADITO_VERSION.'", "msg": "Plugin armadito GET OK." }}';
+   if (!isset($rawdata)) {
+      $rawdata = file_get_contents("php://input");
+   }
+   $paCommunication->handlePOSTRequest($rawdata);
 }
 
 session_destroy();
