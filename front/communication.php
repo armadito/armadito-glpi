@@ -21,22 +21,6 @@
 
 **/
 
-/*
-function parseIncomingRequest($json_content){
-
-      $json = json_decode($json_content);
-
-      if(json_last_error() == JSON_ERROR_NONE)
-      {
-         echo "json::success";
-         var_dump($json);
-      }
-      else
-      {
-         echo "json::".json_last_error_msg();
-      }
-}*/
-
 ob_start();
 ini_set("memory_limit", "-1");
 ini_set("max_execution_time", "0");
