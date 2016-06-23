@@ -48,7 +48,7 @@ class PluginArmaditoToolbox {
     */
    static function logE($text) {
 
-      $ok = error_log(date("Y-m-d H:i:s")." ".$text."\n", 3, GLPI_LOG_DIR."/armadito.log");
+      $ok = error_log(date("Y-m-d H:i:s")." ".$text."\n", 3, GLPI_LOG_DIR."/pluginArmadito.log");
       return $ok;
    }
 
