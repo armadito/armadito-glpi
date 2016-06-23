@@ -25,12 +25,12 @@ if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access directly to this file");
 }
 
-
 /**
  * Class to communicate with agents using JSON
  **/
 class PluginArmaditoCommunication {
    protected $message;
+   protected $status_code;
 
    function __construct() {
       $this->message = "";
@@ -60,6 +60,10 @@ class PluginArmaditoCommunication {
          return;
       }
 
+      if($this->status_code > 200){
+         http_response_code($this->status_code);
+      }
+
       echo $this->message;
    }
 
@@ -70,8 +74,10 @@ class PluginArmaditoCommunication {
     *
     * @return nothing
     **/
-   function setMessage($message) {
-      $this->message = '{ "plugin_response" :  { "version": "'.PLUGIN_ARMADITO_VERSION.'", "msg": "'.$message.'" }}';
+   function setMessage($message, $status=200) {
+
+      $this->status_code = $status;
+      $this->message = '{ "plugin_response" :  { "version": "'.PLUGIN_ARMADITO_VERSION.'","msg": "'.$message.'" }}';
    }
 
    /**
