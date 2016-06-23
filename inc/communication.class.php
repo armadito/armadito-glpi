@@ -75,6 +75,27 @@ class PluginArmaditoCommunication {
    }
 
    /**
+    * Parse a json string given
+    *
+    * @param $message XML message
+    *
+    * @return null or jobj
+    */
+   static function parseJSON($json_content){
+
+      $jobj = json_decode($json_content);
+
+      if(json_last_error() == JSON_ERROR_NONE)
+      {
+         return $jobj;
+      }
+      else
+      {
+         return null;
+      }
+   }
+
+   /**
     * Handle incoming GET requests (REST API)
     *
     **/
@@ -96,10 +117,22 @@ class PluginArmaditoCommunication {
    function handlePOSTRequest($rawdata) {
       $config = new PluginArmaditoConfig();
       $user   = new User();
-
       $communication  = new PluginArmaditoCommunication();
+
+      // it must be a json object
+      $jobj = $communication->parseJSON($rawdata);
+
+      if(!$jobj){
+          $error = "error when parsing incoming json : ".json_last_error_msg();
+          PluginArmaditoToolbox::logE($error);
+          $communication->setMessage($error);
+          $communication->sendMessage();
+          return;
+      }
+
       $communication->setMessage("handlePOSTRequest OK");
       $communication->sendMessage();
+      return;
    }
 }
 ?>
