@@ -30,7 +30,7 @@ if (!defined('GLPI_ROOT')) {
  * Class managing Armadito devices' enrolment
  **/
 class PluginArmaditoEnrolment {
-     protected $agentid;      
+     protected $agentid;
 
      function __construct($params) {
 
@@ -70,14 +70,14 @@ class PluginArmaditoEnrolment {
      function enroll(){
 
          // TODO
-         $this->setAgentid(10); 
+         $this->setAgentid(10);
 
          PluginArmaditoToolbox::logIfExtradebug(
             'pluginArmadito-enrolment',
-            'Enroll new Device with id '.$this->agentid.'.' 
+            'Enroll new Device with id '.$this->agentid.'.'
          );
 
-         $response = '"success": "new device successfully enrolled", "agentid": "'.$this->agentid.'"'; 
+         $response = '"success": "new device successfully enrolled", "agentid": "'.$this->agentid.'"';
 
          return $response;
      }
