@@ -25,3 +25,14 @@ CREATE TABLE `glpi_plugin_armadito_configs` (
    UNIQUE KEY `unicity` (`type`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 
+
+DROP TABLE IF EXISTS `glpi_plugin_armadito_states`;
+
+CREATE TABLE `glpi_plugin_armadito_states` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+   `value` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+   PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
+
+
