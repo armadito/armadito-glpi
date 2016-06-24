@@ -79,7 +79,7 @@ class PluginArmaditoCommunication {
     **/
    function setMessage($message, $status=200) {
 
-      if(substr($message, 1, 6 ) === "error") {
+      if(substr($message, 1, 5) == "error") {
          $this->status_code = 500;
       } else {
          $this->status_code = 200;
@@ -115,7 +115,8 @@ class PluginArmaditoCommunication {
     **/
    static function parseGETParams($params = array()){
 
-     $response = array();
+     $response = '"error": "nothing done in plugin"';
+
       if (isset ($params['action'])) {
             switch ($params['action']) {
                case 'enrolment':
@@ -123,7 +124,7 @@ class PluginArmaditoCommunication {
                   $response = $enrolment->enroll();
                   break;
                case 'pullrequest':
-                  $pullrequest = new PluginArmaditoPullRequest($params);
+                  $pullrequest = new PluginArmaditoPullRequest($params);   
                   break;
                case 'wait':
                   break;
