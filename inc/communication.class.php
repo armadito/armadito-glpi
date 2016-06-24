@@ -105,16 +105,44 @@ class PluginArmaditoCommunication {
    }
 
    /**
+    * Manage GET params (REST API)
+    *
+    **/
+   static function parseGETParams($params = array()){
+
+     $response = array();
+      if (isset ($params['action'])) {
+            switch ($params['action']) {
+
+               case 'enrolment':
+                  $enrolment = new PluginArmaditoEnrolment();
+                  break;
+               case 'pullrequest':
+                  $pullrequest = new PluginArmaditoPullRequest();
+                  break;
+               case 'wait':
+                  break;
+               default:
+                  break;
+            }
+      } else {
+         $response = FALSE;
+      }
+
+      return $response;
+   }
+
+   /**
     * Handle incoming GET requests (REST API)
     *
     **/
    function handleGETRequest() {
-      // TODO
 
       $config = new PluginArmaditoConfig();
       $user   = new User();
-
       $communication  = new PluginArmaditoCommunication();
+      $communication->parseGETParams($_GET);
+
       $communication->setMessage("handleGETRequest OK");
       $communication->sendMessage();
    }
