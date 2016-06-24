@@ -85,7 +85,7 @@ class PluginArmaditoCommunication {
          $this->status_code = 200;
       }
 
-      $this->message = '{ "plugin_response" :  { "version": "'.PLUGIN_ARMADITO_VERSION.'","msg": { '.$message.' }}}';
+      $this->message = '{ "plugin_response" :  { "version": "'.PLUGIN_ARMADITO_VERSION.'", '.$message.' }}';
    }
 
    /**

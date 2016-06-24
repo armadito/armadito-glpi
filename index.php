@@ -32,7 +32,7 @@ if (isset($_GET['action'])
 else{
   http_response_code(400);
   header("Content-Type: application/json");
-  echo '{ "plugin_response" : { "version": "'.PLUGIN_ARMADITO_VERSION.'", "msg": "Invalid request sent to plugin index." }';
+  echo '{ "plugin_response" : { "version": "'.PLUGIN_ARMADITO_VERSION.'", "error": "Invalid request sent to plugin index." }}';
 }
 
 ?>
