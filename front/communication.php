@@ -54,7 +54,7 @@ header("server-type: glpi/armadito ".PLUGIN_ARMADITO_VERSION);
 if (!class_exists("PluginArmaditoArmadito")) {
    http_response_code(500);
    header("Content-Type: application/json");
-   echo '{ "plugin_response" :  { "version": "'.PLUGIN_ARMADITO_VERSION.'", "msg": "Plugin armadito is not installed." }}';
+   echo '{ "plugin_response" :  { "version": "'.PLUGIN_ARMADITO_VERSION.'", "msg": { "error": "Plugin armadito is not installed." }}}';
    session_destroy();
    exit();
 }

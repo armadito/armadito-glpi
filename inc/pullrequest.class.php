@@ -31,7 +31,7 @@ if (!defined('GLPI_ROOT')) {
  **/
 class PluginArmaditoPullRequest {
      
-     function __construct() {
+     function __construct($params) {
 
       PluginArmaditoToolbox::logIfExtradebug(
          'pluginArmadito-pullrequest',

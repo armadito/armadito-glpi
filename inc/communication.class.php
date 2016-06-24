@@ -79,8 +79,13 @@ class PluginArmaditoCommunication {
     **/
    function setMessage($message, $status=200) {
 
-      $this->status_code = $status;
-      $this->message = '{ "plugin_response" :  { "version": "'.PLUGIN_ARMADITO_VERSION.'","msg": "'.$message.'" }}';
+      if(substr($message, 1, 6 ) === "error") {
+         $this->status_code = 500;
+      } else {
+         $this->status_code = 200;     
+      }
+
+      $this->message = '{ "plugin_response" :  { "version": "'.PLUGIN_ARMADITO_VERSION.'","msg": { '.$message.' }}}';
    }
 
    /**
@@ -113,12 +118,12 @@ class PluginArmaditoCommunication {
      $response = array();
       if (isset ($params['action'])) {
             switch ($params['action']) {
-
                case 'enrolment':
-                  $enrolment = new PluginArmaditoEnrolment();
+                  $enrolment = new PluginArmaditoEnrolment($params);
+                  $response = $enrolment->enroll();
                   break;
                case 'pullrequest':
-                  $pullrequest = new PluginArmaditoPullRequest();
+                  $pullrequest = new PluginArmaditoPullRequest($params);
                   break;
                case 'wait':
                   break;
@@ -126,7 +131,8 @@ class PluginArmaditoCommunication {
                   break;
             }
       } else {
-         $response = FALSE;
+         $response = '"error" : "action parameter must be in agent request"';
+         PluginArmaditoToolbox::logE($response);
       }
 
       return $response;
@@ -141,9 +147,11 @@ class PluginArmaditoCommunication {
       $config = new PluginArmaditoConfig();
       $user   = new User();
       $communication  = new PluginArmaditoCommunication();
-      $communication->parseGETParams($_GET);
 
-      $communication->setMessage("handleGETRequest OK");
+      $response = $communication->parseGETParams($_GET);
+
+      // success or fail, we always send a json response to agent
+      $communication->setMessage($response);
       $communication->sendMessage();
    }
 
@@ -160,16 +168,16 @@ class PluginArmaditoCommunication {
       $jobj = $communication->parseJSON($rawdata);
 
       if(!$jobj){
-          $error = "error when parsing incoming json : ".json_last_error_msg();
-          PluginArmaditoToolbox::logE($error);
-          $communication->setMessage($error);
+          $response = '"error" : "error when parsing incoming json : '.json_last_error_msg().'"';
+          PluginArmaditoToolbox::logE($response);
+          $communication->setMessage($response);
           $communication->sendMessage();
           return;
       }
 
       $state = new PluginArmaditoState($jobj);
 
-      $communication->setMessage("handlePOSTRequest OK");
+      $communication->setMessage('"success": "POST OK"');
       $communication->sendMessage();
       return;
    }

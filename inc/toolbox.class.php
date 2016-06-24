@@ -55,7 +55,7 @@ class PluginArmaditoToolbox {
    /**
     * Executes a query in database
     */
-   static function ExecQuery ($query){
+   static function ExecQuery ($query) {
       global $DB;
 
       if($DB->query($query)){
@@ -66,5 +66,17 @@ class PluginArmaditoToolbox {
          return false;
       }
    }
+
+   /**
+    * Integer validation
+    */
+   static function validateInt($var) {
+      $ret = filter_var($var, FILTER_VALIDATE_INT);
+      if ($ret != $var) {
+         throw new Exception(sprintf('Invalid int : "%s"', $var));
+      }
+      return $ret;
+   }
+
 }
 ?>

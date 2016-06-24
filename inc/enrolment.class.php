@@ -30,13 +30,56 @@ if (!defined('GLPI_ROOT')) {
  * Class managing Armadito devices' enrolment
  **/
 class PluginArmaditoEnrolment {
-     
-     function __construct() {
+     protected $agentid;      
 
-      PluginArmaditoToolbox::logIfExtradebug(
-         'pluginArmadito-enrolment',
-         'New PluginArmaditoEnrolment object.'
-      );
+     function __construct($params) {
+
+         if(isset($params['agentid'])) {
+             $this->agentid = PluginArmaditoToolbox::validateInt($params['agentid']);
+         }
+
+         PluginArmaditoToolbox::logIfExtradebug(
+            'pluginArmadito-enrolment',
+            'New PluginArmaditoEnrolment object.'
+         );
+     }
+
+    /**
+    * Get agentId
+    *
+    * @return agentid
+    **/
+     function getAgentid(){
+        return $this->agentid;
+     }
+
+    /**
+    * Set agentId
+    *
+    * @return nothing
+    **/
+     function setAgentid($agentid_){
+         $this->agentid = PluginArmaditoToolbox::validateInt($agentid_);
+     }
+
+    /**
+    * Run Enrollment new Armadito device
+    *
+    * @return agentid
+    **/
+     function enroll(){
+
+         // TODO
+         $this->setAgentid(10); 
+
+         PluginArmaditoToolbox::logIfExtradebug(
+            'pluginArmadito-enrolment',
+            'Enroll new Device with id '.$this->agentid.'.' 
+         );
+
+         $response = '"success": "new device successfully enrolled", "agentid": "'.$this->agentid.'"'; 
+
+         return $response;
      }
 }
 ?>
