@@ -40,6 +40,21 @@
                     }
                 }
             }
+        },
+        "/agents": {
+            "post": {
+                "description": "Creates `Agent` object in plugin and returns a new **agent_id** for that device.\n",
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "title": "agent_id",
+                            "type": "number",
+                            "format": "double"
+                        }
+                    }
+                }
+            }
         }
     }
 }
