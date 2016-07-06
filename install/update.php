@@ -39,4 +39,23 @@ function pluginArmaditoGetCurrentVersion() {
 
    return $data['version'];
 }
+
+
+function pluginArmaditoUpdate($current_version, $migrationname='Migration') {
+   global $DB;
+
+   ini_set("max_execution_time", "0");
+   ini_set("memory_limit", "-1");
+
+   foreach (glob(GLPI_ROOT.'/plugins/armadito/inc/*.php') as $file) {
+      require_once($file);
+   }
+
+   $migration = new $migrationname($current_version);
+
+   $migration->displayMessage("Migration Classname : " . $migrationname);
+   $migration->displayMessage("Update of plugin Armadito");
+
+}
+
 ?>
