@@ -25,7 +25,38 @@ include_once ("../../../../inc/includes.php");
 
 $rawdata = file_get_contents("php://input");
 if (isset($_POST['agent_id']) and isset($_POST['antivirus']) and !empty($rawdata)) { // POST /states
-   include_once("../../front/communication.php");
+
+   // init GLPI stuff 
+   $communication  = new PluginArmaditoCommunication();
+   $communication->init();
+
+   // Check plugin installation
+   if (!class_exists("PluginArmaditoArmadito")) {
+      $response = '"error" : "Plugin armadito is not installed."';
+      PluginArmaditoToolbox::logE($response);
+      $communication->setMessage($response);
+      $communication->sendMessage();
+      session_destroy();
+      exit();
+   }
+
+   // Parse json obj
+   $jobj = PluginArmaditoToolbox::parseJSON($rawdata);
+
+   if(!$jobj){
+      $response = '"error" : "error when parsing incoming json : '.json_last_error_msg().'"';
+      PluginArmaditoToolbox::logE($response);
+      $communication->setMessage($response);
+      $communication->sendMessage();
+      session_destroy();
+      exit();
+   }
+
+   $state = new PluginArmaditoState($jobj);
+
+   $communication->setMessage('"success": "Armadito state POST OK"');
+   $communication->sendMessage();
+
    session_destroy();
 }
 else{
