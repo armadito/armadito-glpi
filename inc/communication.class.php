@@ -44,6 +44,38 @@ class PluginArmaditoCommunication {
       );
    }
 
+   function init() {
+      ob_start();
+      ini_set("memory_limit", "-1");
+      ini_set("max_execution_time", "0");
+      ini_set('display_errors', 1);
+
+      if (session_id()=="") {
+         session_start();
+      }
+
+      if (!defined('GLPI_ROOT')) {
+         include_once("../../../inc/includes.php");
+      }
+
+      $_SESSION['glpi_use_mode'] = Session::NORMAL_MODE;
+      if (!isset($_SESSION['glpilanguage'])) {
+         $_SESSION['glpilanguage'] = 'fr_FR';
+      }
+
+      ini_set('display_errors', 'On');
+      error_reporting(E_ALL | E_STRICT);
+      set_error_handler(array('Toolbox', 'userErrorHandlerDebug'));
+
+      $_SESSION['glpi_use_mode'] = 0;
+      $_SESSION['glpiparententities'] = '';
+      $_SESSION['glpishowallentities'] = TRUE;
+
+      ob_end_clean();
+
+      header("server-type: glpi/armadito ".PLUGIN_ARMADITO_VERSION);
+   }
+
   /**
     * Get readable JSON message
     *
@@ -88,74 +120,7 @@ class PluginArmaditoCommunication {
       $this->message = '{ "plugin_response" :  { "version": "'.PLUGIN_ARMADITO_VERSION.'", '.$message.' }}';
    }
 
-   /**
-    * Parse a json string given
-    *
-    * @param $message XML message
-    *
-    * @return null or jobj
-    */
-   static function parseJSON($json_content){
-
-      $jobj = json_decode($json_content);
-
-      if(json_last_error() == JSON_ERROR_NONE)
-      {
-         return $jobj;
-      }
-      else
-      {
-         return null;
-      }
-   }
-
-   /**
-    * Manage GET params (REST API)
-    *
-    **/
-   static function parseGETParams($params = array()){
-
-     $response = '"error": "nothing done in plugin"';
-
-      if (isset ($params['action'])) {
-            switch ($params['action']) {
-               case 'enrolment':
-                  $enrolment = new PluginArmaditoEnrolment($params);
-                  $response = $enrolment->enroll();
-                  break;
-               case 'pullrequest':
-                  $pullrequest = new PluginArmaditoPullRequest($params);   
-                  break;
-               case 'wait':
-                  break;
-               default:
-                  break;
-            }
-      } else {
-         $response = '"error" : "action parameter must be in agent request"';
-         PluginArmaditoToolbox::logE($response);
-      }
-
-      return $response;
-   }
-
-   /**
-    * Handle incoming GET requests (REST API)
-    *
-    **/
-   function handleGETRequest() {
-
-      $config = new PluginArmaditoConfig();
-      $user   = new User();
-      $communication  = new PluginArmaditoCommunication();
-
-      $response = $communication->parseGETParams($_GET);
-
-      // success or fail, we always send a json response to agent
-      $communication->setMessage($response);
-      $communication->sendMessage();
-   }
-
+ 
    /**
     * Handle incoming POST requests
     *
