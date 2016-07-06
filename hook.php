@@ -97,29 +97,8 @@ function plugin_armadito_install() {
 }
 
 function plugin_armadito_uninstall() {
-   global $DB;
-
-   ProfileRight::deleteProfileRights(array('armadito:read'));
-
-   // Current version tables
-   if (TableExists("glpi_plugin_armadito_configs")) {
-      $query = "DROP TABLE `glpi_plugin_armadito_configs`";
-      if(!PluginArmaditoToolbox::ExecQuery($query)){
-         die();
-      }
-   }
-
-   // Current version tables
-   if (TableExists("glpi_plugin_armadito_armaditos")) {
-      $query = "DROP TABLE `glpi_plugin_armadito_armaditos`";
-      if(!PluginArmaditoToolbox::ExecQuery($query)){
-         die();
-      }
-   }
-
-   // erase user display preferences
-   cleanDefaultDisplayPreferences();
-
-   return true;
+   require_once(GLPI_ROOT . "/plugins/armadito/inc/setup.class.php");
+   require_once(GLPI_ROOT . "/plugins/armadito/inc/profile.class.php");
+   return PluginArmaditoSetup::uninstall();
 }
 ?>
