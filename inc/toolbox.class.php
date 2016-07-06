@@ -78,5 +78,26 @@ class PluginArmaditoToolbox {
       return $ret;
    }
 
+   /**
+    * Parse a json string given
+    *
+    * @param $message XML message
+    *
+    * @return null or jobj
+    */
+   static function parseJSON($json_content){
+
+      $jobj = json_decode($json_content);
+
+      if(json_last_error() == JSON_ERROR_NONE)
+      {
+         return $jobj;
+      }
+      else
+      {
+         return null;
+      }
+   }
+
 }
 ?>
