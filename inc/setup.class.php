@@ -39,8 +39,6 @@ class PluginArmaditoSetup {
          $pfSetup  = new PluginArmaditoSetup();
          $user     = new User();
 
-
-
          // Current version tables
          if (TableExists("glpi_plugin_armadito_configs")) {
             $query = "DROP TABLE `glpi_plugin_armadito_configs`";
