@@ -36,8 +36,7 @@ class PluginArmaditoProfile extends Profile {
       $rights = array(
           array('rights'    => array(READ => __('Read'), UPDATE => __('Update')),
                 'itemtype'  => 'PluginArmaditoConfig',
-                'label'     => __('Configuration', 'fusioninventory')
-      );
+                'label'     => __('Configuration', 'fusioninventory'))      );
 
       return $rights;
   }

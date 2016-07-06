@@ -36,7 +36,7 @@ class PluginArmaditoSetup {
          PluginArmaditoProfile::uninstallProfile();
          ProfileRight::deleteProfileRights(array('armadito:read'));
 
-         $pfSetup  = new PluginFusioninventorySetup();
+         $pfSetup  = new PluginArmaditoSetup();
          $user     = new User();
 
 
