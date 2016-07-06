@@ -3,7 +3,7 @@ info:
   version: 0.0.1
   title: RESTful API of Armadito Plugin for GLPI
 paths:
-  /jobs:
+  /glpi/plugins/armadito/api/jobs:
     get:
       description: |
         Gets `Jobs` associated to given **agent_id**.
@@ -33,7 +33,7 @@ paths:
           schema:
             title: error
             type: string
-  /agents:
+  /glpi/plugins/armadito/api/agents:
     post:
       description: 
         Creates `Agent` object in plugin and renturns a new **agent_id** for that
@@ -50,7 +50,7 @@ paths:
           schema:
             title: error
             type: string
-  /states:
+  /glpi/plugins/armadito/api/states:
     post:
         description:
          Creates or Updates Antivirus `State` object for specified **agent_id** and **antivirus**.
@@ -74,7 +74,7 @@ paths:
             schema:
              title: error
              type: string
-  /alerts:
+  /glpi/plugins/armadito/api/alerts:
     post:
         description:
          Creates `Alert` object for specified **agent_id** and **antivirus**.
