@@ -2,6 +2,7 @@ swagger: '2.0'
 info:
   version: 0.0.1
   title: RESTful API of Armadito Plugin for GLPI
+host: armadito-glpi
 paths:
   /glpi/plugins/armadito/api/jobs:
     get:
@@ -54,18 +55,6 @@ paths:
     post:
         description:
          Creates or Updates Antivirus `State` object for specified **agent_id** and **antivirus**.
-        parameters:
-        - name: agent_id
-          in: query
-          description: agent unique identifier
-          required: true
-          type: number
-          format: double
-        - name: antivirus
-          in: query
-          description: antivirus name
-          required: true
-          type: string
         responses:
           '200':
             description: Successful response
@@ -78,18 +67,6 @@ paths:
     post:
         description:
          Creates `Alert` object for specified **agent_id** and **antivirus**.
-        parameters:
-        - name: agent_id
-          in: query
-          description: agent unique identifier
-          required: true
-          type: number
-          format: double
-        - name: antivirus
-          in: query
-          description: antivirus name
-          required: true
-          type: string
         responses:
           '200':
             description: Successful response
