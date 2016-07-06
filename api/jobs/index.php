@@ -23,11 +23,9 @@
 
 include_once ("../../../../inc/includes.php");
 
-$rawdata = file_get_contents("php://input");
-if (isset($_GET['action'])
-      || !empty($rawdata)) {
-   // GET or POST
+if (isset($_GET['agent_id'])) { // GET /jobs
    include_once("../../front/communication.php");
+   session_destroy();
 }
 else{
   http_response_code(400);

@@ -24,10 +24,9 @@
 include_once ("../../../../inc/includes.php");
 
 $rawdata = file_get_contents("php://input");
-if (isset($_GET['action'])
-      || !empty($rawdata)) {
-   // GET or POST
+if (!empty($rawdata)) { // POST /agents
    include_once("../../front/communication.php");
+   sessiion_destroy();
 }
 else{
   http_response_code(400);
