@@ -28,6 +28,7 @@ if (isset($_GET['action'])
       || !empty($rawdata)) {
    // GET or POST
    include_once("front/communication.php");
+   session_destroy();
 }
 else{
   http_response_code(400);

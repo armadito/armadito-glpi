@@ -120,7 +120,6 @@ class PluginArmaditoCommunication {
       $this->message = '{ "plugin_response" :  { "version": "'.PLUGIN_ARMADITO_VERSION.'", '.$message.' }}';
    }
 
- 
    /**
     * Handle incoming POST requests
     *
