@@ -28,6 +28,11 @@ paths:
                   type: string
                 single:
                   type: boolean
+        '500':
+          description: Internal server error
+          schema:
+            title: error
+            type: string
   /agents:
     post:
       description: 
@@ -40,10 +45,15 @@ paths:
             title: agent_id
             type: number
             format: double
+        '500':
+          description: Internal server error
+          schema:
+            title: error
+            type: string
   /states:
     post:
         description:
-         Creates or Updates Antivirus `State` object for specified **agent_id**, and **antivirus**.
+         Creates or Updates Antivirus `State` object for specified **agent_id** and **antivirus**.
         parameters:
         - name: agent_id
           in: query
@@ -59,3 +69,32 @@ paths:
         responses:
           '200':
             description: Successful response
+          '500':
+            description: Internal server error
+            schema:
+             title: error
+             type: string
+  /alerts:
+    post:
+        description:
+         Creates `Alert` object for specified **agent_id** and **antivirus**.
+        parameters:
+        - name: agent_id
+          in: query
+          description: agent unique identifier
+          required: true
+          type: number
+          format: double
+        - name: antivirus
+          in: query
+          description: antivirus name
+          required: true
+          type: string
+        responses:
+          '200':
+            description: Successful response
+          '500':
+            description: Internal server error
+            schema:
+              title: error
+              type: string
