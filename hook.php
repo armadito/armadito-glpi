@@ -56,7 +56,7 @@ function cleanDefaultDisplayPreferences(){
 function plugin_armadito_install() {
    global $DB;
 
-   // ProfileRight::addProfileRights(array('armadito:read'));
+   ProfileRight::addProfileRights(array('armadito:read'));
 
    ini_set("max_execution_time", "0");
 
