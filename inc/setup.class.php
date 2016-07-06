@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
    Copyright (C) 2010-2016 by the FusionInventory Development Team
@@ -28,7 +28,7 @@ if (!defined('GLPI_ROOT')) {
 include_once("toolbox.class.php");
 
 class PluginArmaditoSetup {
-   
+
    // Uninstallation function
    static function uninstall() {
       global $DB;

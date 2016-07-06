@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
    Copyright (C) 2010-2016 by the FusionInventory Development Team
@@ -28,7 +28,7 @@ if (!defined('GLPI_ROOT')) {
 include_once("toolbox.class.php");
 
 class PluginArmaditoProfile extends Profile {
-   
+
    // ProfileRight::deleteProfileRights(array('armadito:read'));
 
    function getRightsGeneral() {
@@ -38,7 +38,7 @@ class PluginArmaditoProfile extends Profile {
                 'itemtype'  => 'PluginArmaditoConfig',
                 'label'     => __('Configuration', 'fusioninventory')
       );
-  
+
       return $rights;
   }
 
