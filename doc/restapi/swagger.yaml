@@ -1,93 +1,101 @@
-# Example YAML to get you started quickly.
-# Be aware that YAML has indentation based scoping.
-# Code completion support is available so start typing for available options.
 swagger: '2.0'
-
-# This is your document metadata
 info:
-  version: "0.0.0"
-  title: Armadito REST API
-
-host: localhost:8888
-basePath: /api
-produces:
-  - application/json
-
-# Describe your paths here
+  version: 0.0.1
+  title: RESTful API of Armadito Plugin for GLPI
+host: armadito-glpi
 paths:
-
-  # This is a path endpoint. Change it.
-  /ping:
-    # This is a HTTP operation
+  /glpi/plugins/armadito/api/jobs:
     get:
-      # Describe this verb here. Note: you can use markdown
       description: |
-        Ping the server to get status
-      # This is array of GET operation parameters:
-      # Expected responses for this operation:
+        Gets an array of `PluginArmaditoJob` objects for the given **antivirus** installed on the device identified by the given **agent_id**.
+      parameters:
+        - name: agent_id
+          in: query
+          description: agent unique identifier
+          required: true
+          type: number
+          format: double
+        - name: antivirus
+          in: query
+          required: true
+          description: antivirus name
+          type: string
       responses:
-        # Response code
-        200:
+        '200':
           description: Successful response
-          # A schema describing your response object.
-          # Use JSON Schema format
           schema:
-            $ref: '#/definitions/Pong'
+            title: ArrayOfPluginArmaditoJobs
+            type: array
+            items:
+              $ref: "#/definitions/PluginArmaditoJob"
         default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-
-  /status:
-    get:
-      description:
-        get the server status
-      responses:
-        200:
-          description: success
-          schema:
-            $ref: '#/definitions/Status'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-  /scan:
+            description: Unexpected error
+            schema:
+              $ref: "#/definitions/Error"
+  /glpi/plugins/armadito/api/enrollment:
     post:
-      summary: launch a scan
-      description: launch a scan
       consumes:
         - application/json
       produces:
         - application/json
-      parameters:
-        - in: body
-          name: body
-          description: scan object
-          required: true
-          schema:
-            $ref: "#/definitions/Scan"
+      description: 
+        Enrolls the device and returns a new dedicated unique identifier **agent_id**.
       responses:
-        200:
-          description: OK
-        405:
-          description: Invalid input
-    
-
-definitions:
-  Pong:
-    type: object
-    properties:
-      response:
-        type: string
-        description: contains the server response
-      params:
-        type: object
-        description: contains the server response content
-        properties:
-          value:
+        '200':
+          description: Successful response
+          schema:
+            title: agent_id
             type: number
-            description: the time
-
+            format: double
+        405:
+            description: Invalid Input
+            schema:
+              $ref: '#/definitions/Error'
+  /glpi/plugins/armadito/api/states:
+    post:
+        consumes:
+        - application/json
+        produces:
+        - application/json
+        description:
+         Creates or updates the `PluginArmaditoState` object for specified **agent_id** and **antivirus**.
+        parameters:
+          - in: body
+            name: State
+            description: State object
+            required: true
+            schema:
+              $ref: "#/definitions/PluginArmaditoState"
+        responses:
+          '200':
+            description: Successful response
+          405:
+            description: Invalid Input
+            schema:
+              $ref: '#/definitions/Error'
+  /glpi/plugins/armadito/api/alerts:
+    post:
+        consumes:
+          - application/json
+        produces:
+          - application/json
+        description:
+         Creates a new `Alert` object for specified **agent_id**  and **antivirus**.
+        parameters:
+          - in: body
+            name: Alert
+            description: Alert object
+            required: true
+            schema:
+              $ref: "#/definitions/PluginArmaditoAlert"
+        responses:
+          '200':
+            description: Successful response
+          405:
+            description: Invalid Input
+            schema:
+              $ref: '#/definitions/Error'
+definitions:
   Error:
     type: object
     properties:
@@ -96,82 +104,18 @@ definitions:
         format: int32
       message:
         type: string
-      fields:
-        type: string
-
-  AntivirusStatus:
-    type: object
-    properties:
-      version:
-        type: string
-        description: the version of the antivirus
-      service:
-        type: string
-        description: is the service on or off?
-      real-time-protection:
-        type: string
-        description: is the real-time protection on or off?
-
-  ModuleStatus:
+  PluginArmaditoJob:
     type: object
     properties:
       name:
         type: string
-        description: module name
-      version:
-        type: string
-        description: module version
-      update:
-        type: string
-        description: module update date
-
-  Status:
+  PluginArmaditoState:
     type: object
     properties:
-      antivirus:
-        $ref: '#/definitions/AntivirusStatus'
-      update:
+      name:
         type: string
-        description: the last update date of the antivirus
-      modules:
-        type: array
-        items:
-          $ref: '#/definitions/ModuleStatus'
-  Scan:
+  PluginArmaditoAlert:
     type: object
     properties:
-      path:
+      name:
         type: string
-        description: the path to scan
-
-  ScanReport:
-    type: object
-    properties:
-      progress:
-        type: number
-        description: the progress bar
-      malware_count:
-        type: number
-        description: malware counter
-      suspicious_count:
-        type: number
-        description: suspicious counter
-      scanned_count:
-        type: number
-        description: scanned file counter
-      path:
-        type: string
-        description: last scanned path
-      scan_status:
-        type: string
-        description: scan status for path
-      scan_action:
-        type: string
-        description: action taken for malware
-      mod_name:
-        type: string
-        description: name of module that has detected the malware
-      mod_report:
-        type: string
-        description: report of module that has detected the malware
-
