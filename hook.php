@@ -80,7 +80,7 @@ function plugin_armadito_install() {
          )
       )
    ) {
-      pluginFusioninventoryUpdate($version_detected, $migrationname);
+      pluginArmaditoUpdate($version_detected, $migrationname);
    } else if ((isset($version_detected))
            && ($version_detected == PLUGIN_ARMADITO_VERSION)) {
          //Same version : Nothing to do
