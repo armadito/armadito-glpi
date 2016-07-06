@@ -26,7 +26,15 @@ include_once ("../../../../inc/includes.php");
 $rawdata = file_get_contents("php://input");
 if (!empty($rawdata)) { // POST /agents
    include_once("../../front/communication.php");
-   sessiion_destroy();
+
+   $enrolment = new PluginArmaditoEnrolment($params);
+   $response = $enrolment->enroll();
+
+   $paCommunication  = new PluginArmaditoCommunication();
+   $communication->setMessage($response);
+   $communication->sendMessage();
+
+   session_destroy();
 }
 else{
   http_response_code(400);
