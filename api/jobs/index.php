@@ -26,6 +26,8 @@ include_once ("../../../../inc/includes.php");
 if (isset($_GET['agent_id'])) { // GET /jobs
    include_once("../../front/communication.php");
 
+   $communication  = new PluginArmaditoCommunication();
+   $communication->init();
 
    session_destroy();
 }
