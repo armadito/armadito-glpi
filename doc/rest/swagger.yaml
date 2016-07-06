@@ -43,7 +43,19 @@ paths:
   /states:
     post:
         description:
-         Update Antivirus `State` object for specified **agent_id**, and **antivirus**.    
+         Creates or Updates Antivirus `State` object for specified **agent_id**, and **antivirus**.
+        parameters:
+        - name: agent_id
+          in: query
+          description: agent unique identifier
+          required: true
+          type: number
+          format: double
+        - name: antivirus
+          in: query
+          description: antivirus name
+          required: true
+          type: string
         responses:
           '200':
             description: Successful response
