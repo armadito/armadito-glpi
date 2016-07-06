@@ -29,11 +29,10 @@ paths:
                   type: string
                 single:
                   type: boolean
-        '500':
-          description: Internal server error
-          schema:
-            title: error
-            type: string
+        default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
   /glpi/plugins/armadito/api/agents:
     post:
       description: 
@@ -46,11 +45,10 @@ paths:
             title: agent_id
             type: number
             format: double
-        '500':
-          description: Internal server error
-          schema:
-            title: error
-            type: string
+        default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
   /glpi/plugins/armadito/api/states:
     post:
         description:
@@ -58,11 +56,10 @@ paths:
         responses:
           '200':
             description: Successful response
-          '500':
-            description: Internal server error
+          default:
+            description: Unexpected error
             schema:
-             title: error
-             type: string
+              $ref: '#/definitions/Error'
   /glpi/plugins/armadito/api/alerts:
     post:
         description:
@@ -70,8 +67,16 @@ paths:
         responses:
           '200':
             description: Successful response
-          '500':
-            description: Internal server error
+          default:
+            description: Unexpected error
             schema:
-              title: error
-              type: string
+              $ref: '#/definitions/Error'
+definitions:
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
