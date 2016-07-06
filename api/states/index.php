@@ -24,7 +24,7 @@
 include_once ("../../../../inc/includes.php");
 
 $rawdata = file_get_contents("php://input");
-if (isset($_POST['agent_id']) and isset($_POST['antivirus']) and !empty($rawdata)) { // POST /states
+if (!empty($rawdata)) { // POST /states
 
    // init GLPI stuff
    $communication  = new PluginArmaditoCommunication();
