@@ -1,0 +1,49 @@
+swagger: '2.0'
+info:
+  version: 0.0.1
+  title: RESTful API of Armadito Plugin for GLPI
+paths:
+  /jobs:
+    get:
+      description: |
+        Gets `Jobs` associated to given **agent_id**.
+      parameters:
+        - name: agent_id
+          in: query
+          description: agent unique identifier
+          required: true
+          type: number
+          format: double
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            title: ArrayOfJobs
+            type: array
+            items:
+              title: Job
+              type: object
+              properties:
+                name:
+                  type: string
+                single:
+                  type: boolean
+  /agents:
+    post:
+      description: 
+        Creates `Agent` object in plugin and returns a new **agent_id** for that
+        device.
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            title: agent_id
+            type: number
+            format: double
+  /states:
+    post:
+        description:
+         Update Antivirus `State` object for specified **agent_id**, and **antivirus**.    
+        responses:
+          '200':
+            description: Successful response
