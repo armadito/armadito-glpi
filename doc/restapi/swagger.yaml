@@ -150,3 +150,13 @@ definitions:
       agent_id:
         type: number
         format: double
+  PluginArmaditoEnrollment:
+    type: object
+    properties:
+      agent_id:
+        type: number
+        format: double
+      agent_version:
+        type: string
+      task:
+        $ref: '#/definitions/Task'
