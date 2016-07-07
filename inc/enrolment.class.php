@@ -32,11 +32,7 @@ if (!defined('GLPI_ROOT')) {
 class PluginArmaditoEnrolment {
      protected $agentid;
 
-     function __construct($params) {
-
-         /*if(isset($params['agentid'])) {
-             $this->agentid = PluginArmaditoToolbox::validateInt($params['agentid']);
-         }*/
+     function __construct($jobj) {
 
          PluginArmaditoToolbox::logIfExtradebug(
             'pluginArmadito-enrolment',
