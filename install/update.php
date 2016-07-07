@@ -24,11 +24,11 @@
 function pluginArmaditoGetCurrentVersion() {
    global $DB;
 
-   if(!TableExists("glpi_plugin_armadito_config")) {
+   if(!TableExists("glpi_plugin_armadito_configs")) {
       return "0";
    }
       
-   $query = "SELECT version FROM glpi_plugin_armadito_config LIMIT 1";
+   $query = "SELECT version FROM glpi_plugin_armadito_configs LIMIT 1";
    
    $data = array();
    if ($result=$DB->query($query)) {
