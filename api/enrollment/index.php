@@ -52,8 +52,8 @@ if (!empty($rawdata)) { // POST /states
       exit();
    }
 
-   $enrolment = new PluginArmaditoEnrolment($jobj);
-   $response = $enrolment->enroll();
+   $Enrollment = new PluginArmaditoEnrollment($jobj);
+   $response = $Enrollment->enroll();
 
    $communication->setMessage($response);
    $communication->sendMessage();
