@@ -58,11 +58,11 @@ paths:
         produces:
         - application/json
         description:
-         Creates or updates the `PluginArmaditoState` object for specified **agent_id** and **antivirus**.
+         Given `PluginArmaditoState` object is stored in GLPI database and could be shown in user interface.
         parameters:
           - in: body
             name: State
-            description: State object
+            description: JSON State object
             required: true
             schema:
               $ref: "#/definitions/PluginArmaditoState"
@@ -80,11 +80,11 @@ paths:
         produces:
           - application/json
         description:
-         Creates a new `Alert` object for specified **agent_id**  and **antivirus**.
+         Given `PluginArmaditoAlert` is stored in GLPI database and could be shown in user interface.
         parameters:
           - in: body
             name: Alert
-            description: Alert object
+            description: JSON Alert object
             required: true
             schema:
               $ref: "#/definitions/PluginArmaditoAlert"
@@ -109,13 +109,28 @@ definitions:
     properties:
       name:
         type: string
+      antivirus:
+        type: string
+      agent_id:
+        type: number
+        format: double
   PluginArmaditoState:
     type: object
     properties:
       name:
         type: string
+      antivirus:
+        type: string
+      agent_id:
+        type: number
+        format: double
   PluginArmaditoAlert:
     type: object
     properties:
       name:
         type: string
+      antivirus:
+        type: string
+      agent_id:
+        type: number
+        format: double
