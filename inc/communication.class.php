@@ -110,13 +110,7 @@ class PluginArmaditoCommunication {
     * @return nothing
     **/
    function setMessage($message, $status=200) {
-
-      if(substr($message, 1, 5) == "error") {
-         $this->status_code = 500;
-      } else {
-         $this->status_code = 200;
-      }
-
+      $this->status_code = $status;
       $this->message = '{ "plugin_response" :  { "version": "'.PLUGIN_ARMADITO_VERSION.'", '.$message.' }}';
    }
 

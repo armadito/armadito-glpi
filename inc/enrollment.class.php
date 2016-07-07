@@ -34,9 +34,9 @@ class PluginArmaditoEnrollment {
      protected $jobj;
 
      function __construct($jobj) {
-      
+
          $this->jobj = $jobj;
-      
+
          PluginArmaditoToolbox::logIfExtradebug(
             'pluginArmadito-Enrollment',
             'New PluginArmaditoEnrollment object.'
