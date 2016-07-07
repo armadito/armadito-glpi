@@ -104,6 +104,22 @@ definitions:
         format: int32
       message:
         type: string
+  Antivirus:
+    type: object
+    properties:
+      name:
+        type: string
+      version:
+        type: string
+  Task:
+    type: object
+    properties:
+      name:
+        type: string
+      antivirus:
+          $ref: '#/definitions/Antivirus'
+      msg:
+        type: string
   PluginArmaditoJob:
     type: object
     properties:
@@ -117,13 +133,13 @@ definitions:
   PluginArmaditoState:
     type: object
     properties:
-      name:
-        type: string
-      antivirus:
-        type: string
       agent_id:
         type: number
         format: double
+      agent_version:
+        type: string
+      task:
+          $ref: '#/definitions/Task'
   PluginArmaditoAlert:
     type: object
     properties:
