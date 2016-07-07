@@ -34,9 +34,9 @@ class PluginArmaditoEnrolment {
 
      function __construct($params) {
 
-         if(isset($params['agentid'])) {
+         /*if(isset($params['agentid'])) {
              $this->agentid = PluginArmaditoToolbox::validateInt($params['agentid']);
-         }
+         }*/
 
          PluginArmaditoToolbox::logIfExtradebug(
             'pluginArmadito-enrolment',
