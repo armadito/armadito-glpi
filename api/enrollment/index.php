@@ -34,7 +34,7 @@ if (!empty($rawdata)) { // POST /states
    if (!class_exists("PluginArmaditoArmadito")) {
       $response = '"error" : "Plugin armadito is not installed."';
       PluginArmaditoToolbox::logE($response);
-      $communication->setMessage($response, 501);
+      $communication->setMessage($response, 404);
       $communication->sendMessage();
       session_destroy();
       exit();
