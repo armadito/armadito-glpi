@@ -35,7 +35,7 @@ if (!empty($rawdata)) { // POST /states
    if (!class_exists("PluginArmaditoArmadito")) {
       $error->setMessage(1, "Plugin armadito is not installed.");
       $error->log();
-      $communication->setMessage($response, 404);
+      $communication->setMessage($error->toJson(), 404);
       $communication->sendMessage();
       session_destroy();
       exit();
@@ -47,7 +47,7 @@ if (!empty($rawdata)) { // POST /states
    if(!$jobj){
       $error->setMessage(1, "Fail parsing incoming json : ".json_last_error_msg());
       $error->log();
-      $communication->setMessage($response, 405);
+      $communication->setMessage($error->toJson(), 405);
       $communication->sendMessage();
       session_destroy();
       exit();
@@ -60,6 +60,7 @@ if (!empty($rawdata)) { // POST /states
    }
    else{
       $communication->setMessage($error->toJson(), 405);
+      $error->log();
    }
 
    $communication->sendMessage();

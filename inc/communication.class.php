@@ -114,31 +114,5 @@ class PluginArmaditoCommunication {
       $this->message = $message;
    }
 
-   /**
-    * Handle incoming POST requests
-    *
-    **/
-   function handlePOSTRequest($rawdata) {
-      $config = new PluginArmaditoConfig();
-      $user   = new User();
-      $communication  = new PluginArmaditoCommunication();
-
-      // it must be a json object
-      $jobj = $communication->parseJSON($rawdata);
-
-      if(!$jobj){
-          $response = '"error" : "error when parsing incoming json : '.json_last_error_msg().'"';
-          PluginArmaditoToolbox::logE($response);
-          $communication->setMessage($response);
-          $communication->sendMessage();
-          return;
-      }
-
-      $state = new PluginArmaditoState($jobj);
-
-      $communication->setMessage('"success": "POST OK"');
-      $communication->sendMessage();
-      return;
-   }
 }
 ?>

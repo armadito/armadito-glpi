@@ -27,14 +27,15 @@ $rawdata = file_get_contents("php://input");
 if (!empty($rawdata)) { // POST /states
 
    // init GLPI stuff
+   $error = new PluginArmaditoError();
    $communication  = new PluginArmaditoCommunication();
    $communication->init();
 
    // Check plugin installation
    if (!class_exists("PluginArmaditoArmadito")) {
-      $response = '"error" : "Plugin armadito is not installed."';
-      PluginArmaditoToolbox::logE($response);
-      $communication->setMessage($response, 404);
+      $error->setMessage(1, "Plugin armadito is not installed.");
+      $error->log();
+      $communication->setMessage($error->toJson(), 404);
       $communication->sendMessage();
       session_destroy();
       exit();
@@ -44,9 +45,9 @@ if (!empty($rawdata)) { // POST /states
    $jobj = PluginArmaditoToolbox::parseJSON($rawdata);
 
    if(!$jobj){
-      $response = '"error" : "error when parsing incoming json : '.json_last_error_msg().'"';
-      PluginArmaditoToolbox::logE($response);
-      $communication->setMessage($response, 405);
+      $error->setMessage(1, "Fail parsing incoming json : ".json_last_error_msg());
+      $error->log();
+      $communication->setMessage($error->toJson(), 405);
       $communication->sendMessage();
       session_destroy();
       exit();
@@ -54,7 +55,7 @@ if (!empty($rawdata)) { // POST /states
 
    $state = new PluginArmaditoState($jobj);
 
-   $communication->setMessage('"success": "Armadito state POST OK"', 200);
+   $communication->setMessage($state->toJson(), 200);
    $communication->sendMessage();
 
    session_destroy();
@@ -62,7 +63,7 @@ if (!empty($rawdata)) { // POST /states
 else{
   http_response_code(400);
   header("Content-Type: application/json");
-  echo '{ "plugin_response" : { "version": "'.PLUGIN_ARMADITO_VERSION.'", "error": "Invalid request sent to plugin index." }}';
+  echo '{ "plugin_version": "'.PLUGIN_ARMADITO_VERSION.'", "code": 1, "message": "Invalid request sent to plugin index." }}';
 }
 
 ?>

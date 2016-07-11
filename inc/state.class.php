@@ -41,5 +41,8 @@ class PluginArmaditoState {
       );
      }
 
+     function toJson() {
+         return '{}';
+     }
 }
 ?>

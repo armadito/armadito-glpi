@@ -34,7 +34,7 @@ if (isset($_GET['agent_id'])) { // GET /jobs
 else{
   http_response_code(400);
   header("Content-Type: application/json");
-  echo '{ "plugin_response" : { "version": "'.PLUGIN_ARMADITO_VERSION.'", "error": "Invalid request sent to plugin index." }}';
+  echo '{ "plugin_version": "'.PLUGIN_ARMADITO_VERSION.'", "code": 1, "message": "Invalid request sent to plugin index." }}';
 }
 
 ?>

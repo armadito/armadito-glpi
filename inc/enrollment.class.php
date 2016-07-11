@@ -118,8 +118,8 @@ class PluginArmaditoEnrollment {
             $this->setAgentid($data[0]);
          }
          else {
-            $error =  '"error" : "enrollment get agent_id failed."';
-            PluginArmaditoToolbox::logE($error);
+            $error->setMessage(1, 'Enrollment get agent_id failed.');
+            $error->log();
             return $error;
          }
 
