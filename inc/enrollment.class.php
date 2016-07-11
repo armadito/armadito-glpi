@@ -83,8 +83,8 @@ class PluginArmaditoEnrollment {
             $antivirus_name = "";
             $antivirus_version = "";
             $antivitus_state = "";
-            $last_contact = '2016-04-30 10:09:00';
-            $last_alert = '2016-04-30 10:09:00';
+            $last_contact = date("Y-m-d H:i:s", time());
+            $last_alert = '1970-01-01 00:00:00';
 
             if(!$stmt->execute()){
                $error =  '"error" : "enrollment insert execution failed: (' . $stmt->errno . ') ' . $stmt->error.'"';
