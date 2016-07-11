@@ -33,7 +33,7 @@ class PluginArmaditoError {
       $this->code = $code_;
       $this->message = $message_;
    }
-   
+
    function getCode() {
       return $this->code;
    }
@@ -41,10 +41,10 @@ class PluginArmaditoError {
    function toJson() {
       return '{ "code": '.$this->code.', "message": "'.$this->message.'", "plugin_version": '.PLUGIN_ARMADITO_VERSION.' }';
    }
-   
+
    function log() {
       if($this->code > 0){
-         PluginArmaditoToolbox::logE("Error (".$this->code.") : ".$this->message);   
+         PluginArmaditoToolbox::logE("Error (".$this->code.") : ".$this->message);
       }
    }
 }
