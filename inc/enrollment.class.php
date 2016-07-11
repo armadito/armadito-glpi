@@ -68,16 +68,56 @@ class PluginArmaditoEnrollment {
     **/
      function enroll(){
 
-         // TODO
-         $this->setAgentid(10);
+         global $DB;
+
+         $query = "INSERT INTO `glpi_plugin_armadito_arma-ditos`(`entities_id`, `computers_id`, `plugin_fusioninventory_agents_id`, `agent_version`, `antivirus_name`, `antivirus_version`, `antivirus_state`, `last_contact`, `last_alert`) VALUES (?,?,?,?,?,?,?,?,?)";
+
+         $stmt = $DB->prepare($query);
+
+         if($stmt){
+            $stmt->bind_param('iiissssss', $entities_id, $computers_id, $fusion_id, $agent_version, $antivirus_name, $antivirus_version, $antivirus_state, $last_contact, $last_alert);
+            $entities_id = 0;
+            $computers_id = 0;
+            $fusion_id = 0;
+            $agent_version = "";
+            $antivirus_name = "";
+            $antivirus_version = "";
+            $antivitus_state = "";
+            $last_contact = '2016-04-30 10:09:00';
+            $last_alert = '2016-04-30 10:09:00';
+
+            if(!$stmt->execute()){
+               $error =  '"error" : "enrollment insert execution failed: (' . $stmt->errno . ') ' . $stmt->error.'"';
+               PluginArmaditoToolbox::logE($error);
+               $stmt->close();
+               return $error;
+            }
+         }
+         else {
+               $error =  '"error" : "enrollment insert preparation failed."';
+               PluginArmaditoToolbox::logE($error);
+               return $error;
+         }
+
+         $stmt->close();
+
+         $result = $DB->query("SELECT LAST_INSERT_ID()");
+         if($result){
+            $data = $DB->fetch_array($result);
+            $this->setAgentid($data[0]);
+         }
+         else {
+            $error =  '"error" : "enrollment get agent_id failed."';
+            PluginArmaditoToolbox::logE($error);
+            return $error;
+         }
 
          PluginArmaditoToolbox::logIfExtradebug(
             'pluginArmadito-Enrollment',
-            'Enroll new Device with id '.$this->agentid.'.'
+            'Enroll new Device with id '.$this->agentid
          );
 
          $response = '"success": "new device successfully enrolled", "agentid": "'.$this->agentid.'"';
-
          return $response;
      }
 }
