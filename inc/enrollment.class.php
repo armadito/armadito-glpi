@@ -79,10 +79,10 @@ class PluginArmaditoEnrollment {
             $entities_id = 0;
             $computers_id = 0;
             $fusion_id = 0;
-            $agent_version = "";
-            $antivirus_name = "";
-            $antivirus_version = "";
-            $antivitus_state = "";
+            $agent_version = $this->jobj->agent_version;
+            $antivirus_name = $this->jobj->task->antivirus->name;
+            $antivirus_version = $this->jobj->task->antivirus->version;
+            $antivitus_state = "unknown";
             $last_contact = date("Y-m-d H:i:s", time());
             $last_alert = '1970-01-01 00:00:00';
 
