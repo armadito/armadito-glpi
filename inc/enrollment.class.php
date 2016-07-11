@@ -70,7 +70,7 @@ class PluginArmaditoEnrollment {
 
          global $DB;
 
-         $query = "INSERT INTO `glpi_plugin_armadito_arma-ditos`(`entities_id`, `computers_id`, `plugin_fusioninventory_agents_id`, `agent_version`, `antivirus_name`, `antivirus_version`, `antivirus_state`, `last_contact`, `last_alert`) VALUES (?,?,?,?,?,?,?,?,?)";
+         $query = "INSERT INTO `glpi_plugin_armadito_armaditos`(`entities_id`, `computers_id`, `plugin_fusioninventory_agents_id`, `agent_version`, `antivirus_name`, `antivirus_version`, `antivirus_state`, `last_contact`, `last_alert`) VALUES (?,?,?,?,?,?,?,?,?)";
 
          $stmt = $DB->prepare($query);
 
