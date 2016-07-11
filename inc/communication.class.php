@@ -111,7 +111,7 @@ class PluginArmaditoCommunication {
     **/
    function setMessage($message, $status=200) {
       $this->status_code = $status;
-      $this->message = '{ "plugin_response" :  { "version": "'.PLUGIN_ARMADITO_VERSION.'", '.$message.' }}';
+      $this->message = $message;
    }
 
    /**

@@ -62,13 +62,24 @@ class PluginArmaditoEnrollment {
      }
 
     /**
+    * Get enrollment json string
+    *
+    * @return a json string
+    **/
+     function toJson(){
+       return '{ "agent_id": '.$this->agentid.'}';
+    }
+
+    /**
     * Run Enrollment new Armadito device
     *
-    * @return agentid
+    * @return PluginArmaditoError obj
     **/
      function enroll(){
 
          global $DB;
+
+         $error = new PluginArmaditoError();
 
          $query = "INSERT INTO `glpi_plugin_armadito_armaditos`(`entities_id`, `computers_id`, `plugin_fusioninventory_agents_id`, `agent_version`, `antivirus_name`, `antivirus_version`, `antivirus_state`, `last_contact`, `last_alert`) VALUES (?,?,?,?,?,?,?,?,?)";
 
@@ -87,16 +98,16 @@ class PluginArmaditoEnrollment {
             $last_alert = '1970-01-01 00:00:00';
 
             if(!$stmt->execute()){
-               $error =  '"error" : "enrollment insert execution failed: (' . $stmt->errno . ') ' . $stmt->error.'"';
-               PluginArmaditoToolbox::logE($error);
+               $error->setMessage(1, 'Enrollment insert execution failed (' . $stmt->errno . ') ' . $stmt->error);
+               $error->log();
                $stmt->close();
                return $error;
             }
          }
          else {
-               $error =  '"error" : "enrollment insert preparation failed."';
-               PluginArmaditoToolbox::logE($error);
-               return $error;
+            $error->setMessage(1, 'Enrollment insert preparation failed.');
+            $error->log();
+            return $error;
          }
 
          $stmt->close();
@@ -117,8 +128,8 @@ class PluginArmaditoEnrollment {
             'Enroll new Device with id '.$this->agentid
          );
 
-         $response = '"success": "new device successfully enrolled", "agentid": "'.$this->agentid.'"';
-         return $response;
+         $error->setMessage(1, 'New device successfully enrolled.');
+         return $error;
      }
 }
 ?>
