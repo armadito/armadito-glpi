@@ -58,6 +58,10 @@ paths:
             description: Invalid Input
             schema:
               $ref: '#/definitions/PluginArmaditoError'
+        500:
+            description: Internal Server Error
+            schema:
+              $ref: '#/definitions/PluginArmaditoError'
   /glpi/plugins/armadito/api/states:
     post:
         consumes:
@@ -80,6 +84,10 @@ paths:
             description: Invalid Input
             schema:
               $ref: '#/definitions/PluginArmaditoError'
+          500:
+            description: Internal Server Error
+            schema:
+              $ref: '#/definitions/PluginArmaditoError'
   /glpi/plugins/armadito/api/alerts:
     post:
         consumes:
@@ -100,6 +108,10 @@ paths:
             description: Successful response
           400:
             description: Invalid Input
+            schema:
+              $ref: '#/definitions/PluginArmaditoError'
+          500:
+            description: Internal Server Error
             schema:
               $ref: '#/definitions/PluginArmaditoError'
 definitions:
