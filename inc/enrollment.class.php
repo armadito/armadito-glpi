@@ -180,7 +180,7 @@ class PluginArmaditoEnrollment {
             'ReEnroll Device with id '.$this->agentid
          );
 
-         $error->setMessage(1, 'New device successfully re-enrolled.');
+         $error->setMessage(0, 'New device successfully re-enrolled.');
 
          return $error;
     }
@@ -231,7 +231,6 @@ class PluginArmaditoEnrollment {
             return $error;
          }
 
-
          $stmt->close();
 
          $result = $DB->query("SELECT LAST_INSERT_ID()");
@@ -250,7 +249,7 @@ class PluginArmaditoEnrollment {
             'Enroll new Device with id '.$this->agentid
          );
 
-         $error->setMessage(1, 'New device successfully enrolled.');
+         $error->setMessage(0, 'New device successfully enrolled.');
          return $error;
      }
 }
