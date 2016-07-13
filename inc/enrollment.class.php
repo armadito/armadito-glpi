@@ -135,7 +135,7 @@ class PluginArmaditoEnrollment {
                      `antivirus_state`=?,
                      `last_contact`=?,
 		               `last_alert`=?
-                  WHERE `agent_id`=?";
+                  WHERE `id`=?";
 
          $stmt = $DB->prepare($query);
 
