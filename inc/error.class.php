@@ -29,7 +29,7 @@ class PluginArmaditoError {
       $this->code = -1;
    }
 
-   function setMessage($message_, $code_) {
+   function setMessage($code_, $message_) {
       $this->code = $code_;
       $this->message = $message_;
    }
@@ -39,7 +39,7 @@ class PluginArmaditoError {
    }
 
    function toJson() {
-      return '{ "code": '.$this->code.', "message": "'.$this->message.'", "plugin_version": '.PLUGIN_ARMADITO_VERSION.' }';
+      return '{ "code": '.$this->code.', "message": "'.$this->message.'", "plugin_version": "'.PLUGIN_ARMADITO_VERSION.'" }';
    }
 
    function log() {
