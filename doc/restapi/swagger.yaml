@@ -167,5 +167,7 @@ definitions:
         format: double
       agent_version:
         type: string
+      fusion_id:
+        type: string
       task:
         $ref: '#/definitions/Task'
