@@ -2,7 +2,7 @@
 DROP TABLE IF EXISTS `glpi_plugin_armadito_armaditos`;
 
 CREATE TABLE `glpi_plugin_armadito_armaditos` (
-   `agent_id` int(11) NOT NULL auto_increment,
+   `id` int(11) NOT NULL auto_increment,
    `entities_id` int(11) NOT NULL default 0,
    `computers_id` int(11) NOT NULL,
    `plugin_fusioninventory_agents_id` int(11) NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE `glpi_plugin_armadito_armaditos` (
    `antivirus_state` varchar(255) collate utf8_unicode_ci default NULL,
    `last_contact` datetime default NULL,
    `last_alert` datetime default NULL,
-   PRIMARY KEY (`agent_id`)
+   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
