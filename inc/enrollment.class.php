@@ -96,22 +96,22 @@ class PluginArmaditoEnrollment {
       global $DB;
 
       PluginArmaditoToolbox::validateInt($this->jobj->agent_id);
-      
+
       PluginArmaditoToolbox::logE("Agent_id = ".$this->jobj->agent_id);
 
       $query = "SELECT last_contact FROM `glpi_plugin_armadito_armaditos`
                  WHERE `id`='".$this->jobj->agent_id."'";
-      $ret = $DB->query($query); 
-       
+      $ret = $DB->query($query);
+
       if(!$ret){
          PluginArmaditoToolbox::logE("Error isAlreadyEnrolled : ".$DB->error());
          return false;
       }
-           
+
       if($DB->numrows($ret) > 0){
          return true;
-      } 
-      
+      }
+
       return false;
     }
 
@@ -126,9 +126,9 @@ class PluginArmaditoEnrollment {
          $this->setAgentid($this->jobj->agent_id);
 
          $error = new PluginArmaditoError();
-         
+
          $query = "UPDATE `glpi_plugin_armadito_armaditos`
-                 SET `entities_id`=?, 
+                 SET `entities_id`=?,
                      `computers_id`=?,
                      `plugin_fusioninventory_agents_id`=?,
                      `device_id`=?,
@@ -154,7 +154,7 @@ class PluginArmaditoEnrollment {
             $stmt->close();
             return $error;
           }
-         
+
          # We set values
          $entities_id = 0;
          $computers_id = 0;
@@ -232,7 +232,7 @@ class PluginArmaditoEnrollment {
             $stmt->close();
             return $error;
          }
-         
+
 
          $stmt->close();
 
