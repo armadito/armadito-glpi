@@ -104,8 +104,7 @@ class PluginArmaditoEnrollment {
       $ret = $DB->query($query);
 
       if(!$ret){
-         PluginArmaditoToolbox::logE("Error isAlreadyEnrolled : ".$DB->error());
-         return false;
+         throw new Exception(sprintf('Error isAlreadyEnrolled : %s', $DB->error()));
       }
 
       if($DB->numrows($ret) > 0){
