@@ -71,12 +71,23 @@ class PluginArmaditoEnrollment {
     }
 
     /**
-    * Run Enrollment new Armadito device
+    * Try to enroll
     *
     * @return PluginArmaditoError obj
     **/
      function enroll(){
 
+         $error = $this->enrollNewDevice();
+
+         return $error;
+     }
+
+    /**
+    * Try to enroll a new Armadito device
+    *
+    * @return PluginArmaditoError obj
+    **/
+     function enrollNewDevice(){
          global $DB;
 
          $error = new PluginArmaditoError();
