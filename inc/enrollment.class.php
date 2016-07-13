@@ -122,8 +122,6 @@ class PluginArmaditoEnrollment {
      function updateEnrolledDevice(){
          global $DB;
 
-         $this->setAgentid($this->jobj->agent_id);
-
          $error = new PluginArmaditoError();
 
          $query = "UPDATE `glpi_plugin_armadito_armaditos`
@@ -175,6 +173,7 @@ class PluginArmaditoEnrollment {
          }
 
          $stmt->close();
+         $this->setAgentid($this->jobj->agent_id);
 
          PluginArmaditoToolbox::logIfExtradebug(
             'pluginArmadito-Enrollment',
