@@ -54,7 +54,7 @@ paths:
             title: agent_id
             type: number
             format: double
-        405:
+        400:
             description: Invalid Input
             schema:
               $ref: '#/definitions/PluginArmaditoError'
@@ -76,7 +76,7 @@ paths:
         responses:
           '200':
             description: Successful response
-          405:
+          400:
             description: Invalid Input
             schema:
               $ref: '#/definitions/PluginArmaditoError'
@@ -98,7 +98,7 @@ paths:
         responses:
           '200':
             description: Successful response
-          405:
+          400:
             description: Invalid Input
             schema:
               $ref: '#/definitions/PluginArmaditoError'
