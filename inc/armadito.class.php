@@ -123,6 +123,14 @@ class PluginArmaditoArmadito extends CommonDBTM {
       $tab = array();
       $tab['common'] = __('Armadito', 'armadito');
 
+      /*
+      $tab[1]['table']     = 'glpi_computers'; // $this->getTable();
+      $tab[1]['field']     = 'name';
+      $tab[1]['name']      = __('Name', 'armadito');
+      $tab[1]['datatype']  = 'itemlink';
+      $tab[1]['itemlink_type'] = 'Computer';
+      $tab[1]['massiveaction'] = FALSE;
+
       $tab[1]['table']     = 'glpi_computers'; // $this->getTable();
       $tab[1]['field']     = 'name';
       $tab[1]['name']      = __('Name', 'armadito');
@@ -136,10 +144,23 @@ class PluginArmaditoArmadito extends CommonDBTM {
       $tab[2]['datatype']  = 'itemlink';
       $tab[2]['itemlink_type'] = 'PluginFusioninventoryAgent';
       $tab[2]['massiveaction'] = FALSE;
+      */
+
+      $tab[1]['table']     = $this->getTable();
+      $tab[1]['field']     = 'id';
+      $tab[1]['name']      = __('Agent Id', 'armadito');
+      $tab[1]['datatype']  = 'text';
+      $tab[1]['massiveaction'] = FALSE;
+
+      $tab[2]['table']     = $this->getTable();
+      $tab[2]['field']     = 'agent_version';
+      $tab[2]['name']      = __('Agent Version', 'armadito');
+      $tab[2]['datatype']  = 'text';
+      $tab[2]['massiveaction'] = FALSE;
 
       $tab[3]['table']     = $this->getTable();
-      $tab[3]['field']     = 'last_contact';
-      $tab[3]['name']      = __('Last Contact', 'armadito');
+      $tab[3]['field']     = 'antivirus_name';
+      $tab[3]['name']      = __('Antivirus Name', 'armadito');
       $tab[3]['datatype']  = 'text';
       $tab[3]['massiveaction'] = FALSE;
 
@@ -149,12 +170,6 @@ class PluginArmaditoArmadito extends CommonDBTM {
       $tab[4]['name']      = __('Antivirus Version', 'armadito');
       $tab[4]['datatype']  = 'text';
       $tab[4]['massiveaction'] = FALSE;
-
-      $tab[5]['table']     = $this->getTable();
-      $tab[5]['field']     = 'agent_version';
-      $tab[5]['name']      = __('Agent Version', 'armadito');
-      $tab[5]['datatype']  = 'text';
-      $tab[5]['massiveaction'] = FALSE;
 
       return $tab;
    }
