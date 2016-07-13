@@ -47,7 +47,7 @@ if (!empty($rawdata)) { // POST /states
    if(!$jobj){
       $error->setMessage(1, "Fail parsing incoming json : ".json_last_error_msg());
       $error->log();
-      $communication->setMessage($error->toJson(), 405);
+      $communication->setMessage($error->toJson(), 400);
       $communication->sendMessage();
       session_destroy();
       exit();
@@ -55,11 +55,12 @@ if (!empty($rawdata)) { // POST /states
 
    $Enrollment = new PluginArmaditoEnrollment($jobj);
    $error = $Enrollment->enroll();
+
    if($error->getCode() == 0){ // success
       $communication->setMessage($Enrollment->toJson(), 200);
    }
    else{
-      $communication->setMessage($error->toJson(), 405);
+      $communication->setMessage($error->toJson(), 500);
       $error->log();
    }
 
