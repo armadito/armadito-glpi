@@ -124,20 +124,6 @@ class PluginArmaditoArmadito extends CommonDBTM {
       $tab['common'] = __('Armadito', 'armadito');
 
       /*
-      $tab[1]['table']     = 'glpi_computers'; // $this->getTable();
-      $tab[1]['field']     = 'name';
-      $tab[1]['name']      = __('Name', 'armadito');
-      $tab[1]['datatype']  = 'itemlink';
-      $tab[1]['itemlink_type'] = 'Computer';
-      $tab[1]['massiveaction'] = FALSE;
-
-      $tab[1]['table']     = 'glpi_computers'; // $this->getTable();
-      $tab[1]['field']     = 'name';
-      $tab[1]['name']      = __('Name', 'armadito');
-      $tab[1]['datatype']  = 'itemlink';
-      $tab[1]['itemlink_type'] = 'Computer';
-      $tab[1]['massiveaction'] = FALSE;
-
       $tab[2]['table']     = 'glpi_plugin_fusioninventory_agents'; // $this->getTable();
       $tab[2]['field']     = 'useragent';
       $tab[2]['name']      = __('Agent', 'armadito');
@@ -146,30 +132,79 @@ class PluginArmaditoArmadito extends CommonDBTM {
       $tab[2]['massiveaction'] = FALSE;
       */
 
-      $tab[1]['table']     = $this->getTable();
-      $tab[1]['field']     = 'id';
-      $tab[1]['name']      = __('Agent Id', 'armadito');
-      $tab[1]['datatype']  = 'text';
-      $tab[1]['massiveaction'] = FALSE;
+      $i = 1;
 
-      $tab[2]['table']     = $this->getTable();
-      $tab[2]['field']     = 'agent_version';
-      $tab[2]['name']      = __('Agent Version', 'armadito');
-      $tab[2]['datatype']  = 'text';
-      $tab[2]['massiveaction'] = FALSE;
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'id';
+      $tab[$i]['name']      = __('Agent Id', 'armadito');
+      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['massiveaction'] = FALSE;
 
-      $tab[3]['table']     = $this->getTable();
-      $tab[3]['field']     = 'antivirus_name';
-      $tab[3]['name']      = __('Antivirus Name', 'armadito');
-      $tab[3]['datatype']  = 'text';
-      $tab[3]['massiveaction'] = FALSE;
+      $i++;
 
-      $tab[4]['table']     = $this->getTable();
-      $tab[4]['field']     = 'antivirus_version';
-      // $tab[4]['linkfield'] = 'version_av';
-      $tab[4]['name']      = __('Antivirus Version', 'armadito');
-      $tab[4]['datatype']  = 'text';
-      $tab[4]['massiveaction'] = FALSE;
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'agent_version';
+      $tab[$i]['name']      = __('Agent Version', 'armadito');
+      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['massiveaction'] = FALSE;
+
+      $i++;
+
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'antivirus_name';
+      $tab[$i]['name']      = __('Antivirus Name', 'armadito');
+      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['massiveaction'] = FALSE;
+
+      $i++;
+
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'antivirus_version';
+      $tab[$i]['name']      = __('Antivirus Version', 'armadito');
+      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['massiveaction'] = FALSE;
+
+      $i++;
+
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'antivirus_state';
+      $tab[$i]['name']      = __('Antivirus State', 'armadito');
+      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['massiveaction'] = FALSE;
+
+      $i++;
+
+      $tab[$i]['table']     = 'glpi_plugin_fusioninventory_agents';
+      $tab[$i]['field']     = 'device_id';
+      $tab[$i]['name']      = __('Fusion Device ID', 'armadito');
+      $tab[$i]['datatype']  = 'itemlink';
+      $tab[$i]['itemlink_type'] = 'PluginFusioninventoryAgent';
+      $tab[$i]['massiveaction'] = FALSE;
+
+      $i++;
+
+      $tab[$i]['table']     = 'glpi_computers';
+      $tab[$i]['field']     = 'name';
+      $tab[$i]['name']      = __('Inventory', 'armadito');
+      $tab[$i]['datatype']  = 'itemlink';
+      $tab[$i]['itemlink_type'] = 'Computer';
+      $tab[$i]['massiveaction'] = FALSE;
+
+      $i++;
+
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'last_contact';
+      $tab[$i]['name']      = __('Last Contact', 'armadito');
+      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['massiveaction'] = FALSE;
+
+      $i++;
+
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'last_alert';
+      $tab[$i]['name']      = __('Last Alert', 'armadito');
+      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['massiveaction'] = FALSE;
 
       return $tab;
    }
