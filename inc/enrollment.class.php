@@ -67,7 +67,7 @@ class PluginArmaditoEnrollment {
     * @return a json string
     **/
      function toJson(){
-       return '{ "agent_id": '.$this->agentid.'}';
+       return '{"agent_id": '.$this->agentid.'}';
     }
 
     /**
@@ -81,15 +81,23 @@ class PluginArmaditoEnrollment {
 
          $error = new PluginArmaditoError();
 
-         $query = "INSERT INTO `glpi_plugin_armadito_armaditos`(`entities_id`, `computers_id`, `plugin_fusioninventory_agents_id`, `agent_version`, `antivirus_name`, `antivirus_version`, `antivirus_state`, `last_contact`, `last_alert`) VALUES (?,?,?,?,?,?,?,?,?)";
+         $query = "INSERT INTO `glpi_plugin_armadito_armaditos`(`entities_id`, `computers_id`, `plugin_fusioninventory_agents_id`,`device_id`, `agent_version`, `antivirus_name`, `antivirus_version`, `antivirus_state`, `last_contact`, `last_alert`) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
          $stmt = $DB->prepare($query);
 
-         if($stmt){
-            $stmt->bind_param('iiissssss', $entities_id, $computers_id, $fusion_id, $agent_version, $antivirus_name, $antivirus_version, $antivirus_state, $last_contact, $last_alert);
+         if($stmt) {
+
+            if(!$stmt->bind_param('iiisssssss', $entities_id, $computers_id, $fusion_table_id, $fusion_device_id, $agent_version, $antivirus_name, $antivirus_version, $antivirus_state, $last_contact, $last_alert)) {
+               $error->setMessage(1, 'Enrollment insert bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
+               $error->log();
+               $stmt->close();
+            }
+
+            # We set values
             $entities_id = 0;
             $computers_id = 0;
-            $fusion_id = 0;
+            $fusion_table_id = 0;
+            $fusion_device_id = $this->jobj->fusion_id;
             $agent_version = $this->jobj->agent_version;
             $antivirus_name = $this->jobj->task->antivirus->name;
             $antivirus_version = $this->jobj->task->antivirus->version;
