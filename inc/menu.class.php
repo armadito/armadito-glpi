@@ -101,7 +101,7 @@ class PluginArmaditoMenu extends CommonGLPI {
       echo "<div align='center' style='height: 35px; display: inline-block; width: 100%; margin: 0 auto;'>";
       echo "<br \>";
       echo "<table width='100%'>";
-   
+
       echo "<tr>";
       echo "<td align='center'>";
 
