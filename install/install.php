@@ -38,6 +38,13 @@ function pluginArmaditoInstall($version, $migrationname='Migration') {
 
    $migration->displayMessage("Installation of plugin Armadito");
 
+
+   /*
+    * Manage profiles
+    */
+    $migration->displayMessage("Initialize profiles");
+    PluginArmaditoProfile::initProfile();
+
    /*
     * Create DB structure
     */
@@ -49,7 +56,6 @@ function pluginArmaditoInstall($version, $migrationname='Migration') {
       else{
          $migration->displayMessage("Installation of plugin Armadito successful");
       }
-
 
    /*
     * Add config
