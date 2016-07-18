@@ -89,6 +89,14 @@ class PluginArmaditoMenu extends CommonGLPI {
       return $menu;
    }
 
+   static function displayHeader() {
+      global $CFG_GLPI;
+
+      echo "<center>";
+      echo "<a href='http://github.com/armadito'>";
+      echo "<img src='".$CFG_GLPI['root_doc']."/plugins/armadito/pics/armadito_header_logo.png' height='96' />";
+      echo "</a>";
+   }
 
    /**
    * Display the menu of Plugin Armadito
