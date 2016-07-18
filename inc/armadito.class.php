@@ -123,15 +123,6 @@ class PluginArmaditoArmadito extends CommonDBTM {
       $tab = array();
       $tab['common'] = __('Armadito', 'armadito');
 
-      /*
-      $tab[2]['table']     = 'glpi_plugin_fusioninventory_agents'; // $this->getTable();
-      $tab[2]['field']     = 'useragent';
-      $tab[2]['name']      = __('Agent', 'armadito');
-      $tab[2]['datatype']  = 'itemlink';
-      $tab[2]['itemlink_type'] = 'PluginFusioninventoryAgent';
-      $tab[2]['massiveaction'] = FALSE;
-      */
-
       $i = 1;
 
       $tab[$i]['table']     = $this->getTable();
@@ -209,75 +200,8 @@ class PluginArmaditoArmadito extends CommonDBTM {
       return $tab;
    }
 
-   static function isAgentAlreadyInDB (PluginFusioninventoryAgent $item){
-      global $DB;
-
-      $query = "SELECT * FROM `glpi_plugin_armadito_armaditos`
-                 WHERE `computers_id`='".$item->getField("computers_id")."'";
-      $ret = $DB->query($query); 
-       
-      if(!$ret){
-         PluginArmaditoToolbox::logE("Error isAgentAlreadyInDB : ".$DB->error());
-         return false;
-      }
-           
-      if($DB->numrows($ret) > 0){
-         return true;
-      } 
-      
-      return false;
-   }
-
-   static function insertAgentInDB (PluginFusioninventoryAgent $item){
-      global $DB;
-
-      $query = "INSERT INTO `glpi_plugin_armadito_armaditos`
-                       (`id`, `entities_id`, `computers_id`, `plugin_fusioninventory_agents_id`, `version_av`, `version_agent`, `agent_port`, `device_id`, `last_contact` )
-                VALUES (NULL, ".$item->getField("entities_id").", ".$item->getField("computers_id").", ".$item->getField("id").",'',
-		'".$item->getField("version")."', '".$item->getField("agent_port")."', '".$item->getField("device_id")."', '".$item->getField("last_contact")."' )";
-
-      if(PluginArmaditoToolbox::ExecQuery($query)){
-         PluginArmaditoToolbox::logE("Agent ".$item->getField("id")." (c".$item->getField("computers_id").") successfully inserted in db.");
-      }
-   }
-
-   static function updateAgentInDB (PluginFusioninventoryAgent $item){
-      global $DB;
-
-      $query = "UPDATE `glpi_plugin_armadito_armaditos`
-                 SET `entities_id`=".$item->getField("entities_id").", 
-                     `agent_port`='".$item->getField("agent_port")."',
-                     `device_id`='".$item->getField("device_id")."',
-                     `last_contact`='".$item->getField("last_contact")."',
-                     `computers_id`=".$item->getField("computers_id").",
-		     `version_agent`='".$item->getField("version")."'
-               WHERE `plugin_fusioninventory_agents_id`=".$item->getField("id");
-
-      if(PluginArmaditoToolbox::ExecQuery($query)){
-         PluginArmaditoToolbox::logE("Agent ".$item->getField("id")." (c".$item->getField("computers_id").") successfully updated in db.");
-      }
-   }
-
-   static function insertOrUpdateAgentInDB (PluginFusioninventoryAgent $item){
-      global $DB;
-   
-      if(PluginArmaditoArmadito::isAgentAlreadyInDB($item)){
-         PluginArmaditoArmadito::updateAgentInDB($item);
-      }
-      else{
-         PluginArmaditoArmadito::insertAgentInDB($item);
-      }
-   }
-
    static function item_update_agent(PluginFusioninventoryAgent $item){
-
-      if($item->getFromDB($item->getID())) {
-         PluginArmaditoArmadito::insertOrUpdateAgentInDB($item);
-      } 
-      else{
-         PluginArmaditoToolbox::logE("Error - Can't get PluginFusioninventoryAgent object fromDB.");
-      }
-
+      // call when new inventory 
       return true;
    }
 
