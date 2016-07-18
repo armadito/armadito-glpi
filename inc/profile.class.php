@@ -34,9 +34,16 @@ class PluginArmaditoProfile extends Profile {
    function getRightsGeneral() {
 
       $rights = array(
+          array('rights'    => array(READ => __('Read')),
+                'label'     => __('Menu', 'armadito'),
+                'field'     => 'plugin_armadito_menu'),
           array('rights'    => array(READ => __('Read'), UPDATE => __('Update')),
                 'itemtype'  => 'PluginArmaditoConfig',
-                'label'     => __('Configuration', 'armadito'))      );
+                'label'     => __('Configuration', 'armadito')),
+          array('itemtype'  => 'PluginArmaditoAgent',
+                'label'     => __('Agents', 'armadito'),
+                'field'     => 'plugin_armadito_agent')
+      );
 
       return $rights;
   }
