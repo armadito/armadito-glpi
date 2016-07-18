@@ -1,6 +1,7 @@
 <?php
-
 /**
+
+   Copyright (C) 2010-2016 by the FusionInventory Development Team.
    Copyright (C) 2016 Teclib'
 
    This file is part of Armadito Plugin for GLPI.
@@ -31,6 +32,8 @@ if ($_SESSION["glpiactiveprofile"]["interface"] == "central") {
 //checkTypeRight('PluginExampleExample',"r");
 
 PluginArmaditoArmadito::showArmaditoHeader();
+
+PluginArmaditoMenu::displayMenu("mini");
 
 Search::show('PluginArmaditoArmadito');
 
