@@ -116,7 +116,7 @@ class PluginArmaditoMenu extends CommonGLPI {
 
       if (Session::haveRight('config', UPDATE) || Session::haveRight('plugin_armadito_configuration', UPDATE)) {
          $a_menu[3]['name'] = __('General configuration', 'armadito');
-         $a_menu[3]['pic']  = "";
+         $a_menu[3]['pic']  = $CFG_GLPI['root_doc']."/plugins/armadito/pics/menu_settings.png";
          $a_menu[3]['link'] = $CFG_GLPI['root_doc']."/plugins/armadito/front/config.form.php";
       }
 
@@ -135,7 +135,7 @@ class PluginArmaditoMenu extends CommonGLPI {
       // if (Session::haveRight('plugin_armadito_states', READ)) {
          $a_menu[] =array(
             'name' => __('States', 'armadito'),
-            'pic'  => "",
+            'pic'  => $CFG_GLPI['root_doc']."/plugins/armadito/pics/menu_settings.png",
             'link' => $CFG_GLPI['root_doc']."/plugins/armadito/front/states.php"
          );
       //}
@@ -155,7 +155,7 @@ class PluginArmaditoMenu extends CommonGLPI {
       // if (Session::haveRight('plugin_armadito_states', READ)) {
          $a_menu[] =array(
             'name' => __('Alerts', 'armadito'),
-            'pic'  => "",
+            'pic'  => $CFG_GLPI['root_doc']."/plugins/armadito/pics/menu_settings.png",
             'link' => $CFG_GLPI['root_doc']."/plugins/armadito/front/alerts.php"
          );
       //}
@@ -175,7 +175,7 @@ class PluginArmaditoMenu extends CommonGLPI {
       // if (Session::haveRight('plugin_armadito_states', READ)) {
          $a_menu[] =array(
             'name' => __('Jobs', 'armadito'),
-            'pic'  => "",
+            'pic'  => $CFG_GLPI['root_doc']."/plugins/armadito/pics/menu_settings.png",
             'link' => $CFG_GLPI['root_doc']."/plugins/armadito/front/jobs.php"
          );
       //}
