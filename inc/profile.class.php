@@ -48,6 +48,10 @@ class PluginArmaditoProfile extends Profile {
       return $rights;
   }
 
+   function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
+      return self::createTabEntry('Armadito');
+   }
+
   function getAllRights() {
       $a_rights = array();
       $a_rights = array_merge($a_rights, $this->getRightsGeneral());
