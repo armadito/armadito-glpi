@@ -41,14 +41,13 @@ class PluginArmaditoMenu extends CommonGLPI {
       $can_display = false;
       $profile     = new PluginArmaditoProfile();
 
-      /*
       foreach ($profile->getAllRights() as $right) {
          if (Session::haveRight($right['field'], READ)) {
             $can_display = true;
             break;
          }
       }
-      */
+
       $can_display = true;
 
       return $can_display;
