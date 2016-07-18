@@ -114,11 +114,20 @@ class PluginArmaditoMenu extends CommonGLPI {
        */
       $a_menu = array();
 
+      // if (Session::haveRight('plugin_armadito_armaditos', READ)) {
+         $a_menu[] =array(
+            'name' => __('Agents', 'armadito'),
+            'pic'  => $CFG_GLPI['root_doc']."/plugins/armadito/pics/menu_settings.png",
+            'link' => $CFG_GLPI['root_doc']."/plugins/armadito/front/general_agents.php"
+         );
+      //}
+
       if (Session::haveRight('config', UPDATE) || Session::haveRight('plugin_armadito_configuration', UPDATE)) {
          $a_menu[3]['name'] = __('Configuration', 'armadito');
          $a_menu[3]['pic']  = $CFG_GLPI['root_doc']."/plugins/armadito/pics/menu_settings.png";
          $a_menu[3]['link'] = $CFG_GLPI['root_doc']."/plugins/armadito/front/config.form.php";
       }
+
 
       if (!empty($a_menu)) {
          $width_status = PluginArmaditoMenu::htmlMenu(__('General', 'armadito'),
