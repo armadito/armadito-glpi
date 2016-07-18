@@ -125,13 +125,13 @@ class PluginArmaditoMenu extends CommonGLPI {
        */
       $a_menu = array();
 
-      //if (Session::haveRight('plugin_armadito_agents', READ)) {
+      if (Session::haveRight('plugin_armadito_agents', READ)) {
          $a_menu[] =array(
             'name' => __('Agents', 'armadito'),
             'pic'  => $CFG_GLPI['root_doc']."/plugins/armadito/pics/menu_settings.png",
             'link' => $CFG_GLPI['root_doc']."/plugins/armadito/front/agent.php"
          );
-      //}
+      }
 
       if (Session::haveRight('config', UPDATE) || Session::haveRight('plugin_armadito_configuration', UPDATE)) {
          $a_menu[3]['name'] = __('Configuration', 'armadito');
@@ -152,13 +152,13 @@ class PluginArmaditoMenu extends CommonGLPI {
        */
       $a_menu = array();
 
-      // if (Session::haveRight('plugin_armadito_states', READ)) {
+      if (Session::haveRight('plugin_armadito_states', READ)) {
          $a_menu[] =array(
             'name' => __('Antiviruses', 'armadito'),
             'pic'  => $CFG_GLPI['root_doc']."/plugins/armadito/pics/menu_settings.png",
             'link' => $CFG_GLPI['root_doc']."/plugins/armadito/front/states_antiviruses.php"
          );
-      //}
+      }
 
       if (!empty($a_menu)) {
          $width_status = PluginArmaditoMenu::htmlMenu(__('State', 'armadto'),
@@ -172,13 +172,13 @@ class PluginArmaditoMenu extends CommonGLPI {
        */
       $a_menu = array();
 
-      // if (Session::haveRight('plugin_armadito_states', READ)) {
+      if (Session::haveRight('plugin_armadito_alerts', READ)) {
          $a_menu[] =array(
             'name' => __('Alerts', 'armadito'),
             'pic'  => $CFG_GLPI['root_doc']."/plugins/armadito/pics/menu_settings.png",
             'link' => $CFG_GLPI['root_doc']."/plugins/armadito/front/alerts.php"
          );
-      //}
+      }
 
       if (!empty($a_menu)) {
          $width_status = PluginArmaditoMenu::htmlMenu(__('Alerts', 'armadto'),
@@ -192,13 +192,13 @@ class PluginArmaditoMenu extends CommonGLPI {
        */
       $a_menu = array();
 
-      // if (Session::haveRight('plugin_armadito_states', READ)) {
+      if (Session::haveRight('plugin_armadito_jobs', READ)) {
          $a_menu[] =array(
             'name' => __('Jobs', 'armadito'),
             'pic'  => $CFG_GLPI['root_doc']."/plugins/armadito/pics/menu_settings.png",
             'link' => $CFG_GLPI['root_doc']."/plugins/armadito/front/jobs.php"
          );
-      //}
+      }
 
       if (!empty($a_menu)) {
          $width_status = PluginArmaditoMenu::htmlMenu(__('Jobs', 'armadto'),
