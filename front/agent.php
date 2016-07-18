@@ -23,19 +23,13 @@
 
 include ('../../../inc/includes.php');
 
-if ($_SESSION["glpiactiveprofile"]["interface"] == "central") {
-   Html::header("TITRE", $_SERVER['PHP_SELF'],"plugins","pluginarmaditoarmadito","");
-} else {
-   Html::helpHeader("TITRE", $_SERVER['PHP_SELF']);
-}
+Html::header(__('Armadito', 'armadito'), $_SERVER["PHP_SELF"], "plugins",
+             "pluginarmaditomenu", "agent");
 
-//checkTypeRight('PluginExampleExample',"r");
-
-PluginArmaditoArmadito::showArmaditoHeader();
-
+PluginArmaditoMenu::displayHeader();
 PluginArmaditoMenu::displayMenu("mini");
 
-Search::show('PluginArmaditoArmadito');
+Search::show('PluginArmaditoAgent');
 
 Html::footer();
 ?>

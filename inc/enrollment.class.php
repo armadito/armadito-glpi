@@ -97,7 +97,7 @@ class PluginArmaditoEnrollment {
 
       PluginArmaditoToolbox::validateInt($this->jobj->agent_id);
 
-      $query = "SELECT last_contact FROM `glpi_plugin_armadito_armaditos`
+      $query = "SELECT last_contact FROM `glpi_plugin_armadito_agents`
                  WHERE `id`='".$this->jobj->agent_id."'";
       $ret = $DB->query($query);
 
@@ -122,7 +122,7 @@ class PluginArmaditoEnrollment {
 
          $error = new PluginArmaditoError();
 
-         $query = "UPDATE `glpi_plugin_armadito_armaditos`
+         $query = "UPDATE `glpi_plugin_armadito_agents`
                  SET `entities_id`=?,
                      `computers_id`=?,
                      `plugin_fusioninventory_agents_id`=?,
@@ -193,7 +193,7 @@ class PluginArmaditoEnrollment {
 
          $error = new PluginArmaditoError();
 
-         $query = "INSERT INTO `glpi_plugin_armadito_armaditos`(`entities_id`, `computers_id`, `plugin_fusioninventory_agents_id`,`device_id`, `agent_version`, `antivirus_name`, `antivirus_version`, `antivirus_state`, `last_contact`, `last_alert`) VALUES (?,?,?,?,?,?,?,?,?,?)";
+         $query = "INSERT INTO `glpi_plugin_armadito_agents`(`entities_id`, `computers_id`, `plugin_fusioninventory_agents_id`,`device_id`, `agent_version`, `antivirus_name`, `antivirus_version`, `antivirus_state`, `last_contact`, `last_alert`) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
          $stmt = $DB->prepare($query);
 

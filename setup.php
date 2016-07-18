@@ -33,7 +33,7 @@ function plugin_init_armadito() {
    $types = array('Central', 'Computer', 'ComputerDisk',
                   'Preference', 'Profile'); 
 
-   Plugin::registerClass('PluginArmaditoArmadito',
+   Plugin::registerClass('PluginArmaditoAgent',
                          array('addtabon'  => $types,
                               'link_types' => true));
 
@@ -41,17 +41,17 @@ function plugin_init_armadito() {
    $_SESSION["glpi_plugin_armadito_profile"]['armadito'] = 'w';
    if (isset($_SESSION["glpi_plugin_armadito_profile"])) { // Right set in change_profile hook
 
-      $PLUGIN_HOOKS['menu_toadd']['armadito'] = array('plugins' => 'PluginArmaditoArmadito');
+      $PLUGIN_HOOKS['menu_toadd']['armadito']['plugins'] = 'PluginArmaditoMenu';
    }
 
    // Add fusion plugin hook
-   $PLUGIN_HOOKS['item_update']['armadito']  = array('PluginFusioninventoryAgent' => array('PluginArmaditoArmadito',
+   $PLUGIN_HOOKS['item_update']['armadito']  = array('PluginFusioninventoryAgent' => array('PluginArmaditoAgent',
                                                                            'item_update_agent'));
 }
 
 function plugin_version_armadito() {
 
-   return array('name'           => 'Plugin Armadito',
+   return array('name'           => 'Armadito',
                 'shortname'      => 'armadito',
                 'version'        => PLUGIN_ARMADITO_VERSION,
                 'author'         => '<a href="mailto:armadito@teclib.com">Teclib\'</a>',

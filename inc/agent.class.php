@@ -23,10 +23,10 @@
 
 include_once("toolbox.class.php");
 
-class PluginArmaditoArmadito extends CommonDBTM {
+class PluginArmaditoAgent extends CommonDBTM {
 
    static function getTypeName($nb=0) {
-      return __('Armadito', 'armadito');
+      return __('Agent', 'armadito');
    }
 
    static function canCreate() {
@@ -47,7 +47,7 @@ class PluginArmaditoArmadito extends CommonDBTM {
    }
 
    static function getMenuName() {
-      return __('Plugin Armadito');
+      return __('Armadito');
    }
 
    function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
@@ -121,7 +121,7 @@ class PluginArmaditoArmadito extends CommonDBTM {
    function getSearchOptions() {
 
       $tab = array();
-      $tab['common'] = __('Armadito', 'armadito');
+      $tab['common'] = __('Agent', 'armadito');
 
       $i = 1;
 
@@ -203,15 +203,6 @@ class PluginArmaditoArmadito extends CommonDBTM {
    static function item_update_agent(PluginFusioninventoryAgent $item){
       // call when new inventory
       return true;
-   }
-
-   static function showArmaditoHeader() {
-      global $CFG_GLPI;
-
-      echo "<center>";
-      echo "<a href='http://github.com/armadito'>";
-      echo "<img src='".$CFG_GLPI['root_doc']."/plugins/armadito/pics/armadito_header_logo.png' height='96' />";
-      echo "</a>";
    }
 }
 

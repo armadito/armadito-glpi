@@ -32,7 +32,7 @@ if (!empty($rawdata)) { // POST /states
    $communication->init();
 
    // Check plugin installation
-   if (!class_exists("PluginArmaditoArmadito")) {
+   if (!class_exists("PluginArmaditoAgent")) {
       $error->setMessage(1, "Plugin armadito is not installed.");
       $error->log();
       $communication->setMessage($error->toJson(), 404);

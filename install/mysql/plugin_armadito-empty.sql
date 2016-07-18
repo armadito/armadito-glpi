@@ -1,7 +1,8 @@
 
 DROP TABLE IF EXISTS `glpi_plugin_armadito_armaditos`;
+DROP TABLE IF EXISTS `glpi_plugin_armadito_agents`;
 
-CREATE TABLE `glpi_plugin_armadito_armaditos` (
+CREATE TABLE `glpi_plugin_armadito_agents` (
    `id` int(11) NOT NULL auto_increment,
    `entities_id` int(11) NOT NULL default 0,
    `computers_id` int(11) NOT NULL,

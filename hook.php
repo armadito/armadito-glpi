@@ -28,15 +28,15 @@ function setDefaultDisplayPreferences(){
     // Set preferences for search_options
    $query = "INSERT INTO `glpi_displaypreferences` (`id`, `itemtype`, `num`, `rank`,
                         `users_id`)
-		      VALUES (NULL, 'PluginArmaditoArmadito', '1', '1', '0'),
-			     (NULL, 'PluginArmaditoArmadito', '2', '2', '0'),
-			     (NULL, 'PluginArmaditoArmadito', '3', '3', '0'),
-			     (NULL, 'PluginArmaditoArmadito', '4', '4', '0'),
-			     (NULL, 'PluginArmaditoArmadito', '5', '5', '0'),
-              (NULL, 'PluginArmaditoArmadito', '6', '6', '0'),
-			     (NULL, 'PluginArmaditoArmadito', '7', '7', '0'),
-			     (NULL, 'PluginArmaditoArmadito', '8', '8', '0'),
-			     (NULL, 'PluginArmaditoArmadito', '9', '9', '0')     
+		      VALUES (NULL, 'PluginArmaditoAgent', '1', '1', '0'),
+			     (NULL, 'PluginArmaditoAgent', '2', '2', '0'),
+			     (NULL, 'PluginArmaditoAgent', '3', '3', '0'),
+			     (NULL, 'PluginArmaditoAgent', '4', '4', '0'),
+			     (NULL, 'PluginArmaditoAgent', '5', '5', '0'),
+              (NULL, 'PluginArmaditoAgent', '6', '6', '0'),
+			     (NULL, 'PluginArmaditoAgent', '7', '7', '0'),
+			     (NULL, 'PluginArmaditoAgent', '8', '8', '0'),
+			     (NULL, 'PluginArmaditoAgent', '9', '9', '0')     
    ";
 
    if(!PluginArmaditoToolbox::ExecQuery($query)){
@@ -48,7 +48,7 @@ function cleanDefaultDisplayPreferences(){
    global $DB;
 
    $query = "DELETE FROM `glpi_displaypreferences`
-      WHERE `itemtype`='PluginArmaditoArmadito'";
+      WHERE `itemtype`='PluginArmaditoAgent'";
 
    PluginArmaditoToolbox::ExecQuery($query);
 }

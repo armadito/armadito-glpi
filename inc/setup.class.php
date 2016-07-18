@@ -48,8 +48,8 @@ class PluginArmaditoSetup {
          }
 
          // Current version tables
-         if (TableExists("glpi_plugin_armadito_armaditos")) {
-            $query = "DROP TABLE `glpi_plugin_armadito_armaditos`";
+         if (TableExists("glpi_plugin_armadito_agents")) {
+            $query = "DROP TABLE `glpi_plugin_armadito_agents`";
             if(!PluginArmaditoToolbox::ExecQuery($query)){
                die();
             }
