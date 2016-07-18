@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
    Copyright (C) 2010-2016 by the FusionInventory Development Team.
@@ -24,7 +24,7 @@
 include_once("inc/toolbox.class.php");
 
 function setDefaultDisplayPreferences(){
-   
+
     // Set preferences for search_options
    $query = "INSERT INTO `glpi_displaypreferences` (`id`, `itemtype`, `num`, `rank`,
                         `users_id`)
@@ -36,7 +36,7 @@ function setDefaultDisplayPreferences(){
               (NULL, 'PluginArmaditoAgent', '6', '6', '0'),
 			     (NULL, 'PluginArmaditoAgent', '7', '7', '0'),
 			     (NULL, 'PluginArmaditoAgent', '8', '8', '0'),
-			     (NULL, 'PluginArmaditoAgent', '9', '9', '0')     
+			     (NULL, 'PluginArmaditoAgent', '9', '9', '0')
    ";
 
    if(!PluginArmaditoToolbox::ExecQuery($query)){
