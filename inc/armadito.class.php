@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
    Copyright (C) 2010-2016 by the FusionInventory Development Team
@@ -201,7 +201,7 @@ class PluginArmaditoArmadito extends CommonDBTM {
    }
 
    static function item_update_agent(PluginFusioninventoryAgent $item){
-      // call when new inventory 
+      // call when new inventory
       return true;
    }
 
