@@ -29,7 +29,7 @@ if (!defined('GLPI_ROOT')) {
 /**
  * Class dealing with Armadito AV state
  **/
-class PluginArmaditoState {
+class PluginArmaditoState extends CommonDBTM {
      protected $jobj;
      
      function __construct($jobj) {
