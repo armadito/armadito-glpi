@@ -54,12 +54,20 @@ class PluginArmaditoState extends CommonDBTM {
     * @return PluginArmaditoError obj
     **/
      function run(){
+
+         // Update global Antivirus state
          if($this->isStateinDB()) {
             $error = $this->updateState();
          }
          else {
             $error = $this->insertState();
          }
+
+         // if AV is Armadito, we also update states of each modules
+         if($this->jobj->task->antivirus->name == "armadito"){
+               # foreach($this->jobj->task->msg)
+         }
+      
          return $error;
      }
 
