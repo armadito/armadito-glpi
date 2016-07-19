@@ -35,6 +35,7 @@ class PluginArmaditoEnrollment {
 
      function __construct($jobj) {
 
+         $this->agentid = PluginArmaditoToolbox::validateInt($jobj->agent_id);
          $this->jobj = $jobj;
 
          PluginArmaditoToolbox::logIfExtradebug(
@@ -171,7 +172,6 @@ class PluginArmaditoEnrollment {
          }
 
          $stmt->close();
-         $this->setAgentid($this->jobj->agent_id);
 
          PluginArmaditoToolbox::logIfExtradebug(
             'pluginArmadito-Enrollment',

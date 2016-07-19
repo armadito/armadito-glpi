@@ -30,9 +30,12 @@ if (!defined('GLPI_ROOT')) {
  * Class dealing with Armadito AV state
  **/
 class PluginArmaditoState extends CommonDBTM {
+     protected $agentid;
      protected $jobj;
      
      function __construct($jobj) {
+
+      $this->agentid = PluginArmaditoToolbox::validateInt($jobj->agent_id);
       $this->jobj = $jobj;
 
       PluginArmaditoToolbox::logIfExtradebug(
