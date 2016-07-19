@@ -328,7 +328,7 @@ static function board() {
       );
 
       echo "<table align='center'>";
-      echo "<tr height='280'>";
+      echo "<tr height='180'>";
       echo "<td width='380'>";
       self::showChart('computers', $dataComputer);
       echo "</td>";
