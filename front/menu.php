@@ -29,7 +29,7 @@ if (PluginArmaditoMenu::canView()) {
 
    PluginArmaditoMenu::displayHeader();
    PluginArmaditoMenu::displayMenu("mini");
-   //PluginArmaditoMenu::board();
+   PluginArmaditoMenu::board();
 } else {
    Html::displayRightError();
 }

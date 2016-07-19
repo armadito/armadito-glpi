@@ -283,6 +283,72 @@ class PluginArmaditoMenu extends CommonGLPI {
 
       return $width_status;
    }
+
+static function board() {
+      global $DB;
+
+      // Armadito Computers
+      $armaditoComputers    = 0;
+      $restrict_entity    = getEntitiesRestrictRequest(" AND", 'comp');
+
+
+      $query_ao_computers = "SELECT COUNT(comp.`id`) as nb_computers
+                             FROM glpi_computers comp
+                             LEFT JOIN glpi_plugin_armadito_agents ao_comp
+                               ON ao_comp.`computers_id` = comp.`id`
+                             WHERE comp.`is_deleted`  = '0'
+                               AND comp.`is_template` = '0'
+                               AND ao_comp.`id` IS NOT NULL
+                               $restrict_entity";
+
+      $res_ao_computers = $DB->query($query_ao_computers);
+      if ($data_ao_computers = $DB->fetch_assoc($res_ao_computers)) {
+         $armaditoComputers = $data_ao_computers['nb_computers'];
+      }
+
+      // All Computers
+      $allComputers    = countElementsInTableForMyEntities('glpi_computers',
+                                              "`is_deleted`='0' AND `is_template`='0'");
+
+      $dataComputer = array();
+      $dataComputer[] = array(
+          'key' => __('Armadito computers', 'armadito').' : '.$armaditoComputers,
+          'y'   => $armaditoComputers,
+          'color' => '#3dff7d'
+      );
+      $dataComputer[] = array(
+          'key' => __('Other computers', 'armadito').' : '.($allComputers - $armaditoComputers),
+          'y'   => ($allComputers - $armaditoComputers),
+          'color' => "#dedede"
+      );
+
+      echo "<table align='center'>";
+      echo "<tr height='280'>";
+      echo "<td width='380'>";
+      self::showChart('computers', $dataComputer);
+      echo "</td>";
+      echo "</tr>";
+      echo "</table>";
+
+   }
+
+   static function showChart($name, $data, $title='') {
+
+      echo '<svg style="background-color: #f3f3f3;" id="'.$name.'"></svg>';
+
+      echo "<script>
+         statHalfDonut('".$name."', '".json_encode($data)."');
+</script>";
+   }
+
+
+   static function showChartBar($name, $data, $title='', $width=370) {
+      echo '<svg style="background-color: #f3f3f3;" id="'.$name.'"></svg>';
+
+      echo "<script>
+         statBar('".$name."', '".json_encode($data)."', '".$title."', '".$width."');
+</script>";
+   }
 }
 
 ?>
