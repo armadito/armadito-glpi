@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
    Copyright (C) 2016 Teclib'
@@ -43,7 +43,7 @@ function plugin_init_armadito() {
    if ($Plugin->isActivated('fusioninventory')) {
 
       $types = array('Central', 'Computer', 'ComputerDisk',
-                     'Preference', 'Profile'); 
+                     'Preference', 'Profile');
 
       Plugin::registerClass('PluginArmaditoAgent',
                             array('addtabon'  => $types,
