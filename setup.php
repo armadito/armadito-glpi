@@ -54,6 +54,14 @@ function plugin_init_armadito() {
        */
       $PLUGIN_HOOKS['add_javascript']['armadito'] = array();
       $PLUGIN_HOOKS['add_css']['armadito'] = array();
+      if (strpos($_SERVER['SCRIPT_FILENAME'], "plugins/armadito") != false) {
+         array_push(
+            $PLUGIN_HOOKS['add_javascript']['armadito'],
+            "lib/d3-3.4.3/d3".($debug_mode?"":".min").".js",
+            "lib/nvd3/nv.d3".($debug_mode?"":".min").".js"
+         );
+      }
+
       if (script_endswith("menu.php")) {
             $PLUGIN_HOOKS['add_javascript']['armadito'][] = "js/stats".($debug_mode?"":".min").".js";
       }
