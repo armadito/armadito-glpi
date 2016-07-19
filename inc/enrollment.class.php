@@ -99,7 +99,7 @@ class PluginArmaditoEnrollment {
       PluginArmaditoToolbox::validateInt($this->jobj->agent_id);
 
       $query = "SELECT last_contact FROM `glpi_plugin_armadito_agents`
-                 WHERE `id`='".$this->agent_id."'";
+                 WHERE `id`='".$this->agentid."'";
       $ret = $DB->query($query);
 
       if(!$ret){
