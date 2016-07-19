@@ -64,11 +64,15 @@ function plugin_version_armadito() {
 // Optional : check prerequisites before install : may print errors or add to message after redirect
 function plugin_armadito_check_prerequisites() {
 
-   // Strict version check (could be less strict, or could allow various version)
-   if (version_compare(GLPI_VERSION,'0.85','lt') /*|| version_compare(GLPI_VERSION,'0.84','gt')*/) {
-      echo "This plugin requires GLPI >= 0.85";
-      return false;
+   if (!isset($_SESSION['glpi_plugins'])) {
+      $_SESSION['glpi_plugins'] = array();
    }
+
+   if (version_compare(GLPI_VERSION, '9.1', 'lt') || version_compare(GLPI_VERSION, '9.2', 'ge')) {
+      echo __('Your GLPI version not compatible, require >= 9.1', 'armadito');
+      return FALSE;
+   }
+
    return true;
 }
 
