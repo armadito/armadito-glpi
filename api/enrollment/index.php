@@ -54,7 +54,7 @@ if (!empty($rawdata)) { // POST /states
    }
 
    $Enrollment = new PluginArmaditoEnrollment($jobj);
-   $error = $Enrollment->enroll();
+   $error = $Enrollment->run();
 
    if($error->getCode() == 0){ // success
       $communication->setMessage($Enrollment->toJson(), 200);

@@ -75,7 +75,7 @@ class PluginArmaditoEnrollment {
     *
     * @return PluginArmaditoError obj
     **/
-     function enroll(){
+     function run(){
 
          if($this->isAlreadyEnrolled()) {
             $error = $this->updateEnrolledDevice();
