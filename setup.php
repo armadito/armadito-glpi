@@ -67,6 +67,12 @@ function plugin_init_armadito() {
             $PLUGIN_HOOKS['add_javascript']['armadito'][] = "js/stats".($debug_mode?"":".min").".js";
       }
 
+      if (Session::haveRight('plugin_armadito_configuration', READ)
+              || Session::haveRight('profile', UPDATE)) {// Config page
+         $PLUGIN_HOOKS['config_page']['fusioninventory'] = 'front/config.form.php'.
+                 '?itemtype=pluginarmaditoconfig&glpi_tab=1';
+      }
+
       if (isset($_SESSION["glpiname"])) {
             if (strstr($_SERVER['SCRIPT_FILENAME'], '/front/')
                  && !strstr($_SERVER['SCRIPT_FILENAME'], 'report.dynamic.php')) {
