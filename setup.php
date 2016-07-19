@@ -132,7 +132,7 @@ function plugin_armadito_footer($baseroot) {
       echo "<td class='right'>";
       echo "<a href='https://github.com/armadito/'>";
       echo "<span class='copyright'>Armadito ".PLUGIN_ARMADITO_VERSION." | copyleft ".
-           "<img src='".$baseroot."/plugins/fusioninventory/pics/copyleft.png'/> "
+           "<img src='".$baseroot."/plugins/armadito/pics/copyleft.png'/> "
               . " 2016 Teclib', 2010-2016 by FusionInventory Team".
            "</span>";
       echo "</a>";
