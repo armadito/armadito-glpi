@@ -2,6 +2,7 @@
 
 /**
    Copyright (C) 2016 Teclib'
+   Copyright (C) 2010-2016 by the FusionInventory Development Team.
 
    This file is part of Armadito Plugin for GLPI.
 
