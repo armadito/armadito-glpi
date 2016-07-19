@@ -47,5 +47,67 @@ class PluginArmaditoState extends CommonDBTM {
      function toJson() {
          return '{}';
      }
+
+    /**
+    * Insert or Update states
+    *
+    * @return PluginArmaditoError obj
+    **/
+     function run(){
+         if($this->isStateinDB()) {
+            $error = $this->updateState();
+         }
+         else {
+            $error = $this->insertState();
+         }
+         return $error;
+     }
+
+    /**
+    * Check if state is already in database
+    *
+    * @return TRUE or FALSE
+    **/
+    function isStateinDB(){
+      global $DB;
+
+      $query = "SELECT update_status FROM `glpi_plugin_armadito_states`
+                 WHERE `id`='".$this->agent_id."'";
+      $ret = $DB->query($query);
+
+      if(!$ret){
+         throw new Exception(sprintf('Error isStateinDB : %s', $DB->error()));
+      }
+
+      if($DB->numrows($ret) > 0){
+         return true;
+      }
+
+      return false;
+    }
+
+    /**
+    * Insert state in database
+    *
+    * @return PluginArmaditoError obj
+    **/
+    function insertState(){
+      global $DB;
+      $error = new PluginArmaditoError();
+      $error->setMessage(0, 'State successfully inserted.');
+      return $error;
+    }
+
+    /**
+    * Uptate state in database
+    *
+    * @return PluginArmaditoError obj
+    **/
+    function updateState(){
+      global $DB;
+      $error = new PluginArmaditoError();
+      $error->setMessage(0, 'State successfully updated.');
+      return $error;
+    }
 }
 ?>
