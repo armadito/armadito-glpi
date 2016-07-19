@@ -30,30 +30,57 @@ function plugin_init_armadito() {
 
    $PLUGIN_HOOKS['csrf_compliant']['armadito'] = TRUE;
 
-   $types = array('Central', 'Computer', 'ComputerDisk',
-                  'Preference', 'Profile'); 
+   $Plugin = new Plugin();
+   $moduleId = 0;
 
-   Plugin::registerClass('PluginArmaditoAgent',
-                         array('addtabon'  => $types,
-                              'link_types' => true));
-
-   if (isset($_SESSION["glpiname"])) {
-         if (strstr($_SERVER['SCRIPT_FILENAME'], '/front/')
-              && !strstr($_SERVER['SCRIPT_FILENAME'], 'report.dynamic.php')) {
-            register_shutdown_function('plugin_armadito_footer', $CFG_GLPI['root_doc']);
-         }
+   if ( isset($_SESSION['glpi_use_mode']) ) {
+      $debug_mode = ($_SESSION['glpi_use_mode'] == Session::DEBUG_MODE);
+   } else {
+      $debug_mode = false;
    }
 
-   // Profile definition
-   $_SESSION["glpi_plugin_armadito_profile"]['armadito'] = 'w';
-   if (isset($_SESSION["glpi_plugin_armadito_profile"])) { // Right set in change_profile hook
 
-      $PLUGIN_HOOKS['menu_toadd']['armadito']['plugins'] = 'PluginArmaditoMenu';
+   if ($Plugin->isActivated('fusioninventory')) {
+
+      $types = array('Central', 'Computer', 'ComputerDisk',
+                     'Preference', 'Profile'); 
+
+      Plugin::registerClass('PluginArmaditoAgent',
+                            array('addtabon'  => $types,
+                                 'link_types' => true));
+
+      /**
+       * Load the relevant javascript/css files only on pages that need them.
+       */
+      $PLUGIN_HOOKS['add_javascript']['armadito'] = array();
+      $PLUGIN_HOOKS['add_css']['armadito'] = array();
+      if (script_endswith("menu.php")) {
+            $PLUGIN_HOOKS['add_javascript']['armadito'][] = "js/stats".($debug_mode?"":".min").".js";
+      }
+
+      if (isset($_SESSION["glpiname"])) {
+            if (strstr($_SERVER['SCRIPT_FILENAME'], '/front/')
+                 && !strstr($_SERVER['SCRIPT_FILENAME'], 'report.dynamic.php')) {
+               register_shutdown_function('plugin_armadito_footer', $CFG_GLPI['root_doc']);
+            }
+      }
+
+      // Profile definition
+      $_SESSION["glpi_plugin_armadito_profile"]['armadito'] = 'w';
+      if (isset($_SESSION["glpi_plugin_armadito_profile"])) { // Right set in change_profile hook
+
+         $PLUGIN_HOOKS['menu_toadd']['armadito']['plugins'] = 'PluginArmaditoMenu';
+      }
+
+      // Add fusion plugin hook
+      $PLUGIN_HOOKS['item_update']['armadito']  = array('PluginFusioninventoryAgent' => array('PluginArmaditoAgent',
+                                                                              'item_update_agent'));
+   } else { // plugin not active
+      // TODO
+      // include_once(GLPI_ROOT.'/plugins/armadito/inc/module.class.php');
+      // $moduleId = PluginArmaditoModule::getModuleId('armadito');
    }
 
-   // Add fusion plugin hook
-   $PLUGIN_HOOKS['item_update']['armadito']  = array('PluginFusioninventoryAgent' => array('PluginArmaditoAgent',
-                                                                           'item_update_agent'));
 }
 
 function plugin_version_armadito() {
