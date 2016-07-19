@@ -37,6 +37,13 @@ function plugin_init_armadito() {
                          array('addtabon'  => $types,
                               'link_types' => true));
 
+   if (isset($_SESSION["glpiname"])) {
+         if (strstr($_SERVER['SCRIPT_FILENAME'], '/front/')
+              && !strstr($_SERVER['SCRIPT_FILENAME'], 'report.dynamic.php')) {
+            register_shutdown_function('plugin_armadito_footer', $CFG_GLPI['root_doc']);
+         }
+   }
+
    // Profile definition
    $_SESSION["glpi_plugin_armadito_profile"]['armadito'] = 'w';
    if (isset($_SESSION["glpi_plugin_armadito_profile"])) { // Right set in change_profile hook
@@ -90,4 +97,21 @@ function plugin_armadito_check_config($verbose=false) {
    return false;
 }
 
+function plugin_armadito_footer($baseroot) {
+
+      echo "<div id='footer'>";
+      echo "<table width='100%'>";
+      echo "<tr>";
+      echo "<td class='right'>";
+      echo "<a href='https://github.com/armadito/'>";
+      echo "<span class='copyright'>Armadito ".PLUGIN_ARMADITO_VERSION." | copyleft ".
+           "<img src='".$baseroot."/plugins/fusioninventory/pics/copyleft.png'/> "
+              . " 2016 Teclib', 2010-2016 by FusionInventory Team".
+           "</span>";
+      echo "</a>";
+      echo "</td>";
+      echo "</tr>";
+      echo "</table>";
+      echo "</div>";
+}
 ?>
