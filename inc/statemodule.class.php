@@ -29,15 +29,15 @@ if (!defined('GLPI_ROOT')) {
 /**
  * Class dealing with Armadito AV state
  **/
-class PluginArmaditoState extends CommonDBTM {
+class PluginArmaditoStateModule extends CommonDBTM {
      protected $jobj;
 
      function __construct($jobj) {
       $this->jobj = $jobj;
 
       PluginArmaditoToolbox::logIfExtradebug(
-         'pluginArmadito-state',
-         'New PluginArmaditoState object.'
+         'pluginArmadito-statemodule',
+         'New PluginArmaditoStateModule object.'
       );
      }
 
