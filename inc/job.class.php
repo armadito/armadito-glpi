@@ -31,7 +31,7 @@ if (!defined('GLPI_ROOT')) {
  **/
 class PluginArmaditoJob extends CommonDBTM {
      protected $jobj;
-     
+
      function __construct($jobj) {
       $this->jobj = $jobj;
 
