@@ -52,7 +52,7 @@
 <script src="../src/models/historicalBarChart.js"></script>
 <script>
 
-//------------ CHART 1 
+//------------ CHART 1
 lineChartConfig("chart1", sinAndCos(),true, false);
 barChartConfig(dataWithSpikes());
 
@@ -66,14 +66,14 @@ function lineChartConfig(containerid, data, guideline, useDates, auxOptions) {
 
     var fullChartHeight = 500 - chart.margin().top - chart.margin().bottom;
     chart
-        .x(function(d,i) { 
+        .x(function(d,i) {
           return d.x;
         })
        .yDomain([0,2,200])   //Using a polylinear scale
         .yRange([fullChartHeight,50,0])
         ;
 
-    if (auxOptions.width) 
+    if (auxOptions.width)
       chart.width(auxOptions.width);
 
     if (auxOptions.height)
@@ -121,7 +121,7 @@ function barChartConfig(data) {
       .transitionDuration(500)
       ;
 
-      chart.xAxis 
+      chart.xAxis
       .tickFormat(d3.format(',.1f'))
       .axisLabel("Time")
       ;

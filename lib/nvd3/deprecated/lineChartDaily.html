@@ -55,7 +55,7 @@ var cumulativeDailyTestData = [
   }
 ].map(function(line) {
   line.values = line.values.map(function(d) { return {x: d[0], y: d[1]/100  }})
-                           .filter(function(d) { 
+                           .filter(function(d) {
                              var day = (new Date(d.x)).getDay();
                              return day != 0 && day != 6; //get rid of weekends for this example
                             });

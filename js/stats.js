@@ -31,11 +31,11 @@ function statHalfDonut(svgname, jsondata) {
 
 
 function statBar(svgname, jsondata, title, width) {
-   
+
    nv.addGraph(function() {
 
       var height = 380;
-          
+
       var chart = nv.models.discreteBarChart()
           .x(function(d) { return d.label })
           .y(function(d) { return d.value })
@@ -59,7 +59,7 @@ function statBar(svgname, jsondata, title, width) {
          .text(title);
 
       nv.utils.windowResize(chart.update);
-      
+
       return chart;
    });
 }

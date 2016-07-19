@@ -41,7 +41,7 @@ text {
 <script>
 
 /************
- * Considering making an nv.charts object which will contain abstractions similar to the one below, 
+ * Considering making an nv.charts object which will contain abstractions similar to the one below,
  *     but with the usual d3 reusable style.
  * I could make this abstraction inside the layer above, but this layer incorporates some jQuery, so
  *     thinking nv.charts can be the glue that's not 100% d3
@@ -90,7 +90,7 @@ nv.addGraph({
               formatY = chart.yAxis.tickFormat(), //Assumes using same format as axis, can customize to show higher precision, etc.
               formatX = chart.xAxis.tickFormat();
 
-          // uses the chart's getX and getY, you may customize if x position is not the same as the value you want 
+          // uses the chart's getX and getY, you may customize if x position is not the same as the value you want
           //   ex. daily data without weekends, x is the index, while you want the date
           var content = '<h3>' + e.series.key + '</h3>' +
                         '<p>' +

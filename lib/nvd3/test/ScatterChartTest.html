@@ -123,7 +123,7 @@ defaultChartTest("test7", randomData(1,2));
 defaultChartTest("test8", randomData(3,1));
 defaultChartTest("test9", [
   {key: "Group 0", values: []},
-  {key: "Group 1", values: [{x:1, y:1}]} 
+  {key: "Group 1", values: [{x:1, y:1}]}
 ]);
 
 defaultChartTest("test10", randomData(30,2));
@@ -203,9 +203,9 @@ function randomData(groups, points) { //# groups,# points per group
 
     for (j = 0; j < points; j++) {
       data[i].values.push({
-        x: random(), 
-        y: random(), 
-        size: Math.random(), 
+        x: random(),
+        y: random(),
+        size: Math.random(),
         shape: shapes[j % 6]
       });
     }
@@ -231,9 +231,9 @@ function randomDataSloped(slope,intercept) { //# groups,# points per group
 
     for (j = 0; j < points; j++) {
       data[i].values.push({
-        x: random(), 
-        y: random(), 
-        size: Math.random(), 
+        x: random(),
+        y: random(),
+        size: Math.random(),
         shape: shapes[j % 6]
       });
     }
