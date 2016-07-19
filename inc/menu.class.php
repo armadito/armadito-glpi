@@ -159,9 +159,9 @@ class PluginArmaditoMenu extends CommonGLPI {
 
       if (Session::haveRight('plugin_armadito_states', READ)) {
          $a_menu[] =array(
-            'name' => __('Antiviruses', 'armadito'),
+            'name' => __('States', 'armadito'),
             'pic'  => $CFG_GLPI['root_doc']."/plugins/armadito/pics/menu_settings.png",
-            'link' => $CFG_GLPI['root_doc']."/plugins/armadito/front/states_antiviruses.php"
+            'link' => $CFG_GLPI['root_doc']."/plugins/armadito/front/states.php"
          );
       }
 
