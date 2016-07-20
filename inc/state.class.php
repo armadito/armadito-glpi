@@ -102,6 +102,40 @@ class PluginArmaditoState extends CommonDBTM {
     function insertState(){
       global $DB;
       $error = new PluginArmaditoError();
+
+      $query = "INSERT INTO `glpi_plugin_armadito_states` (`agent_id`, `update_status`, `last_update`, `antivirus_name`, `antivirus_version`, `antivirus_realtime`, `antivirus_service`) VALUES (?,?,?,?,?,?,?)";
+
+      $stmt = $DB->prepare($query);
+
+      if(!$stmt) {
+         $error->setMessage(1, 'State insert preparation failed.');
+         $error->log();
+         return $error;
+      }
+
+      if(!$stmt->bind_param('issssss', $agent_id, $update_status, $last_update, $antivirus_name, $antivirus_version, $antivirus_realtime, $antivirus_service)) {
+            $error->setMessage(1, 'State insert bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
+            $error->log();
+            $stmt->close();
+            return $error;
+      }
+
+      $agent_id = $this->agentid;
+      // $update_status = $this->jobj->task->{msg}->;
+      //$last_update = $this->jobj->task->;
+      $antivirus_name = $this->jobj->task->antivirus->name;
+      $antivirus_version = $this->jobj->task->antivirus->version;
+      //$antivirus_realtime = $this->jobj->task->;
+      //$antivirus_service = $this->jobj->task->;
+
+      if(!$stmt->execute()){
+         $error->setMessage(1, 'Enrollment insert execution failed (' . $stmt->errno . ') ' . $stmt->error);
+         $error->log();
+         $stmt->close();
+         return $error;
+      }
+
+      $stmt->close();
       $error->setMessage(0, 'State successfully inserted.');
       return $error;
     }
