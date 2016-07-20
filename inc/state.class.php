@@ -80,7 +80,7 @@ class PluginArmaditoState extends CommonDBTM {
       global $DB;
 
       $query = "SELECT update_status FROM `glpi_plugin_armadito_states`
-                 WHERE `id`='".$this->agentid."'";
+                 WHERE `agent_id`='".$this->agentid."'";
       $ret = $DB->query($query);
 
       if(!$ret){
