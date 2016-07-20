@@ -63,11 +63,20 @@ class PluginArmaditoState extends CommonDBTM {
             $error = $this->insertState();
          }
 
+		 if($error->getCode() != 0){
+			return $error;
+		 }
+
          // if AV is Armadito, we also update states of each modules
-         if($this->jobj->task->antivirus->name == "armadito"){
-               # foreach($this->jobj->task->msg)
+         if($this->jobj->task->antivirus->name == "Armadito"){
+               foreach($this->jobj->task->msg->info->modules as $jobj_module){
+			   		$module = new PluginArmaditoStateModule($this->agentid, $this->jobj, $jobj_module);
+					$error = $module->run();
+					if($error->getCode() != 0){
+						return $error;
+					}
+			   }
          }
-      
          return $error;
      }
 
