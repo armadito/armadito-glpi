@@ -30,23 +30,98 @@ if (!defined('GLPI_ROOT')) {
  * Class dealing with Armadito AV state
  **/
 class PluginArmaditoState extends CommonDBTM {
-     protected $agentid;
-     protected $jobj;
+    protected $agentid;
+    protected $jobj;
 
-     function __construct($jobj) {
+	static function getTypeName($nb=0) {
+	  return __('State', 'armadito');
+	}
 
-      $this->agentid = PluginArmaditoToolbox::validateInt($jobj->agent_id);
-      $this->jobj = $jobj;
+    function __construct() {
+		//
+    }
 
-      PluginArmaditoToolbox::logIfExtradebug(
-         'pluginArmadito-state',
-         'New PluginArmaditoState object.'
-      );
-     }
+	function init($jobj) {
+		 $this->agentid = PluginArmaditoToolbox::validateInt($jobj->agent_id);
+       $this->jobj = $jobj;
+	}
 
-     function toJson() {
+    function toJson() {
          return '{}';
-     }
+    }
+
+   static function getDefaultDisplayPreferences(){
+       $prefs = "";
+		 $nb_columns = 7;   
+       for( $i = 1; $i <= $nb_columns; $i++){
+            $prefs .= "(NULL, 'PluginArmaditoState', '".$i."', '".$i."', '0'),";
+       }
+       return $prefs;
+   }
+
+	function getSearchOptions() {
+
+      $tab = array();
+      $tab['common'] = __('State', 'armadito');
+
+      $i = 1;
+
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'agent_id';
+      $tab[$i]['name']      = __('Agent Id', 'armadito');
+      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['massiveaction'] = FALSE;
+
+      $i++;
+
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'update_status';
+      $tab[$i]['name']      = __('Update Status', 'armadito');
+      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['massiveaction'] = FALSE;
+
+      $i++;
+
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'last_update';
+      $tab[$i]['name']      = __('Last Update', 'armadito');
+      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['massiveaction'] = FALSE;
+
+      $i++;
+
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'antivirus_name';
+      $tab[$i]['name']      = __('Antivirus Name', 'armadito');
+      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['massiveaction'] = FALSE;
+
+      $i++;
+
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'antivirus_version';
+      $tab[$i]['name']      = __('Antivirus Version', 'armadito');
+      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['massiveaction'] = FALSE;
+
+      $i++;
+
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'antivirus_realtime';
+      $tab[$i]['name']      = __('Antivirus On-access', 'armadito');
+      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['massiveaction'] = FALSE;
+
+      $i++;
+
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'antivirus_service';
+      $tab[$i]['name']      = __('Antivirus Service', 'armadito');
+      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['massiveaction'] = FALSE;
+
+      return $tab;
+   }
 
     /**
     * Insert or Update states

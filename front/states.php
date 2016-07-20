@@ -29,7 +29,7 @@ Html::header(__('Armadito', 'armadito'), $_SERVER["PHP_SELF"], "plugins",
 PluginArmaditoMenu::displayHeader();
 PluginArmaditoMenu::displayMenu("mini");
 
-//Search::show('PluginArmaditoAgent');
+Search::show('PluginArmaditoState');
 
 Html::footer();
 ?>
