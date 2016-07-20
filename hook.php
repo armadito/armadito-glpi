@@ -32,6 +32,7 @@ function setDefaultDisplayPreferences(){
 
    $query .=  PluginArmaditoAgent::getDefaultDisplayPreferences();
    $query .=  PluginArmaditoState::getDefaultDisplayPreferences();
+   $query .=  PluginArmaditoStateDetails::getDefaultDisplayPreferences();
    $query = rtrim($query, ",");
 
    if(!PluginArmaditoToolbox::ExecQuery($query)){
@@ -49,6 +50,11 @@ function cleanDefaultDisplayPreferences(){
 
    $query = "DELETE FROM `glpi_displaypreferences`
       WHERE `itemtype`='PluginArmaditoState'";
+
+   PluginArmaditoToolbox::ExecQuery($query);
+
+   $query = "DELETE FROM `glpi_displaypreferences`
+      WHERE `itemtype`='PluginArmaditoStateDetails'";
 
    PluginArmaditoToolbox::ExecQuery($query);
 }
