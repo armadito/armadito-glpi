@@ -28,17 +28,9 @@ function setDefaultDisplayPreferences(){
     // Set preferences for search_options
    $query = "INSERT INTO `glpi_displaypreferences` (`id`, `itemtype`, `num`, `rank`,
                         `users_id`)
-		      VALUES (NULL, 'PluginArmaditoAgent', '1', '1', '0'),
-			     (NULL, 'PluginArmaditoAgent', '2', '2', '0'),
-			     (NULL, 'PluginArmaditoAgent', '3', '3', '0'),
-			     (NULL, 'PluginArmaditoAgent', '4', '4', '0'),
-			     (NULL, 'PluginArmaditoAgent', '5', '5', '0'),
-              (NULL, 'PluginArmaditoAgent', '6', '6', '0'),
-			     (NULL, 'PluginArmaditoAgent', '7', '7', '0'),
-			     (NULL, 'PluginArmaditoAgent', '8', '8', '0'),
-			     (NULL, 'PluginArmaditoAgent', '9', '9', '0'),
-   ";
+		      VALUES ";
 
+   $query .=  PluginArmaditoAgent::getDefaultDisplayPreferences();
    $query .=  PluginArmaditoState::getDefaultDisplayPreferences();
    $query = rtrim($query, ",");
 
