@@ -53,7 +53,8 @@ if (!empty($rawdata)) { // POST /states
       exit();
    }
 
-   $state = new PluginArmaditoState($jobj);
+   $state = new PluginArmaditoState();
+   $state->init($jobj);
    $error = $state->run();
 
    if($error->getCode() == 0){ // success
