@@ -52,7 +52,7 @@ class PluginArmaditoState extends CommonDBTM {
 
    static function getDefaultDisplayPreferences(){
        $prefs = "";
-		 $nb_columns = 7;   
+       $nb_columns = 7;
        for( $i = 1; $i <= $nb_columns; $i++){
             $prefs .= "(NULL, 'PluginArmaditoState', '".$i."', '".$i."', '0'),";
        }
