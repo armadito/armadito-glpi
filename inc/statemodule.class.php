@@ -69,20 +69,38 @@ class PluginArmaditoStateModule extends CommonDBTM {
       global $DB;
 
       $query = "SELECT id FROM `glpi_plugin_armadito_states_modules`
-                 WHERE `agent_id`='".$this->agentid."' AND `module_name`='".$this->jobj->name."'";
+                 WHERE `agent_id`=? AND `module_name`=?";
 
-	  PluginArmaditoToolbox::logE($query);
+	  $stmt = $DB->prepare($query);
 
-      $ret = $DB->query($query);
-
-      if(!$ret){
-         throw new Exception(sprintf('Error isStateModuleinDB : %s', $DB->error()));
+      if(!$stmt) {
+           throw new Exception(sprintf("State module select preparation failed."));
       }
 
-      if($DB->numrows($ret) > 0){
+      if(!$stmt->bind_param('is', $agent_id, $module_name)) {
+			$stmt->close();
+            throw new Exception(sprintf("State module select bind_param failed. (%d) %s", $stmt->errno, $stmt->error));
+      }
+
+      $agent_id = $this->agentid;
+      $module_name = $this->jobj->name;
+
+      if(!$stmt->execute()){
+         $stmt->close();
+		 throw new Exception(sprintf("State module select execution failed. (%d) %s", $stmt->errno, $stmt->error));
+      }
+
+      if(!$stmt->store_result()){
+         $stmt->close();
+		 throw new Exception(sprintf("State module select store_result failed. (%d) %s", $stmt->errno, $stmt->error));
+      }
+
+	  if($stmt->num_rows() > 0){
+         $stmt->close();
          return true;
       }
 
+	  $stmt->close();
       return false;
     }
 
