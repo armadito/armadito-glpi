@@ -54,8 +54,16 @@ if (!empty($rawdata)) { // POST /states
    }
 
    $state = new PluginArmaditoState($jobj);
+   $error = $state->run();
 
-   $communication->setMessage($state->toJson(), 200);
+   if($error->getCode() == 0){ // success
+      $communication->setMessage($state->toJson(), 200);
+   }
+   else{
+      $communication->setMessage($error->toJson(), 500);
+      $error->log();
+   }
+
    $communication->sendMessage();
 
    session_destroy();
