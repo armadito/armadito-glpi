@@ -146,10 +146,51 @@ class PluginArmaditoState extends CommonDBTM {
     * @return PluginArmaditoError obj
     **/
     function updateState(){
-      global $DB;
-      $error = new PluginArmaditoError();
-      $error->setMessage(0, 'State successfully updated.');
-      return $error;
+		global $DB;
+		$error = new PluginArmaditoError();
+
+		$query = "UPDATE `glpi_plugin_armadito_states`
+				 SET `update_status`=?,
+				     `last_update`=?,
+				     `antivirus_name`=?,
+				     `antivirus_version`=?,
+				     `antivirus_realtime`=?,
+					 `antivirus_service`=?
+				  WHERE `agent_id`=?";
+
+		$stmt = $DB->prepare($query);
+
+		if(!$stmt) {
+			$error->setMessage(1, 'State update preparation failed.');
+			$error->log();
+			return $error;
+		}
+
+		if(!$stmt->bind_param('ssssssi', $update_status, $last_update, $antivirus_name, $antivirus_version, $antivirus_realtime, $antivirus_service, $agent_id)) {
+			$error->setMessage(1, 'State update bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
+			$error->log();
+			$stmt->close();
+			return $error;
+		}
+
+		$agent_id = $this->agentid;
+		$update_status = $this->jobj->task->msg->info->update->status;
+		$last_update = $this->jobj->task->msg->info->update->{"last-update"};
+		$antivirus_name = $this->jobj->task->antivirus->name;
+		$antivirus_version = $this->jobj->task->antivirus->version;
+		$antivirus_realtime = $this->jobj->task->msg->info->antivirus->realtime;
+		$antivirus_service = $this->jobj->task->msg->info->antivirus->service;
+
+		if(!$stmt->execute()){
+		 $error->setMessage(1, 'State update execution failed (' . $stmt->errno . ') ' . $stmt->error);
+		 $error->log();
+		 $stmt->close();
+		 return $error;
+		}
+
+		$stmt->close();
+		$error->setMessage(0, 'State successfully updated.');
+		return $error;
     }
 }
 ?>
