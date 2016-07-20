@@ -129,7 +129,7 @@ class PluginArmaditoState extends CommonDBTM {
       $antivirus_service = $this->jobj->task->msg->info->antivirus->service;
 
       if(!$stmt->execute()){
-         $error->setMessage(1, 'Enrollment insert execution failed (' . $stmt->errno . ') ' . $stmt->error);
+         $error->setMessage(1, 'State insert execution failed (' . $stmt->errno . ') ' . $stmt->error);
          $error->log();
          $stmt->close();
          return $error;
