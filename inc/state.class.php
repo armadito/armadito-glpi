@@ -32,7 +32,7 @@ if (!defined('GLPI_ROOT')) {
 class PluginArmaditoState extends CommonDBTM {
      protected $agentid;
      protected $jobj;
-     
+
      function __construct($jobj) {
 
       $this->agentid = PluginArmaditoToolbox::validateInt($jobj->agent_id);

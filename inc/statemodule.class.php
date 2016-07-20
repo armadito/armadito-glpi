@@ -109,7 +109,7 @@ class PluginArmaditoStateModule extends CommonDBTM {
             $error->setMessage(1, 'State module insert bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
             $error->log();
             $stmt->close();
-            return $error; 
+            return $error;
       }
 
       $agent_id = $this->agentid;
@@ -170,7 +170,7 @@ class PluginArmaditoStateModule extends CommonDBTM {
 		 $error->setMessage(1, 'State module update execution failed (' . $stmt->errno . ') ' . $stmt->error);
 		 $error->log();
 		 $stmt->close();
-		 return $error; 
+		 return $error;
 		}
 
 		$stmt->close();
