@@ -44,6 +44,10 @@ class PluginArmaditoProfile extends Profile {
                 'label'     => __('States', 'armadito'),
                 'field'     => 'plugin_armadito_states'),
 
+          array('itemtype'    => 'PluginArmaditoStateDetail',
+                'label'     => __('Statedetails', 'armadito'),
+                'field'     => 'plugin_armadito_statedetail'),
+
           array('itemtype'  => 'PluginArmaditoAlert',
                 'label'     => __('Alerts', 'armadito'),
                 'field'     => 'plugin_armadito_alerts'),
