@@ -155,4 +155,9 @@ function plugin_armadito_footer($baseroot) {
       echo "</table>";
       echo "</div>";
 }
+
+// center all columns of plugin
+function plugin_armadito_displayConfigItem($itemtype, $ID, $data, $num){
+   return "align='center'";
+}
 ?>
