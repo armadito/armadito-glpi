@@ -113,9 +113,19 @@ class PluginArmaditoStateModule extends CommonDBTM {
       echo "<th >".__('Last update', 'armadito')."</th>";
       echo "</tr>";
 
+      $av_modules = $this->findModules($agent_id);
+
+      // TODO: protect against html injections of data (XSS & co)
+      foreach ($av_modules as $data) {
+         echo "<tr class='tab_bg_1'>";
+         echo "<td align='center'>".$data["module_name"]."</td>";
+         echo "<td align='center'>".$data["module_version"]."</td>";
+         echo "<td align='center'>".$data["module_update_status"]."</td>";
+         echo "<td align='center'>".$data["module_last_update"]."</td>";
+         echo "</tr>";
+      }
 
       echo "</table>";
-
    }
 
 	function toJson() {
@@ -132,6 +142,25 @@ class PluginArmaditoStateModule extends CommonDBTM {
          }
 		 return $error;
 	}
+
+
+   function findModules($agent_id){
+      global $DB;
+
+      $query = "SELECT * FROM `glpi_plugin_armadito_statedetails`
+                 WHERE `agent_id`='".$agent_id."'";
+
+	   $data = array();
+      if ($result = $DB->query($query)) {
+         if ($DB->numrows($result)) {
+            while ($line = $DB->fetch_assoc($result)) {
+               $data[$line['id']] = $line;
+            }
+         }
+      }
+
+      return $data;
+   }
 
  	/**
     * Check if module state is already in database
