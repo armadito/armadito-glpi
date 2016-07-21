@@ -196,7 +196,7 @@ class PluginArmaditoState extends CommonDBTM {
       global $DB;
       $error = new PluginArmaditoError();
 
-      $query = "INSERT INTO `glpi_plugin_armadito_states` (`agent_id`, `update_status`, `last_update`, `antivirus_name`, `antivirus_version`, `antivirus_realtime`, `antivirus_service`) VALUES (?,?,?,?,?,?,?)";
+      $query = "INSERT INTO `glpi_plugin_armadito_states` (`agent_id`, `update_status`, `last_update`, `antivirus_name`, `antivirus_version`, `antivirus_realtime`, `antivirus_service`, `plugin_armadito_statedetails_id`) VALUES (?,?,?,?,?,?,?,?)";
 
       $stmt = $DB->prepare($query);
 
@@ -206,7 +206,7 @@ class PluginArmaditoState extends CommonDBTM {
          return $error;
       }
 
-      if(!$stmt->bind_param('issssss', $agent_id, $update_status, $last_update, $antivirus_name, $antivirus_version, $antivirus_realtime, $antivirus_service)) {
+      if(!$stmt->bind_param('issssssi', $agent_id, $update_status, $last_update, $antivirus_name, $antivirus_version, $antivirus_realtime, $antivirus_service, $statedetails_id)) {
             $error->setMessage(1, 'State insert bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
             $error->log();
             $stmt->close();
@@ -214,6 +214,7 @@ class PluginArmaditoState extends CommonDBTM {
       }
 
       $agent_id = $this->agentid;
+      $statedetails_id = $agent_id;
       $update_status = $this->jobj->task->msg->info->update->status;
       $last_update = $this->jobj->task->msg->info->update->{"last-update"};
       $antivirus_name = $this->jobj->task->antivirus->name;
@@ -248,7 +249,8 @@ class PluginArmaditoState extends CommonDBTM {
 				     `antivirus_name`=?,
 				     `antivirus_version`=?,
 				     `antivirus_realtime`=?,
-					 `antivirus_service`=?
+					  `antivirus_service`=?,
+                 `plugin_armadito_statedetails_id`=?
 				  WHERE `agent_id`=?";
 
 		$stmt = $DB->prepare($query);
@@ -259,7 +261,7 @@ class PluginArmaditoState extends CommonDBTM {
 			return $error;
 		}
 
-		if(!$stmt->bind_param('ssssssi', $update_status, $last_update, $antivirus_name, $antivirus_version, $antivirus_realtime, $antivirus_service, $agent_id)) {
+		if(!$stmt->bind_param('ssssssii', $update_status, $last_update, $antivirus_name, $antivirus_version, $antivirus_realtime, $antivirus_service, $agent_id, $statedetails_id)) {
 			$error->setMessage(1, 'State update bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
 			$error->log();
 			$stmt->close();
@@ -267,6 +269,7 @@ class PluginArmaditoState extends CommonDBTM {
 		}
 
 		$agent_id = $this->agentid;
+      $statedetails_id = $agent_id;
 		$update_status = $this->jobj->task->msg->info->update->status;
 		$last_update = $this->jobj->task->msg->info->update->{"last-update"};
 		$antivirus_name = $this->jobj->task->antivirus->name;
