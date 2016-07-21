@@ -131,7 +131,41 @@ class PluginArmaditoStatedetail extends CommonDBTM {
    *
    **/
    function showForm($agent_id, $options=array()) {
-        $this->showFormHeader($options);
+
+      // Protect against injections
+      PluginArmaditoToolbox::validateInt($agent_id);
+
+      // Init Form
+      $this->initForm($agent_id, $options);
+      $this->showFormHeader($options);
+
+      // get global state for agent_id
+      $state = new PluginArmaditoState();
+      $state->getFromDB($this->fields["agent_id"]);
+
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>".__('Name')." :</td>";
+      echo "<td align='center'>";
+      Html::autocompletionTextField($this,'name', array('size' => 40));
+      echo "</td>";
+      echo "<td>".__('Agent_id', 'armadito')."&nbsp;:</td>";
+      echo "<td align='center'>";
+      echo "<b>".$this->fields["agent_id"]."</b>";
+      echo "</td>";
+      echo "</tr>";
+
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>".__('Antivirus Name', 'armadito')." :</td>";
+      echo "<td align='center'>";
+      echo "<b>".$state->fields["antivirus_name"]."</b>";
+      echo "</td>";
+
+      echo "<td>".__('Antivirus Version', 'armadito')."&nbsp;:</td>";
+      echo "<td align='center'>";
+      echo "<b>".$state->fields["antivirus_version"]."</b>";
+      echo "</td>";
+      echo "</tr>";
+
    }
 }
 ?>
