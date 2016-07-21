@@ -158,7 +158,7 @@ class PluginArmaditoStatedetail extends CommonDBTM {
       echo "<td align='center'>";
       Html::autocompletionTextField($this,'name', array('size' => 40));
       echo "</td>";
-      echo "<td>".__('Agent_id', 'armadito')."&nbsp;:</td>";
+      echo "<td>".__('Agent Id', 'armadito')."&nbsp;:</td>";
       echo "<td align='center'>";
       echo "<b>".$this->fields["agent_id"]."</b>";
       echo "</td>";
@@ -172,10 +172,21 @@ class PluginArmaditoStatedetail extends CommonDBTM {
 
       echo "<td>".__('Antivirus Version', 'armadito')."&nbsp;:</td>";
       echo "<td align='center'>";
-      echo "<b>".$state->fields["antivirus_version"]."</b>";
+      echo "".$state->fields["antivirus_version"]."";
       echo "</td>";
       echo "</tr>";
 
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>".__('Antivirus On-access', 'armadito')." :</td>";
+      echo "<td align='center'>";
+      echo "".$state->fields["antivirus_realtime"]."";
+      echo "</td>";
+
+      echo "<td>".__('Antivirus Service', 'armadito')."&nbsp;:</td>";
+      echo "<td align='center'>";
+      echo "".$state->fields["antivirus_service"]."";
+      echo "</td>";
+      echo "</tr>";
    }
 }
 ?>
