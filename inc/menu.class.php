@@ -161,7 +161,7 @@ class PluginArmaditoMenu extends CommonGLPI {
          $a_menu[] =array(
             'name' => __('States', 'armadito'),
             'pic'  => $CFG_GLPI['root_doc']."/plugins/armadito/pics/menu_settings.png",
-            'link' => $CFG_GLPI['root_doc']."/plugins/armadito/front/states.php"
+            'link' => $CFG_GLPI['root_doc']."/plugins/armadito/front/state.php"
          );
       }
 
