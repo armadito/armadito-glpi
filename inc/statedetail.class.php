@@ -29,7 +29,7 @@ if (!defined('GLPI_ROOT')) {
 /**
  * Class used for State Details
  **/
-class PluginArmaditoStateDetails extends CommonDBTM {
+class PluginArmaditoStatedetail extends CommonDBTM {
 
    function __construct() {
       //

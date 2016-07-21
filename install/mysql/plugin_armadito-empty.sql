@@ -40,13 +40,14 @@ CREATE TABLE `glpi_plugin_armadito_states` (
    `antivirus_version` varchar(255) collate utf8_unicode_ci default NULL,
    `antivirus_realtime` varchar(255) collate utf8_unicode_ci default NULL,
    `antivirus_service` varchar(255) collate utf8_unicode_ci default NULL,
+   `plugin_armadito_statedetails_id` int(11) NOT NULL,
    PRIMARY KEY (`id`),
    UNIQUE KEY `agent_id` (`agent_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 
-DROP TABLE IF EXISTS `glpi_plugin_armadito_states_modules`;
+DROP TABLE IF EXISTS `glpi_plugin_armadito_statedetails`;
 
-CREATE TABLE `glpi_plugin_armadito_states_modules` (
+CREATE TABLE `glpi_plugin_armadito_statedetails` (
    `id` int(11) NOT NULL AUTO_INCREMENT,
    `agent_id` int(11) NOT NULL,
    `module_name` varchar(255) collate utf8_unicode_ci NOT NULL,

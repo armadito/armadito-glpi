@@ -52,7 +52,7 @@ class PluginArmaditoState extends CommonDBTM {
 
    static function getDefaultDisplayPreferences(){
        $prefs = "";
-       $nb_columns = 7;
+       $nb_columns = 8;
        for( $i = 1; $i <= $nb_columns; $i++){
             $prefs .= "(NULL, 'PluginArmaditoState', '".$i."', '".$i."', '0'),";
        }
@@ -120,6 +120,15 @@ class PluginArmaditoState extends CommonDBTM {
       $tab[$i]['datatype']  = 'text';
       $tab[$i]['massiveaction'] = FALSE;
 
+      $i++;
+
+      $tab[$i]['table']     = 'glpi_plugin_armadito_statedetails';
+      $tab[$i]['field']     = 'id';
+      $tab[$i]['name']      = __('Details', 'armadito');
+      $tab[$i]['datatype']  = 'itemlink';
+      $tab[$i]['itemlink_type'] = 'PluginArmaditoStatedetail';
+      $tab[$i]['massiveaction'] = FALSE;
+
       return $tab;
    }
 
@@ -146,11 +155,11 @@ class PluginArmaditoState extends CommonDBTM {
          if($this->jobj->task->antivirus->name == "Armadito"){
                foreach($this->jobj->task->msg->info->modules as $jobj_module){
 			   		$module = new PluginArmaditoStateModule($this->agentid, $this->jobj, $jobj_module);
-					$error = $module->run();
-					if($error->getCode() != 0){
-						return $error;
-					}
-			   }
+					   $error = $module->run();
+					   if($error->getCode() != 0){
+						   return $error;
+					   }
+			      }
          }
          return $error;
      }

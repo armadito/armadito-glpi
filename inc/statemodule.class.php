@@ -68,7 +68,7 @@ class PluginArmaditoStateModule extends CommonDBTM {
     function isStateModuleinDB(){
       global $DB;
 
-      $query = "SELECT id FROM `glpi_plugin_armadito_states_modules`
+      $query = "SELECT id FROM `glpi_plugin_armadito_statedetails`
                  WHERE `agent_id`=? AND `module_name`=?";
 
 	  $stmt = $DB->prepare($query);
@@ -113,7 +113,7 @@ class PluginArmaditoStateModule extends CommonDBTM {
       global $DB;
       $error = new PluginArmaditoError();
 
-      $query = "INSERT INTO `glpi_plugin_armadito_states_modules` (`agent_id`, `module_name`, `module_version`, `module_update_status`, `module_last_update`) VALUES (?,?,?,?,?)";
+      $query = "INSERT INTO `glpi_plugin_armadito_statedetails` (`agent_id`, `module_name`, `module_version`, `module_update_status`, `module_last_update`) VALUES (?,?,?,?,?)";
 
       $stmt = $DB->prepare($query);
 
@@ -157,7 +157,7 @@ class PluginArmaditoStateModule extends CommonDBTM {
 		global $DB;
 		$error = new PluginArmaditoError();
 
-		$query = "UPDATE `glpi_plugin_armadito_states_modules`
+		$query = "UPDATE `glpi_plugin_armadito_statedetails`
 				 SET `module_version`=?,
 				     `module_update_status`=?,
 					 `module_last_update`=?

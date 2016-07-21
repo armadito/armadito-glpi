@@ -49,7 +49,6 @@ function plugin_init_armadito() {
       Plugin::registerClass('PluginArmaditoAgent',
                             array('addtabon'  => $types,
                                  'link_types' => true));
-
       /**
        * Load the relevant javascript/css files only on pages that need them.
        */
