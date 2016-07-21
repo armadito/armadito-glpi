@@ -56,7 +56,7 @@ class PluginArmaditoStatedetail extends CommonDBTM {
        $prefs = "";
        $nb_columns = 7;
        for( $i = 1; $i <= $nb_columns; $i++){
-            $prefs .= "(NULL, 'PluginArmaditoStateDetails', '".$i."', '".$i."', '0'),";
+            $prefs .= "(NULL, 'PluginArmaditoStateDetail', '".$i."', '".$i."', '0'),";
        }
        return $prefs;
    }
@@ -64,7 +64,7 @@ class PluginArmaditoStatedetail extends CommonDBTM {
 	function getSearchOptions() {
 
       $tab = array();
-      $tab['common'] = __('StateDetails', 'armadito');
+      $tab['common'] = __('StateDetail', 'armadito');
 
       $i = 1;
 
