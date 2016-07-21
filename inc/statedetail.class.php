@@ -35,6 +35,16 @@ class PluginArmaditoStatedetail extends CommonDBTM {
       //
    }
 
+   /**
+   * Get name of this type
+   *
+   * @return text name of this type by language of the user connected
+   *
+   **/
+   static function getTypeName($nb=0) {
+      return __('Antivirus State', 'armadito');
+   }
+
    static function canCreate() {
 
       if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
