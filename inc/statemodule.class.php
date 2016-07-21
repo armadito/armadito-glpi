@@ -45,6 +45,79 @@ class PluginArmaditoStateModule extends CommonDBTM {
 		);
 	}
 
+   /**
+   * Get name of this type
+   *
+   * @return text name of this type by language of the user connected
+   *
+   **/
+   static function getTypeName($nb=0) {
+      return __('State Module', 'armadito');
+   }
+
+   /**
+    * Display tab
+    *
+    * @param CommonGLPI $item
+    * @param integer $withtemplate
+    *
+    * @return varchar name of the tab(s) to display
+    */
+   function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
+
+      if ($item->getType()=='PluginArmaditoStatedetail') {
+         return __('Antivirus modules', 'armadito');
+      }
+      return '';
+   }
+
+   /**
+    * Display content of tab
+    *
+    * @param CommonGLPI $item
+    * @param integer $tabnum
+    * @param interger $withtemplate
+    *
+    * @return boolean TRUE
+    */
+   static function displayTabContentForItem(CommonGLPI $item, $tabnum=1, $withtemplate=0) {
+
+      if ($item->getType()=='PluginArmaditoStatedetail') {
+         $pfStatemodule = new self();
+         $pfStatemodule->showForm($item->fields["agent_id"]);
+      }
+      return TRUE;
+   }
+
+
+  /**
+   * Display form
+   *
+   * @param $agent_id integer ID of the agent
+   * @param $options array
+   *
+   * @return bool TRUE if form is ok
+   *
+   **/
+   function showForm($agent_id, $options=array()) {
+
+      // Protect against injections
+      PluginArmaditoToolbox::validateInt($agent_id);
+      PluginArmaditoToolbox::logE(" AGENTID = ".$agent_id);
+
+      echo "<table class='tab_cadre_fixe'>";
+      echo "<tr>";
+      echo "<th >".__('Module', 'armadito')."</th>";
+      echo "<th >".__('Version', 'armadito')."</th>";
+      echo "<th >".__('Update Status', 'armadito')."</th>";
+      echo "<th >".__('Last update', 'armadito')."</th>";
+      echo "</tr>";
+
+
+      echo "</table>";
+
+   }
+
 	function toJson() {
 		 return '{}';
 	}

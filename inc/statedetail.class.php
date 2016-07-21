@@ -125,7 +125,7 @@ class PluginArmaditoStatedetail extends CommonDBTM {
 
       $ong = array();
       $this->addDefaultFormTab($ong);
-      //$this->addStandardTab('PluginArmaditoState', $ong, $options);
+      $this->addStandardTab('PluginArmaditoStateModule', $ong, $options);
       $this->addStandardTab('Log', $ong, $options);
 
       return $ong;
