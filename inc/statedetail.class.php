@@ -109,5 +109,17 @@ class PluginArmaditoStatedetail extends CommonDBTM {
       return $tab;
    }
 
+   /**
+   * Display form
+   *
+   * @param $agent_id integer ID of the agent
+   * @param $options array
+   *
+   * @return bool TRUE if form is ok
+   *
+   **/
+   function showForm($agent_id, $options=array()) {
+        $this->showFormHeader($options);
+   }
 }
 ?>
