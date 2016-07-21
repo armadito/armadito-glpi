@@ -62,6 +62,7 @@ class PluginArmaditoStatedetail extends CommonDBTM {
       return false;
    }
 
+   // unused
    static function getDefaultDisplayPreferences(){
        $prefs = "";
        $nb_columns = 7;
@@ -71,6 +72,7 @@ class PluginArmaditoStatedetail extends CommonDBTM {
        return $prefs;
    }
 
+   // unused
 	function getSearchOptions() {
 
       $tab = array();
