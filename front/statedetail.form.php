@@ -23,12 +23,14 @@
 
 include ("../../../inc/includes.php");
 
+Session::checkRight('plugin_armadito_statedetail', READ);
+
 $statedetails = new PluginArmaditoStateDetail();
 
 Html::header(__('Armadito', 'armadito'), $_SERVER["PHP_SELF"], "plugins",
-             "pluginarmaditomenu", "statedetails");
+             "pluginarmaditomenu", "statedetail");
 
-PluginFusioninventoryMenu::displayMenu("mini");
+PluginArmaditoMenu::displayMenu("mini");
 
 if (isset($_GET["id"])) {
    $statedetails->display(
@@ -44,5 +46,6 @@ if (isset($_GET["id"])) {
    );
 }
 
+Html::footer();
 
 ?>
