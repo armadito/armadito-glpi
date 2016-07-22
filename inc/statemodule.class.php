@@ -201,11 +201,13 @@ class PluginArmaditoStateModule extends CommonDBTM {
       }
 
 	  if($stmt->num_rows() > 0){
+         $stmt->free_result();
          $stmt->close();
          return true;
       }
 
-	  $stmt->close();
+      $stmt->free_result();
+	   $stmt->close();
       return false;
     }
 
