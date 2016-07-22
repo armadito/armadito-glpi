@@ -34,7 +34,11 @@ class PluginArmaditoStateModule extends CommonDBTM {
 	protected $state_jobj;
 	protected $agentid;
 
-	function __construct($agent_id, $state_jobj, $jobj) {
+	function __construct() {
+      //
+	}
+
+	function init($agent_id, $state_jobj, $jobj) {
 		$this->agentid = $agent_id;
 		$this->state_jobj = $state_jobj;
 		$this->jobj = $jobj;
