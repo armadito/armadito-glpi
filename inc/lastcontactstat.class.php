@@ -25,7 +25,7 @@ if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access directly to this file");
 }
 
-class PluginArmaditoLastUpdateStat extends CommonDBTM {
+class PluginArmaditoLastContactStat extends CommonDBTM {
 
    /**
    * Get name of this type
@@ -34,7 +34,7 @@ class PluginArmaditoLastUpdateStat extends CommonDBTM {
    *
    **/
    static function getTypeName($nb=0) {
-      return "LastUpdateStat";
+      return "LastContactStat";
    }
 
 
@@ -43,7 +43,7 @@ class PluginArmaditoLastUpdateStat extends CommonDBTM {
 
       for ($d=1; $d<=365; $d++) {
          for ($h=0; $h<24; $h++) {
-            $query = "INSERT INTO `glpi_plugin_armadito_lastupdatestats` "
+            $query = "INSERT INTO `glpi_plugin_armadito_lastcontactstats` "
                     ."(`day`, `hour`) "
                     ."VALUES ('".$d."', '".$h."')";
             $DB->query($query);
@@ -54,7 +54,7 @@ class PluginArmaditoLastUpdateStat extends CommonDBTM {
    static function increment() {
       global $DB;
 
-      $query = "UPDATE `glpi_plugin_armadito_lastupdatestats` "
+      $query = "UPDATE `glpi_plugin_armadito_lastcontactstats` "
                  ."SET `counter` = counter + 1 "
                  ."WHERE `day`='".date('z')."' "
                  ."   AND `hour`='".date('G')."'";
@@ -70,7 +70,7 @@ class PluginArmaditoLastUpdateStat extends CommonDBTM {
       $timestamp = date('U');
       for ($i=$nb; $i>=0; $i--) {
          $timestampSearch = $timestamp - ($i * 3600);
-         $query = "SELECT * FROM `glpi_plugin_armadito_lastupdatestats` "
+         $query = "SELECT * FROM `glpi_plugin_armadito_lastcontactstats` "
                     ."WHERE `day`='".date('z', $timestampSearch)."' "
                     ."   AND `hour`='".date('G', $timestampSearch)."' "
                     ."LIMIT 1";

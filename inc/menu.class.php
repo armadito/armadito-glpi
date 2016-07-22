@@ -304,8 +304,8 @@ class PluginArmaditoMenu extends CommonGLPI {
       // Armadito Computers
       PluginArmaditoMenu::addComputersChart($restrict_entity);
 
-      // Last Updates
-      PluginArmaditoMenu::addLastUpdatesChart($restrict_entity);
+      // Last Agent Connections
+      PluginArmaditoMenu::addLastContactsChart($restrict_entity);
 
       echo "</tr>";
       echo "</table>";
@@ -316,14 +316,15 @@ class PluginArmaditoMenu extends CommonGLPI {
     *
     *@return nothing
     **/
-   static function addLastUpdatesChart($restrict_entity) {
+   static function addLastContactsChart($restrict_entity) {
 
-      // Number of computer inventories in last hour, 6 hours, 24 hours
-      $data = PluginArmaditoLastUpdateStat::getLastHours();
+      // Number of agent connections in last hour, 6 hours, 24 hours
+      $data = PluginArmaditoLastContactStat::getLastHours();
 
-      $title = __('Databases updates of last hours', 'armadito');
-      echo "<td width='380'>";
-      self::showChartBar('nblastupdates', $data, $title);
+      $title = __('Agent connections of last hours', 'armadito');
+      $title = '';
+      echo "<td width='400'>";
+      self::showChartBar('nblastcontacts', $data, $title, 280);
       echo "</td>";
 
    }

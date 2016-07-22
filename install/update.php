@@ -57,15 +57,15 @@ function pluginArmaditoUpdate($current_version, $migrationname='Migration') {
    $migration->displayMessage("Update of plugin Armadito");
 
    // Tables migration
-   do_lastupdatestat_migration($migration);
+   do_lastcontactstat_migration($migration);
 }
 
 
-function do_lastupdatestat_migration($migration) {
+function do_lastcontactstat_migration($migration) {
 
-   if (!TableExists("glpi_plugin_armadito_lastupdatestats")) {
+   if (!TableExists("glpi_plugin_armadito_lastcontactstats")) {
       $a_table = array();
-      $a_table['name'] = 'glpi_plugin_armadito_lastupdatestats';
+      $a_table['name'] = 'glpi_plugin_armadito_lastcontactstats';
       $a_table['oldname'] = array();
 
       $a_table['fields']  = array();
@@ -88,7 +88,7 @@ function do_lastupdatestat_migration($migration) {
 
       migrateTablesArmadito($migration, $a_table);
 
-      PluginArmaditoLastUpdateStat::init();
+      PluginArmaditoLastContactStat::init();
    }
 }
 

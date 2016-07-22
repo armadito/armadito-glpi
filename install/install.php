@@ -65,6 +65,6 @@ function pluginArmaditoInstall($version, $migrationname='Migration') {
       $pfConfig->initConfigModule();
 
 
-      PluginArmaditoLastUpdateStat::init();
+      PluginArmaditoLastContactStat::init();
 }
 ?>
