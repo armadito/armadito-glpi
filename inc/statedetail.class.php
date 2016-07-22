@@ -160,31 +160,31 @@ class PluginArmaditoStatedetail extends CommonDBTM {
       echo "</td>";
       echo "<td>".__('Agent Id', 'armadito')."&nbsp;:</td>";
       echo "<td align='center'>";
-      echo "<b>".$this->fields["agent_id"]."</b>";
+      echo "<b>".htmlspecialchars($this->fields["agent_id"])."</b>";
       echo "</td>";
       echo "</tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Antivirus Name', 'armadito')." :</td>";
       echo "<td align='center'>";
-      echo "<b>".$state->fields["antivirus_name"]."</b>";
+      echo "<b>".htmlspecialchars($state->fields["antivirus_name"])."</b>";
       echo "</td>";
 
       echo "<td>".__('Antivirus Version', 'armadito')."&nbsp;:</td>";
       echo "<td align='center'>";
-      echo "".$state->fields["antivirus_version"]."";
+      echo "".htmlspecialchars($state->fields["antivirus_version"])."";
       echo "</td>";
       echo "</tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Antivirus On-access', 'armadito')." :</td>";
       echo "<td align='center'>";
-      echo "".$state->fields["antivirus_realtime"]."";
+      echo "".htmlspecialchars($state->fields["antivirus_realtime"])."";
       echo "</td>";
 
       echo "<td>".__('Antivirus Service', 'armadito')."&nbsp;:</td>";
       echo "<td align='center'>";
-      echo "".$state->fields["antivirus_service"]."";
+      echo "".htmlspecialchars($state->fields["antivirus_service"])."";
       echo "</td>";
       echo "</tr>";
    }
