@@ -32,7 +32,11 @@ if (!defined('GLPI_ROOT')) {
 class PluginArmaditoAlert extends CommonDBTM {
      protected $jobj;
 
-     function __construct($jobj) {
+     function __construct() {
+      //
+     }
+
+     function init($jobj) {
       $this->jobj = $jobj;
 
       PluginArmaditoToolbox::logIfExtradebug(
