@@ -319,11 +319,11 @@ class PluginArmaditoMenu extends CommonGLPI {
    static function addLastUpdatesChart($restrict_entity) {
 
       // Number of computer inventories in last hour, 6 hours, 24 hours
-      $dataInventory = PluginFusioninventoryInventoryComputerStat::getLastHours();
+      $data = PluginArmaditoLastUpdateStat::getLastHours();
 
-      $title = __('Number of databases updates of last hours', 'armadito');
+      $title = __('Databases updates of last hours', 'armadito');
       echo "<td width='380'>";
-      self::showChartBar('nblastupdates', $dataInventory, $title);
+      self::showChartBar('nblastupdates', $data, $title);
       echo "</td>";
 
    }
