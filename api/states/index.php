@@ -41,6 +41,8 @@ if (!empty($rawdata)) { // POST /states
       exit();
    }
 
+   PluginArmaditoLastContactStat::increment();
+
    // Parse json obj
    $jobj = PluginArmaditoToolbox::parseJSON($rawdata);
 
