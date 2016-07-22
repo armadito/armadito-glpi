@@ -298,8 +298,33 @@ class PluginArmaditoMenu extends CommonGLPI {
 
       $restrict_entity    = getEntitiesRestrictRequest(" AND", 'comp');
 
+      echo "<table align='center'>";
+      echo "<tr height='280'>";
+
       // Armadito Computers
       PluginArmaditoMenu::addComputersChart($restrict_entity);
+
+      // Last Updates
+      PluginArmaditoMenu::addLastUpdatesChart($restrict_entity);
+
+      echo "</tr>";
+      echo "</table>";
+   }
+
+   /**
+    * Get data and display last updates chart (bar)
+    *
+    *@return nothing
+    **/
+   static function addLastUpdatesChart($restrict_entity) {
+
+      // Number of computer inventories in last hour, 6 hours, 24 hours
+      $dataInventory = PluginFusioninventoryInventoryComputerStat::getLastHours();
+
+      $title = __('Number of databases updates of last hours', 'armadito');
+      echo "<td width='380'>";
+      self::showChartBar('nblastupdates', $dataInventory, $title);
+      echo "</td>";
 
    }
 
@@ -342,13 +367,10 @@ class PluginArmaditoMenu extends CommonGLPI {
           'color' => "#dedede"
       );
 
-      echo "<table align='center'>";
-      echo "<tr height='180'>";
       echo "<td width='380'>";
       self::showChart('computers', $dataComputer);
       echo "</td>";
-      echo "</tr>";
-      echo "</table>";
+
    }
 
 
