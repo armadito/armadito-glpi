@@ -77,7 +77,7 @@ class PluginArmaditoLastContactStat extends CommonDBTM {
          $result = $DB->query($query);
          $data = $DB->fetch_assoc($result);
          $a_counters['values'][] = array(
-             'label' => date('G', $timestampSearch)." ".__('hour'),
+             'label' => date('G', $timestampSearch)."".__('h'),
              'value' => (int)$data['counter']
          );
       }
