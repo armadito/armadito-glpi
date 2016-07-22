@@ -107,7 +107,6 @@ class PluginArmaditoStateModule extends CommonDBTM {
 
       // Protect against injections
       PluginArmaditoToolbox::validateInt($agent_id);
-      PluginArmaditoToolbox::logE(" AGENTID = ".$agent_id);
 
       echo "<table class='tab_cadre_fixe'>";
       echo "<tr>";
