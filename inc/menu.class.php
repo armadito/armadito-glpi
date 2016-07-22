@@ -289,7 +289,12 @@ class PluginArmaditoMenu extends CommonGLPI {
       return $width_status;
    }
 
-static function board() {
+   /**
+    * Display a board in HTML with JS libs (nvd3)
+    *
+    *@return nothing
+    **/
+   static function board() {
       global $DB;
 
       // Armadito Computers
