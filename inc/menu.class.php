@@ -299,7 +299,7 @@ class PluginArmaditoMenu extends CommonGLPI {
       $restrict_entity    = getEntitiesRestrictRequest(" AND", 'comp');
 
       echo "<table align='center'>";
-      echo "<tr height='280'>";
+      echo "<tr height='420'>";
 
       // Armadito Computers
       PluginArmaditoMenu::addComputersChart($restrict_entity);
@@ -324,7 +324,7 @@ class PluginArmaditoMenu extends CommonGLPI {
       $title = __('Agent connections of last hours', 'armadito');
       $title = '';
       echo "<td width='400'>";
-      self::showChartBar('nblastcontacts', $data, $title, 280);
+      self::showChartBar('nblastcontacts', $data, $title, 370);
       echo "</td>";
 
    }
@@ -386,7 +386,7 @@ class PluginArmaditoMenu extends CommonGLPI {
 
 
    static function showChartBar($name, $data, $title='', $width=370) {
-      echo '<svg style="background-color: #f3f3f3;" id="'.$name.'"></svg>';
+      echo '<svg width="400" style="background-color: #f3f3f3;" id="'.$name.'"></svg>';
 
       echo "<script>
          statBar('".$name."', '".json_encode($data)."', '".$title."', '".$width."');
