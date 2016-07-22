@@ -295,13 +295,23 @@ class PluginArmaditoMenu extends CommonGLPI {
     *@return nothing
     **/
    static function board() {
-      global $DB;
 
-      // Armadito Computers
-      $armaditoComputers    = 0;
       $restrict_entity    = getEntitiesRestrictRequest(" AND", 'comp');
 
+      // Armadito Computers
+      PluginArmaditoMenu::addComputersChart($restrict_entity);
 
+   }
+
+   /**
+    * Get data and display armadito computers chart (half donut)
+    *
+    *@return nothing
+    **/
+   static function addComputersChart($restrict_entity) {
+      global $DB;
+
+      $armaditoComputers    = 0;
       $query_ao_computers = "SELECT COUNT(comp.`id`) as nb_computers
                              FROM glpi_computers comp
                              LEFT JOIN glpi_plugin_armadito_agents ao_comp
@@ -339,8 +349,8 @@ class PluginArmaditoMenu extends CommonGLPI {
       echo "</td>";
       echo "</tr>";
       echo "</table>";
-
    }
+
 
    static function showChart($name, $data, $title='') {
 
