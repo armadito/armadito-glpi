@@ -63,5 +63,8 @@ function pluginArmaditoInstall($version, $migrationname='Migration') {
       $migration->displayMessage("Initialize configuration");
       $pfConfig = new PluginArmaditoConfig();
       $pfConfig->initConfigModule();
+
+
+      PluginArmaditoLastUpdateStat::init();
 }
 ?>

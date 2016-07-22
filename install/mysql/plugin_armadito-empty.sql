@@ -67,4 +67,12 @@ CREATE TABLE `glpi_plugin_armadito_alerts` (
    PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 
+DROP TABLE IF EXISTS `glpi_plugin_armadito_lastupdatestats`;
 
+CREATE TABLE `glpi_plugin_armadito_lastupdatestats` (
+ `id` smallint(3) NOT NULL AUTO_INCREMENT,
+ `day` smallint(3) NOT NULL DEFAULT '0',
+ `hour` tinyint(2) NOT NULL DEFAULT '0',
+ `counter` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;

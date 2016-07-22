@@ -56,6 +56,40 @@ function pluginArmaditoUpdate($current_version, $migrationname='Migration') {
    $migration->displayMessage("Migration Classname : " . $migrationname);
    $migration->displayMessage("Update of plugin Armadito");
 
+   // Tables migration
+   do_lastupdatestat_migration($migration);
+}
+
+
+function do_lastupdatestat_migration($migration) {
+
+   if (!TableExists("glpi_plugin_armadito_lastupdatestats")) {
+      $a_table = array();
+      $a_table['name'] = 'glpi_plugin_armadito_lastupdatestats';
+      $a_table['oldname'] = array();
+
+      $a_table['fields']  = array();
+      $a_table['fields']['id']      = array('type'    => "smallint(3) NOT NULL AUTO_INCREMENT",
+                                                         'value'   => '');
+      $a_table['fields']['day']     = array('type'    => "smallint(3) NOT NULL DEFAULT '0'",
+                                                         'value'   => '');
+      $a_table['fields']['hour']    = array('type'    => "tinyint(2) NOT NULL DEFAULT '0'",
+                                                         'value'   => '');
+      $a_table['fields']['counter'] = array('type'    => 'integer',
+                                                         'value'   => NULL);
+
+      $a_table['oldfields']  = array();
+
+      $a_table['renamefields'] = array();
+
+      $a_table['keys']   = array();
+
+      $a_table['oldkeys'] = array();
+
+      migrateTablesArmadito($migration, $a_table);
+
+      PluginArmaditoLastUpdateStat::init();
+   }
 }
 
 ?>
