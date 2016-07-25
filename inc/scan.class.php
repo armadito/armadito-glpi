@@ -142,6 +142,7 @@ class PluginArmaditoScan extends CommonDBTM {
     **/
      function run(){
 
+         $error = new PluginArmaditoError();
          /*
          // Update global Antivirus Scan
          if($this->isScaninDB()) {
@@ -168,7 +169,7 @@ class PluginArmaditoScan extends CommonDBTM {
 			      }
          } */
 
-
+         $error->setMessage(0, 'Scan successfully inserted.');
          return $error;
      }
 
