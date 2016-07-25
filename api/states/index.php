@@ -74,7 +74,7 @@ if (!empty($rawdata)) { // POST /states
 else{
   http_response_code(400);
   header("Content-Type: application/json");
-  echo '{ "plugin_version": "'.PLUGIN_ARMADITO_VERSION.'", "code": 1, "message": "Invalid request sent to plugin index." }}';
+  echo '{ "plugin_version": "'.PLUGIN_ARMADITO_VERSION.'", "code": 1, "message": "Invalid request sent to plugin index." }';
 }
 
 ?>
