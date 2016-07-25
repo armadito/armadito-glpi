@@ -48,5 +48,16 @@ class PluginArmaditoAlert extends CommonDBTM {
      function toJson() {
          return '{}';
      }
+
+    /* Insert Alerts in database
+    *
+    * @return PluginArmaditoError obj
+    **/
+     function run(){
+
+         $error = new PluginArmaditoError();
+         $error->setMessage(0, 'Alerts successfully inserted.');
+         return $error;
+     }
 }
 ?>
