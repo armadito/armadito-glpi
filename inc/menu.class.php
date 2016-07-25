@@ -203,6 +203,31 @@ class PluginArmaditoMenu extends CommonGLPI {
       }
 
       /*
+       * Scans
+       */
+      $a_menu = array();
+
+      if (Session::haveRight('plugin_armadito_scans', READ)) {
+
+         $a_menu[] =array(
+            'name' => __('Board', 'armadito'),
+            'pic'  => $CFG_GLPI['root_doc']."/plugins/armadito/pics/menu_stats.png",
+            'link' => $CFG_GLPI['root_doc']."/plugins/armadito/front/scanboard.php"
+         );
+
+         $a_menu[1]['name'] = __('Scans', 'armadito');
+         $a_menu[1]['pic']  = $CFG_GLPI['root_doc']."/plugins/armadito/pics/menu_settings.png";
+         $a_menu[1]['link'] = $CFG_GLPI['root_doc']."/plugins/armadito/front/scan.php";
+      }
+
+      if (!empty($a_menu)) {
+         $width_status = PluginArmaditoMenu::htmlMenu(__('Scans', 'armadto'),
+                                                             $a_menu,
+                                                             $type,
+                                                             $width_status);
+      }
+
+      /*
        * Jobs
        */
       $a_menu = array();
