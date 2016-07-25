@@ -114,6 +114,32 @@ paths:
             description: Internal Server Error
             schema:
               $ref: '#/definitions/PluginArmaditoError'
+  /glpi/plugins/armadito/api/scans:
+    post:
+        consumes:
+          - application/json
+        produces:
+          - application/json
+        description:
+         Given `PluginArmaditoScan` is stored in GLPI database and could be shown in user interface.
+        parameters:
+          - in: body
+            name: Alert
+            description: JSON Alert object
+            required: true
+            schema:
+              $ref: "#/definitions/PluginArmaditoScan"
+        responses:
+          '200':
+            description: Successful response
+          400:
+            description: Invalid Input
+            schema:
+              $ref: '#/definitions/PluginArmaditoError'
+          500:
+            description: Internal Server Error
+            schema:
+              $ref: '#/definitions/PluginArmaditoError'
 definitions:
   PluginArmaditoError:
     type: object
@@ -162,6 +188,16 @@ definitions:
       task:
           $ref: '#/definitions/Task'
   PluginArmaditoAlert:
+    type: object
+    properties:
+      agent_id:
+        type: number
+        format: double
+      agent_version:
+        type: string
+      task:
+        $ref: '#/definitions/Task'
+  PluginArmaditoScan:
     type: object
     properties:
       agent_id:
