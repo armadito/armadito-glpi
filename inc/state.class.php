@@ -123,7 +123,7 @@ class PluginArmaditoState extends CommonDBTM {
       $i++;
 
       $tab[$i]['table']     = 'glpi_plugin_armadito_statedetails';
-      $tab[$i]['field']     = 'id';
+      $tab[$i]['field']     = 'itemlink';
       $tab[$i]['name']      = __('Details', 'armadito');
       $tab[$i]['datatype']  = 'itemlink';
       $tab[$i]['itemlink_type'] = 'PluginArmaditoStatedetail';

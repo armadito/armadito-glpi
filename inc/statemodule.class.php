@@ -220,7 +220,7 @@ class PluginArmaditoStateModule extends CommonDBTM {
       global $DB;
       $error = new PluginArmaditoError();
 
-      $query = "INSERT INTO `glpi_plugin_armadito_statedetails` (`agent_id`, `module_name`, `module_version`, `module_update_status`, `module_last_update`) VALUES (?,?,?,?,?)";
+      $query = "INSERT INTO `glpi_plugin_armadito_statedetails` (`agent_id`, `module_name`, `module_version`, `module_update_status`, `module_last_update`, `itemlink`) VALUES (?,?,?,?,?,?)";
 
       $stmt = $DB->prepare($query);
 
@@ -230,13 +230,14 @@ class PluginArmaditoStateModule extends CommonDBTM {
          return $error;
       }
 
-      if(!$stmt->bind_param('issss', $agent_id, $module_name, $module_version, $module_update_status, $module_last_update)) {
+      if(!$stmt->bind_param('isssss', $agent_id, $module_name, $module_version, $module_update_status, $module_last_update, $itemlink)) {
             $error->setMessage(1, 'State module insert bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
             $error->log();
             $stmt->close();
             return $error;
       }
 
+      $itemlink = "ShowAll";
       $agent_id = $this->agentid;
       $module_name = $this->jobj->name;
       $module_version = $this->jobj->version;
