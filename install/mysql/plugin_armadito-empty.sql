@@ -15,7 +15,7 @@ CREATE TABLE `glpi_plugin_armadito_agents` (
    `last_contact` datetime default NULL,
    `last_alert` datetime default NULL,
    PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 
 
 DROP TABLE IF EXISTS `glpi_plugin_armadito_configs`;
