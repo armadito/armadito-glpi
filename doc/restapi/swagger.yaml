@@ -217,5 +217,7 @@ definitions:
         type: string
       fusion_id:
         type: string
+      fingerprint:
+        type: string
       task:
         $ref: '#/definitions/Task'
