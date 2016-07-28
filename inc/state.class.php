@@ -139,18 +139,6 @@ class PluginArmaditoState extends CommonDBTM {
     **/
      function run(){
 
-         // Update global Antivirus state
-         if($this->isStateinDB()) {
-            $error = $this->updateState();
-         }
-         else {
-            $error = $this->insertState();
-         }
-
-		 if($error->getCode() != 0){
-			return $error;
-		 }
-
          // if AV is Armadito, we also update states of each modules
          if($this->jobj->task->antivirus->name == "Armadito"){
                foreach($this->jobj->task->msg->info->modules as $jobj_module){
@@ -162,6 +150,21 @@ class PluginArmaditoState extends CommonDBTM {
 					   }
 			      }
          }
+
+		 $statedetails_id = $this->getPluginStatedetailsId();
+
+         // Update global Antivirus state
+         if($this->isStateinDB()) {
+            $error = $this->updateState($statedetails_id);
+         }
+         else {
+            $error = $this->insertState($statedetails_id);
+         }
+
+		 if($error->getCode() != 0){
+			return $error;
+		 }
+
          return $error;
      }
 
@@ -189,11 +192,37 @@ class PluginArmaditoState extends CommonDBTM {
     }
 
     /**
+    * Get statedetails table id for itemlink
+    *
+    * @return id
+    **/
+	function getPluginStatedetailsId(){
+		global $DB;
+
+		$id = 0;
+		$query = "SELECT id FROM `glpi_plugin_armadito_statedetails`
+                 WHERE `agent_id`='".$this->agentid."'";
+
+		$ret = $DB->query($query);
+
+		if(!$ret){
+		 throw new Exception(sprintf('Error getPluginStatedetailsId : %s', $DB->error()));
+		}
+
+		if($DB->numrows($ret) > 0){
+		  $data = $DB->fetch_assoc($ret);
+		  $id = $data["id"];
+		}
+
+		return $id;
+	}
+
+    /**
     * Insert state in database
     *
     * @return PluginArmaditoError obj
     **/
-    function insertState(){
+    function insertState( $stateid ){
       global $DB;
       $error = new PluginArmaditoError();
 
@@ -215,7 +244,7 @@ class PluginArmaditoState extends CommonDBTM {
       }
 
       $agent_id = $this->agentid;
-      $statedetails_id = $agent_id;
+      $statedetails_id = $stateid;
       $update_status = $this->jobj->task->msg->info->update->status;
       $last_update = $this->jobj->task->msg->info->update->{"last-update"};
       $antivirus_name = $this->jobj->task->antivirus->name;
@@ -240,7 +269,7 @@ class PluginArmaditoState extends CommonDBTM {
     *
     * @return PluginArmaditoError obj
     **/
-    function updateState(){
+    function updateState( $stateid ){
 		global $DB;
 		$error = new PluginArmaditoError();
 
@@ -270,7 +299,7 @@ class PluginArmaditoState extends CommonDBTM {
 		}
 
 		$agent_id = $this->agentid;
-      $statedetails_id = $agent_id;
+        $statedetails_id = $stateid;
 		$update_status = $this->jobj->task->msg->info->update->status;
 		$last_update = $this->jobj->task->msg->info->update->{"last-update"};
 		$antivirus_name = $this->jobj->task->antivirus->name;
