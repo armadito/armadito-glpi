@@ -153,11 +153,11 @@ class PluginArmaditoStatedetail extends CommonDBTM {
       $state = new PluginArmaditoState();
       $state->setAgentId($this->fields["agent_id"]);
       $state_id = $state->getTableIdForAgentId("glpi_plugin_armadito_states");
-	
+
       PluginArmaditoToolbox::logE("state_id : ".$state_id."; agent_id : ".$this->fields["agent_id"]);
 
       $state->getFromDB($state_id);
-      
+
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Name')." :</td>";
       echo "<td align='center'>";

@@ -40,7 +40,7 @@ class PluginArmaditoState extends CommonDBTM {
     function __construct() {
 		//
     }
- 
+
     function init($jobj) {
        $this->agentid = PluginArmaditoToolbox::validateInt($jobj->agent_id);
        $this->jobj = $jobj;
