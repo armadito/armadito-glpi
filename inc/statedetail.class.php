@@ -140,19 +140,24 @@ class PluginArmaditoStatedetail extends CommonDBTM {
    * @return bool TRUE if form is ok
    *
    **/
-   function showForm($agent_id, $options=array()) {
+   function showForm($table_id, $options=array()) {
 
       // Protect against injections
-      PluginArmaditoToolbox::validateInt($agent_id);
+      PluginArmaditoToolbox::validateInt($table_id);
 
       // Init Form
-      $this->initForm($agent_id, $options);
+      $this->initForm($table_id, $options);
       $this->showFormHeader($options);
 
       // get global state for agent_id
       $state = new PluginArmaditoState();
-      $state->getFromDB($this->fields["agent_id"]);
+      $state->setAgentId($this->fields["agent_id"]);
+      $state_id = $state->getTableIdForAgentId("glpi_plugin_armadito_states");
+	
+      PluginArmaditoToolbox::logE("state_id : ".$state_id."; agent_id : ".$this->fields["agent_id"]);
 
+      $state->getFromDB($state_id);
+      
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Name')." :</td>";
       echo "<td align='center'>";

@@ -40,11 +40,16 @@ class PluginArmaditoState extends CommonDBTM {
     function __construct() {
 		//
     }
-
-	function init($jobj) {
-		 $this->agentid = PluginArmaditoToolbox::validateInt($jobj->agent_id);
+ 
+    function init($jobj) {
+       $this->agentid = PluginArmaditoToolbox::validateInt($jobj->agent_id);
        $this->jobj = $jobj;
-	}
+    }
+
+    function setAgentId( $agentid_ ){
+       $this->agentid = PluginArmaditoToolbox::validateInt($agentid_);
+    }
+
 
     function toJson() {
          return '{}';
@@ -151,7 +156,7 @@ class PluginArmaditoState extends CommonDBTM {
 			      }
          }
 
-	 $statedetails_id = $this->getPluginStatedetailsId();
+	 $statedetails_id = $this->getTableIdForAgentId("glpi_plugin_armadito_statedetails");
 
          // Update global Antivirus state
          if($this->isStateinDB()) {
@@ -196,17 +201,17 @@ class PluginArmaditoState extends CommonDBTM {
     *
     * @return id
     **/
-	function getPluginStatedetailsId(){
+    function getTableIdForAgentId( $table ){
 		global $DB;
 
 		$id = 0;
-		$query = "SELECT id FROM `glpi_plugin_armadito_statedetails`
+		$query = "SELECT id FROM `".$table."`
                  WHERE `agent_id`='".$this->agentid."'";
 
 		$ret = $DB->query($query);
 
 		if(!$ret){
-		 throw new Exception(sprintf('Error getPluginStatedetailsId : %s', $DB->error()));
+		 throw new Exception(sprintf('Error getTableIdForAgentId : %s', $DB->error()));
 		}
 
 		if($DB->numrows($ret) > 0){
@@ -215,7 +220,7 @@ class PluginArmaditoState extends CommonDBTM {
 		}
 
 		return $id;
-	}
+    }
 
     /**
     * Insert state in database
