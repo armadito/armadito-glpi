@@ -151,7 +151,7 @@ class PluginArmaditoState extends CommonDBTM {
 			      }
          }
 
-		 $statedetails_id = $this->getPluginStatedetailsId();
+	 $statedetails_id = $this->getPluginStatedetailsId();
 
          // Update global Antivirus state
          if($this->isStateinDB()) {
@@ -161,9 +161,9 @@ class PluginArmaditoState extends CommonDBTM {
             $error = $this->insertState($statedetails_id);
          }
 
-		 if($error->getCode() != 0){
-			return $error;
-		 }
+	 if($error->getCode() != 0){
+		return $error;
+	 }
 
          return $error;
      }
@@ -299,7 +299,7 @@ class PluginArmaditoState extends CommonDBTM {
 		}
 
 		$agent_id = $this->agentid;
-        $statedetails_id = $stateid;
+	        $statedetails_id = $stateid;
 		$update_status = $this->jobj->task->msg->info->update->status;
 		$last_update = $this->jobj->task->msg->info->update->{"last-update"};
 		$antivirus_name = $this->jobj->task->antivirus->name;
