@@ -279,8 +279,8 @@ class PluginArmaditoState extends CommonDBTM {
 				     `antivirus_name`=?,
 				     `antivirus_version`=?,
 				     `antivirus_realtime`=?,
-					  `antivirus_service`=?,
-                 `plugin_armadito_statedetails_id`=?
+				     `antivirus_service`=?,
+                 		     `plugin_armadito_statedetails_id`=?
 				  WHERE `agent_id`=?";
 
 		$stmt = $DB->prepare($query);
@@ -291,7 +291,7 @@ class PluginArmaditoState extends CommonDBTM {
 			return $error;
 		}
 
-		if(!$stmt->bind_param('ssssssii', $update_status, $last_update, $antivirus_name, $antivirus_version, $antivirus_realtime, $antivirus_service, $agent_id, $statedetails_id)) {
+		if(!$stmt->bind_param('ssssssii', $update_status, $last_update, $antivirus_name, $antivirus_version, $antivirus_realtime, $antivirus_service, $statedetails_id, $agent_id)) {
 			$error->setMessage(1, 'State update bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
 			$error->log();
 			$stmt->close();
