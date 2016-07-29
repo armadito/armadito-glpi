@@ -57,6 +57,25 @@ CREATE TABLE `glpi_plugin_armadito_statedetails` (
    UNIQUE KEY `couple module_agent_id` (`module_name`,`agent_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 
+DROP TABLE IF EXISTS `glpi_plugin_armadito_jobs`;
+
+CREATE TABLE `glpi_plugin_armadito_jobs` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+   `priority` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+   PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
+
+DROP TABLE IF EXISTS `glpi_plugin_armadito_jobs_agents`;
+
+CREATE TABLE `glpi_plugin_armadito_jobs_agents` (
+   `job_id` int(11) NOT NULL,
+   `agent_id` int(11) NOT NULL,
+   PRIMARY KEY (`job_id`,`agent_id`),
+   FOREIGN KEY `job_id` REFERENCES glpi_plugin_armadito_jobs (id),
+   FOREIGN KEY `agent_id` REFERENCES glpi_plugin_armadito_agents (id)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
+
 DROP TABLE IF EXISTS `glpi_plugin_armadito_alerts`;
 
 CREATE TABLE `glpi_plugin_armadito_alerts` (
