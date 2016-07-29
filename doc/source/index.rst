@@ -11,12 +11,18 @@
 Armadito for GLPI
 =================
 
-Armadito for GLPI is a solution to manage computer antiviruses on IT infrastructures. It is firstly designed to manage computers with Armadito Antivirus installed.
+Armadito for GLPI is an open-source solution to manage computer antiviruses on IT infrastructures. It is firstly designed to manage computers with Armadito Antivirus installed.
+This solution can be divided into two subprojects :
 
-Work in progress...
+* **armadito-agent** : client-side part installed on each managed computers.
+* **armadito-glpi**  : server-side part developed as a plugin for GLPI.
 
 .. toctree::
    :maxdepth: 2
+
+   intro/index.rst
+   build/index.rst
+   licensing/index.rst
 ..   faq/index.rst
 ..   screenshots/index.rst
    
