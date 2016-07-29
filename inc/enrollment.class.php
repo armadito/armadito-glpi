@@ -193,7 +193,7 @@ class PluginArmaditoEnrollment {
 
          $error = new PluginArmaditoError();
 
-         $query = "INSERT INTO `glpi_plugin_armadito_agents`(`entities_id`, `computers_id`, `plugin_fusioninventory_agents_id`,`device_id`, `agent_version`, `antivirus_name`, `antivirus_version`, `antivirus_state`, `last_contact`, `last_alert`, `fingerprint`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+         $query = "INSERT INTO `glpi_plugin_armadito_agents`(`entities_id`, `computers_id`, `plugin_fusioninventory_agents_id`,`device_id`, `agent_version`, `antivirus_name`, `antivirus_version`, `last_contact`, `last_alert`, `fingerprint`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
          $stmt = $DB->prepare($query);
 
@@ -203,7 +203,7 @@ class PluginArmaditoEnrollment {
             return $error;
          }
 
-         if(!$stmt->bind_param('iiissssssss', $entities_id, $computers_id, $fusion_table_id, $fusion_device_id, $agent_version, $antivirus_name, $antivirus_version, $antivirus_state, $last_contact, $last_alert, $fingerprint)) {
+         if(!$stmt->bind_param('iiisssssss', $entities_id, $computers_id, $fusion_table_id, $fusion_device_id, $agent_version, $antivirus_name, $antivirus_version, $last_contact, $last_alert, $fingerprint)) {
                $error->setMessage(1, 'Enrollment insert bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
                $error->log();
                $stmt->close();
@@ -218,7 +218,6 @@ class PluginArmaditoEnrollment {
          $agent_version = $this->jobj->agent_version;
          $antivirus_name = $this->jobj->task->antivirus->name;
          $antivirus_version = $this->jobj->task->antivirus->version;
-         $antivitus_state = "unknown";
          $last_contact = date("Y-m-d H:i:s", time());
          $last_alert = '1970-01-01 00:00:00';
          $fingerprint = $this->jobj->fingerprint;

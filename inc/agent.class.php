@@ -166,14 +166,6 @@ class PluginArmaditoAgent extends CommonDBTM {
 
       $i++;
 
-      $tab[$i]['table']     = $this->getTable();
-      $tab[$i]['field']     = 'antivirus_state';
-      $tab[$i]['name']      = __('Antivirus State', 'armadito');
-      $tab[$i]['datatype']  = 'text';
-      $tab[$i]['massiveaction'] = FALSE;
-
-      $i++;
-
       $tab[$i]['table']     = 'glpi_plugin_fusioninventory_agents';
       $tab[$i]['field']     = 'device_id';
       $tab[$i]['name']      = __('Fusion Device ID', 'armadito');

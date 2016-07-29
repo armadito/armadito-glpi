@@ -9,7 +9,6 @@ CREATE TABLE `glpi_plugin_armadito_agents` (
    `agent_version` varchar(255) collate utf8_unicode_ci default NULL,
    `antivirus_name` varchar(255) collate utf8_unicode_ci NOT NULL,
    `antivirus_version` varchar(255) collate utf8_unicode_ci default NULL,
-   `antivirus_state` varchar(255) collate utf8_unicode_ci default NULL,
    `last_contact` datetime default NULL,
    `last_alert` datetime default NULL,
    `fingerprint` varchar(255) collate utf8_unicode_ci NOT NULL,
