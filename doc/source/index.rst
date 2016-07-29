@@ -21,7 +21,7 @@ This solution can be divided into two subprojects :
    :maxdepth: 2
 
    intro/index.rst
-   build/index.rst
+   compilation/index.rst
    licensing/index.rst
 ..   faq/index.rst
 ..   screenshots/index.rst
