@@ -1,6 +1,11 @@
 Build from sources
 ==================
 
-Armadito agent can be built from sources by using `Strawberry Perl <http://strawberryperl.com/>`_.
+**armadito-agent** can be built from sources on Windows and Linux, MacOSX (to be tested).
+
+For **armadito-glpi**, you just have to install it from GLPI.
 
 .. toctree::
+
+   linux.rst
+   windows.rst
