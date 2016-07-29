@@ -216,6 +216,10 @@ class PluginArmaditoAgent extends CommonDBTM {
          $actions[__CLASS__.MassiveAction::CLASS_ACTION_SEPARATOR.'transfert'] = __('Transfer');
       }
 
+      if (Session::haveRight("plugin_armadito_jobs", UPDATE)) {
+         $actions[__CLASS__.MassiveAction::CLASS_ACTION_SEPARATOR.'newscan'] = __('New Antivirus Scan');
+      }
+
       return $actions;
    }
 
@@ -241,7 +245,14 @@ class PluginArmaditoAgent extends CommonDBTM {
                   }
                }
             }
-            return;
+         return;
+
+         case 'newscan' :
+            foreach ($ids as $key) {
+               // TODO
+               $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_OK);
+            }
+         return;
       }
 
       return;
@@ -260,13 +271,27 @@ class PluginArmaditoAgent extends CommonDBTM {
             echo "<br><br>".Html::submit(__('Post'),
                                          array('name' => 'massiveaction'));
             return true;
-
+         case 'newscan' :
+            PluginArmaditoAgent::showNewScanForm();
+            return true;
       }
 
       return parent::showMassiveActionsSubForm($ma);
    }
 
-
+  /**
+    *  Show complete form for a new on-demand scan
+   **/
+   static function showNewScanForm(){
+      echo "Type ";
+      $array = array();
+      $array[0] = "Complete";
+      $array[1] = "Fast";
+      $array[2] = "Custom";
+      Dropdown::showFromArray("scan_type", $array);
+      echo "<br><br>".Html::submit(__('Post'),
+                                   array('name' => 'massiveaction'));
+   }
 }
 
 ?>
