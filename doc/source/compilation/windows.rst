@@ -4,6 +4,7 @@ Build on Windows
 Prerequisites
 -------------
 
+* Git client
 * Perl > 5.8 (`Strawberry Perl <http://strawberryperl.com/>`_ or something else)
 * Perl module **inc::Module::Install**
 * Perl module **FusionInventory::Agent** > 2.3.17 (to be tested on older versions)
@@ -28,7 +29,13 @@ Modules
 Instructions
 ------------
 
-:: 
+Get the last version of Armadito Agent sources on github :
+::
+
+   git clone -b DEV https://github.com/armadito/armadito-agent
+
+Then, at root of project's sources :
+::
 
    $ perl Makefile.PL
    $ dmake
