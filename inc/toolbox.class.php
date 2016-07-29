@@ -99,5 +99,46 @@ class PluginArmaditoToolbox {
       }
    }
 
+   /**
+    * Dropdown for display hours
+    *
+    * @return type
+    */
+   static function showHours($name, $options=array()) {
+
+      $p['value']          = '';
+      $p['display']        = true;
+      $p['width']          = '80%';
+      $p['step']           = 5;
+      $p['begin']          = 0;
+      $p['end']            = (24 * 3600);
+
+      if (is_array($options) && count($options)) {
+         foreach ($options as $key => $val) {
+            $p[$key] = $val;
+         }
+      }
+
+      if ($p['step'] <= 0) {
+         $p['step'] = 5;
+      }
+
+      $values   = array();
+
+      $p['step'] = $p['step'] * 60; // to have in seconds
+      for ($s=$p['begin'] ; $s<=$p['end'] ; $s+=$p['step']) {
+         $values[$s] = PluginArmaditoToolbox::getHourMinute($s);
+      }
+      return Dropdown::showFromArray($name, $values, $p);
+   }
+
+   /**
+    * Get hour:minute from number of seconds
+    */
+   static function getHourMinute($seconds) {
+      $hour = floor($seconds / 3600);
+      $minute = (($seconds - ((floor($seconds / 3600)) * 3600)) / 60);
+      return sprintf("%02s", $hour).":".sprintf("%02s", $minute);
+   }
 }
 ?>

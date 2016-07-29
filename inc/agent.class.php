@@ -289,6 +289,7 @@ class PluginArmaditoAgent extends CommonDBTM {
       $array[1] = "Fast";
       $array[2] = "Custom";
       Dropdown::showFromArray("scan_type", $array);
+      # PluginArmaditoToolbox::showHours('beginhours', array('step' => 15));
       echo "<br><br>".Html::submit(__('Post'),
                                    array('name' => 'massiveaction'));
    }
