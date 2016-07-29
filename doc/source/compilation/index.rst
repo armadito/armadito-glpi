@@ -1,7 +1,7 @@
 Build from sources
 ==================
 
-**armadito-agent** can be built from sources on Windows and Linux, MacOSX (to be tested).
+**armadito-agent** can be built from sources with **cpan** on Windows and Linux, MacOSX (to be tested).
 
 For **armadito-glpi**, you just have to install it from GLPI.
 
