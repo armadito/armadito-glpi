@@ -168,7 +168,7 @@ class PluginArmaditoAgent extends CommonDBTM {
 
       $tab[$i]['table']     = 'glpi_plugin_fusioninventory_agents';
       $tab[$i]['field']     = 'device_id';
-      $tab[$i]['name']      = __('Fusion Device ID', 'armadito');
+      $tab[$i]['name']      = __('FusionInventory Id', 'armadito');
       $tab[$i]['datatype']  = 'itemlink';
       $tab[$i]['itemlink_type'] = 'PluginFusioninventoryAgent';
       $tab[$i]['massiveaction'] = FALSE;
