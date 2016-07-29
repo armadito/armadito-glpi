@@ -213,6 +213,68 @@ class PluginArmaditoAgent extends CommonDBTM {
       // call when new inventory
       return true;
    }
+
+   /**
+    * Massive action ()
+    */
+   function getSpecificMassiveActions($checkitem=NULL) {
+
+      $actions = array();
+      if (Session::haveRight("plugin_armadito_agents", UPDATE)) {
+         $actions[__CLASS__.MassiveAction::CLASS_ACTION_SEPARATOR.'transfert'] = __('Transfer');
+      }
+
+      return $actions;
+   }
+
+   static function processMassiveActionsForOneItemtype(MassiveAction $ma, CommonDBTM $item,
+                                                       array $ids) {
+
+      $pfAgent = new self();
+
+      switch ($ma->getAction()) {
+
+         case 'transfert' :
+            foreach ($ids as $key) {
+               if ($pfAgent->getFromDB($key)) {
+                  $input = array();
+                  $input['id'] = $key;
+                  $input['entities_id'] = $_POST['entities_id'];
+                  if ($pfAgent->update($input)) {
+                     //set action massive ok for this item
+                     $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_OK);
+                  } else {
+                     // KO
+                     $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_KO);
+                  }
+               }
+            }
+            return;
+      }
+
+      return;
+   }
+
+  /**
+    * @since version 0.85
+    *
+    * @see CommonDBTM::showMassiveActionsSubForm()
+   **/
+   static function showMassiveActionsSubForm(MassiveAction $ma) {
+
+      switch ($ma->getAction()) {
+         case 'transfert' :
+            Dropdown::show('Entity');
+            echo "<br><br>".Html::submit(__('Post'),
+                                         array('name' => 'massiveaction'));
+            return true;
+
+      }
+
+      return parent::showMassiveActionsSubForm($ma);
+   }
+
+
 }
 
 ?>
