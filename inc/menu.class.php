@@ -234,10 +234,14 @@ class PluginArmaditoMenu extends CommonGLPI {
 
       if (Session::haveRight('plugin_armadito_jobs', READ)) {
          $a_menu[] =array(
-            'name' => __('Jobs', 'armadito'),
-            'pic'  => $CFG_GLPI['root_doc']."/plugins/armadito/pics/menu_settings.png",
-            'link' => $CFG_GLPI['root_doc']."/plugins/armadito/front/jobs.php"
+            'name' => __('Board', 'armadito'),
+            'pic'  => $CFG_GLPI['root_doc']."/plugins/armadito/pics/menu_stats.png",
+            'link' => $CFG_GLPI['root_doc']."/plugins/armadito/front/jobboard.php"
          );
+
+         $a_menu[1]['name'] = __('Jobs', 'armadito');
+         $a_menu[1]['pic']  = $CFG_GLPI['root_doc']."/plugins/armadito/pics/menu_settings.png";
+         $a_menu[1]['link'] = $CFG_GLPI['root_doc']."/plugins/armadito/front/job.php";
       }
 
       if (!empty($a_menu)) {
