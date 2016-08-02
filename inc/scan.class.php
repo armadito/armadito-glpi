@@ -43,26 +43,43 @@ class PluginArmaditoScan extends CommonDBTM {
 	}
 
     function __construct() {
-         $this->job = new PluginArmaditoJob();
-         $this->scan_type = -1;
-         $this->scan_path = "";
-         $this->scan_options = "";
+      $this->job = new PluginArmaditoJob();
+      $this->scan_type = -1;
+      $this->scan_path = "";
+      $this->scan_options = "";
     }
 
 	function initFromForm($key, $POST, $agentobj) {
-
-		 $this->agentid = $key;
-       $this->job->init("scan");
-       $this->scan_type = PluginArmaditoToolbox::validateInt($POST["scan_type"]);
+      $this->agentid = $key;
+      $this->job->init("scan");
+      $this->setScanType($POST["scan_type"]);
 	}
 
 	function initFromJson($jobj) {
-		 $this->agentid = PluginArmaditoToolbox::validateInt($jobj->agent_id);
-       $this->jobj = $jobj;
+      $this->agentid = PluginArmaditoToolbox::validateInt($jobj->agent_id);
+      $this->jobj = $jobj;
 	}
 
    function toJson() {
-        return '{}';
+       return '{}';
+   }
+
+   function setScanType ($id){
+      PluginArmaditoToolbox::validateInt($id);
+      switch($id){
+         case 0:
+            $this->scan_type = "complete";
+            break;
+         case 1:
+            $this->scan_type = "fast";
+            break;
+         case 2:
+            $this->scan_type = "custom";
+            break;
+         default:
+            $this->scan_type = "unknown";
+            break;
+      }
    }
 
    static function getDefaultDisplayPreferences(){
