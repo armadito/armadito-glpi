@@ -54,6 +54,15 @@ class PluginArmaditoJob extends CommonDBTM {
          );
       }
 
+      static function getDefaultDisplayPreferences(){
+          $prefs = "";
+          $nb_columns = 8;
+          for( $i = 1; $i <= $nb_columns; $i++){
+               $prefs .= "(NULL, 'PluginArmaditoJob', '".$i."', '".$i."', '0'),";
+          }
+          return $prefs;
+      }
+
       function setPriority ($id){
          PluginArmaditoToolbox::validateInt($id);
          switch($id){
