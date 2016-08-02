@@ -249,8 +249,15 @@ class PluginArmaditoAgent extends CommonDBTM {
 
          case 'newscan' :
             foreach ($ids as $key) {
-               // TODO
-               $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_OK);
+               $scan = new PluginArmaditoScan();
+               $scan->initFromForm($key, $_POST, $pfAgent);
+
+               // Add Scan to Jobs' table and Scans' table
+               if ($scan->run()){
+                  $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_OK);
+               } else {
+                  $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_KO);
+               }
             }
          return;
       }

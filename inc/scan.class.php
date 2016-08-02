@@ -31,24 +31,39 @@ if (!defined('GLPI_ROOT')) {
  **/
 class PluginArmaditoScan extends CommonDBTM {
     protected $agentid;
+    protected $agent;
     protected $jobj;
+    protected $job;
+    protected $scan_type;
+    protected $scan_path;
+    protected $scan_options;
 
 	static function getTypeName($nb=0) {
 	  return __('Scan', 'armadito');
 	}
 
     function __construct() {
-		//
+         $this->job = new PluginArmaditoJob();
+         $this->scan_type = -1;
+         $this->scan_path = "";
+         $this->scan_options = "";
     }
 
-	function init($jobj) {
+	function initFromForm($key, $POST, $agentobj) {
+
+		 $this->agentid = $key;
+       $this->job->init("scan");
+       $this->scan_type = PluginArmaditoToolbox::validateInt($POST["scan_type"]);
+	}
+
+	function initFromJson($jobj) {
 		 $this->agentid = PluginArmaditoToolbox::validateInt($jobj->agent_id);
        $this->jobj = $jobj;
 	}
 
-    function toJson() {
-         return '{}';
-    }
+   function toJson() {
+        return '{}';
+   }
 
    static function getDefaultDisplayPreferences(){
        $prefs = "";

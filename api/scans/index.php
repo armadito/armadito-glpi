@@ -56,8 +56,8 @@ if (!empty($rawdata)) { // POST /scans
    }
 
    $scan = new PluginArmaditoScan();
-   $scan->init($jobj);
-   $error = $scan->run();
+   $scan->initFromJson($jobj);
+   $error = $scan->updateDB();
 
    if($error->getCode() == 0){ // success
       $communication->setMessage($scan->toJson(), 200);
