@@ -72,8 +72,8 @@ CREATE TABLE `glpi_plugin_armadito_jobs_agents` (
    `job_id` int(11) NOT NULL,
    `agent_id` int(11) NOT NULL,
    PRIMARY KEY (`job_id`,`agent_id`),
-   FOREIGN KEY `job_id` REFERENCES glpi_plugin_armadito_jobs (id),
-   FOREIGN KEY `agent_id` REFERENCES glpi_plugin_armadito_agents (id)
+   FOREIGN KEY `job_id` REFERENCES `glpi_plugin_armadito_jobs` (id),
+   FOREIGN KEY `agent_id` REFERENCES `glpi_plugin_armadito_agents` (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 
 DROP TABLE IF EXISTS `glpi_plugin_armadito_alerts`;
