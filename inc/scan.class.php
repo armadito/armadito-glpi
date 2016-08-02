@@ -109,15 +109,6 @@ class PluginArmaditoScan extends CommonDBTM {
    }
 
     /**
-    * add new scan in database
-    *
-    * @return PluginArmaditoError obj
-    **/
-    function run(){
-       return true;
-    }
-
-    /**
     * Insert or Update Scans
     *
     * @return PluginArmaditoError obj
