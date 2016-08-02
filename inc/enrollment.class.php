@@ -193,7 +193,7 @@ class PluginArmaditoEnrollment {
 
          $error = new PluginArmaditoError();
 
-         $query = "INSERT INTO `glpi_plugin_armadito_agents`(`entities_id`, `computers_id`, `plugin_fusioninventory_agents_id`,`device_id`, `agent_version`, `antivirus_name`, `antivirus_version`, `last_contact`, `last_alert`, `fingerprint`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+         $query = "INSERT INTO `glpi_plugin_armadito_agents`(`entities_id`, `computers_id`, `plugin_fusioninventory_agents_id`,`device_id`, `agent_version`, `antivirus_name`, `antivirus_version`, `last_contact`, `last_alert`, `fingerprint`) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
          $stmt = $DB->prepare($query);
 
