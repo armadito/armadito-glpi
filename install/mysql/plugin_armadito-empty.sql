@@ -61,6 +61,7 @@ DROP TABLE IF EXISTS `glpi_plugin_armadito_jobs`;
 
 CREATE TABLE `glpi_plugin_armadito_jobs` (
    `id` int(11) NOT NULL AUTO_INCREMENT,
+   `plugin_armadito_agents_id` int(11) NOT NULL,
    `job_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
    `job_priority` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
    PRIMARY KEY (`id`)
@@ -93,7 +94,8 @@ DROP TABLE IF EXISTS `glpi_plugin_armadito_scans`;
 
 CREATE TABLE `glpi_plugin_armadito_scans` (
    `id` int(11) NOT NULL AUTO_INCREMENT,
-   `job_id` int(11) NOT NULL,
+   `plugin_armadito_jobs_id` int(11) NOT NULL,
+   `plugin_armadito_agents_id` int(11) NOT NULL,
    `scan_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
    `scan_path` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
    `scan_options` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,

@@ -99,9 +99,43 @@ class PluginArmaditoScan extends CommonDBTM {
 
       $i = 1;
 
-      $tab[$i]['table']     = $this->getTable();
-      $tab[$i]['field']     = 'agent_id';
+      $tab[$i]['table']     = 'glpi_plugin_armadito_jobs';
+      $tab[$i]['field']     = 'id';
+      $tab[$i]['name']      = __('Job Id', 'armadito');
+      $tab[$i]['datatype']  = 'itemlink';
+      $tab[$i]['itemlink_type'] = 'PluginArmaditoJob';
+      $tab[$i]['massiveaction'] = FALSE;
+
+      $i++;
+
+      $tab[$i]['table']     = 'glpi_plugin_armadito_agents';
+      $tab[$i]['field']     = 'id';
       $tab[$i]['name']      = __('Agent Id', 'armadito');
+      $tab[$i]['datatype']  = 'itemlink';
+      $tab[$i]['itemlink_type'] = 'PluginArmaditoAgent';
+      $tab[$i]['massiveaction'] = FALSE;
+
+      $i++;
+
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'scan_type';
+      $tab[$i]['name']      = __('Scan Type', 'armadito');
+      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['massiveaction'] = FALSE; 
+
+      $i++;
+
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'scan_path';
+      $tab[$i]['name']      = __('Scan Path', 'armadito');
+      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['massiveaction'] = FALSE; 
+
+      $i++;
+
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'scan_options';
+      $tab[$i]['name']      = __('Scan Options', 'armadito');
       $tab[$i]['datatype']  = 'text';
       $tab[$i]['massiveaction'] = FALSE;
 
@@ -156,7 +190,7 @@ class PluginArmaditoScan extends CommonDBTM {
       global $DB;
       $error = new PluginArmaditoError();
 
-      $query = "INSERT INTO `glpi_plugin_armadito_scans` (`job_id`, `scan_type`, `scan_path`, `scan_options`) VALUES (?,?,?,?)";
+      $query = "INSERT INTO `glpi_plugin_armadito_scans` (`plugin_armadito_jobs_id`, `plugin_armadito_agents_id`, `scan_type`, `scan_path`, `scan_options`) VALUES (?,?,?,?,?)";
 
       $stmt = $DB->prepare($query);
 
@@ -166,7 +200,7 @@ class PluginArmaditoScan extends CommonDBTM {
          return $error;
       }
 
-      if(!$stmt->bind_param('isss', $job_id, $scan_type, $scan_path, $scan_options)) {
+      if(!$stmt->bind_param('iisss', $job_id, $agent_id, $scan_type, $scan_path, $scan_options)) {
             $error->setMessage(1, 'Scan insert bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
             $error->log();
             $stmt->close();
@@ -174,6 +208,7 @@ class PluginArmaditoScan extends CommonDBTM {
       }
 
       $job_id = $this->job->getJobId();
+      $agent_id = $this->agentid;
       $scan_type = $this->scan_type;
       $scan_path = $this->scan_path;
       $scan_options = $this->scan_options;
