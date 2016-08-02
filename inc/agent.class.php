@@ -289,6 +289,8 @@ class PluginArmaditoAgent extends CommonDBTM {
     *  Show complete form for a new on-demand scan
    **/
    static function showNewScanForm(){
+
+      echo "<b> Scan Parameters </b><br>";
       echo "Type ";
       $array = array();
       $array[0] = "Complete";
@@ -296,6 +298,15 @@ class PluginArmaditoAgent extends CommonDBTM {
       $array[2] = "Custom";
       Dropdown::showFromArray("scan_type", $array);
       # PluginArmaditoToolbox::showHours('beginhours', array('step' => 15));
+
+      echo "<br><br><b> Job Parameters </b><br>";
+      echo "Priority ";
+      $array = array();
+      $array[0] = "Low";
+      $array[1] = "Medium";
+      $array[2] = "High";
+      $array[3] = "Urgent";
+      Dropdown::showFromArray("scan_type", $array);
       echo "<br><br>".Html::submit(__('Post'),
                                    array('name' => 'massiveaction'));
    }
