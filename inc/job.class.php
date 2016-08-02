@@ -41,12 +41,35 @@ class PluginArmaditoJob extends CommonDBTM {
          $this->id = -1;
       }
 
-      function init( $type ) {
+      function init( $type, $POST ) {
          $this->type = $type;
+         $this->setPriority($POST["job_priority"]);
+
          PluginArmaditoToolbox::logIfExtradebug(
             'pluginArmadito-job',
             'New PluginArmaditoJob object.'
          );
+      }
+
+      function setPriority ($id){
+         PluginArmaditoToolbox::validateInt($id);
+         switch($id){
+            case 0:
+               $this->priority = "low";
+               break;
+            case 1:
+               $this->priority = "medium";
+               break;
+            case 2:
+               $this->priority = "high";
+               break;
+            case 3:
+               $this->priority = "urgent";
+               break;
+            default:
+               $this->scan_type = "unknown";
+               break;
+         }
       }
 
       function toJson() {

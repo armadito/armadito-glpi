@@ -306,7 +306,7 @@ class PluginArmaditoAgent extends CommonDBTM {
       $array[1] = "Medium";
       $array[2] = "High";
       $array[3] = "Urgent";
-      Dropdown::showFromArray("scan_type", $array);
+      Dropdown::showFromArray("job_priority", $array);
       echo "<br><br>".Html::submit(__('Post'),
                                    array('name' => 'massiveaction'));
    }
