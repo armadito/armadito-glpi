@@ -101,7 +101,7 @@ class PluginArmaditoJob extends CommonDBTM {
          global $DB;
 
          $error = new PluginArmaditoError();
-         $query = "INSERT INTO `glpi_plugin_armadito_jobs` (`plugin_armadito_agents_id`, `job_type`, `job_priority`) VALUES (?,?)";
+         $query = "INSERT INTO `glpi_plugin_armadito_jobs` (`plugin_armadito_agents_id`, `job_type`, `job_priority`) VALUES (?,?,?)";
          $stmt = $DB->prepare($query);
 
          if(!$stmt) {
