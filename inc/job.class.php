@@ -124,6 +124,15 @@ class PluginArmaditoJob extends CommonDBTM {
          $tab[$i]['datatype']  = 'text';
          $tab[$i]['massiveaction'] = FALSE;
 
+         $i++;
+
+         $tab[$i]['table']     = $this->getTable();
+         $tab[$i]['field']     = 'job_status';
+         $tab[$i]['name']      = __('Job Status', 'armadito');
+         $tab[$i]['datatype']  = 'text';
+         $tab[$i]['massiveaction'] = FALSE;
+
+
          return $tab;
       }
 
@@ -144,7 +153,7 @@ class PluginArmaditoJob extends CommonDBTM {
          global $DB;
 
          $error = new PluginArmaditoError();
-         $query = "INSERT INTO `glpi_plugin_armadito_jobs` (`plugin_armadito_agents_id`, `job_type`, `job_priority`) VALUES (?,?,?)";
+         $query = "INSERT INTO `glpi_plugin_armadito_jobs` (`plugin_armadito_agents_id`, `job_type`, `job_priority`, `job_status`) VALUES (?,?,?,?)";
          $stmt = $DB->prepare($query);
 
          if(!$stmt) {
@@ -153,7 +162,7 @@ class PluginArmaditoJob extends CommonDBTM {
             return $error;
          }
 
-         if(!$stmt->bind_param('iss', $agent_id, $job_type, $job_priority)) {
+         if(!$stmt->bind_param('isss', $agent_id, $job_type, $job_priority, $job_status)) {
                $error->setMessage(1, 'Job insert bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
                $error->log();
                $stmt->close();
@@ -163,6 +172,7 @@ class PluginArmaditoJob extends CommonDBTM {
          $agent_id = $this->agentid;
          $job_type = $this->type;
          $job_priority = $this->priority;
+         $job_status = "queued"; # Step 1
 
          if(!$stmt->execute()){
             $error->setMessage(1, 'Job insert execution failed (' . $stmt->errno . ') ' . $stmt->error);

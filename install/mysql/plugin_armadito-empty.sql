@@ -64,6 +64,7 @@ CREATE TABLE `glpi_plugin_armadito_jobs` (
    `plugin_armadito_agents_id` int(11) NOT NULL,
    `job_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
    `job_priority` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+   `job_status` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
    PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 
