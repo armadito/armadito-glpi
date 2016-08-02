@@ -34,14 +34,17 @@ class PluginArmaditoJob extends CommonDBTM {
       protected $jobj;
       protected $type;
       protected $priority;
+      protected $agentid;
 
       function __construct() {
          $this->type = -1;
          $this->priority = -1;
          $this->id = -1;
+         $this->agentid = -1;
       }
 
-      function init( $type, $POST ) {
+      function initFromForm($key, $type, $POST) {
+         $this->agentid = $key;
          $this->type = $type;
          $this->setPriority($POST["job_priority"]);
 
@@ -67,7 +70,7 @@ class PluginArmaditoJob extends CommonDBTM {
                $this->priority = "urgent";
                break;
             default:
-               $this->scan_type = "unknown";
+               $this->priority = "unknown";
                break;
          }
       }
