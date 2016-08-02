@@ -78,5 +78,41 @@ class PluginArmaditoJob extends CommonDBTM {
       function toJson() {
          return '{}';
       }
+
+      function insertJob() {
+         global $DB;
+         $error = new PluginArmaditoError();
+
+         $query = "INSERT INTO `glpi_plugin_armadito_jobs` (`job_type`, `job_priority`) VALUES (?,?)";
+
+         $stmt = $DB->prepare($query);
+
+         if(!$stmt) {
+            $error->setMessage(1, 'Job insert preparation failed.');
+            $error->log();
+            return $error;
+         }
+
+         if(!$stmt->bind_param('ss', $job_type, $job_priority)) {
+               $error->setMessage(1, 'Job insert bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
+               $error->log();
+               $stmt->close();
+               return $error;
+         }
+
+         $job_type = $this->type;
+         $job_priority = $this->priority;
+
+         if(!$stmt->execute()){
+            $error->setMessage(1, 'Job insert execution failed (' . $stmt->errno . ') ' . $stmt->error);
+            $error->log();
+            $stmt->close();
+            return $error;
+         }
+
+         $stmt->close();
+         $error->setMessage(0, 'Job successfully inserted.');
+         return $error;
+      }
 }
 ?>
