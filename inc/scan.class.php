@@ -116,6 +116,10 @@ class PluginArmaditoScan extends CommonDBTM {
      function updateDB(){
 
          $error = new PluginArmaditoError();
+
+         $error = $this->job->insertJob();
+         $error = $this->insertScan();
+
          $error->setMessage(0, 'Scan successfully inserted.');
          return $error;
      }
