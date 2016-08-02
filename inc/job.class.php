@@ -30,23 +30,27 @@ if (!defined('GLPI_ROOT')) {
  * Class dealing with Armadito AV state
  **/
 class PluginArmaditoJob extends CommonDBTM {
-     protected $jobj;
+      protected $id;
+      protected $jobj;
+      protected $type;
+      protected $priority;
 
-     function __construct() {
-      //
-     }
+      function __construct() {
+         $this->type = -1;
+         $this->priority = -1;
+         $this->id = -1;
+      }
 
-     function init($jobj) {
-      $this->jobj = $jobj;
+      function init() {
 
-      PluginArmaditoToolbox::logIfExtradebug(
-         'pluginArmadito-job',
-         'New PluginArmaditoJob object.'
-      );
-     }
+         PluginArmaditoToolbox::logIfExtradebug(
+            'pluginArmadito-job',
+            'New PluginArmaditoJob object.'
+         );
+      }
 
-     function toJson() {
+      function toJson() {
          return '{}';
-     }
+      }
 }
 ?>
