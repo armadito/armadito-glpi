@@ -84,6 +84,49 @@ class PluginArmaditoJob extends CommonDBTM {
          }
       }
 
+
+      function getSearchOptions() {
+
+         $tab = array();
+         $tab['common'] = __('Scan', 'armadito');
+
+         $i = 1;
+
+         $tab[$i]['table']     = $this->getTable();
+         $tab[$i]['field']     = 'id';
+         $tab[$i]['name']      = __('Job Id', 'armadito');
+         $tab[$i]['datatype']  = 'itemlink';
+         $tab[$i]['itemlink_type'] = 'PluginArmaditoJob';
+         $tab[$i]['massiveaction'] = FALSE;
+
+         $i++;
+
+         $tab[$i]['table']     = 'glpi_plugin_armadito_agents';
+         $tab[$i]['field']     = 'id';
+         $tab[$i]['name']      = __('Agent Id', 'armadito');
+         $tab[$i]['datatype']  = 'itemlink';
+         $tab[$i]['itemlink_type'] = 'PluginArmaditoAgent';
+         $tab[$i]['massiveaction'] = FALSE;
+
+         $i++;
+
+         $tab[$i]['table']     = $this->getTable();
+         $tab[$i]['field']     = 'job_type';
+         $tab[$i]['name']      = __('Job Type', 'armadito');
+         $tab[$i]['datatype']  = 'text';
+         $tab[$i]['massiveaction'] = FALSE;
+
+         $i++;
+
+         $tab[$i]['table']     = $this->getTable();
+         $tab[$i]['field']     = 'job_priority';
+         $tab[$i]['name']      = __('Job Priority', 'armadito');
+         $tab[$i]['datatype']  = 'text';
+         $tab[$i]['massiveaction'] = FALSE;
+
+         return $tab;
+      }
+
       function toJson() {
          return '{}';
       }
