@@ -41,8 +41,8 @@ class PluginArmaditoJob extends CommonDBTM {
          $this->id = -1;
       }
 
-      function init() {
-
+      function init( $type ) {
+         $this->type = $type;
          PluginArmaditoToolbox::logIfExtradebug(
             'pluginArmadito-job',
             'New PluginArmaditoJob object.'
