@@ -132,7 +132,7 @@ class PluginArmaditoScan extends CommonDBTM {
     function isScaninDB(){
       global $DB;
 
-      $query = "SELECT update_status FROM `glpi_plugin_armadito_scans`
+      $query = "SELECT id FROM `glpi_plugin_armadito_scans`
                  WHERE `agent_id`='".$this->agentid."'";
       $ret = $DB->query($query);
 
@@ -156,7 +156,7 @@ class PluginArmaditoScan extends CommonDBTM {
       global $DB;
       $error = new PluginArmaditoError();
 
-      $query = "INSERT INTO `glpi_plugin_armadito_scans` (`agent_id`, `update_status`, `last_update`, `antivirus_name`, `antivirus_version`, `antivirus_realtime`, `antivirus_service`, `plugin_armadito_Scandetails_id`) VALUES (?,?,?,?,?,?,?,?)";
+      $query = "INSERT INTO `glpi_plugin_armadito_scans` (`job_id`, `scan_type`, `scan_path`, `scan_options`) VALUES (?,?,?,?)";
 
       $stmt = $DB->prepare($query);
 
@@ -166,17 +166,17 @@ class PluginArmaditoScan extends CommonDBTM {
          return $error;
       }
 
-      if(!$stmt->bind_param('issssssi', $agent_id, $update_status, $last_update, $antivirus_name, $antivirus_version, $antivirus_realtime, $antivirus_service, $Scandetails_id)) {
+      if(!$stmt->bind_param('isss', $job_id, $scan_type, $scan_path, $scan_options)) {
             $error->setMessage(1, 'Scan insert bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
             $error->log();
             $stmt->close();
             return $error;
       }
 
-      $agent_id = $this->agentid;
-      $Scandetails_id = $agent_id;
-      $antivirus_name = $this->jobj->task->antivirus->name;
-      $antivirus_version = $this->jobj->task->antivirus->version;
+      $job_id = $this->job->id;
+      $scan_type = $this->scan_type;
+      $scan_path = $this->scan_path;
+      $scan_options = $this->scan_options;
 
       if(!$stmt->execute()){
          $error->setMessage(1, 'Scan insert execution failed (' . $stmt->errno . ') ' . $stmt->error);
