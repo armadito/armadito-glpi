@@ -85,6 +85,17 @@ CREATE TABLE `glpi_plugin_armadito_alerts` (
    PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 
+DROP TABLE IF EXISTS `glpi_plugin_armadito_scans`;
+
+CREATE TABLE `glpi_plugin_armadito_scans` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `job_id` int(11) NOT NULL,
+   `scan_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+   `scan_path` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+   `scan_options` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+   PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
+
 DROP TABLE IF EXISTS `glpi_plugin_armadito_lastcontactstats`;
 
 CREATE TABLE `glpi_plugin_armadito_lastcontactstats` (
