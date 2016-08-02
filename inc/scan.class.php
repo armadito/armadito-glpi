@@ -50,9 +50,9 @@ class PluginArmaditoScan extends CommonDBTM {
     }
 
 	function initFromForm($key, $POST, $agentobj) {
+      $this->job->initFromForm($key, "scan", $POST);
       $this->agent = $agentobj;
       $this->agentid = $key;
-      $this->job->init("scan");
       $this->setScanType($POST["scan_type"]);
 	}
 
