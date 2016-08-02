@@ -24,12 +24,12 @@
 include ('../../../inc/includes.php');
 
 Html::header(__('Armadito', 'armadito'), $_SERVER["PHP_SELF"], "plugins",
-             "pluginarmaditomenu", "alerts");
+             "pluginarmaditomenu", "jobs");
 
 PluginArmaditoMenu::displayHeader();
 PluginArmaditoMenu::displayMenu("mini");
 
-//Search::show('PluginArmaditoAgent');
+Search::show('PluginArmaditoJob');
 
 Html::footer();
 ?>
