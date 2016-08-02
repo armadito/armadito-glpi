@@ -79,12 +79,20 @@ class PluginArmaditoJob extends CommonDBTM {
          return '{}';
       }
 
-      function insertJob() {
+      function setJobId($id) {
+         $this->id = $id;
+      }
+
+      function getJobId(){
+         return $this->id;
+      }
+
+       // in Jobs table
+      function insertInJobs() {
          global $DB;
+
          $error = new PluginArmaditoError();
-
          $query = "INSERT INTO `glpi_plugin_armadito_jobs` (`job_type`, `job_priority`) VALUES (?,?)";
-
          $stmt = $DB->prepare($query);
 
          if(!$stmt) {
@@ -111,6 +119,63 @@ class PluginArmaditoJob extends CommonDBTM {
          }
 
          $stmt->close();
+
+         // We get job_id
+         $result = $DB->query("SELECT LAST_INSERT_ID()");
+         if($result){
+            $data = $DB->fetch_array($result);
+            $this->setJobId($data[0]);
+         }
+         else {
+            $error->setMessage(1, 'Enrollment get agent_id failed.');
+            $error->log();
+            return $error;
+         }
+
+         return $error;
+      }
+
+      // in Jobs/Agents table
+      function insertInJobsAgents() {
+         global $DB;
+
+         $error = new PluginArmaditoError();
+         $query = "INSERT INTO `glpi_plugin_armadito_jobs_agents` (`job_id`, `agent_id`) VALUES (?,?)";
+         $stmt = $DB->prepare($query);
+
+         if(!$stmt) {
+            $error->setMessage(1, 'Job insert preparation failed.');
+            $error->log();
+            return $error;
+         }
+
+         if(!$stmt->bind_param('ii', $job_id, $agent_id)) {
+               $error->setMessage(1, 'Job insert bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
+               $error->log();
+               $stmt->close();
+               return $error;
+         }
+
+         $job_id = $this->id;
+         $agent_id = $this->agentid;
+
+         if(!$stmt->execute()){
+            $error->setMessage(1, 'Job insert execution failed (' . $stmt->errno . ') ' . $stmt->error);
+            $error->log();
+            $stmt->close();
+            return $error;
+         }
+
+         $stmt->close();
+         return $error;
+      }
+
+      function insertJob() {
+         $error = new PluginArmaditoError();
+
+         $error = $this->insertInJobs();
+         $error = $this->insertInJobsAgents();
+
          $error->setMessage(0, 'Job successfully inserted.');
          return $error;
       }

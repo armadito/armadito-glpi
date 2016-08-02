@@ -173,7 +173,7 @@ class PluginArmaditoScan extends CommonDBTM {
             return $error;
       }
 
-      $job_id = $this->job->id;
+      $job_id = $this->job->getJobId();
       $scan_type = $this->scan_type;
       $scan_path = $this->scan_path;
       $scan_options = $this->scan_options;
