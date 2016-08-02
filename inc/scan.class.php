@@ -87,103 +87,26 @@ class PluginArmaditoScan extends CommonDBTM {
       $tab[$i]['datatype']  = 'text';
       $tab[$i]['massiveaction'] = FALSE;
 
-      /*
-      $i++;
-
-      $tab[$i]['table']     = $this->getTable();
-      $tab[$i]['field']     = 'update_status';
-      $tab[$i]['name']      = __('Update Status', 'armadito');
-      $tab[$i]['datatype']  = 'text';
-      $tab[$i]['massiveaction'] = FALSE;
-
-      $i++;
-
-      $tab[$i]['table']     = $this->getTable();
-      $tab[$i]['field']     = 'last_update';
-      $tab[$i]['name']      = __('Last Update', 'armadito');
-      $tab[$i]['datatype']  = 'text';
-      $tab[$i]['massiveaction'] = FALSE;
-
-      $i++;
-
-      $tab[$i]['table']     = $this->getTable();
-      $tab[$i]['field']     = 'antivirus_name';
-      $tab[$i]['name']      = __('Antivirus Name', 'armadito');
-      $tab[$i]['datatype']  = 'text';
-      $tab[$i]['massiveaction'] = FALSE;
-
-      $i++;
-
-      $tab[$i]['table']     = $this->getTable();
-      $tab[$i]['field']     = 'antivirus_version';
-      $tab[$i]['name']      = __('Antivirus Version', 'armadito');
-      $tab[$i]['datatype']  = 'text';
-      $tab[$i]['massiveaction'] = FALSE;
-
-      $i++;
-
-      $tab[$i]['table']     = $this->getTable();
-      $tab[$i]['field']     = 'antivirus_realtime';
-      $tab[$i]['name']      = __('Antivirus On-access', 'armadito');
-      $tab[$i]['datatype']  = 'text';
-      $tab[$i]['massiveaction'] = FALSE;
-
-      $i++;
-
-      $tab[$i]['table']     = $this->getTable();
-      $tab[$i]['field']     = 'antivirus_service';
-      $tab[$i]['name']      = __('Antivirus Service', 'armadito');
-      $tab[$i]['datatype']  = 'text';
-      $tab[$i]['massiveaction'] = FALSE;
-
-      $i++;
-
-      $tab[$i]['table']     = 'glpi_plugin_armadito_scandetails';
-      $tab[$i]['field']     = 'id';
-      $tab[$i]['name']      = __('Details', 'armadito');
-      $tab[$i]['datatype']  = 'itemlink';
-      $tab[$i]['itemlink_type'] = 'PluginArmaditoScandetail';
-      $tab[$i]['massiveaction'] = FALSE;
-
-      */
-
       return $tab;
    }
+
+    /**
+    * add new scan in database
+    *
+    * @return PluginArmaditoError obj
+    **/
+    function run(){
+       return true;
+    }
 
     /**
     * Insert or Update Scans
     *
     * @return PluginArmaditoError obj
     **/
-     function run(){
+     function updateDB(){
 
          $error = new PluginArmaditoError();
-         /*
-         // Update global Antivirus Scan
-         if($this->isScaninDB()) {
-            $error = $this->updateScan();
-         }
-         else {
-            $error = $this->insertScan();
-         }
-
-		   if($error->getCode() != 0){
-			   return $error;
-		   }
-
-
-         // if AV is Armadito, we also update Scans of each modules
-         if($this->jobj->task->antivirus->name == "Armadito"){
-               foreach($this->jobj->task->msg->info->modules as $jobj_module){
-                  $module = new PluginArmaditoScanModule();
-                  $module->init($this->agentid, $this->jobj, $jobj_module);
-					   $error = $module->run();
-					   if($error->getCode() != 0){
-						   return $error;
-					   }
-			      }
-         } */
-
          $error->setMessage(0, 'Scan successfully inserted.');
          return $error;
      }
