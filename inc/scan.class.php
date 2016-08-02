@@ -121,7 +121,7 @@ class PluginArmaditoScan extends CommonDBTM {
       $tab[$i]['field']     = 'scan_type';
       $tab[$i]['name']      = __('Scan Type', 'armadito');
       $tab[$i]['datatype']  = 'text';
-      $tab[$i]['massiveaction'] = FALSE; 
+      $tab[$i]['massiveaction'] = FALSE;
 
       $i++;
 
@@ -129,7 +129,7 @@ class PluginArmaditoScan extends CommonDBTM {
       $tab[$i]['field']     = 'scan_path';
       $tab[$i]['name']      = __('Scan Path', 'armadito');
       $tab[$i]['datatype']  = 'text';
-      $tab[$i]['massiveaction'] = FALSE; 
+      $tab[$i]['massiveaction'] = FALSE;
 
       $i++;
 
