@@ -46,12 +46,12 @@ class PluginArmaditoJobmanager extends CommonDBTM {
          return '{}';
      }
 
-     function getJobs(){
+     function getJobs($status){
          global $DB;
          $error = new PluginArmaditoError();
 
          $query = "SELECT * FROM `glpi_plugin_armadito_jobs`
-                 WHERE `plugin_armadito_agents_id`='".$this->agentid."' LIMIT 10";
+                 WHERE `plugin_armadito_agents_id`='".$this->agentid."' AND `job_status`='".$status."' LIMIT 10";
 
          $ret = $DB->query($query);
 

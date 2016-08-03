@@ -35,7 +35,7 @@ if (isset($_GET['agent_id'])) { // GET /jobs
 
    $jobmanager = new PluginArmaditoJobmanager();
    $jobmanager->init($_GET['agent_id']);
-   $error = $jobmanager->getJobs();
+   $error = $jobmanager->getJobs("queued");
 
    if($error->getCode() == 0){ // success
       $communication->setMessage($jobmanager->toJson(), 200);
