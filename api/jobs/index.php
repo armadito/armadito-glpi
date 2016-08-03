@@ -26,9 +26,35 @@ include_once ("../../../../inc/includes.php");
 if (isset($_GET['agent_id'])) { // GET /jobs
    include_once("../../front/communication.php");
 
+   $error = new PluginArmaditoError();
    $communication  = new PluginArmaditoCommunication();
    $communication->init();
 
+   // Check plugin installation
+   if (!class_exists("PluginArmaditoAgent")) {
+      $error->setMessage(1, "Plugin armadito is not installed.");
+      $error->log();
+      $communication->setMessage($error->toJson(), 404);
+      $communication->sendMessage();
+      session_destroy();
+      exit();
+   }
+
+   PluginArmaditoLastContactStat::increment();
+
+   $jobmanager = new PluginArmaditoJobmanager();
+   $jobmanager->init($_GET['agent_id']);
+   $error = $jobmanager->getJobs();
+
+   if($error->getCode() == 0){ // success
+      $communication->setMessage($jobmanager->toJson(), 200);
+   }
+   else{
+      $communication->setMessage($error->toJson(), 500);
+   }
+
+   $error->log();
+   $communication->sendMessage();
    session_destroy();
 }
 else{

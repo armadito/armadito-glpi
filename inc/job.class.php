@@ -47,11 +47,14 @@ class PluginArmaditoJob extends CommonDBTM {
          $this->agentid = $key;
          $this->type = $type;
          $this->setPriority($POST["job_priority"]);
+      }
 
-         PluginArmaditoToolbox::logIfExtradebug(
-            'pluginArmadito-job',
-            'New PluginArmaditoJob object.'
-         );
+      function initFromDB($data) {
+         $this->id = $data[0];
+         $this->agentid = $data[1];
+         $this->type = $data[2];
+         $this->priority = $data[3];
+         $this->status = $data[4];
       }
 
       static function getDefaultDisplayPreferences(){
