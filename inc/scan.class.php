@@ -95,7 +95,11 @@ class PluginArmaditoScan extends CommonDBTM {
 	}
 
    function toJson() {
-       return '{}';
+       return '{
+                  "scan_type": "'.$this->scan_type.'",
+                  "scan_path": "'.$this->scan_path.'",
+                  "scan_options": "'.$this->scan_options.'"
+               }';
    }
 
    function setScanType ($id){
