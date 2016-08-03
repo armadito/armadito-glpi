@@ -72,6 +72,10 @@ class PluginArmaditoJob extends CommonDBTM {
          return $this->antivirus_version;
       }
 
+      function getId(){
+         return $this->id;
+      }
+
       static function getDefaultDisplayPreferences(){
           $prefs = "";
           $nb_columns = 8;

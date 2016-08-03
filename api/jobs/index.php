@@ -47,6 +47,7 @@ if (isset($_GET['agent_id'])) { // GET /jobs
 
    if($error->getCode() == 0){ // success
       $communication->setMessage($jobmanager->toJson(), 200);
+      $jobmanager->updateJobStatuses("downloaded");
    }
    else{
       $communication->setMessage($error->toJson(), 500);

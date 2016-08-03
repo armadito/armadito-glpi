@@ -77,5 +77,19 @@ class PluginArmaditoJobmanager extends CommonDBTM {
          return $error;
       }
 
+      function updateJobStatuses($status){
+         global $DB;
+
+         foreach($this->jobs as $job){
+            if($job->getFromDB($job->getId())){
+               $input = array();
+               $input['id'] = $job->getId();
+               $input['job_status'] = $status;
+               if(!$job->update($input)){
+                  PluginArmaditoToolbox::logE("Error when updating job n°".$job->getId()." status in DB.");
+               }
+            }
+         }
+      }
 }
 ?>
