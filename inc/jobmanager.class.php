@@ -67,13 +67,13 @@ class PluginArmaditoJobmanager extends CommonDBTM {
                $job->initFromDB($data);
                array_push($this->jobs, $job);
                $i++;
-            }     
+            }
 
-            $error->setMessage(0, 'Got '.$i.' jobs for this agent.');       
+            $error->setMessage(0, 'Got '.$i.' jobs for this agent.');
             return $error;
-         }          
-         
-         $error->setMessage(0, 'No jobs queued for this agent.');  
+         }
+
+         $error->setMessage(0, 'No jobs queued for this agent.');
          return $error;
       }
 
