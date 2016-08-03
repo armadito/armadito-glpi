@@ -27,6 +27,28 @@ paths:
             description: Unexpected error
             schema:
               $ref: "#/definitions/PluginArmaditoError"
+    post:
+      description: |
+        Update `PluginArmaditoJob` status with the given `PluginArmaditoJobStatus`.
+      parameters:
+          - in: body
+            name: Enrollment
+            description: JSON Enrollment object
+            required: true
+            schema:
+              $ref: "#/definitions/PluginArmaditoJobStatus"
+      responses:
+        '200':
+          description: Successful response
+
+        400:
+            description: Invalid Input
+            schema:
+              $ref: '#/definitions/PluginArmaditoError'
+        500:
+            description: Internal Server Error
+            schema:
+              $ref: '#/definitions/PluginArmaditoError'
   /glpi/plugins/armadito/api/enrollment:
     post:
       consumes:
@@ -172,6 +194,15 @@ definitions:
       agent_id:
         type: number
         format: double
+  PluginArmaditoJobStatus:
+    type: object
+    properties:
+      job_id:
+        type: string
+      code:
+        type: number
+      message:
+        type: string
   PluginArmaditoState:
     type: object
     properties:
