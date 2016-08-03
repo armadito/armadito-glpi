@@ -140,5 +140,18 @@ class PluginArmaditoToolbox {
       $minute = (($seconds - ((floor($seconds / 3600)) * 3600)) / 60);
       return sprintf("%02s", $hour).":".sprintf("%02s", $minute);
    }
+
+   /**
+   *  Check plugin install and exit if it is not installed
+   */
+   static function checkPluginInstallation() {
+      if (!class_exists("PluginArmaditoAgent")) {
+         http_response_code(404);
+         header("Content-Type: application/json");
+         echo '{ "plugin_version": "unknown", "code": 1, "message": "Plugin Armadito is not installed." }';
+         session_destroy();
+         exit();
+      }
+   }
 }
 ?>

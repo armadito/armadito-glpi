@@ -25,19 +25,11 @@ include_once ("../../../../inc/includes.php");
 
 if (isset($_GET['agent_id'])) { // GET /jobs
 
+   PluginArmaditoToolbox::checkPluginInstallation();
+
    $error = new PluginArmaditoError();
    $communication  = new PluginArmaditoCommunication();
    $communication->init();
-
-   // Check plugin installation
-   if (!class_exists("PluginArmaditoAgent")) {
-      $error->setMessage(1, "Plugin armadito is not installed.");
-      $error->log();
-      $communication->setMessage($error->toJson(), 404);
-      $communication->sendMessage();
-      session_destroy();
-      exit();
-   }
 
    PluginArmaditoLastContactStat::increment();
 
@@ -60,7 +52,7 @@ if (isset($_GET['agent_id'])) { // GET /jobs
 else{
   http_response_code(400);
   header("Content-Type: application/json");
-  echo '{ "plugin_version": "'.PLUGIN_ARMADITO_VERSION.'", "code": 1, "message": "Invalid request sent to plugin index." }}';
+  echo '{ "plugin_version": "'.PLUGIN_ARMADITO_VERSION.'", "code": 1, "message": "Invalid request sent to plugin index." }';
 }
 
 ?>
