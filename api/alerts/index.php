@@ -26,20 +26,12 @@ include_once ("../../../../inc/includes.php");
 $rawdata = file_get_contents("php://input");
 if (!empty($rawdata)) { // POST /alerts
 
+   PluginArmaditoToolbox::checkPluginInstallation();
+
    // init GLPI stuff
    $error = new PluginArmaditoError();
    $communication  = new PluginArmaditoCommunication();
    $communication->init();
-
-   // Check plugin installation
-   if (!class_exists("PluginArmaditoAgent")) {
-      $error->setMessage(1, "Plugin armadito is not installed.");
-      $error->log();
-      $communication->setMessage($error->toJson(), 404);
-      $communication->sendMessage();
-      session_destroy();
-      exit();
-   }
 
    PluginArmaditoLastContactStat::increment();
 
