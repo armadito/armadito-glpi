@@ -15,11 +15,6 @@ paths:
           required: true
           type: number
           format: double
-        - name: antivirus
-          in: query
-          required: true
-          description: antivirus name
-          type: string
       responses:
         '200':
           description: Successful response
@@ -170,9 +165,9 @@ definitions:
   PluginArmaditoJob:
     type: object
     properties:
-      name:
+      type:
         type: string
-      antivirus:
+      priority:
         type: string
       agent_id:
         type: number
