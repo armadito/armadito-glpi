@@ -33,19 +33,18 @@ class PluginArmaditoScan extends CommonDBTM {
     protected $agentid;
     protected $agent;
     protected $jobj;
-    protected $job;
     protected $scan_type;
     protected $scan_path;
     protected $scan_options;
     protected $antivirus_name;
     protected $antivirus_version;
+    protected $job;
 
 	static function getTypeName($nb=0) {
 	  return __('Scan', 'armadito');
 	}
 
     function __construct() {
-      $this->job = new PluginArmaditoJob();
       $this->scan_type = "";
       $this->scan_path = "";
       $this->scan_options = "";
@@ -53,13 +52,11 @@ class PluginArmaditoScan extends CommonDBTM {
       $this->antivirus_version = "";
     }
 
-	function initFromForm($key, $POST, $agentobj) {
-      $this->job->initFromForm($key, "scan", $POST);
-      $this->agent = $agentobj;
-      $this->agentid = $key;
+	function initFromForm($jobobj, $POST) {
+      $this->agentid = $jobobj->getId();
       $this->setScanType($POST["scan_type"]);
-      $this->antivirus_name = $this->job->getAntivirusName();
-      $this->antivirus_version = $this->job->getAntivirusVersion();
+      $this->antivirus_name = $jobobj->getAntivirusName();
+      $this->antivirus_version = $jobobj->getAntivirusVersion();
 	}
 
 	function initFromJson($jobj) {
@@ -93,7 +90,7 @@ class PluginArmaditoScan extends CommonDBTM {
        $prefs = "";
        $nb_columns = 8;
        for( $i = 1; $i <= $nb_columns; $i++){
-            $prefs .= "(NULL, 'PluginArmaditoScan', '".$i."', '".$i."', '0'),";
+         $prefs .= "(NULL, 'PluginArmaditoScan', '".$i."', '".$i."', '0'),";
        }
        return $prefs;
    }
@@ -165,22 +162,6 @@ class PluginArmaditoScan extends CommonDBTM {
    }
 
     /**
-    * Insert or Update Scans
-    *
-    * @return PluginArmaditoError obj
-    **/
-     function updateDB(){
-
-         $error = new PluginArmaditoError();
-
-         $error = $this->job->insertJob();
-         $error = $this->insertScan();
-
-         $error->setMessage(0, 'Scan successfully inserted.');
-         return $error;
-     }
-
-    /**
     * Check if Scan is already in database
     *
     * @return TRUE or FALSE
@@ -204,17 +185,26 @@ class PluginArmaditoScan extends CommonDBTM {
     }
 
     /**
-    * Insert Scan in database
+    * Add Scan in database
     *
     * @return PluginArmaditoError obj
     **/
-    function insertScan(){
+    function addObj( $job_id_ ){
       global $DB;
       $error = new PluginArmaditoError();
 
-      $query = "INSERT INTO `glpi_plugin_armadito_scans` (`plugin_armadito_jobs_id`, `plugin_armadito_agents_id`, `scan_type`, `scan_path`, `scan_options`, `antivirus_name`, `antivirus_version`) VALUES (?,?,?,?,?,?,?)";
+      $query = "INSERT INTO `glpi_plugin_armadito_scans`
+                           (`plugin_armadito_jobs_id`,
+                            `plugin_armadito_agents_id`,
+                            `scan_type`,
+                            `scan_path`,
+                            `scan_options`,
+                            `antivirus_name`,
+                            `antivirus_version`) VALUES (?,?,?,?,?,?,?)";
 
       $stmt = $DB->prepare($query);
+
+      PluginArmaditoToolbox::logE("insert into Scan db.");
 
       if(!$stmt) {
          $error->setMessage(1, 'Scan insert preparation failed.');
@@ -229,7 +219,7 @@ class PluginArmaditoScan extends CommonDBTM {
             return $error;
       }
 
-      $job_id = $this->job->getJobId();
+      $job_id = $job_id_;
       $agent_id = $this->agentid;
       $scan_type = $this->scan_type;
       $scan_path = $this->scan_path;

@@ -31,6 +31,7 @@ if (!defined('GLPI_ROOT')) {
  **/
 class PluginArmaditoJob extends CommonDBTM {
       protected $id;
+      protected $obj;
       protected $jobj;
       protected $type;
       protected $priority;
@@ -42,6 +43,7 @@ class PluginArmaditoJob extends CommonDBTM {
          $this->type = -1;
          $this->priority = -1;
          $this->id = -1;
+         $this->obj = "";
          $this->agentid = -1;
          $this->antivirus_name = "";
          $this->antivirus_version = "";
@@ -52,6 +54,9 @@ class PluginArmaditoJob extends CommonDBTM {
          $this->type = $type;
          $this->setPriority($POST["job_priority"]);
          $this->setAntivirusFromDB();
+
+         // init Scan Obj for example or an other job_type
+         $this->initObjFromForm($key, $type, $POST);
       }
 
       function initFromDB($data) {
@@ -62,6 +67,9 @@ class PluginArmaditoJob extends CommonDBTM {
          $this->antivirus_version = $data["antivirus_version"];
          $this->priority = $data["job_priority"];
          $this->status = $data["job_status"];
+
+         // init Scan Obj for example or an other job_type
+         $this->initObjFromDB();
       }
 
       function getAntivirusName(){
@@ -83,6 +91,18 @@ class PluginArmaditoJob extends CommonDBTM {
                $prefs .= "(NULL, 'PluginArmaditoJob', '".$i."', '".$i."', '0'),";
           }
           return $prefs;
+      }
+
+      function initObjFromForm ($key, $type, $POST){
+         switch($this->type){
+            case "scan":
+               $this->obj = new PluginArmaditoScan();
+               $this->obj->initFromForm($this, $POST);
+               break;
+            default:
+               $this->obj = "unknown";
+               break;
+         }
       }
 
       function setPriority ($id){
@@ -203,7 +223,6 @@ class PluginArmaditoJob extends CommonDBTM {
          return $this->id;
       }
 
-       // in Jobs table
       function insertInJobs() {
          global $DB;
 
@@ -252,10 +271,10 @@ class PluginArmaditoJob extends CommonDBTM {
             return $error;
          }
 
+         $error->setMessage(0, 'Job insertion successful.');
          return $error;
       }
 
-      // in Jobs/Agents table
       function insertInJobsAgents() {
          global $DB;
 
@@ -286,18 +305,31 @@ class PluginArmaditoJob extends CommonDBTM {
             return $error;
          }
 
+         $error->setMessage(0, 'Job insertion successful.');
          $stmt->close();
          return $error;
       }
 
-      function insertJob() {
+      function addJob() {
          $error = new PluginArmaditoError();
-
          $error = $this->insertInJobs();
-         $error = $this->insertInJobsAgents();
+         if($error->getCode() != 0){
+            $error->log();
+            return false;
+         }
 
-         $error->setMessage(0, 'Job successfully inserted.');
-         return $error;
+         $error = $this->insertInJobsAgents();
+         if($error->getCode() != 0){
+            $error->log();
+            return false;
+         }
+
+         $error = $this->obj->addObj($this->id);
+         if($error->getCode() != 0){
+            $error->log();
+            return false;
+         }
+         return true;
       }
 }
 ?>
