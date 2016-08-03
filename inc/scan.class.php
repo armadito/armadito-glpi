@@ -64,6 +64,36 @@ class PluginArmaditoScan extends CommonDBTM {
       $this->jobj = $jobj;
 	}
 
+	function initFromDB($job_id) {
+      global $DB;
+      $error = new PluginArmaditoError();
+      $query = "SELECT * FROM `glpi_plugin_armadito_scans`
+              WHERE `plugin_armadito_jobs_id`='".$job_id."'";
+
+      $ret = $DB->query($query);
+
+      if(!$ret){
+         throw new Exception(sprintf('Error getJobs : %s', $DB->error()));
+      }
+
+      if($DB->numrows($ret) > 0){
+
+         if($data = $DB->fetch_assoc($ret)){
+            $this->agentid = $data["plugin_armadito_agents_id"];
+            $this->scan_type = $data["scan_type"];
+            $this->scan_path = $data["scan_path"];
+            $this->scan_options = $data["scan_options"];
+            $this->antivirus_name = $data["antivirus_name"];
+            $this->antivirus_version = $data["antivirus_version"];
+            $error->setMessage(0, 'Successfully scan init from DB.');
+         }
+      }
+
+      $error->setMessage(1, 'No scans found for job_id '.$job_id);
+      return $error;
+
+	}
+
    function toJson() {
        return '{}';
    }

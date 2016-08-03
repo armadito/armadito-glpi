@@ -105,6 +105,18 @@ class PluginArmaditoJob extends CommonDBTM {
          }
       }
 
+      function initObjFromDB (){
+         switch($this->type){
+            case "scan":
+               $this->obj = new PluginArmaditoScan();
+               $this->obj->initFromDB($this->id);
+               break;
+            default:
+               $this->obj = "unknown";
+               break;
+         }
+      }
+
       function setPriority ($id){
          PluginArmaditoToolbox::validateInt($id);
          switch($id){
