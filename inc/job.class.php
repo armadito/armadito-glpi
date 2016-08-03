@@ -192,7 +192,7 @@ class PluginArmaditoJob extends CommonDBTM {
       }
 
       function toJson() {
-         return '{}';
+         return '{"job_id": '.$this->id.',"job_type": "'.$this->type.'","job_priority": "'.$this->priority.'","antivirus_name": "'.$this->antivirus_name.'"}';
       }
 
       function setJobId($id) {
