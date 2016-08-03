@@ -27,7 +27,7 @@ if (!defined('GLPI_ROOT')) {
 }
 
 /**
- * Class dealing with Armadito AV state
+ * Class dealing with Jobs
  **/
 class PluginArmaditoJob extends CommonDBTM {
       protected $id;
