@@ -62,7 +62,7 @@ class PluginArmaditoJobmanager extends CommonDBTM {
          if($DB->numrows($ret) > 0){
 
             $i = 0;
-            while( $data = $DB->fetch_array($ret)){
+            while( $data = $DB->fetch_assoc($ret)){
                $job = new PluginArmaditoJob();
                $job->initFromDB($data);
                array_push($this->jobs, $job);

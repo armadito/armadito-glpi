@@ -55,13 +55,13 @@ class PluginArmaditoJob extends CommonDBTM {
       }
 
       function initFromDB($data) {
-         $this->id = $data[0];
-         $this->agentid = $data[1];
-         $this->type = $data[2];
-         $this->priority = $data[3];
-         $this->status = $data[4];
-         $this->antivirus_name = $data[5];
-         $this->antivirus_version = $data[6];
+         $this->id = $data["id"];
+         $this->agentid = $data["plugin_armadito_agents_id"];
+         $this->type = $data["job_type"];
+         $this->antivirus_name = $data["antivirus_name"];
+         $this->antivirus_version = $data["antivirus_version"];
+         $this->priority = $data["job_priority"];
+         $this->status = $data["job_status"];
       }
 
       function getAntivirusName(){
@@ -118,9 +118,9 @@ class PluginArmaditoJob extends CommonDBTM {
          }
 
          if($DB->numrows($ret) > 0){
-            $data = $DB->fetch_array($ret);
-            $this->antivirus_name = $data[0];
-            $this->antivirus_version = $data[1];
+            $data = $DB->fetch_assoc($ret);
+            $this->antivirus_name = $data["antivirus_name"];
+            $this->antivirus_version = $data["antivirus_version"];
          }
       }
 
