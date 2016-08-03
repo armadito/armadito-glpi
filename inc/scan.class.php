@@ -37,6 +37,8 @@ class PluginArmaditoScan extends CommonDBTM {
     protected $scan_type;
     protected $scan_path;
     protected $scan_options;
+    protected $antivirus_name;
+    protected $antivirus_version;
 
 	static function getTypeName($nb=0) {
 	  return __('Scan', 'armadito');
@@ -47,6 +49,8 @@ class PluginArmaditoScan extends CommonDBTM {
       $this->scan_type = "";
       $this->scan_path = "";
       $this->scan_options = "";
+      $this->antivirus_name = "";
+      $this->antivirus_version = "";
     }
 
 	function initFromForm($key, $POST, $agentobj) {
@@ -54,6 +58,8 @@ class PluginArmaditoScan extends CommonDBTM {
       $this->agent = $agentobj;
       $this->agentid = $key;
       $this->setScanType($POST["scan_type"]);
+      $this->antivirus_name = $this->job->getAntivirusName();
+      $this->antivirus_version = $this->job->getAntivirusVersion();
 	}
 
 	function initFromJson($jobj) {
@@ -113,6 +119,22 @@ class PluginArmaditoScan extends CommonDBTM {
       $tab[$i]['name']      = __('Agent Id', 'armadito');
       $tab[$i]['datatype']  = 'itemlink';
       $tab[$i]['itemlink_type'] = 'PluginArmaditoAgent';
+      $tab[$i]['massiveaction'] = FALSE;
+
+      $i++;
+
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'antivirus_name';
+      $tab[$i]['name']      = __('Antivirus Name', 'armadito');
+      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['massiveaction'] = FALSE;
+
+      $i++;
+
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'antivirus_version';
+      $tab[$i]['name']      = __('Antivirus Version', 'armadito');
+      $tab[$i]['datatype']  = 'text';
       $tab[$i]['massiveaction'] = FALSE;
 
       $i++;
@@ -190,7 +212,7 @@ class PluginArmaditoScan extends CommonDBTM {
       global $DB;
       $error = new PluginArmaditoError();
 
-      $query = "INSERT INTO `glpi_plugin_armadito_scans` (`plugin_armadito_jobs_id`, `plugin_armadito_agents_id`, `scan_type`, `scan_path`, `scan_options`) VALUES (?,?,?,?,?)";
+      $query = "INSERT INTO `glpi_plugin_armadito_scans` (`plugin_armadito_jobs_id`, `plugin_armadito_agents_id`, `scan_type`, `scan_path`, `scan_options`, `antivirus_name`, `antivirus_version`) VALUES (?,?,?,?,?,?,?)";
 
       $stmt = $DB->prepare($query);
 
@@ -200,7 +222,7 @@ class PluginArmaditoScan extends CommonDBTM {
          return $error;
       }
 
-      if(!$stmt->bind_param('iisss', $job_id, $agent_id, $scan_type, $scan_path, $scan_options)) {
+      if(!$stmt->bind_param('iisssss', $job_id, $agent_id, $scan_type, $scan_path, $scan_options, $antivirus_name, $antivirus_version)) {
             $error->setMessage(1, 'Scan insert bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
             $error->log();
             $stmt->close();
@@ -212,6 +234,8 @@ class PluginArmaditoScan extends CommonDBTM {
       $scan_type = $this->scan_type;
       $scan_path = $this->scan_path;
       $scan_options = $this->scan_options;
+      $antivirus_name = $this->antivirus_name;
+      $antivirus_version = $this->antivirus_version;
 
       if(!$stmt->execute()){
          $error->setMessage(1, 'Scan insert execution failed (' . $stmt->errno . ') ' . $stmt->error);
@@ -223,57 +247,6 @@ class PluginArmaditoScan extends CommonDBTM {
       $stmt->close();
       $error->setMessage(0, 'Scan successfully inserted.');
       return $error;
-    }
-
-    /**
-    * Uptate Scan in database
-    *
-    * @return PluginArmaditoError obj
-    **/
-    function updateScan(){
-		global $DB;
-		$error = new PluginArmaditoError();
-
-		$query = "UPDATE `glpi_plugin_armadito_scans`
-				 SET `update_status`=?,
-				     `last_update`=?,
-				     `antivirus_name`=?,
-				     `antivirus_version`=?,
-				     `antivirus_realtime`=?,
-					  `antivirus_service`=?,
-                 `plugin_armadito_scandetails_id`=?
-				  WHERE `agent_id`=?";
-
-		$stmt = $DB->prepare($query);
-
-		if(!$stmt) {
-			$error->setMessage(1, 'Scan update preparation failed.');
-			$error->log();
-			return $error;
-		}
-
-		if(!$stmt->bind_param('ssssssii', $update_status, $last_update, $antivirus_name, $antivirus_version, $antivirus_realtime, $antivirus_service, $agent_id, $scandetails_id)) {
-			$error->setMessage(1, 'Scan update bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
-			$error->log();
-			$stmt->close();
-			return $error;
-		}
-
-		$agent_id = $this->agentid;
-      $scandetails_id = $agent_id;
-		$antivirus_name = $this->jobj->task->antivirus->name;
-		$antivirus_version = $this->jobj->task->antivirus->version;
-
-		if(!$stmt->execute()){
-		 $error->setMessage(1, 'Scan update execution failed (' . $stmt->errno . ') ' . $stmt->error);
-		 $error->log();
-		 $stmt->close();
-		 return $error;
-		}
-
-		$stmt->close();
-		$error->setMessage(0, 'Scan successfully updated.');
-		return $error;
     }
 }
 ?>

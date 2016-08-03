@@ -35,18 +35,23 @@ class PluginArmaditoJob extends CommonDBTM {
       protected $type;
       protected $priority;
       protected $agentid;
+      protected $antivirus_name;
+      protected $antivirus_version;
 
       function __construct() {
          $this->type = -1;
          $this->priority = -1;
          $this->id = -1;
          $this->agentid = -1;
+         $this->antivirus_name = "";
+         $this->antivirus_version = "";
       }
 
       function initFromForm($key, $type, $POST) {
-         $this->agentid = $key;
+         $this->agentid = PluginArmaditoToolbox::validateInt($key);
          $this->type = $type;
          $this->setPriority($POST["job_priority"]);
+         $this->setAntivirusFromDB();
       }
 
       function initFromDB($data) {
@@ -55,6 +60,16 @@ class PluginArmaditoJob extends CommonDBTM {
          $this->type = $data[2];
          $this->priority = $data[3];
          $this->status = $data[4];
+         $this->antivirus_name = $data[5];
+         $this->antivirus_version = $data[6];
+      }
+
+      function getAntivirusName(){
+         return $this->antivirus_name;
+      }
+
+      function getAntivirusVersion(){
+         return $this->antivirus_version;
       }
 
       static function getDefaultDisplayPreferences(){
@@ -87,6 +102,23 @@ class PluginArmaditoJob extends CommonDBTM {
          }
       }
 
+      function setAntivirusFromDB(){
+         global $DB;
+         $query = "SELECT `antivirus_name`, `antivirus_version` FROM `glpi_plugin_armadito_agents`
+                 WHERE `id`='".$this->agentid."'";
+
+         $ret = $DB->query($query);
+
+         if(!$ret){
+            throw new Exception(sprintf('Error setAntivirusFromDB : %s', $DB->error()));
+         }
+
+         if($DB->numrows($ret) > 0){
+            $data = $DB->fetch_array($ret);
+            $this->antivirus_name = $data[0];
+            $this->antivirus_version = $data[1];
+         }
+      }
 
       function getSearchOptions() {
 
@@ -109,6 +141,22 @@ class PluginArmaditoJob extends CommonDBTM {
          $tab[$i]['name']      = __('Agent Id', 'armadito');
          $tab[$i]['datatype']  = 'itemlink';
          $tab[$i]['itemlink_type'] = 'PluginArmaditoAgent';
+         $tab[$i]['massiveaction'] = FALSE;
+
+         $i++;
+
+         $tab[$i]['table']     = $this->getTable();
+         $tab[$i]['field']     = 'antivirus_name';
+         $tab[$i]['name']      = __('Antivirus Name', 'armadito');
+         $tab[$i]['datatype']  = 'text';
+         $tab[$i]['massiveaction'] = FALSE;
+
+         $i++;
+
+         $tab[$i]['table']     = $this->getTable();
+         $tab[$i]['field']     = 'antivirus_version';
+         $tab[$i]['name']      = __('Antivirus Version', 'armadito');
+         $tab[$i]['datatype']  = 'text';
          $tab[$i]['massiveaction'] = FALSE;
 
          $i++;
@@ -156,7 +204,7 @@ class PluginArmaditoJob extends CommonDBTM {
          global $DB;
 
          $error = new PluginArmaditoError();
-         $query = "INSERT INTO `glpi_plugin_armadito_jobs` (`plugin_armadito_agents_id`, `job_type`, `job_priority`, `job_status`) VALUES (?,?,?,?)";
+         $query = "INSERT INTO `glpi_plugin_armadito_jobs` (`plugin_armadito_agents_id`, `job_type`, `job_priority`, `job_status`, `antivirus_name`, `antivirus_version`) VALUES (?,?,?,?,?,?)";
          $stmt = $DB->prepare($query);
 
          if(!$stmt) {
@@ -165,7 +213,7 @@ class PluginArmaditoJob extends CommonDBTM {
             return $error;
          }
 
-         if(!$stmt->bind_param('isss', $agent_id, $job_type, $job_priority, $job_status)) {
+         if(!$stmt->bind_param('isssss', $agent_id, $job_type, $job_priority, $job_status, $antivirus_name, $antivirus_version)) {
                $error->setMessage(1, 'Job insert bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
                $error->log();
                $stmt->close();
@@ -176,6 +224,8 @@ class PluginArmaditoJob extends CommonDBTM {
          $job_type = $this->type;
          $job_priority = $this->priority;
          $job_status = "queued"; # Step 1
+         $antivirus_name = $this->antivirus_name;
+         $antivirus_version = $this->antivirus_version;
 
          if(!$stmt->execute()){
             $error->setMessage(1, 'Job insert execution failed (' . $stmt->errno . ') ' . $stmt->error);
