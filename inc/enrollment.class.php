@@ -96,10 +96,10 @@ class PluginArmaditoEnrollment {
     function isAlreadyEnrolled(){
       global $DB;
 
-      PluginArmaditoToolbox::validateInt($this->jobj->agent_id);
+      PluginArmaditoToolbox::validateHash($this->jobj->fingerprint);
 
-      $query = "SELECT fingerprint FROM `glpi_plugin_armadito_agents`
-                 WHERE `id`='".$this->jobj->agent_id."'";
+      $query = "SELECT id FROM `glpi_plugin_armadito_agents`
+                 WHERE `fingerprint`='".$this->jobj->fingerprint."'";
       $ret = $DB->query($query);
 
       if(!$ret){
@@ -108,9 +108,8 @@ class PluginArmaditoEnrollment {
 
       if($DB->numrows($ret) > 0){
          $data = $DB->fetch_assoc($ret);
-         if( $data["fingerprint"] == $this->jobj->fingerprint){
-            return true;
-         }
+         $this->setAgentid($data["id"]);
+         return true;
       }
 
       return false;
