@@ -117,23 +117,38 @@ class PluginArmaditoJob extends CommonDBTM {
          }
       }
 
+      function getPriorityValue (){
+         switch($this->priority){
+            case "0 - low":
+               return 0;
+            case "1 - medium":
+               return 1;
+            case "2 - high":
+               return 2;
+            case "3 - urgent":
+               return 3;
+            default:
+               return 0;
+         }
+      }
+
       function setPriority ($id){
          PluginArmaditoToolbox::validateInt($id);
          switch($id){
             case 0:
-               $this->priority = "low";
+               $this->priority = "0 - low";
                break;
             case 1:
-               $this->priority = "medium";
+               $this->priority = "1 - medium";
                break;
             case 2:
-               $this->priority = "high";
+               $this->priority = "2 - high";
                break;
             case 3:
-               $this->priority = "urgent";
+               $this->priority = "3 - urgent";
                break;
             default:
-               $this->priority = "unknown";
+               $this->priority = "0 - low";
                break;
          }
       }
@@ -226,7 +241,7 @@ class PluginArmaditoJob extends CommonDBTM {
       function toJson() {
          return '{"job_id": '.$this->id.',
                   "job_type": "'.$this->type.'",
-                  "job_priority": "'.$this->priority.'",
+                  "job_priority": "'.$this->getPriorityValue().'",
                   "antivirus_name": "'.$this->antivirus_name.'",
                   "obj": '.$this->obj->toJson().'
                  }';
