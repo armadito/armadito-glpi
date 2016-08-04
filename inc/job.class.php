@@ -95,7 +95,7 @@ class PluginArmaditoJob extends CommonDBTM {
 
       function initObjFromForm ($key, $type, $POST){
          switch($this->type){
-            case "scan":
+            case "Scan":
                $this->obj = new PluginArmaditoScan();
                $this->obj->initFromForm($this, $POST);
                break;
@@ -107,7 +107,7 @@ class PluginArmaditoJob extends CommonDBTM {
 
       function initObjFromDB (){
          switch($this->type){
-            case "scan":
+            case "Scan":
                $this->obj = new PluginArmaditoScan();
                $this->obj->initFromDB($this->id);
                break;

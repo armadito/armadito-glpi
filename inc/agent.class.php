@@ -250,7 +250,7 @@ class PluginArmaditoAgent extends CommonDBTM {
          case 'newscan' :
             foreach ($ids as $key) {
                $job = new PluginArmaditoJob();
-               $job->initFromForm($key, "scan", $_POST);
+               $job->initFromForm($key, "Scan", $_POST);
                if ($job->addJob()){
                   $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_OK);
                } else {
