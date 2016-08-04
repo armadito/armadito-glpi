@@ -68,7 +68,7 @@ class PluginArmaditoToolbox {
    }
 
    /**
-    * Integer validation
+    * Integer validation to avoid SQL injections
     */
    static function validateInt($var) {
       $ret = filter_var($var, FILTER_VALIDATE_INT);
