@@ -79,6 +79,21 @@ class PluginArmaditoToolbox {
    }
 
    /**
+    * Checksum validation to avoid SQL injections
+    */
+   static function validateHash($var) {
+      $ret = filter_var($var, FILTER_VALIDATE_REGEXP,
+                           array("options" =>
+                                array("regexp" => "/^[a-f0-9]{64}$/"))
+                        );
+      if ($ret != $var) {
+         throw new Exception(sprintf('Invalid hash : "%s"', $var));
+      }
+      return $ret;
+   }
+
+
+   /**
     * Parse a json string given
     *
     * @param $message XML message
