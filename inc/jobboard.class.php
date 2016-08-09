@@ -63,25 +63,25 @@ class PluginArmaditoJobBoard extends PluginArmaditoBoard {
       echo "</td>";
    }
 
-   /**
-    * Get data
-    *
-    *@return nothing
-    **/
+   function countJobStatus ($status){
+        return countElementsInTableForMyEntities('glpi_plugin_armadito_jobs',
+                                              "`job_status`='".$status."'");
+   }
+
    function getJobStatusData ($restrict_entity) {
       global $DB;
 
+      $statuses = PluginArmaditoJob::getAvailableStatuses();
+
       $data = array();
-      $data[] = array(
-          'key' => __('Successful', 'armadito').' : 20',
-          'y'   => 20,
-          'color' => '#3dff7d'
-      );
-      $data[] = array(
-          'key' => __('Downloaded', 'armadito').' : 48',
-          'y'   => 45,
-          'color' => "#dedede"
-      );
+      foreach($statuses as $name => $color) {
+         $n_status = $this->countJobStatus($name);
+         $data[] = array(
+          'key' => __($name, 'armadito').' : '.$n_status,
+          'y'   => $n_status,
+          'color' => $color
+         );
+      }
 
       return $data;
    }

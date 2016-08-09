@@ -163,6 +163,14 @@ class PluginArmaditoJob extends CommonDBTM {
          }
       }
 
+      function getAvailableStatuses () {
+         return array("queued" => "#dedede",
+                      "downloaded" => "#aee7ed",
+                      "successful" => "#52d46a",
+                      "failed" => "#ff3333",
+                      "cancelled" => "#ffc425");
+      }
+
       function updateStatus ($status){
             if($this->getFromDB($this->getId())){
                $input = array();
