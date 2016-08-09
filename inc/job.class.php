@@ -218,22 +218,6 @@ class PluginArmaditoJob extends CommonDBTM {
          $i++;
 
          $tab[$i]['table']     = $this->getTable();
-         $tab[$i]['field']     = 'antivirus_name';
-         $tab[$i]['name']      = __('Antivirus Name', 'armadito');
-         $tab[$i]['datatype']  = 'text';
-         $tab[$i]['massiveaction'] = FALSE;
-
-         $i++;
-
-         $tab[$i]['table']     = $this->getTable();
-         $tab[$i]['field']     = 'antivirus_version';
-         $tab[$i]['name']      = __('Antivirus Version', 'armadito');
-         $tab[$i]['datatype']  = 'text';
-         $tab[$i]['massiveaction'] = FALSE;
-
-         $i++;
-
-         $tab[$i]['table']     = $this->getTable();
          $tab[$i]['field']     = 'job_type';
          $tab[$i]['name']      = __('Job Type', 'armadito');
          $tab[$i]['datatype']  = 'text';
@@ -255,6 +239,21 @@ class PluginArmaditoJob extends CommonDBTM {
          $tab[$i]['datatype']  = 'text';
          $tab[$i]['massiveaction'] = FALSE;
 
+         $i++;
+
+         $tab[$i]['table']     = $this->getTable();
+         $tab[$i]['field']     = 'antivirus_name';
+         $tab[$i]['name']      = __('Antivirus Name', 'armadito');
+         $tab[$i]['datatype']  = 'text';
+         $tab[$i]['massiveaction'] = FALSE;
+
+         $i++;
+
+         $tab[$i]['table']     = $this->getTable();
+         $tab[$i]['field']     = 'antivirus_version';
+         $tab[$i]['name']      = __('Antivirus Version', 'armadito');
+         $tab[$i]['datatype']  = 'text';
+         $tab[$i]['massiveaction'] = FALSE;
 
          return $tab;
       }
