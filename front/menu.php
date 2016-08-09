@@ -29,7 +29,8 @@ if (PluginArmaditoMenu::canView()) {
 
    PluginArmaditoMenu::displayHeader();
    PluginArmaditoMenu::displayMenu("mini");
-   PluginArmaditoAgentBoard::displayBoard();
+   $board = new PluginArmaditoAgentBoard();
+   $board->displayBoard();
 } else {
    Html::displayRightError();
 }

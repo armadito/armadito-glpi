@@ -28,12 +28,17 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginArmaditoAgentBoard extends CommonGLPI {
 
+
+    function __construct() {
+         //
+    }
+
    /**
     * Display a board in HTML with JS libs (nvd3)
     *
     *@return nothing
     **/
-   static function displayBoard() {
+   function displayBoard() {
 
       $restrict_entity    = getEntitiesRestrictRequest(" AND", 'comp');
 
@@ -41,10 +46,10 @@ class PluginArmaditoAgentBoard extends CommonGLPI {
       echo "<tr height='420'>";
 
       // Armadito Computers
-      self::addComputersChart($restrict_entity);
+      $this->addComputersChart($restrict_entity);
 
       // Last Agent Connections
-      self::addLastContactsChart($restrict_entity);
+      $this->addLastContactsChart($restrict_entity);
 
       echo "</tr>";
       echo "</table>";
@@ -63,7 +68,7 @@ class PluginArmaditoAgentBoard extends CommonGLPI {
       $title = __('Agent connections of last hours', 'armadito');
       $title = '';
       echo "<td width='400'>";
-      PluginArmaditoBoard::showChartBar('nblastcontacts', $data, $title, 370);
+      $this->showChartBar('nblastcontacts', $data, $title, 370);
       echo "</td>";
 
    }
@@ -108,7 +113,7 @@ class PluginArmaditoAgentBoard extends CommonGLPI {
       );
 
       echo "<td width='380'>";
-      PluginArmaditoBoard::showChart('computers', $dataComputer);
+      $this->showChart('computers', $dataComputer);
       echo "</td>";
    }
 
