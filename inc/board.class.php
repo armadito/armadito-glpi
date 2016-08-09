@@ -1,7 +1,7 @@
 <?php
-
 /**
-   Copyright (C) 2010-2016 by the FusionInventory Development Team
+
+   Copyright (C) 2010-2016 by the FusionInventory Development Team.
    Copyright (C) 2016 Teclib'
 
    This file is part of Armadito Plugin for GLPI.
@@ -21,19 +21,29 @@
 
 **/
 
-include ("../../../inc/includes.php");
-
-if (PluginArmaditoMenu::canView()) {
-   Html::header(__('Armadito', 'armadito'), $_SERVER["PHP_SELF"], "plugins",
-                "pluginarmaditomenu", "menu");
-
-   PluginArmaditoMenu::displayHeader();
-   PluginArmaditoMenu::displayMenu("mini");
-   PluginArmaditoAgentBoard::displayBoard();
-} else {
-   Html::displayRightError();
+if (!defined('GLPI_ROOT')) {
+   die("Sorry. You can't access directly to this file");
 }
 
-Html::footer();
 
+class PluginArmaditoBoard extends CommonGLPI {
+
+   static function showChart($name, $data, $title='') {
+
+      echo '<svg style="background-color: #f3f3f3;" id="'.$name.'"></svg>';
+
+      echo "<script>
+         statHalfDonut('".$name."', '".json_encode($data)."');
+</script>";
+   }
+
+
+   static function showChartBar($name, $data, $title='', $width=370) {
+      echo '<svg width="400" style="background-color: #f3f3f3;" id="'.$name.'"></svg>';
+
+      echo "<script>
+         statBar('".$name."', '".json_encode($data)."', '".$title."', '".$width."');
+</script>";
+   }
+}
 ?>
