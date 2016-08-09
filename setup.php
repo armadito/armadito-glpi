@@ -66,7 +66,7 @@ function plugin_init_armadito() {
          );
       }
 
-      if (script_endswith("menu.php")) {
+      if (script_endswith("menu.php") || script_endswith("board.php") ) {
             $PLUGIN_HOOKS['add_javascript']['armadito'][] = "js/stats".($debug_mode?"":".min").".js";
       }
 

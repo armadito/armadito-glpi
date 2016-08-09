@@ -28,7 +28,47 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginArmaditoJobBoard extends CommonGLPI {
 
+   /**
+    * Display a board in HTML with JS libs (nvd3)
+    *
+    *@return nothing
+    **/
+   static function displayBoard() {
 
+      $restrict_entity = getEntitiesRestrictRequest(" AND", 'comp');
 
+      echo "<table align='center'>";
+      echo "<tr height='420'>";
+
+      self::addJobStatusChart($restrict_entity);
+
+      echo "</tr>";
+      echo "</table>";
+   }
+
+   /**
+    * Get data and display Jobs' statuses (half donut)
+    *
+    *@return nothing
+    **/
+   static function addJobStatusChart($restrict_entity) {
+      global $DB;
+
+      $data = array();
+      $data[] = array(
+          'key' => __('Successful', 'armadito').' : 20',
+          'y'   => 20,
+          'color' => '#3dff7d'
+      );
+      $data[] = array(
+          'key' => __('Downloaded', 'armadito').' : 10',
+          'y'   => 10,
+          'color' => "#dedede"
+      );
+
+      echo "<td width='380'>";
+      PluginArmaditoBoard::showChart('jobstatus', $data);
+      echo "</td>";
+   }
 }
 ?>

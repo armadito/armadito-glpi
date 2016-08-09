@@ -25,11 +25,11 @@ include ("../../../inc/includes.php");
 
 if (PluginArmaditoMenu::canView()) {
    Html::header(__('Armadito', 'armadito'), $_SERVER["PHP_SELF"], "plugins",
-                "pluginarmaditojobboard", "menu");
+                "pluginarmaditomenu", "jobboards");
 
    PluginArmaditoMenu::displayHeader();
    PluginArmaditoMenu::displayMenu("mini");
-   PluginArmaditoJobBoard::display();
+   PluginArmaditoJobBoard::displayBoard();
 } else {
    Html::displayRightError();
 }
