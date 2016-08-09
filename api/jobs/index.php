@@ -23,7 +23,9 @@
 
 include_once ("../../../../inc/includes.php");
 
-if (isset($_GET['agent_id'])) { // GET /jobs
+$rawdata = file_get_contents("php://input");
+
+if (isset($_GET['agent_id'])) { // GET
 
    PluginArmaditoToolbox::checkPluginInstallation();
 
@@ -49,7 +51,41 @@ if (isset($_GET['agent_id'])) { // GET /jobs
    $communication->sendMessage();
    session_destroy();
 }
-else{
+else if(!empty($rawdata)) { // POST
+
+   PluginArmaditoToolbox::checkPluginInstallation();
+
+   $error = new PluginArmaditoError();
+   $communication  = new PluginArmaditoCommunication();
+   $communication->init();
+
+   PluginArmaditoLastContactStat::increment();
+
+   $jobj = PluginArmaditoToolbox::parseJSON($rawdata);
+   if(!$jobj){
+      $error->setMessage(1, "Fail parsing incoming json : ".json_last_error_msg());
+      $error->log();
+      $communication->setMessage($error->toJson(), 405);
+      $communication->sendMessage();
+      session_destroy();
+      exit();
+   }
+
+   $job = new PluginArmaditoJob();
+   $job->initFromJson($jobj);
+   if($jobj->task->obj->code == 0){
+      $job->updateStatus("successful");
+   }
+   else{
+      $job->updateStatus("failed");
+   }
+
+   $error->setMessage(0, "Updated JobStatus successfully.");
+   $communication->setMessage($error->toJson(), 200);
+   $communication->sendMessage();
+   session_destroy();
+}
+else {
   http_response_code(400);
   header("Content-Type: application/json");
   echo '{ "plugin_version": "'.PLUGIN_ARMADITO_VERSION.'", "code": 1, "message": "Invalid request sent to plugin index." }';

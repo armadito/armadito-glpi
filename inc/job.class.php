@@ -72,6 +72,12 @@ class PluginArmaditoJob extends CommonDBTM {
          $this->initObjFromDB();
       }
 
+      function initFromJson($jobj) {
+          $this->agentid = PluginArmaditoToolbox::validateInt($jobj->agent_id);
+          $this->id = PluginArmaditoToolbox::validateInt($jobj->task->obj->{"job_id"});
+          $this->jobj = $jobj;
+      }
+
       function getAntivirusName(){
          return $this->antivirus_name;
       }
