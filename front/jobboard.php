@@ -29,7 +29,10 @@ if (PluginArmaditoMenu::canView()) {
 
    PluginArmaditoMenu::displayHeader();
    PluginArmaditoMenu::displayMenu("mini");
-   PluginArmaditoJobBoard::displayBoard();
+
+   $board = new PluginArmaditoJobBoard();
+   $board->displayBoard();
+
 } else {
    Html::displayRightError();
 }

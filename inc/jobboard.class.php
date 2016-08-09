@@ -25,22 +25,25 @@ if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access directly to this file");
 }
 
+class PluginArmaditoJobBoard extends PluginArmaditoBoard {
 
-class PluginArmaditoJobBoard extends CommonGLPI {
+    function __construct() {
+         //
+    }
 
    /**
     * Display a board in HTML with JS libs (nvd3)
     *
     *@return nothing
     **/
-   static function displayBoard() {
+   function displayBoard() {
 
       $restrict_entity = getEntitiesRestrictRequest(" AND", 'comp');
 
       echo "<table align='center'>";
       echo "<tr height='420'>";
 
-      self::addJobStatusChart($restrict_entity);
+      $this->addJobStatusChart($restrict_entity);
 
       echo "</tr>";
       echo "</table>";
@@ -51,7 +54,7 @@ class PluginArmaditoJobBoard extends CommonGLPI {
     *
     *@return nothing
     **/
-   static function addJobStatusChart($restrict_entity) {
+  function addJobStatusChart($restrict_entity) {
       global $DB;
 
       $data = array();
@@ -61,13 +64,13 @@ class PluginArmaditoJobBoard extends CommonGLPI {
           'color' => '#3dff7d'
       );
       $data[] = array(
-          'key' => __('Downloaded', 'armadito').' : 10',
-          'y'   => 10,
+          'key' => __('Downloaded', 'armadito').' : 31',
+          'y'   => 31,
           'color' => "#dedede"
       );
 
       echo "<td width='380'>";
-      PluginArmaditoBoard::showChart('jobstatus', $data);
+      $this->showChart('jobstatus', $data);
       echo "</td>";
    }
 }
