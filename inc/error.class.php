@@ -39,7 +39,7 @@ class PluginArmaditoError {
    }
 
    function toJson() {
-      return '{ "code": '.$this->code.', "message": "'.$this->message.'", "plugin_version": "'.PLUGIN_ARMADITO_VERSION.'" }';
+      return '{ "code": '.$this->code.', "message": "'.$this->message.'"}';
    }
 
    function log() {

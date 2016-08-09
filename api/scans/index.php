@@ -66,7 +66,8 @@ if (!empty($rawdata)) { // POST /scans
 else{
   http_response_code(400);
   header("Content-Type: application/json");
-  echo '{ "plugin_version": "'.PLUGIN_ARMADITO_VERSION.'", "code": 1, "message": "Invalid request sent to plugin index." }';
+  header("X-ArmaditoPlugin-Version: ".PLUGIN_ARMADITO_VERSION);
+  echo '{ "code": 1, "message": "Invalid request sent to plugin index."}';
 }
 
 ?>

@@ -163,7 +163,8 @@ class PluginArmaditoToolbox {
       if (!class_exists("PluginArmaditoAgent")) {
          http_response_code(404);
          header("Content-Type: application/json");
-         echo '{ "plugin_version": "unknown", "code": 1, "message": "Plugin Armadito is not installed." }';
+         header("X-ArmaditoPlugin-Version: unknown");
+         echo '{ "code": 1, "message": "Plugin Armadito is not installed." }';
          session_destroy();
          exit();
       }

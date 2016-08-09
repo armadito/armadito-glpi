@@ -95,6 +95,9 @@ class PluginArmaditoCommunication {
          return;
       }
 
+      header("Content-Type: application/json");
+      header("X-ArmaditoPlugin-Version: ".PLUGIN_ARMADITO_VERSION);
+
       if($this->status_code > 200){
          http_response_code($this->status_code);
       }
