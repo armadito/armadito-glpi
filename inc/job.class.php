@@ -90,6 +90,10 @@ class PluginArmaditoJob extends CommonDBTM {
          return $this->id;
       }
 
+      function getAgentId(){
+         return $this->agentid;
+      }
+
       static function getDefaultDisplayPreferences(){
           $prefs = "";
           $nb_columns = 8;
