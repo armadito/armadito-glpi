@@ -39,12 +39,11 @@ class PluginArmaditoJobBoard extends PluginArmaditoBoard {
    function displayBoard() {
 
       $restrict_entity = getEntitiesRestrictRequest(" AND", 'comp');
+      $data = $this->getJobStatusData($restrict_entity);
 
       echo "<table align='center'>";
       echo "<tr height='420'>";
-
-      $this->addJobStatusChart($restrict_entity);
-
+      $this->showJobStatusChart($data);
       echo "</tr>";
       echo "</table>";
    }
@@ -54,7 +53,22 @@ class PluginArmaditoJobBoard extends PluginArmaditoBoard {
     *
     *@return nothing
     **/
-  function addJobStatusChart($restrict_entity) {
+  function showJobStatusChart($data) {
+
+      $chart = new PluginArmaditoChartHalfDonut();
+      $chart->init('jobstatus', "Job statuses" , $data);
+
+      echo "<td width='380'>";
+      $chart->showChart();
+      echo "</td>";
+   }
+
+   /**
+    * Get data
+    *
+    *@return nothing
+    **/
+   function getJobStatusData ($restrict_entity) {
       global $DB;
 
       $data = array();
@@ -64,17 +78,12 @@ class PluginArmaditoJobBoard extends PluginArmaditoBoard {
           'color' => '#3dff7d'
       );
       $data[] = array(
-          'key' => __('Downloaded', 'armadito').' : 38',
-          'y'   => 38,
+          'key' => __('Downloaded', 'armadito').' : 48',
+          'y'   => 45,
           'color' => "#dedede"
       );
 
-      $chart = new PluginArmaditoChartHalfDonut();
-      $chart->init('jobstatus', "Job statuses" , $data);
-
-      echo "<td width='380'>";
-      $chart->showChart();
-      echo "</td>";
+      return $data;
    }
 }
 ?>
