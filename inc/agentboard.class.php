@@ -63,10 +63,11 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard {
       // Number of agent connections in last hour, 6 hours, 24 hours
       $data = PluginArmaditoLastContactStat::getLastHours();
 
-      $title = __('Agent connections of last hours', 'armadito');
-      $title = '';
+      $bchart = new PluginArmaditoChartBar();
+      $bchart->init('agentconnections', __('Agent connections of last hours', 'armadito'), $data);
+
       echo "<td width='400'>";
-      $this->showChartBar('nblastcontacts', $data, $title, 370);
+      $bchart->showChart();
       echo "</td>";
 
    }
@@ -110,8 +111,11 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard {
           'color' => "#dedede"
       );
 
+      $hchart = new PluginArmaditoChartHalfDonut();
+      $hchart->init('armaditocomputers', __('Armadito computers', 'armadito') , $dataComputer, 370);
+
       echo "<td width='380'>";
-      $this->showChart('computers', $dataComputer);
+      $hchart->showChart();
       echo "</td>";
    }
 }
