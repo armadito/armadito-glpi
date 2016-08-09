@@ -64,13 +64,16 @@ class PluginArmaditoJobBoard extends PluginArmaditoBoard {
           'color' => '#3dff7d'
       );
       $data[] = array(
-          'key' => __('Downloaded', 'armadito').' : 31',
-          'y'   => 31,
+          'key' => __('Downloaded', 'armadito').' : 38',
+          'y'   => 38,
           'color' => "#dedede"
       );
 
+      $chart = new PluginArmaditoChartHalfDonut();
+      $chart->init('jobstatus', "Job statuses" , $data);
+
       echo "<td width='380'>";
-      $this->showChart('jobstatus', $data);
+      $chart->showChart();
       echo "</td>";
    }
 }
