@@ -25,9 +25,7 @@ if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access directly to this file");
 }
 
-
-class PluginArmaditoAgentBoard extends CommonGLPI {
-
+class PluginArmaditoAgentBoard extends PluginArmaditoBoard {
 
     function __construct() {
          //
@@ -60,7 +58,7 @@ class PluginArmaditoAgentBoard extends CommonGLPI {
     *
     *@return nothing
     **/
-   static function addLastContactsChart($restrict_entity) {
+   function addLastContactsChart($restrict_entity) {
 
       // Number of agent connections in last hour, 6 hours, 24 hours
       $data = PluginArmaditoLastContactStat::getLastHours();
@@ -78,7 +76,7 @@ class PluginArmaditoAgentBoard extends CommonGLPI {
     *
     *@return nothing
     **/
-   static function addComputersChart($restrict_entity) {
+   function addComputersChart($restrict_entity) {
       global $DB;
 
       $armaditoComputers    = 0;
@@ -116,6 +114,5 @@ class PluginArmaditoAgentBoard extends CommonGLPI {
       $this->showChart('computers', $dataComputer);
       echo "</td>";
    }
-
 }
 ?>
