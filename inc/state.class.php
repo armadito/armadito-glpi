@@ -146,7 +146,7 @@ class PluginArmaditoState extends CommonDBTM {
 
          // if AV is Armadito, we also update states of each modules
          if($this->jobj->task->antivirus->name == "Armadito"){
-               foreach($this->jobj->task->msg->info->modules as $jobj_module){
+               foreach($this->jobj->task->obj->info->modules as $jobj_module){
                   $module = new PluginArmaditoStateModule();
                   $module->init($this->agentid, $this->jobj, $jobj_module);
 					   $error = $module->run();
@@ -250,12 +250,12 @@ class PluginArmaditoState extends CommonDBTM {
 
       $agent_id = $this->agentid;
       $statedetails_id = $stateid;
-      $update_status = $this->jobj->task->msg->info->update->status;
-      $last_update = $this->jobj->task->msg->info->update->{"last-update"};
+      $update_status = $this->jobj->task->obj->info->update->status;
+      $last_update = $this->jobj->task->obj->info->update->{"last-update"};
       $antivirus_name = $this->jobj->task->antivirus->name;
       $antivirus_version = $this->jobj->task->antivirus->version;
-      $antivirus_realtime = $this->jobj->task->msg->info->antivirus->realtime;
-      $antivirus_service = $this->jobj->task->msg->info->antivirus->service;
+      $antivirus_realtime = $this->jobj->task->obj->info->antivirus->realtime;
+      $antivirus_service = $this->jobj->task->obj->info->antivirus->service;
 
       if(!$stmt->execute()){
          $error->setMessage(1, 'State insert execution failed (' . $stmt->errno . ') ' . $stmt->error);
@@ -305,12 +305,12 @@ class PluginArmaditoState extends CommonDBTM {
 
 		$agent_id = $this->agentid;
 	        $statedetails_id = $stateid;
-		$update_status = $this->jobj->task->msg->info->update->status;
-		$last_update = $this->jobj->task->msg->info->update->{"last-update"};
+		$update_status = $this->jobj->task->obj->info->update->status;
+		$last_update = $this->jobj->task->obj->info->update->{"last-update"};
 		$antivirus_name = $this->jobj->task->antivirus->name;
 		$antivirus_version = $this->jobj->task->antivirus->version;
-		$antivirus_realtime = $this->jobj->task->msg->info->antivirus->realtime;
-		$antivirus_service = $this->jobj->task->msg->info->antivirus->service;
+		$antivirus_realtime = $this->jobj->task->obj->info->antivirus->realtime;
+		$antivirus_service = $this->jobj->task->obj->info->antivirus->service;
 
 		if(!$stmt->execute()){
 		 $error->setMessage(1, 'State update execution failed (' . $stmt->errno . ') ' . $stmt->error);
