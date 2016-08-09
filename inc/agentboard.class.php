@@ -111,6 +111,6 @@ class PluginArmaditoAgentBoard extends CommonGLPI {
       PluginArmaditoBoard::showChart('computers', $dataComputer);
       echo "</td>";
    }
-   
+
 }
 ?>

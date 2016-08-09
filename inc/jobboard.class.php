@@ -29,6 +29,6 @@ if (!defined('GLPI_ROOT')) {
 class PluginArmaditoJobBoard extends CommonGLPI {
 
 
-   
+
 }
 ?>
