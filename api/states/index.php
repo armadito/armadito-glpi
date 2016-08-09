@@ -35,9 +35,7 @@ if (!empty($rawdata)) { // POST /states
 
    PluginArmaditoLastContactStat::increment();
 
-   // Parse json obj
    $jobj = PluginArmaditoToolbox::parseJSON($rawdata);
-
    if(!$jobj){
       $error->setMessage(1, "Fail parsing incoming json : ".json_last_error_msg());
       $error->log();

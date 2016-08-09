@@ -83,8 +83,6 @@ class PluginArmaditoJobmanager extends CommonDBTM {
       }
 
       function updateJobStatuses($status){
-         global $DB;
-
          foreach($this->jobs as $job){
             $job->updateStatus($status);
          }
