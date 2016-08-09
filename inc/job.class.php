@@ -153,6 +153,17 @@ class PluginArmaditoJob extends CommonDBTM {
          }
       }
 
+      function updateStatus ($status){
+            if($this->getFromDB($this->getId())){
+               $input = array();
+               $input['id'] = $this->getId();
+               $input['job_status'] = $status;
+               if(!$this->update($input)){
+                  PluginArmaditoToolbox::logE("Error when updating job n°".$this->getId()." status in DB.");
+               }
+            }
+      }
+
       function setAntivirusFromDB(){
          global $DB;
          $query = "SELECT `antivirus_name`, `antivirus_version` FROM `glpi_plugin_armadito_agents`
