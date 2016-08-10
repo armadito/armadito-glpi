@@ -34,7 +34,7 @@ class PluginArmaditoChartBar extends PluginArmaditoChart {
    function showChart() {
       parent::showBackground();
       echo "<script>
-         statBar('".$this->name."', '".json_encode($this->data)."', '".$this->title."', '".($this->width-30)."');
+         A6ostatBar('".$this->name."', '".json_encode($this->data)."', '".$this->title."', '".($this->width-30)."');
 </script>";
    }
 }

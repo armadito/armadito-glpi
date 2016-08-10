@@ -34,7 +34,7 @@ class PluginArmaditoChartHalfDonut extends PluginArmaditoChart {
    function showChart() {
       parent::showBackground();
       echo "<script>
-         statHalfDonut('".$this->name."', '".json_encode($this->data)."');
+         A6ostatHalfDonut('".$this->name."', '".json_encode($this->data)."', '".$this->title."');
 </script>";
    }
 

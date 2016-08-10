@@ -1,4 +1,4 @@
-function statHalfDonut(svgname, jsondata) {
+function A6ostatHalfDonut(svgname, jsondata, title) {
 
    nv.addGraph(function() {
 
@@ -30,7 +30,7 @@ function statHalfDonut(svgname, jsondata) {
 }
 
 
-function statBar(svgname, jsondata, title, width) {
+function A6ostatBar(svgname, jsondata, title, width) {
 
    nv.addGraph(function() {
 
