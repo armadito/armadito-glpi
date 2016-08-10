@@ -18,6 +18,8 @@ function A6ostatHalfDonut(svgname, jsondata, title) {
           .startAngle(function(d) { return d.startAngle/2 -Math.PI/2 })
           .endAngle(function(d) { return d.endAngle/2 -Math.PI/2 });
 
+      chart.legend.margin({top: 20});
+
       d3.select('#' + svgname)
           .datum(JSON.parse(jsondata))
           .transition().duration(1200)
@@ -25,13 +27,10 @@ function A6ostatHalfDonut(svgname, jsondata, title) {
           .attr('height', height)
           .call(chart);
 
-      d3.select(".nv-legendWrap")
-          .attr("transform","translate(0,"+(height*3/4)+")")
-
       d3.select('#' + svgname)
          .append('text')
-         .attr("x", (width / 2))
-         .attr("y", 12)
+         .attr("x", width/2)
+         .attr("y", 10)
          .attr('text-anchor', 'middle')
          .style('font-weight', 'bold')
          .text(title);
@@ -45,7 +44,7 @@ function A6ostatBar(svgname, jsondata, title, width) {
 
    nv.addGraph(function() {
 
-      var height = 380;
+      var height = 400;
 
       var chart = nv.models.discreteBarChart()
           .x(function(d) { return d.label })
@@ -63,8 +62,8 @@ function A6ostatBar(svgname, jsondata, title, width) {
 
       d3.select('#' + svgname)
          .append('text')
-         .attr('x', (width / 2))
-         .attr('y', 12)
+         .attr("x", width/2)
+         .attr("y", 10)
          .attr('text-anchor', 'middle')
          .style('font-weight', 'bold')
          .text(title);
