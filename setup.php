@@ -72,7 +72,7 @@ function plugin_init_armadito() {
 
       if (Session::haveRight('plugin_armadito_configuration', READ)
               || Session::haveRight('profile', UPDATE)) {// Config page
-         $PLUGIN_HOOKS['config_page']['fusioninventory'] = 'front/config.form.php'.
+         $PLUGIN_HOOKS['config_page']['armadito'] = 'front/config.form.php'.
                  '?itemtype=pluginarmaditoconfig&glpi_tab=1';
       }
 
