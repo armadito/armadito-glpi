@@ -167,7 +167,7 @@ class PluginArmaditoJob extends CommonDBTM {
          }
       }
 
-      function getAvailableStatuses () {
+      static function getAvailableStatuses () {
          return array("queued" => "#dedede",
                       "downloaded" => "#aee7ed",
                       "successful" => "#52d46a",
