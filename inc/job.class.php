@@ -90,6 +90,10 @@ class PluginArmaditoJob extends CommonDBTM {
          return $this->id;
       }
 
+      function setId($id_){
+         $this->id = $id_;
+      }
+
       function getAgentId(){
          return $this->agentid;
       }
