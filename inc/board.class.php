@@ -28,22 +28,8 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginArmaditoBoard extends CommonGLPI {
 
-   static function showChart($name, $data, $title='') {
-
-      echo '<svg style="background-color: #f3f3f3;" id="'.$name.'"></svg>';
-
-      echo "<script>
-         statHalfDonut('".$name."', '".json_encode($data)."');
-</script>";
-   }
-
-
-   static function showChartBar($name, $data, $title='', $width=370) {
-      echo '<svg width="400" style="background-color: #f3f3f3;" id="'.$name.'"></svg>';
-
-      echo "<script>
-         statBar('".$name."', '".json_encode($data)."', '".$title."', '".$width."');
-</script>";
+   function __construct() {
+      //
    }
 }
 ?>
