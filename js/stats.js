@@ -63,7 +63,7 @@ function A6ostatBar(svgname, jsondata, title, width) {
 
       d3.select('#' + svgname)
          .append('text')
-         .attr('x', 200)
+         .attr('x', (width / 2))
          .attr('y', 12)
          .attr('text-anchor', 'middle')
          .style('font-weight', 'bold')
