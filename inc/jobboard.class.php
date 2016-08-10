@@ -56,7 +56,7 @@ class PluginArmaditoJobBoard extends PluginArmaditoBoard {
   function showJobStatusChart($data) {
 
       $chart = new PluginArmaditoChartHalfDonut();
-      $chart->init('jobstatus', "Job statuses" , $data);
+      $chart->init('jobstatus', "Job(s) statuses" , $data);
 
       echo "<td width='380'>";
       $chart->showChart();
