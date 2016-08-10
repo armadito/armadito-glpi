@@ -25,6 +25,17 @@ function A6ostatHalfDonut(svgname, jsondata, title) {
           .attr('height', height)
           .call(chart);
 
+      d3.select(".nv-legendWrap")
+          .attr("transform","translate(0,"+(height*3/4)+")")
+
+      d3.select('#' + svgname)
+         .append('text')
+         .attr("x", (width / 2))
+         .attr("y", 12)
+         .attr('text-anchor', 'middle')
+         .style('font-weight', 'bold')
+         .text(title);
+
       return chart;
    });
 }
