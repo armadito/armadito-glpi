@@ -176,14 +176,17 @@ class PluginArmaditoJob extends CommonDBTM {
       }
 
       function updateStatus ($status){
-            if($this->getFromDB($this->getId())){
-               $input = array();
-               $input['id'] = $this->getId();
-               $input['job_status'] = $status;
-               if(!$this->update($input)){
-                  PluginArmaditoToolbox::logE("Error when updating job n°".$this->getId()." status in DB.");
-               }
+         if($this->getFromDB($this->getId())){
+            $input = array();
+            $input['id'] = $this->getId();
+            $input['job_status'] = $status;
+            if(!$this->update($input)){
+               PluginArmaditoToolbox::logE("Error when updating job n°".$this->getId()." status in DB.");
+               return false;
             }
+            return true;
+         }
+         return false;
       }
 
       function setAntivirusFromDB(){
@@ -394,6 +397,76 @@ class PluginArmaditoJob extends CommonDBTM {
             return false;
          }
          return true;
+      }
+
+      function cancelJob() {
+         if($this->getFromDB($this->id)){
+            if($this->fields["job_status"] == "queued"){
+               return $this->updateStatus("cancelled");
+            }
+            else if($this->fields["job_status"] == "cancelled"){
+               return true;
+            }
+         }
+         return false;
+      }
+
+      /**
+       * Massive action ()
+       */
+      function getSpecificMassiveActions($checkitem=NULL) {
+
+         $actions = array();
+         if (Session::haveRight("plugin_armadito_jobs", UPDATE)) {
+            $actions[__CLASS__.MassiveAction::CLASS_ACTION_SEPARATOR.'canceljob'] = __('Cancel job(s)', 'armadito');
+         }
+
+         return $actions;
+      }
+
+      /**
+       * @since version 0.85
+       *
+       * @see CommonDBTM::showMassiveActionsSubForm()
+      **/
+      static function showMassiveActionsSubForm(MassiveAction $ma) {
+
+         switch ($ma->getAction()) {
+            case 'canceljob' :
+               PluginArmaditoJob::showCancelForm();
+               return true;
+         }
+
+         return parent::showMassiveActionsSubForm($ma);
+      }
+
+      static function processMassiveActionsForOneItemtype(MassiveAction $ma, CommonDBTM $item,
+                                                          array $ids) {
+
+         $job = new self();
+
+         switch ($ma->getAction()) {
+
+            case 'canceljob' :
+               foreach ($ids as $job_id) {
+                  $job->setId($job_id);
+                  if ($job->cancelJob()){
+                     $ma->itemDone($item->getType(), $job_id, MassiveAction::ACTION_OK);
+                  } else {
+                     $ma->itemDone($item->getType(), $job_id, MassiveAction::ACTION_KO);
+                  }
+               }
+            return;
+         }
+
+         return;
+      }
+
+      static function showCancelForm(){
+         echo "<b>Only queued jobs can be cancelled.</b><br>";
+         echo "Do you want to continue anyway ?<br>";
+         echo "<br><br>".Html::submit(__('Post'),
+                                      array('name' => 'massiveaction'));
       }
 }
 ?>
