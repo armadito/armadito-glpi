@@ -76,13 +76,6 @@ function plugin_init_armadito() {
                  '?itemtype=pluginarmaditoconfig&glpi_tab=1';
       }
 
-      if (isset($_SESSION["glpiname"])) {
-            if (strstr($_SERVER['SCRIPT_FILENAME'], '/front/')
-                 && !strstr($_SERVER['SCRIPT_FILENAME'], 'report.dynamic.php')) {
-               register_shutdown_function('plugin_armadito_footer', $CFG_GLPI['root_doc']);
-            }
-      }
-
       // Profile definition
       $_SESSION["glpi_plugin_armadito_profile"]['armadito'] = 'w';
       if (isset($_SESSION["glpi_plugin_armadito_profile"])) { // Right set in change_profile hook
