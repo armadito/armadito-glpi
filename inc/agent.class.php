@@ -309,6 +309,47 @@ class PluginArmaditoAgent extends CommonDBTM {
       echo "<br><br>".Html::submit(__('Post'),
                                    array('name' => 'massiveaction'));
    }
+
+
+      function defineTabs($options=array()){
+
+         $ong = array();
+         $this->addDefaultFormTab($ong);
+         $this->addStandardTab('Log', $ong, $options);
+
+         return $ong;
+      }
+
+      /**
+      * Display form
+      *
+      * @param $agent_id integer ID of the agent
+      * @param $options array
+      *
+      * @return bool TRUE if form is ok
+      *
+      **/
+      function showForm($table_id, $options=array()) {
+
+         // Protect against injections
+         PluginArmaditoToolbox::validateInt($table_id);
+
+         // Init Form
+         $this->initForm($table_id, $options);
+         $this->showFormHeader($options);
+
+         echo "<tr class='tab_bg_1'>";
+         echo "<td>".__('Name')." :</td>";
+         echo "<td align='center'>";
+         Html::autocompletionTextField($this,'name', array('size' => 40));
+         echo "</td>";
+         echo "<td>".__('Agent Id', 'armadito')."&nbsp;:</td>";
+         echo "<td align='center'>";
+         echo "<b>".htmlspecialchars($this->fields["id"])."</b>";
+         echo "</td>";
+         echo "</tr>";
+      }
+
 }
 
 ?>
