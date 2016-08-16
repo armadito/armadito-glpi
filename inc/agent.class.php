@@ -137,7 +137,8 @@ class PluginArmaditoAgent extends CommonDBTM {
       $tab[$i]['table']     = $this->getTable();
       $tab[$i]['field']     = 'id';
       $tab[$i]['name']      = __('Agent Id', 'armadito');
-      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['datatype']  = 'itemlink';
+      $tab[$i]['itemlink_type'] = 'PluginArmaditoAgent';
       $tab[$i]['massiveaction'] = FALSE;
 
       $i++;
