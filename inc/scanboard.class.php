@@ -49,7 +49,7 @@ class PluginArmaditoScanBoard extends PluginArmaditoBoard {
    }
 
    /**
-    * Get data and display Jobs' statuses (half donut)
+    * Get data and display Scans' statuses (half donut)
     *
     *@return nothing
     **/
