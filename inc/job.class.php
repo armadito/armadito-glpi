@@ -444,7 +444,7 @@ class PluginArmaditoJob extends CommonDBTM {
 
          $actions = array();
          if (Session::haveRight("plugin_armadito_jobs", UPDATE)) {
-            $actions[__CLASS__.MassiveAction::CLASS_ACTION_SEPARATOR.'canceljob'] = __('Cancel job(s)', 'armadito');
+            $actions[__CLASS__.MassiveAction::CLASS_ACTION_SEPARATOR.'canceljob'] = __('Cancel', 'armadito');
          }
 
          return $actions;

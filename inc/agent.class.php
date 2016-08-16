@@ -213,12 +213,12 @@ class PluginArmaditoAgent extends CommonDBTM {
    function getSpecificMassiveActions($checkitem=NULL) {
 
       $actions = array();
-      if (Session::haveRight("plugin_armadito_agents", UPDATE)) {
-         $actions[__CLASS__.MassiveAction::CLASS_ACTION_SEPARATOR.'transfert'] = __('Transfer');
+      if (Session::haveRight("plugin_armadito_jobs", UPDATE)) {
+         $actions[__CLASS__.MassiveAction::CLASS_ACTION_SEPARATOR.'newscan'] = __('Scan', 'armadito');
       }
 
-      if (Session::haveRight("plugin_armadito_jobs", UPDATE)) {
-         $actions[__CLASS__.MassiveAction::CLASS_ACTION_SEPARATOR.'newscan'] = __('New Antivirus Scan');
+      if (Session::haveRight("plugin_armadito_agents", UPDATE)) {
+         $actions[__CLASS__.MassiveAction::CLASS_ACTION_SEPARATOR.'transfert'] = __('Transfer');
       }
 
       return $actions;
