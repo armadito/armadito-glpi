@@ -81,7 +81,7 @@ class PluginArmaditoStatedetail extends CommonDBTM {
       $i = 1;
 
       $tab[$i]['table']     = $this->getTable();
-      $tab[$i]['field']     = 'agent_id';
+      $tab[$i]['field']     = 'plugin_armadito_agents_id';
       $tab[$i]['name']      = __('Agent Id', 'armadito');
       $tab[$i]['datatype']  = 'text';
       $tab[$i]['massiveaction'] = FALSE;
@@ -151,10 +151,10 @@ class PluginArmaditoStatedetail extends CommonDBTM {
 
       // get global state for agent_id
       $state = new PluginArmaditoState();
-      $state->setAgentId($this->fields["agent_id"]);
+      $state->setAgentId($this->fields["plugin_armadito_agents_id"]);
       $state_id = $state->getTableIdForAgentId("glpi_plugin_armadito_states");
 
-      PluginArmaditoToolbox::logE("state_id : ".$state_id."; agent_id : ".$this->fields["agent_id"]);
+      PluginArmaditoToolbox::logE("state_id : ".$state_id."; agent_id : ".$this->fields["plugin_armadito_agents_id"]);
 
       $state->getFromDB($state_id);
 
@@ -165,7 +165,7 @@ class PluginArmaditoStatedetail extends CommonDBTM {
       echo "</td>";
       echo "<td>".__('Agent Id', 'armadito')."&nbsp;:</td>";
       echo "<td align='center'>";
-      echo "<b>".htmlspecialchars($this->fields["agent_id"])."</b>";
+      echo "<b>".htmlspecialchars($this->fields["plugin_armadito_agents_id"])."</b>";
       echo "</td>";
       echo "</tr>";
 

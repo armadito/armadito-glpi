@@ -88,7 +88,7 @@ class PluginArmaditoStateModule extends CommonDBTM {
 
       if ($item->getType()=='PluginArmaditoStatedetail') {
          $pfStatemodule = new self();
-         $pfStatemodule->showForm($item->fields["agent_id"]);
+         $pfStatemodule->showForm($item->fields["plugin_armadito_agents_id"]);
       }
       return TRUE;
    }
@@ -151,7 +151,7 @@ class PluginArmaditoStateModule extends CommonDBTM {
       global $DB;
 
       $query = "SELECT * FROM `glpi_plugin_armadito_statedetails`
-                 WHERE `agent_id`='".$agent_id."'";
+                 WHERE `plugin_armadito_agents_id`='".$agent_id."'";
 
 	   $data = array();
       if ($result = $DB->query($query)) {
@@ -174,7 +174,7 @@ class PluginArmaditoStateModule extends CommonDBTM {
       global $DB;
 
       $query = "SELECT id FROM `glpi_plugin_armadito_statedetails`
-                 WHERE `agent_id`=? AND `module_name`=?";
+                 WHERE `plugin_armadito_agents_id`=? AND `module_name`=?";
 
 	  $stmt = $DB->prepare($query);
 
@@ -220,7 +220,7 @@ class PluginArmaditoStateModule extends CommonDBTM {
       global $DB;
       $error = new PluginArmaditoError();
 
-      $query = "INSERT INTO `glpi_plugin_armadito_statedetails` (`agent_id`, `module_name`, `module_version`, `module_update_status`, `module_last_update`, `itemlink`) VALUES (?,?,?,?,?,?)";
+      $query = "INSERT INTO `glpi_plugin_armadito_statedetails` (`plugin_armadito_agents_id`, `module_name`, `module_version`, `module_update_status`, `module_last_update`, `itemlink`) VALUES (?,?,?,?,?,?)";
 
       $stmt = $DB->prepare($query);
 
@@ -269,7 +269,7 @@ class PluginArmaditoStateModule extends CommonDBTM {
 				 SET `module_version`=?,
 				     `module_update_status`=?,
 					 `module_last_update`=?
-				  WHERE `agent_id`=? AND `module_name`=?";
+				  WHERE `plugin_armadito_agents_id`=? AND `module_name`=?";
 
 		$stmt = $DB->prepare($query);
 

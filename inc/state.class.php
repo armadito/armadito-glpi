@@ -213,7 +213,7 @@ class PluginArmaditoState extends CommonDBTM {
 
 		$id = 0;
 		$query = "SELECT id FROM `".$table."`
-                 WHERE `agent_id`='".$this->agentid."'";
+                 WHERE `plugin_armadito_agents_id`='".$this->agentid."'";
 
 		$ret = $DB->query($query);
 
