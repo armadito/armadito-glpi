@@ -46,6 +46,18 @@ class PluginArmaditoConfig extends CommonDBTM {
    }
 
    /**
+   * Display form for config
+   *
+   * @return bool TRUE if form is ok
+   *
+   **/
+   function showForm($options=array()) {
+      global $CFG_GLPI;
+
+      $this->showFormHeader($options);
+   }
+
+   /**
    * Initialize config values of armadito plugin
    *
    * @return nothing
