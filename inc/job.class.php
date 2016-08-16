@@ -98,6 +98,16 @@ class PluginArmaditoJob extends CommonDBTM {
          return $this->agentid;
       }
 
+      /**
+      * Get name of this type
+      *
+      * @return text name of this type by language of the user connected
+      *
+      **/
+      static function getTypeName($nb=0) {
+         return __('Job', 'armadito');
+      }
+
       static function getDefaultDisplayPreferences(){
           $prefs = "";
           $nb_columns = 8;
@@ -105,6 +115,22 @@ class PluginArmaditoJob extends CommonDBTM {
                $prefs .= "(NULL, 'PluginArmaditoJob', '".$i."', '".$i."', '0'),";
           }
           return $prefs;
+      }
+
+      static function canCreate() {
+         if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
+            return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w');
+         }
+         return false;
+      }
+
+      static function canView() {
+
+         if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
+            return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w'
+                    || $_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'r');
+         }
+         return false;
       }
 
       function initObjFromForm ($key, $type, $POST){
@@ -467,6 +493,46 @@ class PluginArmaditoJob extends CommonDBTM {
          echo "Do you want to continue anyway ?<br>";
          echo "<br><br>".Html::submit(__('Post'),
                                       array('name' => 'massiveaction'));
+      }
+
+
+      function defineTabs($options=array()){
+
+         $ong = array();
+         $this->addDefaultFormTab($ong);
+         $this->addStandardTab('Log', $ong, $options);
+
+         return $ong;
+      }
+
+      /**
+      * Display form
+      *
+      * @param $agent_id integer ID of the agent
+      * @param $options array
+      *
+      * @return bool TRUE if form is ok
+      *
+      **/
+      function showForm($table_id, $options=array()) {
+
+         // Protect against injections
+         PluginArmaditoToolbox::validateInt($table_id);
+
+         // Init Form
+         $this->initForm($table_id, $options);
+         $this->showFormHeader($options);
+
+         echo "<tr class='tab_bg_1'>";
+         echo "<td>".__('Name')." :</td>";
+         echo "<td align='center'>";
+         Html::autocompletionTextField($this,'name', array('size' => 40));
+         echo "</td>";
+         echo "<td>".__('Agent Id', 'armadito')."&nbsp;:</td>";
+         echo "<td align='center'>";
+         echo "<b>".htmlspecialchars($this->fields["plugin_armadito_agents_id"])."</b>";
+         echo "</td>";
+         echo "</tr>";
       }
 }
 ?>
