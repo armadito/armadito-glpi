@@ -50,6 +50,12 @@ class PluginArmaditoState extends CommonDBTM {
        $this->agentid = PluginArmaditoToolbox::validateInt($agentid_);
     }
 
+    static function getAvailableStatuses () {
+         return array("non-available" => "#dedede", // grey
+                      "up-to-date" => "#52d46a", // green
+                      "critical" => "#ff3333", // red
+                      "late" => "#ffc425"); // yellow
+    }
 
     function toJson() {
          return '{}';
