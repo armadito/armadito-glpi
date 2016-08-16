@@ -340,10 +340,6 @@ class PluginArmaditoAgent extends CommonDBTM {
          $this->showFormHeader($options);
 
          echo "<tr class='tab_bg_1'>";
-         echo "<td>".__('Name')." :</td>";
-         echo "<td align='center'>";
-         Html::autocompletionTextField($this,'name', array('size' => 40));
-         echo "</td>";
          echo "<td>".__('Agent Id', 'armadito')."&nbsp;:</td>";
          echo "<td align='center'>";
          echo "<b>".htmlspecialchars($this->fields["id"])."</b>";
