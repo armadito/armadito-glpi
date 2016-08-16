@@ -32,7 +32,7 @@ DROP TABLE IF EXISTS `glpi_plugin_armadito_states`;
 
 CREATE TABLE `glpi_plugin_armadito_states` (
    `id` int(11) NOT NULL AUTO_INCREMENT,
-   `agent_id` int(11) NOT NULL,
+   `plugin_armadito_agents_id` int(11) NOT NULL,
    `update_status` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
    `last_update` datetime default NULL,
    `antivirus_name` varchar(255) collate utf8_unicode_ci NOT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE `glpi_plugin_armadito_states` (
    `antivirus_service` varchar(255) collate utf8_unicode_ci default NULL,
    `plugin_armadito_statedetails_id` int(11) NOT NULL,
    PRIMARY KEY (`id`),
-   UNIQUE KEY `agent_id` (`agent_id`)
+   UNIQUE KEY `plugin_armadito_agents_id` (`plugin_armadito_agents_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 
 DROP TABLE IF EXISTS `glpi_plugin_armadito_statedetails`;

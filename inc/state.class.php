@@ -71,10 +71,11 @@ class PluginArmaditoState extends CommonDBTM {
 
       $i = 1;
 
-      $tab[$i]['table']     = $this->getTable();
-      $tab[$i]['field']     = 'agent_id';
+      $tab[$i]['table']     = 'glpi_plugin_armadito_agents';
+      $tab[$i]['field']     = 'id';
       $tab[$i]['name']      = __('Agent Id', 'armadito');
-      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['datatype']  = 'itemlink';
+      $tab[$i]['itemlink_type'] = 'PluginArmaditoAgent';
       $tab[$i]['massiveaction'] = FALSE;
 
       $i++;
@@ -182,7 +183,7 @@ class PluginArmaditoState extends CommonDBTM {
       global $DB;
 
       $query = "SELECT update_status FROM `glpi_plugin_armadito_states`
-                 WHERE `agent_id`='".$this->agentid."'";
+                 WHERE `plugin_armadito_agents_id`='".$this->agentid."'";
       $ret = $DB->query($query);
 
       if(!$ret){
@@ -231,7 +232,7 @@ class PluginArmaditoState extends CommonDBTM {
       global $DB;
       $error = new PluginArmaditoError();
 
-      $query = "INSERT INTO `glpi_plugin_armadito_states` (`agent_id`, `update_status`, `last_update`, `antivirus_name`, `antivirus_version`, `antivirus_realtime`, `antivirus_service`, `plugin_armadito_statedetails_id`) VALUES (?,?,?,?,?,?,?,?)";
+      $query = "INSERT INTO `glpi_plugin_armadito_states` (`plugin_armadito_agents_id`, `update_status`, `last_update`, `antivirus_name`, `antivirus_version`, `antivirus_realtime`, `antivirus_service`, `plugin_armadito_statedetails_id`) VALUES (?,?,?,?,?,?,?,?)";
 
       $stmt = $DB->prepare($query);
 
@@ -286,7 +287,7 @@ class PluginArmaditoState extends CommonDBTM {
 				     `antivirus_realtime`=?,
 				     `antivirus_service`=?,
                  		     `plugin_armadito_statedetails_id`=?
-				  WHERE `agent_id`=?";
+				  WHERE `plugin_armadito_agents_id`=?";
 
 		$stmt = $DB->prepare($query);
 
