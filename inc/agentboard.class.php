@@ -43,6 +43,8 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard {
       echo "<table align='center'>";
       echo "<tr height='420'>";
 
+      $this->addAntivirusChart($restrict_entity);
+
       // Armadito Computers
       $this->addComputersChart($restrict_entity);
 
@@ -117,6 +119,26 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard {
       echo "<td width='380'>";
       $hchart->showChart();
       echo "</td>";
+   }
+
+   function addAntivirusChart($restrict_entity) {
+
+      $data = $this->getAntivirusChartData($restrict_entity);
+
+      $hchart = new PluginArmaditoChartHalfDonut();
+      $hchart->init('antiviruses', __('Antiviruses repartition', 'armadito') , $data, 370);
+
+      echo "<td width='380'>";
+      $hchart->showChart();
+      echo "</td>";
+   }
+
+   function getAntivirusChartData() {
+      global $DB;
+
+      $AVs = PluginArmaditoAgent::getAntivirusList();
+
+  
    }
 }
 ?>
