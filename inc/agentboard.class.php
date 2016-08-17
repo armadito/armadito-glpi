@@ -133,12 +133,31 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard {
       echo "</td>";
    }
 
+   function countAgentsForAV ($AV){
+        return countElementsInTableForMyEntities('glpi_plugin_armadito_agents',
+                                              "`antivirus_name`='".$AV."'");
+   }
+
    function getAntivirusChartData() {
       global $DB;
 
       $AVs = PluginArmaditoAgent::getAntivirusList();
+      $colortbox = new PluginArmaditoColorToolbox();
+      $palette = $colortbox->getRandomPalette(sizeof($AVs)+5);
 
+      $data = array();
+      $i = 0;
+      foreach($AVs as $name) {
+         $n_AVs = $this->countAgentsForAV($name);
+         $data[] = array(
+          'key' => __($name, 'armadito').' : '.$n_AVs,
+          'y'   => $n_AVs,
+          'color' => $palette[$i]
+         );
+         $i++;
+      }
 
+      return $data;
    }
 }
 ?>
