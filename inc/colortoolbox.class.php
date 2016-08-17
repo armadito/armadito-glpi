@@ -40,70 +40,71 @@ class PluginArmaditoColorToolbox {
    *  Reference : http://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/
    **/
    function getRandomPalette ( $nb_colors ) {
-      $this->h = rand();
+      $this->h = mt_rand() / mt_getrandmax();
       $palette = array();
       for($i = 0; $i < $nb_colors; $i++) {
-         $palette[] = getGoldenColor();
+         $palette[] = $this->getGoldenColor();
       }
       return $palette;
    }
 
    function getGoldenColor() {
          $golden_ratio_conjugate = 0.618033988749895;
-         $this->h += $golden_ratio_conjugate;
-         $this->h %= 1;
-         return "#" + HSVtoHexa(h, 0.5, 0.95);
+         $this->h = $this->h + $golden_ratio_conjugate;
+         $this->h = fmod($this->h, 1);
+         return "#".$this->HSVtoHexa($this->h, 0.5, 0.95);
    }
 
-    /*
-    **  Converts HSV to RGB values
-    ** –––––––––––––––––––––––––––––––––––––––––––––––––––––
-    **  References : http://en.wikipedia.org/wiki/HSL_and_HSV
-    **             https://gist.github.com/Jadzia626/2323023
-    **  Purpose:   Useful for generating colours with
-    **             same hue-value for web designs.
-    **  Input:     Hue        (H) Integer 0-360
-    **             Saturation (S) Integer 0-100
-    **             Lightness  (V) Integer 0-100
-    **  Output:    String "R,G,B"
-    **             Suitable for CSS function RGB().
-    */
-    function HSVtoHexa($iH, $iS, $iV) {
-        if($iH < 0)   $iH = 0;   // Hue:
-        if($iH > 360) $iH = 360; //   0-360
-        if($iS < 0)   $iS = 0;   // Saturation:
-        if($iS > 100) $iS = 100; //   0-100
-        if($iV < 0)   $iV = 0;   // Lightness:
-        if($iV > 100) $iV = 100; //   0-100
-        $dS = $iS/100.0; // Saturation: 0.0-1.0
-        $dV = $iV/100.0; // Lightness:  0.0-1.0
-        $dC = $dV*$dS;   // Chroma:     0.0-1.0
-        $dH = $iH/60.0;  // H-Prime:    0.0-6.0
-        $dT = $dH;       // Temp variable
-        while($dT >= 2.0) $dT -= 2.0; // php modulus does not work with float
-        $dX = $dC*(1-abs($dT-1));     // as used in the Wikipedia link
-        switch(floor($dH)) {
-            case 0:
-                $dR = $dC; $dG = $dX; $dB = 0.0; break;
-            case 1:
-                $dR = $dX; $dG = $dC; $dB = 0.0; break;
-            case 2:
-                $dR = 0.0; $dG = $dC; $dB = $dX; break;
-            case 3:
-                $dR = 0.0; $dG = $dX; $dB = $dC; break;
-            case 4:
-                $dR = $dX; $dG = 0.0; $dB = $dC; break;
-            case 5:
-                $dR = $dC; $dG = 0.0; $dB = $dX; break;
-            default:
-                $dR = 0.0; $dG = 0.0; $dB = 0.0; break;
+   function HSVtoHexa($h, $s, $v) {
+        $h_i = round($h*6); 
+        $f = $h*6 - $h_i;
+        $p = $v * (1 - $s);
+        $q = $v * (1 - $f*$s);
+        $t = $v * (1 - (1 - $f) * $s);
+
+        switch($h_i) {
+           case 0: 
+              $r = $v;
+              $g = $t;
+              $b = $p;
+              break;
+           case 1: 
+              $r = $q;
+              $g = $v;
+              $b = $p;
+              break;
+           case 2: 
+              $r = $p;
+              $g = $v;
+              $b = $t;
+              break;
+           case 3: 
+              $r = $p;
+              $g = $q;
+              $b = $v;
+              break;
+           case 4: 
+              $r = $t;
+              $g = $p;
+              $b = $v;
+              break;
+           case 5: 
+              $r = $v;
+              $g = $p;
+              $b = $q;
+              break;
+           case 6: 
+              $r = $v;
+              $g = $t;
+              $b = $p;
+              break;      
         }
-        $dM  = $dV - $dC;
-        $dR += $dM; $dG += $dM; $dB += $dM;
-        $dR *= 255; $dG *= 255; $dB *= 255;
-        $dR = str_pad(dechex(round($dR)), 2, "0", STR_PAD_LEFT);
-        $dG = str_pad(dechex(round($dG)), 2, "0", STR_PAD_LEFT);
-        $dB = str_pad(dechex(round($dB)), 2, "0", STR_PAD_LEFT);
+
+        // echo "r = ".round($r*255).", g =".round($g*255).", b=".round($b*255)."<br>";
+
+        $dR = str_pad(dechex(round($r*256)), 2, "0", STR_PAD_LEFT);
+        $dG = str_pad(dechex(round($g*256)), 2, "0", STR_PAD_LEFT);
+        $dB = str_pad(dechex(round($b*256)), 2, "0", STR_PAD_LEFT);
         return $dR.$dG.$dB;
     }
 
