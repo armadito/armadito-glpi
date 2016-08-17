@@ -56,7 +56,7 @@ class PluginArmaditoColorToolbox {
    }
 
    function HSVtoHexa($h, $s, $v) {
-        $h_i = round($h*6);
+        $h_i = intval($h*6);
         $f = $h*6 - $h_i;
         $p = $v * (1 - $s);
         $q = $v * (1 - $f*$s);
@@ -93,19 +93,12 @@ class PluginArmaditoColorToolbox {
               $g = $p;
               $b = $q;
               break;
-           case 6:
-              $r = $v;
-              $g = $t;
-              $b = $p;
-              break;
         }
 
         // echo "r = ".round($r*255).", g =".round($g*255).", b=".round($b*255)."<br>";
-
-        $dR = str_pad(dechex(round($r*256)), 2, "0", STR_PAD_LEFT);
-        $dG = str_pad(dechex(round($g*256)), 2, "0", STR_PAD_LEFT);
-        $dB = str_pad(dechex(round($b*256)), 2, "0", STR_PAD_LEFT);
-        return $dR.$dG.$dB;
+        $color = dechex( (round($r*255) << 16) + (round($g*255) << 8) + round($b*255) );
+        $color = str_repeat('0', 6 - strlen($color)) . $color;
+        return $color;
     }
 
     static function getRainbowColors () {
