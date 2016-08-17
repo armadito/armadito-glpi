@@ -138,7 +138,7 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard {
 
       $AVs = PluginArmaditoAgent::getAntivirusList();
 
-  
+
    }
 }
 ?>

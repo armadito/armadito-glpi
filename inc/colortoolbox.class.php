@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
    Copyright (C) 2010-2016 by the FusionInventory Development Team.
@@ -37,7 +37,7 @@ class PluginArmaditoColorToolbox {
 
    /**
    *  Get nice random colors using golden ratio
-   *  Reference : http://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/    
+   *  Reference : http://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/
    **/
    function getRandomPalette ( $nb_colors ) {
       $this->h = rand();
@@ -50,7 +50,7 @@ class PluginArmaditoColorToolbox {
 
    function getGoldenColor() {
          $golden_ratio_conjugate = 0.618033988749895;
-         $this->h += $golden_ratio_conjugate; 
+         $this->h += $golden_ratio_conjugate;
          $this->h %= 1;
          return "#" + HSVtoHexa(h, 0.5, 0.95);
    }
@@ -59,7 +59,7 @@ class PluginArmaditoColorToolbox {
     **  Converts HSV to RGB values
     ** –––––––––––––––––––––––––––––––––––––––––––––––––––––
     **  References : http://en.wikipedia.org/wiki/HSL_and_HSV
-    **             https://gist.github.com/Jadzia626/2323023  
+    **             https://gist.github.com/Jadzia626/2323023
     **  Purpose:   Useful for generating colours with
     **             same hue-value for web designs.
     **  Input:     Hue        (H) Integer 0-360
