@@ -350,7 +350,8 @@ class PluginArmaditoAgent extends CommonDBTM {
       /**
       *  Get list of all Antiviruses managed
       **/
-      static function getAntivirusList {
+      static function getAntivirusList () {
+         global $DB;
 
          $AVs = array();
          $query = "SELECT DISTINCT antivirus_name FROM `glpi_plugin_armadito_agents`";
@@ -365,7 +366,7 @@ class PluginArmaditoAgent extends CommonDBTM {
                 $AVs[] =  $data['antivirus_name'];
             }
          }
-         return $AVS;
+         return $AVs;
       }
 
 }

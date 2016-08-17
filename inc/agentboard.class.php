@@ -123,7 +123,7 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard {
 
    function addAntivirusChart($restrict_entity) {
 
-      $data = $this->getAntivirusChartData($restrict_entity);
+      $data = $this->getAntivirusChartData();
 
       $hchart = new PluginArmaditoChartHalfDonut();
       $hchart->init('antiviruses', __('Antiviruses repartition', 'armadito') , $data, 370);

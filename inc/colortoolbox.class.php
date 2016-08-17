@@ -32,7 +32,7 @@ class PluginArmaditoColorToolbox {
    protected $h;
 
     function __construct() {
-         $this-h = -1;
+         $this->h = -1;
     }
 
    /**
