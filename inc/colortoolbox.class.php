@@ -56,48 +56,48 @@ class PluginArmaditoColorToolbox {
    }
 
    function HSVtoHexa($h, $s, $v) {
-        $h_i = round($h*6); 
+        $h_i = round($h*6);
         $f = $h*6 - $h_i;
         $p = $v * (1 - $s);
         $q = $v * (1 - $f*$s);
         $t = $v * (1 - (1 - $f) * $s);
 
         switch($h_i) {
-           case 0: 
+           case 0:
               $r = $v;
               $g = $t;
               $b = $p;
               break;
-           case 1: 
+           case 1:
               $r = $q;
               $g = $v;
               $b = $p;
               break;
-           case 2: 
+           case 2:
               $r = $p;
               $g = $v;
               $b = $t;
               break;
-           case 3: 
+           case 3:
               $r = $p;
               $g = $q;
               $b = $v;
               break;
-           case 4: 
+           case 4:
               $r = $t;
               $g = $p;
               $b = $v;
               break;
-           case 5: 
+           case 5:
               $r = $v;
               $g = $p;
               $b = $q;
               break;
-           case 6: 
+           case 6:
               $r = $v;
               $g = $t;
               $b = $p;
-              break;      
+              break;
         }
 
         // echo "r = ".round($r*255).", g =".round($g*255).", b=".round($b*255)."<br>";
