@@ -57,6 +57,11 @@ class PluginArmaditoProfile extends Profile {
                 'field'     => 'plugin_armadito_scans'),
 
           array('rights'    => array(READ => __('Read'), UPDATE => __('Update')),
+                'itemtype'  => 'PluginArmaditoScanConfig',
+                'label'     => __('Scan configuration', 'armadito'),
+                'field'     => 'plugin_armadito_scanconfigs'),
+
+          array('rights'    => array(READ => __('Read'), UPDATE => __('Update')),
                 'itemtype'  => 'PluginArmaditoConfig',
                 'label'     => __('Configuration', 'armadito'),
                 'field'     => 'plugin_armadito_configuration'),
