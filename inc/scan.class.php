@@ -179,28 +179,14 @@ class PluginArmaditoScan extends CommonDBTM {
 
       $i++;
 
-      $tab[$i]['table']     = $this->getTable();
-      $tab[$i]['field']     = 'scan_type';
-      $tab[$i]['name']      = __('Scan Type', 'armadito');
-      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['table']     = 'glpi_plugin_armadito_scanconfigs';
+      $tab[$i]['field']     = 'scan_name';
+      $tab[$i]['name']      = __('Scan Name', 'armadito');
+      $tab[$i]['datatype']  = 'itemlink';
+      $tab[$i]['itemlink_type'] = 'PluginArmaditoScanConfig';
       $tab[$i]['massiveaction'] = FALSE;
 
-      $i++;
-
-      $tab[$i]['table']     = $this->getTable();
-      $tab[$i]['field']     = 'scan_path';
-      $tab[$i]['name']      = __('Scan Path', 'armadito');
-      $tab[$i]['datatype']  = 'text';
-      $tab[$i]['massiveaction'] = FALSE;
-
-      $i++;
-
-      $tab[$i]['table']     = $this->getTable();
-      $tab[$i]['field']     = 'scan_options';
-      $tab[$i]['name']      = __('Scan Options', 'armadito');
-      $tab[$i]['datatype']  = 'text';
-      $tab[$i]['massiveaction'] = FALSE;
-
+      /*
       $i++;
 
       $tab[$i]['table']     = $this->getTable();
@@ -216,6 +202,7 @@ class PluginArmaditoScan extends CommonDBTM {
       $tab[$i]['name']      = __('Antivirus Version', 'armadito');
       $tab[$i]['datatype']  = 'text';
       $tab[$i]['massiveaction'] = FALSE;
+      */
 
       return $tab;
    }
