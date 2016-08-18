@@ -64,6 +64,11 @@ class PluginArmaditoMenu extends CommonGLPI {
    static function getAdditionalMenuOptions() {
       global $CFG_GLPI;
 
+      $elements = array(
+          'scanconfig'                 => 'PluginArmaditoScanConfig',
+          'config'                     => 'PluginArmaditoConfig',
+      );
+
       $options = array();
 
       $options['menu']['title'] = self::getTypeName();
@@ -77,6 +82,19 @@ class PluginArmaditoMenu extends CommonGLPI {
          $options['agent']['links']['config']  = PluginArmaditoConfig::getFormURL(false);
       }
 
+      foreach ($elements as $type => $itemtype) {
+         $options[$type] = array(
+              'title' => $itemtype::getTypeName(),
+              'page'  => $itemtype::getSearchURL(false));
+         $options[$type]['links']['search'] = $itemtype::getSearchURL(false);
+         if ($itemtype::canCreate()) {
+            $options[$type]['links']['add'] = $itemtype::getFormURL(false);
+         }
+
+         if (Session::haveRight('plugin_fusioninventory_configuration', READ)) {
+            $options[$type]['links']['config']  = PluginFusioninventoryConfig::getFormURL(false);
+         }
+      }
       return $options;
    }
 
