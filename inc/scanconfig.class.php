@@ -28,6 +28,55 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginArmaditoScanConfig extends CommonDBTM {
 
+    protected $id;
+    protected $scan_type;
+    protected $scan_path;
+    protected $scan_options;
+    protected $antivirus_name;
+    protected $antivirus_version;
+
+   function __construct() {
+      //
+   }
+
+	function initFromForm($jobobj, $POST) {
+      $this->setScanType($POST["scan_type"]);
+      $this->antivirus_name = $jobobj->getAntivirusName();
+      $this->antivirus_version = $jobobj->getAntivirusVersion();
+	}
+
+   /**
+   * Get Scan config from DB
+   **/
+	function initFromDB($scan_name) {
+      global $DB;
+      // TODO: validate scan_name against SQL injections
+
+      $error = new PluginArmaditoError();
+      $query = "SELECT * FROM `glpi_plugin_armadito_scanconfigs`
+              WHERE `scan_name`='".$scan_name."'";
+
+      $ret = $DB->query($query);
+
+      if(!$ret){
+         throw new Exception(sprintf('Error scanconfig initFromDB : %s', $DB->error()));
+      }
+
+      if($DB->numrows($ret) > 0){
+
+         if($data = $DB->fetch_assoc($ret)){
+            $this->scan_path = $data["scan_path"];
+            $this->scan_options = $data["scan_options"];
+            $this->antivirus_name = $data["antivirus_name"];
+            $this->antivirus_version = $data["antivirus_version"];
+            $error->setMessage(0, 'Successfully loade scanconfig from DB.');
+         }
+      }
+
+      $error->setMessage(1, 'No scanconfig '.$scan_name.' found in DB');
+      return $error;
+	}
+
    /**
     * Display name of itemtype
     *

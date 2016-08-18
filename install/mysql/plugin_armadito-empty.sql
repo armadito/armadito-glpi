@@ -100,7 +100,16 @@ CREATE TABLE `glpi_plugin_armadito_scans` (
    `id` int(11) NOT NULL AUTO_INCREMENT,
    `plugin_armadito_jobs_id` int(11) NOT NULL,
    `plugin_armadito_agents_id` int(11) NOT NULL,
-   `scan_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+   `plugin_armadito_scanconfigs_id` int(11) NOT NULL,
+   `plugin_armadito_antiviruses_id` int(11) NOT NULL,
+   PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
+
+DROP TABLE IF EXISTS `glpi_plugin_armadito_scanconfigs`;
+
+CREATE TABLE `glpi_plugin_armadito_scanconfigs` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `scan_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
    `scan_path` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
    `scan_options` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
    `antivirus_name` varchar(255) collate utf8_unicode_ci NOT NULL,

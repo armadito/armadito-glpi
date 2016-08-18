@@ -33,12 +33,8 @@ class PluginArmaditoScan extends CommonDBTM {
     protected $agentid;
     protected $agent;
     protected $jobj;
-    protected $scan_type;
-    protected $scan_path;
-    protected $scan_options;
-    protected $antivirus_name;
-    protected $antivirus_version;
     protected $job;
+    protected $scanconfigid;
 
 	static function getTypeName($nb=0) {
 	  return __('Scan', 'armadito');
@@ -61,18 +57,15 @@ class PluginArmaditoScan extends CommonDBTM {
    }
 
     function __construct() {
-      $this->scan_type = "";
-      $this->scan_path = "";
-      $this->scan_options = "";
-      $this->antivirus_name = "";
-      $this->antivirus_version = "";
+      //
     }
 
 	function initFromForm($jobobj, $POST) {
       $this->agentid = $jobobj->getAgentId();
-      $this->setScanType($POST["scan_type"]);
-      $this->antivirus_name = $jobobj->getAntivirusName();
-      $this->antivirus_version = $jobobj->getAntivirusVersion();
+      // $scanconfigid
+      // $this->setScanType($POST["scan_name"]); // corresponds scan_name in pa_scanconfigs table
+      //$this->antivirus_name = $jobobj->getAntivirusName();
+      //$this->antivirus_version = $jobobj->getAntivirusVersion();
 	}
 
 	function initFromJson($jobj) {
@@ -96,18 +89,13 @@ class PluginArmaditoScan extends CommonDBTM {
 
          if($data = $DB->fetch_assoc($ret)){
             $this->agentid = $data["plugin_armadito_agents_id"];
-            $this->scan_type = $data["scan_type"];
-            $this->scan_path = $data["scan_path"];
-            $this->scan_options = $data["scan_options"];
-            $this->antivirus_name = $data["antivirus_name"];
-            $this->antivirus_version = $data["antivirus_version"];
+            $this->scan_name = $data["scan_name"];
             $error->setMessage(0, 'Successfully scan init from DB.');
          }
       }
 
       $error->setMessage(1, 'No scans found for job_id '.$job_id);
       return $error;
-
 	}
 
    function toJson() {
