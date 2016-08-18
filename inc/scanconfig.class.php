@@ -77,6 +77,22 @@ class PluginArmaditoScanConfig extends CommonDBTM {
       return $error;
 	}
 
+   static function canCreate() {
+      if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
+         return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w');
+      }
+      return false;
+   }
+
+   static function canView() {
+
+      if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
+         return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w'
+                 || $_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'r');
+      }
+      return false;
+   }
+
    /**
     * Display name of itemtype
     *
