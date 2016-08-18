@@ -46,8 +46,14 @@ if (isset($_POST['update'])) {
 
 $a_config = current($pfConfig->find("", "", 1));
 $pfConfig->getFromDB($a_config['id']);
+if (isset($_GET['glpi_tab'])) {
+   $_SESSION['glpi_tabs']['pluginfusioninventoryconfiguration'] = $_GET['glpi_tab'];
+   Html::redirect(Toolbox::getItemTypeFormURL($pfConfig->getType()));
+}
 $pfConfig->showTabs(array());
 $pfConfig->addDivForTabs();
+unset($_SESSION['glpi_tabs']['pluginfusioninventoryconfiguration']);
+
 
 Html::footer();
 
