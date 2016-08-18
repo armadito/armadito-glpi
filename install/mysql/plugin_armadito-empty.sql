@@ -85,6 +85,15 @@ CREATE TABLE `glpi_plugin_armadito_jobs_agents` (
       ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 
+DROP TABLE IF EXISTS `glpi_plugin_armadito_antiviruses`;
+
+CREATE TABLE `glpi_plugin_armadito_antiviruses` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+   `version` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+   PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
+
 DROP TABLE IF EXISTS `glpi_plugin_armadito_alerts`;
 
 CREATE TABLE `glpi_plugin_armadito_alerts` (
