@@ -38,6 +38,25 @@ class PluginArmaditoScanConfig extends CommonDBTM {
       return __('Scan configuration');
    }
 
+   static function getScanConfigsList() {
+      global $DB;
+
+      $configs = array();
+      $query = "SELECT DISTINCT scan_name FROM `glpi_plugin_armadito_scanconfigs`";
+      $ret = $DB->query($query);
+
+      if(!$ret){
+         throw new Exception(sprintf('Error getScanConfigsList : %s', $DB->error()));
+      }
+
+      if($DB->numrows($ret) > 0){
+         while ($data = $DB->fetch_assoc($ret)) {
+             $configs[] =  $data['scan_name'];
+         }
+      }
+      return $configs;
+   }
+
    /**
    * Display form
    *
@@ -50,8 +69,16 @@ class PluginArmaditoScanConfig extends CommonDBTM {
       $this->showFormHeader($options);
    }
 
-   function __construct() {
-      //  
+   static function showNoScanConfigForm(){
+      global $CFG_GLPI;
+
+      if (Session::haveRight('plugin_armadito_scanconfigs', READ)) {
+       $scanconfig_url = $CFG_GLPI['root_doc'].PluginArmaditoScanConfig::getFormURL(false);
+       echo "<b>No scan configuration found in database.</b><br>"; 
+       echo "Please, add a new scan configuration from Scans/configuration menu.<br>";      
+       echo "<a href=\"".$scanconfig_url."\"> Add a new configuration</a>";
+      }
    }
+
 }
 ?>

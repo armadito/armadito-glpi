@@ -285,32 +285,33 @@ class PluginArmaditoAgent extends CommonDBTM {
       return parent::showMassiveActionsSubForm($ma);
    }
 
-  /**
-    *  Show complete form for a new on-demand scan
-   **/
-   static function showNewScanForm(){
+     /**
+       *  Show complete form for a new on-demand scan
+      **/
+      static function showNewScanForm(){
 
-      echo "<b> Scan Parameters </b><br>";
-      echo "Type ";
-      $array = array();
-      $array[0] = "Complete";
-      $array[1] = "Fast";
-      $array[2] = "Custom";
-      Dropdown::showFromArray("scan_type", $array);
-      # PluginArmaditoToolbox::showHours('beginhours', array('step' => 15));
+         $configs = PluginArmaditoScanConfig::getScanConfigsList();
+         if(empty($configs)){
+             PluginArmaditoScanConfig::showNoScanConfigForm();
+             return;
+         }
 
-      echo "<br><br><b> Job Parameters </b><br>";
-      echo "Priority ";
-      $array = array();
-      $array[0] = "Low";
-      $array[1] = "Medium";
-      $array[2] = "High";
-      $array[3] = "Urgent";
-      Dropdown::showFromArray("job_priority", $array);
-      echo "<br><br>".Html::submit(__('Post'),
-                                   array('name' => 'massiveaction'));
-   }
+         echo "<b> Scan Parameters </b><br>";
+         echo "Config name:";
+         Dropdown::showFromArray("scan_name", $configs);
+         # PluginArmaditoToolbox::showHours('beginhours', array('step' => 15));
 
+         echo "<br><br><b> Job Parameters </b><br>";
+         echo "Priority ";
+         $array = array();
+         $array[0] = "Low";
+         $array[1] = "Medium";
+         $array[2] = "High";
+         $array[3] = "Urgent";
+         Dropdown::showFromArray("job_priority", $array);
+         echo "<br><br>".Html::submit(__('Post'),
+                                      array('name' => 'massiveaction'));
+      }
 
       function defineTabs($options=array()){
 
