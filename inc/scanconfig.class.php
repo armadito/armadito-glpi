@@ -100,7 +100,73 @@ class PluginArmaditoScanConfig extends CommonDBTM {
     **/
    static function getTypeName($nb=0) {
 
-      return __('Scan configuration');
+      return __('Scan configuration', 'armadito');
+   }
+
+  static function getDefaultDisplayPreferences(){
+       $prefs = "";
+       $nb_columns = 8;
+       for( $i = 1; $i <= $nb_columns; $i++){
+         $prefs .= "(NULL, 'PluginArmaditoScanConfig', '".$i."', '".$i."', '0'),";
+       }
+       return $prefs;
+   }
+
+	function getSearchOptions() {
+
+      $tab = array();
+      $tab['common'] = __('ScanConfig', 'armadito');
+
+      $i = 1;
+
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'id';
+      $tab[$i]['name']      = __('Scan Config Id', 'armadito');
+      $tab[$i]['datatype']  = 'itemlink';
+      $tab[$i]['itemlink_type'] = 'PluginArmaditoScanConfig';
+      $tab[$i]['massiveaction'] = FALSE;
+
+      $i++;
+
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'scan_name';
+      $tab[$i]['name']      = __('Scan Name', 'armadito');
+      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['massiveaction'] = FALSE;
+
+      $i++;
+
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'scan_path';
+      $tab[$i]['name']      = __('Scan Name', 'armadito');
+      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['massiveaction'] = FALSE;
+
+      $i++;
+
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'scan_options';
+      $tab[$i]['name']      = __('Scan Name', 'armadito');
+      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['massiveaction'] = FALSE;
+
+      $i++;
+
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'antivirus_name';
+      $tab[$i]['name']      = __('Antivirus Name', 'armadito');
+      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['massiveaction'] = FALSE;
+
+      $i++;
+
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'antivirus_version';
+      $tab[$i]['name']      = __('Antivirus Version', 'armadito');
+      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['massiveaction'] = FALSE;
+
+      return $tab;
    }
 
    static function getScanConfigsList() {
