@@ -44,6 +44,22 @@ class PluginArmaditoScan extends CommonDBTM {
 	  return __('Scan', 'armadito');
 	}
 
+   static function canCreate() {
+      if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
+         return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w');
+      }
+      return false;
+   }
+
+   static function canView() {
+
+      if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
+         return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w'
+                 || $_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'r');
+      }
+      return false;
+   }
+
     function __construct() {
       $this->scan_type = "";
       $this->scan_path = "";
@@ -135,6 +151,15 @@ class PluginArmaditoScan extends CommonDBTM {
       $tab['common'] = __('Scan', 'armadito');
 
       $i = 1;
+
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'id';
+      $tab[$i]['name']      = __('Scan Id', 'armadito');
+      $tab[$i]['datatype']  = 'itemlink';
+      $tab[$i]['itemlink_type'] = 'PluginArmaditoScan';
+      $tab[$i]['massiveaction'] = FALSE;
+
+      $i++;
 
       $tab[$i]['table']     = 'glpi_plugin_armadito_jobs';
       $tab[$i]['field']     = 'id';
@@ -272,5 +297,44 @@ class PluginArmaditoScan extends CommonDBTM {
       $error->setMessage(0, 'Scan successfully inserted.');
       return $error;
     }
+
+      function defineTabs($options=array()){
+
+         $ong = array();
+         $this->addDefaultFormTab($ong);
+         $this->addStandardTab('Log', $ong, $options);
+
+         return $ong;
+      }
+
+      /**
+      * Display form
+      *
+      * @param $agent_id integer ID of the agent
+      * @param $options array
+      *
+      * @return bool TRUE if form is ok
+      *
+      **/
+      function showForm($table_id, $options=array()) {
+
+         // Protect against injections
+         PluginArmaditoToolbox::validateInt($table_id);
+
+         // Init Form
+         $this->initForm($table_id, $options);
+         $this->showFormHeader($options);
+
+         echo "<tr class='tab_bg_1'>";
+         echo "<td>".__('Name')." :</td>";
+         echo "<td align='center'>";
+         Html::autocompletionTextField($this,'name', array('size' => 40));
+         echo "</td>";
+         echo "<td>".__('Agent Id', 'armadito')."&nbsp;:</td>";
+         echo "<td align='center'>";
+         echo "<b>".htmlspecialchars($this->fields["plugin_armadito_agents_id"])."</b>";
+         echo "</td>";
+         echo "</tr>";
+      }
 }
 ?>
