@@ -49,6 +49,23 @@ class PluginArmaditoAlert extends CommonDBTM {
          return '{}';
      }
 
+
+      static function canCreate() {
+         if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
+            return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w');
+         }
+         return false;
+      }
+
+      static function canView() {
+
+         if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
+            return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w'
+                    || $_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'r');
+         }
+         return false;
+      }
+
     /* Insert Alerts in database
     *
     * @return PluginArmaditoError obj
