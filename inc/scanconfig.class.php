@@ -198,6 +198,14 @@ class PluginArmaditoScanConfig extends CommonDBTM {
       global $CFG_GLPI;
 
       $this->showFormHeader($options);
+
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>".__('Scan name', 'armadito')." :</td>";
+      echo "<td>";
+      echo "<input type='text' name='scan_name' value='".$this->fields['scan_name']."'/>";
+      echo "</td>";
+      echo "</tr>";
+
    }
 
    static function showNoScanConfigForm(){
