@@ -92,7 +92,7 @@ class PluginArmaditoMenu extends CommonGLPI {
          }
 
          if (Session::haveRight('plugin_fusioninventory_configuration', READ)) {
-            $options[$type]['links']['config']  = PluginFusioninventoryConfig::getFormURL(false);
+            $options[$type]['links']['config']  = PluginArmaditoConfig::getFormURL(false);
          }
       }
       return $options;
