@@ -242,6 +242,46 @@ class PluginArmaditoJob extends CommonDBTM {
          }
       }
 
+      function insertErrorInDB($err_code, $err_msg){
+         global $DB;
+
+         $error = new PluginArmaditoError();
+         $query = "UPDATE `glpi_plugin_armadito_jobs` 
+                        SET `job_error_code`=?,
+                            `job_error_msg`=? 
+                            WHERE `id`=?";
+
+         $stmt = $DB->prepare($query);
+
+         if(!$stmt) {
+            $error->setMessage(1, 'JobError insert preparation failed.');
+            $error->log();
+            return $error;
+         }
+
+         if(!$stmt->bind_param('isi', $job_error_code, $job_error_msg, $job_id)) {
+               $error->setMessage(1, 'JobError insert bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
+               $error->log();
+               $stmt->close();
+               return $error;
+         }
+
+         $job_id = $this->id;
+         $job_error_code = $err_code;
+         $job_error_msg = $err_msg;
+
+         if(!$stmt->execute()){
+            $error->setMessage(1, 'JobError insert execution failed (' . $stmt->errno . ') ' . $stmt->error);
+            $error->log();
+            $stmt->close();
+            return $error;
+         }
+
+         $error->setMessage(0, 'JobError insertion successful.');
+         $stmt->close();
+         return $error;
+      }
+
       function getSearchOptions() {
 
          $tab = array();

@@ -75,12 +75,13 @@ else if(!empty($rawdata)) { // POST
    $job->initFromJson($jobj);
    if($jobj->task->obj->code == 0){
       $job->updateStatus("successful");
+      $error->setMessage(0, "Updated JobStatus successfully.");
    }
    else{
       $job->updateStatus("failed");
+      $error = $job->insertErrorInDB($jobj->task->obj->code, $jobj->task->obj->message);
    }
 
-   $error->setMessage(0, "Updated JobStatus successfully.");
    $communication->setMessage($error->toJson(), 200);
    $communication->sendMessage();
    session_destroy();
