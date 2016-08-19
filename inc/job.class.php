@@ -246,9 +246,9 @@ class PluginArmaditoJob extends CommonDBTM {
          global $DB;
 
          $error = new PluginArmaditoError();
-         $query = "UPDATE `glpi_plugin_armadito_jobs` 
+         $query = "UPDATE `glpi_plugin_armadito_jobs`
                         SET `job_error_code`=?,
-                            `job_error_msg`=? 
+                            `job_error_msg`=?
                             WHERE `id`=?";
 
          $stmt = $DB->prepare($query);
