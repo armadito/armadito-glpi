@@ -93,7 +93,7 @@ class PluginArmaditoToolbox {
    }
 
    /**
-    * Win32 path validation to avoid SQL injections
+    * Win32 path validation
     */
    static function isValidWin32Path($var) {
       $ret = filter_var($var, FILTER_VALIDATE_REGEXP,
@@ -104,7 +104,7 @@ class PluginArmaditoToolbox {
    }
 
    /**
-    * Unix path validation to avoid SQL injections
+    * Unix path validation
     */
    static function isValidUnixPath($var) {
       $ret = filter_var($var, FILTER_VALIDATE_REGEXP,
