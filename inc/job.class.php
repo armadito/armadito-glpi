@@ -60,6 +60,8 @@ class PluginArmaditoJob extends CommonDBTM {
       }
 
       function initFromDB($data) {
+         $error = new PluginArmaditoError();
+
          $this->id = $data["id"];
          $this->agentid = $data["plugin_armadito_agents_id"];
          $this->type = $data["job_type"];
@@ -69,7 +71,8 @@ class PluginArmaditoJob extends CommonDBTM {
          $this->status = $data["job_status"];
 
          // init Scan Obj for example or an other job_type
-         $this->initObjFromDB();
+         $error = $this->initObjFromDB();
+         return $error;
       }
 
       function initFromJson($jobj) {
@@ -134,27 +137,33 @@ class PluginArmaditoJob extends CommonDBTM {
       }
 
       function initObjFromForm ($key, $type, $POST){
+         $error = new PluginArmaditoError();
          switch($this->type){
             case "Scan":
                $this->obj = new PluginArmaditoScan();
-               $this->obj->initFromForm($this, $POST);
+               $error = $this->obj->initFromForm($this, $POST);
                break;
             default:
                $this->obj = "unknown";
+               $error->setMessage(0, 'Unknown Job Type.');
                break;
          }
+         return $error;
       }
 
       function initObjFromDB (){
+         $error = new PluginArmaditoError();
          switch($this->type){
             case "Scan":
                $this->obj = new PluginArmaditoScan();
-               $this->obj->initFromDB($this->id);
+               $error = $this->obj->initFromDB($this->id);
                break;
             default:
                $this->obj = "unknown";
+               $error->setMessage(0, 'Unknown Job Type.');
                break;
          }
+         return $error;
       }
 
       function getPriorityValue (){

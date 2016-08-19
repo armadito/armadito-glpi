@@ -65,13 +65,15 @@ class PluginArmaditoJobmanager extends CommonDBTM {
          }
 
          if($DB->numrows($ret) > 0){
-
             $i = 0;
             while( $data = $DB->fetch_assoc($ret)){
                $job = new PluginArmaditoJob();
-               $job->initFromDB($data);
-               array_push($this->jobs, $job);
-               $i++;
+               $error = new PluginArmaditoError();
+               $error = $job->initFromDB($data);
+               if($error->getCode() == 0){
+                  array_push($this->jobs, $job);
+                  $i++;
+               }
             }
 
             $error->setMessage(0, 'Got '.$i.' jobs for this agent.');

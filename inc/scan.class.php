@@ -35,6 +35,7 @@ class PluginArmaditoScan extends CommonDBTM {
     protected $jobj;
     protected $job;
     protected $scanconfigid;
+    protected $scanconfigobj;
 
 	static function getTypeName($nb=0) {
 	  return __('Scan', 'armadito');
@@ -83,11 +84,18 @@ class PluginArmaditoScan extends CommonDBTM {
       }
 
       if($DB->numrows($ret) > 0){
-
          if($data = $DB->fetch_assoc($ret)){
             $this->agentid = $data["plugin_armadito_agents_id"];
-            $this->scanconfigid = $data["plugin_armadto_scanconfigs_id"];
+            $this->scanconfigid = $data["plugin_armadito_scanconfigs_id"];
+
+            $this->scanconfigobj = new PluginArmaditoScanConfig();
+            if(!$this->scanconfigobj->initFromDB($this->scanconfigid)){
+                $error->setMessage(1, 'Init scanconfig from DB failed.');
+                return $error;
+            }
+
             $error->setMessage(0, 'Successfully scan init from DB.');
+            return $error;
          }
       }
 
@@ -96,11 +104,7 @@ class PluginArmaditoScan extends CommonDBTM {
 	}
 
    function toJson() {
-       return '{
-                  "scan_type": "'.$this->scan_type.'",
-                  "scan_path": "'.$this->scan_path.'",
-                  "scan_options": "'.$this->scan_options.'"
-               }';
+       return $this->scanconfigobj->toJson();
    }
 
    static function getDefaultDisplayPreferences(){

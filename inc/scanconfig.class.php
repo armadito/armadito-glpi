@@ -29,7 +29,7 @@ if (!defined('GLPI_ROOT')) {
 class PluginArmaditoScanConfig extends CommonDBTM {
 
     protected $id;
-    protected $scan_type;
+    protected $scan_name;
     protected $scan_path;
     protected $scan_options;
     protected $antivirus_name;
@@ -50,6 +50,29 @@ class PluginArmaditoScanConfig extends CommonDBTM {
       $this->scan_options = $POST["scan_options"];
       return "";
 	}
+
+   function initFromDB($id) {
+      global $DB;
+
+      $this->id = $id;
+      if($this->getFromDB($id)){
+            $this->scan_name = $this->fields["scan_name"];
+            $this->scan_path = $this->fields["scan_path"];
+            $this->scan_options = $this->fields["scan_options"];
+            $this->antivirus_name = $this->fields["antivirus_name"];
+            return true;
+      }
+      return false;
+	}
+
+   function toJson() {
+       return '{
+                  "scanconfig_id": '.$this->id.',
+                  "scan_name": "'.$this->scan_name.'",
+                  "scan_path": "'.$this->scan_path.'",
+                  "scan_options": "'.$this->scan_options.'"
+               }';
+   }
 
    function insertInDB() {
       global $DB;
