@@ -54,16 +54,19 @@ if (isset($_POST['add'])) {
    //Html::back();
 }
 
-$a_config = current($scanConfig->find("", "", 1));
-$scanConfig->getFromDB($a_config['id']);
-if (isset($_GET['glpi_tab'])) {
-   $_SESSION['glpi_tabs']['pluginarmaditoconfiguration'] = $_GET['glpi_tab'];
-   Html::redirect(Toolbox::getItemTypeFormURL($scanConfig->getType()));
+if (isset($_GET["id"])) {
+   $scanConfig->display(
+      array(
+         "id" => $_GET["id"]
+      )
+   );
+} else {
+   $scanConfig->display(
+      array(
+         "id" => 0
+      )
+   );
 }
-$scanConfig->showTabs(array());
-$scanConfig->addDivForTabs();
-unset($_SESSION['glpi_tabs']['pluginarmaditoconfiguration']);
-
 
 Html::footer();
 
