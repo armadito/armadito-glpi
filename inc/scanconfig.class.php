@@ -191,7 +191,7 @@ class PluginArmaditoScanConfig extends CommonDBTM {
       global $DB;
 
       $configs = array();
-      $query = "SELECT DISTINCT scan_name FROM `glpi_plugin_armadito_scanconfigs`";
+      $query = "SELECT id, scan_name FROM `glpi_plugin_armadito_scanconfigs`";
       $ret = $DB->query($query);
 
       if(!$ret){
@@ -200,7 +200,7 @@ class PluginArmaditoScanConfig extends CommonDBTM {
 
       if($DB->numrows($ret) > 0){
          while ($data = $DB->fetch_assoc($ret)) {
-             $configs[] =  $data['scan_name'];
+             $configs[$data['id']] = $data['scan_name'];
          }
       }
       return $configs;

@@ -62,10 +62,7 @@ class PluginArmaditoScan extends CommonDBTM {
 
 	function initFromForm($jobobj, $POST) {
       $this->agentid = $jobobj->getAgentId();
-      // $scanconfigid
-      // $this->setScanType($POST["scan_name"]); // corresponds scan_name in pa_scanconfigs table
-      //$this->antivirus_name = $jobobj->getAntivirusName();
-      //$this->antivirus_version = $jobobj->getAntivirusVersion();
+      $this->scanconfigid = PluginArmaditoToolbox::validateInt($POST["scanconfig_id"]);
 	}
 
 	function initFromJson($jobj) {

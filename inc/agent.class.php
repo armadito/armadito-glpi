@@ -297,8 +297,8 @@ class PluginArmaditoAgent extends CommonDBTM {
          }
 
          echo "<b> Scan Parameters </b><br>";
-         echo "Config name:";
-         Dropdown::showFromArray("scan_name", $configs);
+         echo "Configuration: ";
+         Dropdown::showFromArray("scanconfig_id", $configs);
          # PluginArmaditoToolbox::showHours('beginhours', array('step' => 15));
 
          echo "<br><br><b> Job Parameters </b><br>";
