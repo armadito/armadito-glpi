@@ -86,7 +86,7 @@ class PluginArmaditoScan extends CommonDBTM {
 
          if($data = $DB->fetch_assoc($ret)){
             $this->agentid = $data["plugin_armadito_agents_id"];
-            $this->scan_name = $data["scan_name"];
+            $this->scanconfigid = $data["plugin_armadto_scanconfigs_id"];
             $error->setMessage(0, 'Successfully scan init from DB.');
          }
       }
@@ -227,15 +227,9 @@ class PluginArmaditoScan extends CommonDBTM {
       $query = "INSERT INTO `glpi_plugin_armadito_scans`
                            (`plugin_armadito_jobs_id`,
                             `plugin_armadito_agents_id`,
-                            `scan_type`,
-                            `scan_path`,
-                            `scan_options`,
-                            `antivirus_name`,
-                            `antivirus_version`) VALUES (?,?,?,?,?,?,?)";
+                            `plugin_armadito_scanconfigs_id`) VALUES (?,?,?)";
 
       $stmt = $DB->prepare($query);
-
-      PluginArmaditoToolbox::logE("insert into Scan db.");
 
       if(!$stmt) {
          $error->setMessage(1, 'Scan insert preparation failed.');
@@ -243,7 +237,7 @@ class PluginArmaditoScan extends CommonDBTM {
          return $error;
       }
 
-      if(!$stmt->bind_param('iisssss', $job_id, $agent_id, $scan_type, $scan_path, $scan_options, $antivirus_name, $antivirus_version)) {
+      if(!$stmt->bind_param('iii', $job_id, $agent_id, $scanconfig_id)) {
             $error->setMessage(1, 'Scan insert bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
             $error->log();
             $stmt->close();
@@ -252,11 +246,7 @@ class PluginArmaditoScan extends CommonDBTM {
 
       $job_id = $job_id_;
       $agent_id = $this->agentid;
-      $scan_type = $this->scan_type;
-      $scan_path = $this->scan_path;
-      $scan_options = $this->scan_options;
-      $antivirus_name = $this->antivirus_name;
-      $antivirus_version = $this->antivirus_version;
+      $scanconfig_id = $this->scanconfigid;
 
       if(!$stmt->execute()){
          $error->setMessage(1, 'Scan insert execution failed (' . $stmt->errno . ') ' . $stmt->error);
