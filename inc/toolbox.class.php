@@ -118,6 +118,20 @@ class PluginArmaditoToolbox {
    }
 
    /**
+    * Basic string validation (no spaces, only - and alphanumerics)
+    */
+   static function isValidBasicString($var) {
+      $ret = filter_var($var, FILTER_VALIDATE_REGEXP,
+                           array("options" =>
+                                array("regexp" => '/^[\w-]*$/'))
+                        );
+      if ($ret != $var) {
+         return false;
+      }
+      return true;
+   }
+
+   /**
     * Parse a json string given
     *
     * @param $message XML message
