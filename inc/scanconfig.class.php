@@ -212,36 +212,37 @@ class PluginArmaditoScanConfig extends CommonDBTM {
    * @return bool TRUE if form is ok
    *
    **/
-   function showForm($options=array()) {
+   function showForm($id, $options=array()) {
       global $CFG_GLPI;
 
+      $this->initForm($id, $options);
       $this->showFormHeader($options);
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Scan name', 'armadito')." :</td>";
       echo "<td>";
-      echo "<input type='text' name='scan_name' value=''/>";
+      echo "<input type='text' name='scan_name' value='".htmlspecialchars($this->fields["scan_name"])."'/>";
       echo "</td>";
       echo "</tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Antivirus', 'armadito')." :</td>";
       echo "<td>";
-      echo "<input type='text' name='antivirus_name' value=''/>";
+      echo "<input type='text' name='antivirus_name' value='".htmlspecialchars($this->fields["antivirus_name"])."'/>";
       echo "</td>";
       echo "</tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Scan path', 'armadito')." :</td>";
       echo "<td>";
-      echo "<input type='text' name='scan_path' value=''/>";
+      echo "<input type='text' name='scan_path' value='".htmlspecialchars($this->fields["scan_path"])."'/>";
       echo "</td>";
       echo "</tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Scan options', 'armadito')." :</td>";
       echo "<td>";
-      echo "<input type='text' name='scan_options' value=''/>";
+      echo "<input type='text' name='scan_options' value='".htmlspecialchars($this->fields["scan_options"])."'/>";
       echo "</td>";
       echo "</tr>";
 
