@@ -39,8 +39,8 @@ class PluginArmaditoColorToolbox {
    *  Get nice random colors using golden ratio
    *  Reference : http://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/
    **/
-   function getRandomPalette ( $nb_colors ) {
-      $this->h = mt_rand() / mt_getrandmax();
+   function getPalette ( $nb_colors, $h_ ) {
+      $this->h = $h_;
       $palette = array();
       for($i = 0; $i < $nb_colors; $i++) {
          $palette[] = $this->getGoldenColor();
