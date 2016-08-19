@@ -103,24 +103,6 @@ class PluginArmaditoScan extends CommonDBTM {
                }';
    }
 
-   function setScanType ($id){
-      PluginArmaditoToolbox::validateInt($id);
-      switch($id){
-         case 0:
-            $this->scan_type = "complete";
-            break;
-         case 1:
-            $this->scan_type = "fast";
-            break;
-         case 2:
-            $this->scan_type = "custom";
-            break;
-         default:
-            $this->scan_type = "unknown";
-            break;
-      }
-   }
-
    static function getDefaultDisplayPreferences(){
        $prefs = "";
        $nb_columns = 8;
@@ -170,24 +152,6 @@ class PluginArmaditoScan extends CommonDBTM {
       $tab[$i]['datatype']  = 'itemlink';
       $tab[$i]['itemlink_type'] = 'PluginArmaditoScanConfig';
       $tab[$i]['massiveaction'] = FALSE;
-
-      /*
-      $i++;
-
-      $tab[$i]['table']     = $this->getTable();
-      $tab[$i]['field']     = 'antivirus_name';
-      $tab[$i]['name']      = __('Antivirus Name', 'armadito');
-      $tab[$i]['datatype']  = 'text';
-      $tab[$i]['massiveaction'] = FALSE;
-
-      $i++;
-
-      $tab[$i]['table']     = $this->getTable();
-      $tab[$i]['field']     = 'antivirus_version';
-      $tab[$i]['name']      = __('Antivirus Version', 'armadito');
-      $tab[$i]['datatype']  = 'text';
-      $tab[$i]['massiveaction'] = FALSE;
-      */
 
       return $tab;
    }
