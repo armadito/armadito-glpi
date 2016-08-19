@@ -255,10 +255,8 @@ class PluginArmaditoScanConfig extends CommonDBTM {
       if (Session::haveRight('plugin_armadito_scanconfigs', READ)) {
        $scanconfig_url = $CFG_GLPI['root_doc'].PluginArmaditoScanConfig::getFormURL(false);
        echo "<b>No scan configuration found in database.</b><br>";
-       echo "Please, add a new scan configuration from Scans/configuration menu.<br>";
        echo "<a href=\"".$scanconfig_url."\"> Add a new configuration</a>";
       }
    }
-
 }
 ?>
