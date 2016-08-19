@@ -92,6 +92,30 @@ class PluginArmaditoToolbox {
       return $ret;
    }
 
+   /**
+    * Win32 path validation to avoid SQL injections
+    */
+   static function isValidWin32Path($var) {
+      $ret = filter_var($var, FILTER_VALIDATE_REGEXP,
+                           array("options" =>
+                                array("regexp" => "/^[A-Za-z]:\\[A-Za-z0-9 ]*$/"))
+                        );
+      return $ret;
+   }
+
+   /**
+    * Unix path validation to avoid SQL injections
+    */
+   static function isValidUnixPath($var) {
+      $ret = filter_var($var, FILTER_VALIDATE_REGEXP,
+                           array("options" =>
+                                array("regexp" => '/^\/[^\0]*$/'))
+                        );
+      if ($ret != $var) {
+         return false;
+      }
+      return true;
+   }
 
    /**
     * Parse a json string given
