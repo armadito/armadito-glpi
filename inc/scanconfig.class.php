@@ -33,49 +33,67 @@ class PluginArmaditoScanConfig extends CommonDBTM {
     protected $scan_path;
     protected $scan_options;
     protected $antivirus_name;
-    protected $antivirus_version;
+
 
    function __construct() {
       //
    }
 
-	function initFromForm($jobobj, $POST) {
-      $this->setScanType($POST["scan_type"]);
-      $this->antivirus_name = $jobobj->getAntivirusName();
-      $this->antivirus_version = $jobobj->getAntivirusVersion();
+	function initFromForm($POST) {
+      if(!PluginArmaditoToolbox::isValidUnixPath($POST["scan_path"])){
+         return "Invalid UNIX scan_path.";
+      }
+
+      $this->antivirus_name = $POST["antivirus_name"];
+      $this->scan_name = $POST["scan_name"];
+      $this->scan_path = $POST["scan_path"];
+      $this->scan_options = $POST["scan_options"];
+      return "";
 	}
 
-   /**
-   * Get Scan config from DB
-   **/
-	function initFromDB($scan_name) {
+   function insertInDB() {
       global $DB;
-      // TODO: validate scan_name against SQL injections
-
       $error = new PluginArmaditoError();
-      $query = "SELECT * FROM `glpi_plugin_armadito_scanconfigs`
-              WHERE `scan_name`='".$scan_name."'";
 
-      $ret = $DB->query($query);
+      $query = "INSERT INTO `glpi_plugin_armadito_scanconfigs`
+                           (`scan_name`,
+                            `scan_path`,
+                            `scan_options`,
+                            `antivirus_name`) VALUES (?,?,?,?)";
 
-      if(!$ret){
-         throw new Exception(sprintf('Error scanconfig initFromDB : %s', $DB->error()));
+      $stmt = $DB->prepare($query);
+
+      PluginArmaditoToolbox::logE("insert new scanconfig in db.");
+
+      if(!$stmt) {
+         $error->setMessage(1, 'scanconfig insert preparation failed.');
+         $error->log();
+         return $error;
       }
 
-      if($DB->numrows($ret) > 0){
-
-         if($data = $DB->fetch_assoc($ret)){
-            $this->scan_path = $data["scan_path"];
-            $this->scan_options = $data["scan_options"];
-            $this->antivirus_name = $data["antivirus_name"];
-            $this->antivirus_version = $data["antivirus_version"];
-            $error->setMessage(0, 'Successfully loade scanconfig from DB.');
-         }
+      if(!$stmt->bind_param('ssss', $scan_name, $scan_path, $scan_options, $antivirus_name)) {
+            $error->setMessage(1, 'scanconfig insert bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
+            $error->log();
+            $stmt->close();
+            return $error;
       }
 
-      $error->setMessage(1, 'No scanconfig '.$scan_name.' found in DB');
+      $scan_name = $this->scan_name;
+      $scan_path = $this->scan_path;
+      $scan_options = $this->scan_options;
+      $antivirus_name = $this->antivirus_name;
+
+      if(!$stmt->execute()){
+         $error->setMessage(1, 'scanconfig insert execution failed (' . $stmt->errno . ') ' . $stmt->error);
+         $error->log();
+         $stmt->close();
+         return $error;
+      }
+
+      $stmt->close();
+      $error->setMessage(0, 'scanconfig successfully inserted.');
       return $error;
-	}
+   }
 
    static function canCreate() {
       if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
@@ -202,10 +220,33 @@ class PluginArmaditoScanConfig extends CommonDBTM {
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Scan name', 'armadito')." :</td>";
       echo "<td>";
-      echo "<input type='text' name='scan_name' value='".$this->fields['scan_name']."'/>";
+      echo "<input type='text' name='scan_name' value=''/>";
       echo "</td>";
       echo "</tr>";
 
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>".__('Antivirus', 'armadito')." :</td>";
+      echo "<td>";
+      echo "<input type='text' name='antivirus_name' value=''/>";
+      echo "</td>";
+      echo "</tr>";
+
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>".__('Scan path', 'armadito')." :</td>";
+      echo "<td>";
+      echo "<input type='text' name='scan_path' value=''/>";
+      echo "</td>";
+      echo "</tr>";
+
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>".__('Scan options', 'armadito')." :</td>";
+      echo "<td>";
+      echo "<input type='text' name='scan_options' value=''/>";
+      echo "</td>";
+      echo "</tr>";
+
+      $this->showFormButtons($options);
+      return true;
    }
 
    static function showNoScanConfigForm(){

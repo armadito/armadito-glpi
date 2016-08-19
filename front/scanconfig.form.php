@@ -31,28 +31,38 @@ Html::header(__('Features', 'armadito'), $_SERVER["PHP_SELF"],
 PluginArmaditoMenu::displayHeader();
 PluginArmaditoMenu::displayMenu("mini");
 
-$pfConfig = new PluginArmaditoScanConfig();
+$scanConfig = new PluginArmaditoScanConfig();
 
-if (isset($_POST['update'])) {
+if (isset($_POST['add'])) {
    $data = $_POST;
-   unset($data['update']);
+   unset($data['add']);
    unset($data['id']);
    unset($data['_glpi_csrf_token']);
-   foreach ($data as $key=>$value) {
-      $pfConfig->updateValue($key, $value);
+   $res = $scanConfig->initFromForm($data);
+   if($res == ""){
+      $error = $scanConfig->insertInDB();
+      if($error->getCode() == 0){
+         echo "<span style=\"color:green\"> Successfully inserted in database. </span><br>"; 
+      }
+      else {
+         echo "<span style=\"color:red\"> Error during insertion in database. </span><br>";
+      }
    }
-   Html::back();
+   else{
+      echo "<span style=\"color:red\"> $res </span><br>";
+   }
+   //Html::back();
 }
 
-$a_config = current($pfConfig->find("", "", 1));
-$pfConfig->getFromDB($a_config['id']);
+$a_config = current($scanConfig->find("", "", 1));
+$scanConfig->getFromDB($a_config['id']);
 if (isset($_GET['glpi_tab'])) {
-   $_SESSION['glpi_tabs']['pluginfusioninventoryconfiguration'] = $_GET['glpi_tab'];
-   Html::redirect(Toolbox::getItemTypeFormURL($pfConfig->getType()));
+   $_SESSION['glpi_tabs']['pluginarmaditoconfiguration'] = $_GET['glpi_tab'];
+   Html::redirect(Toolbox::getItemTypeFormURL($scanConfig->getType()));
 }
-$pfConfig->showTabs(array());
-$pfConfig->addDivForTabs();
-unset($_SESSION['glpi_tabs']['pluginfusioninventoryconfiguration']);
+$scanConfig->showTabs(array());
+$scanConfig->addDivForTabs();
+unset($_SESSION['glpi_tabs']['pluginarmaditoconfiguration']);
 
 
 Html::footer();
