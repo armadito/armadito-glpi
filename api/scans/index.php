@@ -52,7 +52,7 @@ if (!empty($rawdata)) { // POST /scans
    $error = $scan->updateScanInDB();
 
    if($error->getCode() == 0){ // success
-      $communication->setMessage($scan->toJson(), 200);
+      $communication->setMessage($error->toJson(), 200);
    }
    else{
       $communication->setMessage($error->toJson(), 500);
