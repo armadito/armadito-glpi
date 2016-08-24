@@ -240,9 +240,9 @@ class PluginArmaditoStateModule extends CommonDBTM {
       $itemlink = "ShowAll";
       $agent_id = $this->agentid;
       $module_name = $this->jobj->name;
-      $module_version = $this->jobj->version;
-      $module_update_status = $this->jobj->update->status;
-      $module_last_update = $this->jobj->update->{"last-update"};
+      $module_version = "unknown"; // $this->jobj->version;
+      $module_update_status = $this->jobj->mod_status;
+      $module_last_update = date("Y-m-d H:i:s", $this->jobj->mod_update_timestamp);
 
       if(!$stmt->execute()){
          $error->setMessage(1, 'State module insert execution failed (' . $stmt->errno . ') ' . $stmt->error);
@@ -286,11 +286,12 @@ class PluginArmaditoStateModule extends CommonDBTM {
 			return $error;
 		}
 
-		$agent_id = $this->agentid;
-		$module_name = $this->jobj->name;
-		$module_version = $this->jobj->version;
-		$module_update_status = $this->jobj->update->status;
-		$module_last_update = $this->jobj->update->{"last-update"};
+      $itemlink = "ShowAll";
+      $agent_id = $this->agentid;
+      $module_name = $this->jobj->name;
+      $module_version = "unknown"; // $this->jobj->version;
+      $module_update_status = $this->jobj->mod_status;
+      $module_last_update = date("Y-m-d H:i:s", $this->jobj->mod_update_timestamp);
 
 		if(!$stmt->execute()){
 		 $error->setMessage(1, 'State module update execution failed (' . $stmt->errno . ') ' . $stmt->error);
