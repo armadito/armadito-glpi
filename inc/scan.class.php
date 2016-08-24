@@ -109,7 +109,7 @@ class PluginArmaditoScan extends CommonDBTM {
 
    static function getDefaultDisplayPreferences(){
        $prefs = "";
-       $nb_columns = 8;
+       $nb_columns = 10;
        for( $i = 1; $i <= $nb_columns; $i++){
          $prefs .= "(NULL, 'PluginArmaditoScan', '".$i."', '".$i."', '0'),";
        }
@@ -156,6 +156,47 @@ class PluginArmaditoScan extends CommonDBTM {
       $tab[$i]['datatype']  = 'itemlink';
       $tab[$i]['itemlink_type'] = 'PluginArmaditoScanConfig';
       $tab[$i]['massiveaction'] = FALSE;
+
+      $i++;
+
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'progress';
+      $tab[$i]['name']      = __('Progress', 'armadito');
+      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['massiveaction'] = FALSE;
+
+      $i++;
+
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'suspicious_count';
+      $tab[$i]['name']      = __('Suspicious', 'armadito');
+      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['massiveaction'] = FALSE;
+
+      $i++;
+
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'malware_count';
+      $tab[$i]['name']      = __('Malware', 'armadito');
+      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['massiveaction'] = FALSE;
+
+      $i++;
+
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'scanned_count';
+      $tab[$i]['name']      = __('Scanned', 'armadito');
+      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['massiveaction'] = FALSE;
+
+      $i++;
+
+      $tab[$i]['table']     = $this->getTable();
+      $tab[$i]['field']     = 'duration';
+      $tab[$i]['name']      = __('Duration', 'armadito');
+      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['massiveaction'] = FALSE;
+
 
       return $tab;
    }
