@@ -49,7 +49,7 @@ if (!empty($rawdata)) { // POST /scans
 
    $scan = new PluginArmaditoScan();
    $scan->initFromJson($jobj);
-   $error = $scan->updateDB();
+   $error = $scan->updateScanInDB();
 
    if($error->getCode() == 0){ // success
       $communication->setMessage($scan->toJson(), 200);

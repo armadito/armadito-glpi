@@ -228,6 +228,59 @@ class PluginArmaditoScan extends CommonDBTM {
       return $error;
     }
 
+    /**
+    * Add Scan Results in database
+    *
+    * @return PluginArmaditoError obj
+    **/
+    function updateScanInDB(){
+      global $DB;
+      $error = new PluginArmaditoError();
+
+      $query = "UPDATE `glpi_plugin_armadito_scans`
+                           SET `start_time`=?,
+                               `duration`=?,
+                               `malware_count`=?,
+                               `suspicious_count`=?,
+                               `scanned_count`=?,
+                               `progress`=?
+                            WHERE `plugin_armadito_jobs_id`=?";
+
+      $stmt = $DB->prepare($query);
+
+      if(!$stmt) {
+         $error->setMessage(1, 'Scan insert preparation failed.');
+         $error->log();
+         return $error;
+      }
+
+      if(!$stmt->bind_param('ssiiiii', $start_time, $duration, $malware_count, $suspicious_count, $scanned_count, $progress, $job_id)) {
+            $error->setMessage(1, 'Scan insert bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
+            $error->log();
+            $stmt->close();
+            return $error;
+      }
+
+      $duration = $this->jobj->task->obj->duration;
+      $start_time = $this->jobj->task->obj->start_time;
+      $malware_count = $this->jobj->task->obj->malware_count;
+      $suspicious_count = $this->jobj->task->obj->suspicious_count;
+      $scanned_count = $this->jobj->task->obj->scanned_count;
+      $progress = $this->jobj->task->obj->progress;
+      $job_id = $this->jobj->task->obj->job_id;
+
+      if(!$stmt->execute()){
+         $error->setMessage(1, 'Scan insert execution failed (' . $stmt->errno . ') ' . $stmt->error);
+         $error->log();
+         $stmt->close();
+         return $error;
+      }
+
+      $stmt->close();
+      $error->setMessage(0, 'Scan successfully inserted.');
+      return $error;
+    }
+
       function defineTabs($options=array()){
 
          $ong = array();

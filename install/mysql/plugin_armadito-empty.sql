@@ -113,6 +113,12 @@ CREATE TABLE `glpi_plugin_armadito_scans` (
    `plugin_armadito_agents_id` int(11) NOT NULL,
    `plugin_armadito_scanconfigs_id` int(11) NOT NULL,
    `plugin_armadito_antiviruses_id` int(11) NOT NULL,
+   `malware_count` int(11) NOT NULL,
+   `suspicious_count` int(11) NOT NULL,
+   `scanned_count` int(11) NOT NULL,
+   `start_time` datetime default NULL,
+   `duration` int(11) NOT NULL,
+   `progress` int(11) NOT NULL,
    PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 
