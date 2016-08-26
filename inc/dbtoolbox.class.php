@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
    Copyright (C) 2010-2016 by the FusionInventory Development Team.

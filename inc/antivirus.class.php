@@ -76,11 +76,11 @@ class PluginArmaditoAntivirus extends CommonDBTM {
 
 		 $dbmanager->closeQuery("NewAntivirus");
 
-		 $this->id = PluginArmaditoDbToolbox::getLastInsertedId();		
+		 $this->id = PluginArmaditoDbToolbox::getLastInsertedId();
 		 if($this->id > 0){
 			PluginArmaditoToolbox::validateInt($this->id);
 			$error->setMessage(0, 'New device successfully enrolled.');
-		 }  
+		 }
          else{
 			$error->setMessage(1, 'Unable to get new Antivirus Id');
 		 }

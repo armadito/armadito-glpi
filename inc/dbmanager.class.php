@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
    Copyright (C) 2016 Teclib'
@@ -37,7 +37,7 @@ class PluginArmaditoDbManager {
    function init() {
         $this->error = new PluginArmaditoError();
    }
-	
+
    function getLastError() {
 		return $this->error;
    }
@@ -59,7 +59,7 @@ class PluginArmaditoDbManager {
 				break;
 			default: return 1;
 		}
-		
+
 		$query["params"] = $params;
 		$this->queries[$name] = $query;
 		return 0;
@@ -71,14 +71,14 @@ class PluginArmaditoDbManager {
 			 	$query .= "`".$property_name."`,";
 		}
 
-		$query = rtrim($query, ",");		
+		$query = rtrim($query, ",");
 		$query .= ") VALUES (";
-		
+
 		for($i = 0; $i < count($params); $i++){
 			$query .= "?,";
 		}
 
-		$query = rtrim($query, ",");		
+		$query = rtrim($query, ",");
 		$query .= ")";
 		return $query;
    }
@@ -117,7 +117,7 @@ class PluginArmaditoDbManager {
 
    function bindQuery ($name) {
    		global $DB;
-		$ref    = new ReflectionClass('mysqli_stmt'); 
+		$ref    = new ReflectionClass('mysqli_stmt');
 		$method = $ref->getMethod("bind_param");
 
   		if(!$method->invokeArgs($this->statements[$name], $this->getbindQueryArgs($name))) {
