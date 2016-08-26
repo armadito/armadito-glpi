@@ -27,6 +27,16 @@ CREATE TABLE `glpi_plugin_armadito_configs` (
    UNIQUE KEY `unicity` (`type`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 
+DROP TABLE IF EXISTS `glpi_plugin_armadito_antiviruses`;
+
+CREATE TABLE `glpi_plugin_armadito_antiviruses` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+   `fullname` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+   `version` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+   PRIMARY KEY (`id`),
+   UNIQUE KEY `fullname` (`fullname`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 
 DROP TABLE IF EXISTS `glpi_plugin_armadito_states`;
 
@@ -85,15 +95,6 @@ CREATE TABLE `glpi_plugin_armadito_jobs_agents` (
    FOREIGN KEY (`agent_id`)
       REFERENCES glpi_plugin_armadito_agents(id)
       ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
-
-DROP TABLE IF EXISTS `glpi_plugin_armadito_antiviruses`;
-
-CREATE TABLE `glpi_plugin_armadito_antiviruses` (
-   `id` int(11) NOT NULL AUTO_INCREMENT,
-   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-   `version` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 
 DROP TABLE IF EXISTS `glpi_plugin_armadito_alerts`;
