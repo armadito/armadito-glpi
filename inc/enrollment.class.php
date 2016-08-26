@@ -29,19 +29,16 @@ if (!defined('GLPI_ROOT')) {
 /**
  * Class managing Armadito devices' Enrollment
  **/
-class PluginArmaditoEnrollment {
+class PluginArmaditoEnrollment  extends CommonDBTM {
      protected $agentid;
      protected $jobj;
+	 protected $antivirus;
 
      function __construct($jobj) {
-
          $this->agentid = PluginArmaditoToolbox::validateInt($jobj->agent_id);
          $this->jobj = $jobj;
-
-         PluginArmaditoToolbox::logIfExtradebug(
-            'pluginArmadito-Enrollment',
-            'New PluginArmaditoEnrollment object.'
-         );
+		 $this->antivirus = new PluginArmaditoAntivirus();
+		 $this->antivirus->initFromJson($jobj);
      }
 
     /**
@@ -77,6 +74,11 @@ class PluginArmaditoEnrollment {
     * @return PluginArmaditoError obj
     **/
      function run(){
+
+		 $error = $this->antivirus->run();
+		 if($error->getCode() != 0){
+			return $error;
+		 }
 
          if($this->isAlreadyEnrolled()) {
             $error = $this->updateEnrolledDevice();
