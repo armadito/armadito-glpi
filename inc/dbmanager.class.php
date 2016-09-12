@@ -46,7 +46,7 @@ class PluginArmaditoDbManager {
 		$this->queries[$name]["params"][$property_name]["value"] = $property_value;
    }
 
-   function addQuery( $name, $type, $table, $params ) {
+   function addQuery( $name, $type, $table, $params, $where_param="") {
 
 		$query = array();
 
@@ -55,11 +55,12 @@ class PluginArmaditoDbManager {
 				$query["query"] = $this->addInsertQuery($table, $params);
 				break;
 			case "UPDATE":
-				$query["query"] = $this->addUpdateQuery($table, $params);
+				$query["query"] = $this->addUpdateQuery($table, $params, $where_param);
 				break;
 			default: return 1;
 		}
 
+		$query["type"] = $type;
 		$query["params"] = $params;
 		$this->queries[$name] = $query;
 		return 0;
@@ -83,8 +84,15 @@ class PluginArmaditoDbManager {
 		return $query;
    }
 
-   function addUpdateQuery($table, $params){
-		$query = "UPDATE...";
+   function addUpdateQuery($table, $params, $where_param){
+		$query = "UPDATE `".$table."` SET";
+		foreach ($params as $property_name => $property_type) {
+				if($property_name != $where_param){
+					$query .= " `".$property_name."`=?,";
+				}
+		}
+		$query = rtrim($query, ",");
+		$query .= " WHERE `".$where_param."`=?";
 		return $query;
    }
 
@@ -99,27 +107,19 @@ class PluginArmaditoDbManager {
 		 return 1;
    }
 
-   function makeValuesReferenced($arr){
-		$refs = array();
-		foreach($arr as $key => $value)
-		    $refs[$key] = &$arr[$key];
-		return $refs;
-   }
-
    function getbindQueryArgs($name) {
 		$bindargs = array("");
 		foreach ($this->queries[$name]["params"] as $property_name => $property_array) {
 			$bindargs[0] .= $property_array["type"];
-			array_push($bindargs, $property_name);
+			$bindargs[] = &$this->queries[$name]["params"][$property_name]["value"];
 		}
-		return $this->makeValuesReferenced($bindargs);
+		return $bindargs;
    }
 
    function bindQuery ($name) {
    		global $DB;
 		$ref    = new ReflectionClass('mysqli_stmt');
 		$method = $ref->getMethod("bind_param");
-
   		if(!$method->invokeArgs($this->statements[$name], $this->getbindQueryArgs($name))) {
 		   $this->error->setMessage(1, 'bindQuery '.$name.' failed.');
            $this->error->log();
@@ -132,7 +132,7 @@ class PluginArmaditoDbManager {
    function executeQuery ($name) {
    		 global $DB;
 		 if(! $this->statements[$name]->execute()){
-            $this->error->setMessage(1, 'executeQuery '.$name.' failed.');
+            $this->error->setMessage(1, 'executeQuery '.$name.' failed. '.$this->statements[$name]->error);
             $this->error->log();
             $this->statements[$name]->close();
             return 0;
