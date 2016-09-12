@@ -29,7 +29,7 @@ paths:
               $ref: "#/definitions/PluginArmaditoError"
     post:
       description: |
-        Update `PluginArmaditoJob` status with the given `PluginArmaditoJobStatus`.
+        Update `PluginArmaditoJob` status with the given `PluginArmaditoJobStatus`.  
       parameters:
           - in: body
             name: Enrollment
@@ -48,22 +48,22 @@ paths:
         500:
             description: Internal Server Error
             schema:
-              $ref: '#/definitions/PluginArmaditoError'
-  /glpi/plugins/armadito/api/enrollment:
+              $ref: '#/definitions/PluginArmaditoError'      
+  /glpi/plugins/armadito/api/agents:
     post:
       consumes:
         - application/json
       produces:
         - application/json
       description: 
-        Enrolls the device and returns a new dedicated unique identifier **agent_id**.
+        Add or Update `PluginArmaditoAgent` in database and return **agent_id**.
       parameters:
           - in: body
-            name: Enrollment
-            description: JSON Enrollment object
+            name: Agent
+            description: JSON Agent object
             required: true
             schema:
-              $ref: "#/definitions/PluginArmaditoEnrollment"
+              $ref: "#/definitions/PluginArmaditoAgent"
       responses:
         '200':
           description: Successful response
@@ -233,7 +233,7 @@ definitions:
         type: string
       task:
         $ref: '#/definitions/Task'
-  PluginArmaditoEnrollment:
+  PluginArmaditoAgent:
     type: object
     properties:
       agent_id:
