@@ -47,11 +47,12 @@ if (!empty($rawdata)) { // POST /states
       exit();
    }
 
-   $Enrollment = new PluginArmaditoEnrollment($jobj);
-   $error = $Enrollment->run();
+   $Agent = new PluginArmaditoAgent();
+   $Agent->initFromJson($jobj);
+   $error = $Agent->run();
 
    if($error->getCode() == 0){ // success
-      $communication->setMessage($Enrollment->toJson(), 200);
+      $communication->setMessage($Agent->toJson(), 200);
    }
    else{
       $communication->setMessage($error->toJson(), 500);
