@@ -37,6 +37,10 @@ class PluginArmaditoAntivirus extends CommonDBTM {
       //
    }
 
+   function getId(){
+	 return $this->id;
+   }
+
    function initFromJson($jobj_) {
       $this->name = $jobj_->task->antivirus->name;
       $this->version = $jobj_->task->antivirus->version;
@@ -153,7 +157,7 @@ class PluginArmaditoAntivirus extends CommonDBTM {
          global $DB;
 
          $AVs = array();
-         $query = "SELECT DISTINCT full_name FROM `glpi_plugin_armadito_antiviruses`";
+         $query = "SELECT DISTINCT fullname FROM `glpi_plugin_armadito_antiviruses`";
          $ret = $DB->query($query);
 
          if(!$ret){
@@ -162,7 +166,7 @@ class PluginArmaditoAntivirus extends CommonDBTM {
 
          if($DB->numrows($ret) > 0){
             while ($data = $DB->fetch_assoc($ret)) {
-                $AVs[] =  $data['full_name'];
+                $AVs[] =  $data['fullname'];
             }
          }
          return $AVs;

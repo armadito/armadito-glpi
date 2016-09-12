@@ -134,8 +134,8 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard {
    }
 
    function countAgentsForAV ($AV){
-        return countElementsInTableForMyEntities('glpi_plugin_armadito_agents',
-                                              "`antivirus_name`='".$AV."'");
+        return countElementsInTableForMyEntities('glpi_plugin_armadito_antiviruses',
+                                              "`fullname`='".$AV."'");
    }
 
    function getAntivirusChartData() {

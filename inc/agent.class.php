@@ -110,8 +110,7 @@ class PluginArmaditoAgent extends CommonDBTM {
 		 $params["plugin_fusioninventory_agents_id"]["type"] = "i";
 		 $params["device_id"]["type"] = "s";
 		 $params["agent_version"]["type"] = "s";
-		 $params["antivirus_name"]["type"] = "s";
-		 $params["antivirus_version"]["type"] = "s";
+		 $params["plugin_armadito_antiviruses_id"]["type"] = "i";
 		 $params["last_contact"]["type"] = "s";
 		 $params["last_alert"]["type"] = "s";
 		 $params["id"]["type"] = "i";
@@ -132,8 +131,7 @@ class PluginArmaditoAgent extends CommonDBTM {
 		 $dbmanager->setQueryValue($query_name, "plugin_fusioninventory_agents_id", 0);
 		 $dbmanager->setQueryValue($query_name, "device_id", $this->jobj->fusion_id);
 		 $dbmanager->setQueryValue($query_name, "agent_version", $this->jobj->agent_version);
-		 $dbmanager->setQueryValue($query_name, "antivirus_name", $this->jobj->task->antivirus->name);
-		 $dbmanager->setQueryValue($query_name, "antivirus_version", $this->jobj->task->antivirus->version);
+		 $dbmanager->setQueryValue($query_name, "plugin_armadito_antiviruses_id", $this->antivirus->getId());
 		 $dbmanager->setQueryValue($query_name, "last_contact", date("Y-m-d H:i:s", time()));
 		 $dbmanager->setQueryValue($query_name, "last_alert", '1970-01-01 00:00:00');
 		 $dbmanager->setQueryValue($query_name, "id", $this->id);
@@ -169,8 +167,7 @@ class PluginArmaditoAgent extends CommonDBTM {
 		 $params["plugin_fusioninventory_agents_id"]["type"] = "i";
 		 $params["device_id"]["type"] = "s";
 		 $params["agent_version"]["type"] = "s";
-		 $params["antivirus_name"]["type"] = "s";
-		 $params["antivirus_version"]["type"] = "s";
+		 $params["plugin_armadito_antiviruses_id"]["type"] = "i";
 		 $params["last_contact"]["type"] = "s";
 		 $params["last_alert"]["type"] = "s";
 		 $params["fingerprint"]["type"] = "s";
@@ -191,8 +188,7 @@ class PluginArmaditoAgent extends CommonDBTM {
 		 $dbmanager->setQueryValue($query_name, "plugin_fusioninventory_agents_id", 0);
 		 $dbmanager->setQueryValue($query_name, "device_id", $this->jobj->fusion_id);
 		 $dbmanager->setQueryValue($query_name, "agent_version", $this->jobj->agent_version);
-		 $dbmanager->setQueryValue($query_name, "antivirus_name", $this->jobj->task->antivirus->name);
-		 $dbmanager->setQueryValue($query_name, "antivirus_version", $this->jobj->task->antivirus->version);
+		 $dbmanager->setQueryValue($query_name, "plugin_armadito_antiviruses_id", $this->antivirus->getId());
 		 $dbmanager->setQueryValue($query_name, "last_contact", date("Y-m-d H:i:s", time()));
 		 $dbmanager->setQueryValue($query_name, "last_alert", '1970-01-01 00:00:00');
 		 $dbmanager->setQueryValue($query_name, "fingerprint", $this->jobj->fingerprint);
@@ -341,18 +337,11 @@ class PluginArmaditoAgent extends CommonDBTM {
 
       $i++;
 
-      $tab[$i]['table']     = $this->getTable();
-      $tab[$i]['field']     = 'antivirus_name';
+      $tab[$i]['table']     = 'glpi_plugin_armadito_antiviruses';
+      $tab[$i]['field']     = 'fullname';
       $tab[$i]['name']      = __('Antivirus Name', 'armadito');
-      $tab[$i]['datatype']  = 'text';
-      $tab[$i]['massiveaction'] = FALSE;
-
-      $i++;
-
-      $tab[$i]['table']     = $this->getTable();
-      $tab[$i]['field']     = 'antivirus_version';
-      $tab[$i]['name']      = __('Antivirus Version', 'armadito');
-      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['datatype']  = 'itemlink';
+      $tab[$i]['itemlink_type'] = 'PluginArmaditoAntivirus';
       $tab[$i]['massiveaction'] = FALSE;
 
       $i++;
