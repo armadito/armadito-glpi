@@ -102,7 +102,6 @@ class PluginArmaditoAgent extends CommonDBTM {
          global $DB;
 
          $error = new PluginArmaditoError();
-
          $query = "UPDATE `glpi_plugin_armadito_agents`
                  SET `entities_id`=?,
                      `computers_id`=?,
@@ -169,62 +168,55 @@ class PluginArmaditoAgent extends CommonDBTM {
          global $DB;
 
          $error = new PluginArmaditoError();
+		 $dbmanager = new PluginArmaditoDbManager();
+		 $dbmanager->init();
 
-         $query = "INSERT INTO `glpi_plugin_armadito_agents`(`entities_id`, `computers_id`, `plugin_fusioninventory_agents_id`,`device_id`, `agent_version`, `antivirus_name`, `antivirus_version`, `last_contact`, `last_alert`, `fingerprint`) VALUES (?,?,?,?,?,?,?,?,?,?)";
+		 $params["entities_id"]["type"] = "i";
+		 $params["computers_id"]["type"] = "i";
+		 $params["plugin_fusioninventory_agents_id"]["type"] = "i";
+		 $params["device_id"]["type"] = "s";
+		 $params["agent_version"]["type"] = "s";
+		 $params["antivirus_name"]["type"] = "s";
+		 $params["antivirus_version"]["type"] = "s";
+		 $params["last_contact"]["type"] = "s";
+		 $params["last_alert"]["type"] = "s";
+		 $params["last_fingerprint"]["type"] = "s";
 
-         $stmt = $DB->prepare($query);
+	 	 $dbmanager->addQuery("NewAgent", "INSERT", $this->getTable(), $params );
 
-         if(!$stmt) {
-            $error->setMessage(1, 'Agent insert preparation failed.');
-            $error->log();
-            return $error;
-         }
+		 if(!$dbmanager->prepareQuery("NewAgent")){
+			return $dbmanager->getLastError();
+		 }
 
-         if(!$stmt->bind_param('iiisssssss', $entities_id, $computers_id, $fusion_table_id, $fusion_device_id, $agent_version, $antivirus_name, $antivirus_version, $last_contact, $last_alert, $fingerprint)) {
-               $error->setMessage(1, 'Agent insert bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
-               $error->log();
-               $stmt->close();
-               return $error;
-         }
+		 if(!$dbmanager->bindQuery("NewAgent")){
+			return $dbmanager->getLastError();
+		 }
 
-         # We set values
-         $entities_id = 0;
-         $computers_id = 0;
-         $fusion_table_id = 0;
-         $fusion_device_id = $this->jobj->fusion_id;
-         $agent_version = $this->jobj->agent_version;
-         $antivirus_name = $this->jobj->task->antivirus->name;
-         $antivirus_version = $this->jobj->task->antivirus->version;
-         $last_contact = date("Y-m-d H:i:s", time());
-         $last_alert = '1970-01-01 00:00:00';
-         $fingerprint = $this->jobj->fingerprint;
+		 $dbmanager->setQueryValue("NewAgent", "entities_id", 0);
+		 $dbmanager->setQueryValue("NewAgent", "computers_id", 0);
+		 $dbmanager->setQueryValue("NewAgent", "plugin_fusioninventory_agents_id", 0);
+		 $dbmanager->setQueryValue("NewAgent", "device_id", $this->jobj->fusion_id);
+		 $dbmanager->setQueryValue("NewAgent", "agent_version", $this->jobj->agent_version);
+		 $dbmanager->setQueryValue("NewAgent", "antivirus_name", $this->jobj->task->antivirus->name);
+		 $dbmanager->setQueryValue("NewAgent", "antivirus_version", $this->jobj->task->antivirus->version);
+		 $dbmanager->setQueryValue("NewAgent", "last_contact", date("Y-m-d H:i:s", time());
+		 $dbmanager->setQueryValue("NewAgent", "last_alert", '1970-01-01 00:00:00');
+		 $dbmanager->setQueryValue("NewAgent", "fingerprint", $this->jobj->fingerprint);
 
-         if(!$stmt->execute()){
-            $error->setMessage(1, 'Agent insert execution failed (' . $stmt->errno . ') ' . $stmt->error);
-            $error->log();
-            $stmt->close();
-            return $error;
-         }
+	 	 if(!$dbmanager->executeQuery("NewAgent")){
+			return $dbmanager->getLastError();
+		 }
 
-         $stmt->close();
+		 $dbmanager->closeQuery("NewAgent");
 
-         $result = $DB->query("SELECT LAST_INSERT_ID()");
-         if($result){
-            $data = $DB->fetch_array($result);
-            $this->id = PluginArmaditoToolbox::validateInt($data[0]);
-         }
-         else {
-            $error->setMessage(1, 'Agent enrollment failed.');
-            $error->log();
-            return $error;
-         }
-
-         PluginArmaditoToolbox::logIfExtradebug(
-            'pluginArmadito-Agent',
-            'Enroll new Device with id '.$this->id
-         );
-
-         $error->setMessage(0, 'New device successfully enrolled.');
+		 $this->id = PluginArmaditoDbToolbox::getLastInsertedId();
+		 if($this->id > 0){
+			PluginArmaditoToolbox::validateInt($this->id);
+			$error->setMessage(0, 'New Agent successfully added in database.');
+		 }
+         else{
+			$error->setMessage(1, 'Unable to get new Antivirus Id');
+		 }
          return $error;
      }
 
