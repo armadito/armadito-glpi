@@ -56,11 +56,11 @@ class PluginArmaditoAgent extends CommonDBTM {
 			return $error;
 		 }
 
-         if($this->isAlreadyEnrolled()) {
-            $error = $this->updateEnrolledDevice();
+         if($this->isAgentInDB()) {
+            $error = $this->updateAgentInDB();
          }
          else {
-            $error = $this->enrollNewDevice();
+            $error = $this->insertAgentInDB();
          }
 
          return $error;
@@ -71,7 +71,7 @@ class PluginArmaditoAgent extends CommonDBTM {
     *
     * @return TRUE or FALSE
     **/
-    function isAlreadyEnrolled(){
+    function isAgentInDB(){
       global $DB;
 
       PluginArmaditoToolbox::validateHash($this->jobj->fingerprint);
@@ -98,73 +98,7 @@ class PluginArmaditoAgent extends CommonDBTM {
     *
     * @return PluginArmaditoError obj
     **/
-     function updateEnrolledDevice(){
-         global $DB;
-
-         $error = new PluginArmaditoError();
-         $query = "UPDATE `glpi_plugin_armadito_agents`
-                 SET `entities_id`=?,
-                     `computers_id`=?,
-                     `plugin_fusioninventory_agents_id`=?,
-                     `device_id`=?,
-                     `agent_version`=?,
-                     `antivirus_name`=?,
-                     `antivirus_version`=?,
-                     `last_contact`=?,
-		               `last_alert`=?
-                  WHERE `id`=?";
-
-         $stmt = $DB->prepare($query);
-
-         if(!$stmt) {
-            $error->setMessage(1, 'Agent update preparation failed.');
-            $error->log();
-            return $error;
-         }
-
-         if(!$stmt->bind_param('iiissssssi', $entities_id, $computers_id, $fusion_table_id, $fusion_device_id, $agent_version, $antivirus_name, $antivirus_version, $last_contact, $last_alert, $agent_id)) {
-            $error->setMessage(1, 'Agent insert bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
-            $error->log();
-            $stmt->close();
-            return $error;
-          }
-
-         # We set values
-         $entities_id = 0;
-         $computers_id = 0;
-         $fusion_table_id = 0;
-         $fusion_device_id = $this->jobj->fusion_id;
-         $agent_version = $this->jobj->agent_version;
-         $antivirus_name = $this->jobj->task->antivirus->name;
-         $antivirus_version = $this->jobj->task->antivirus->version;
-         $last_contact = date("Y-m-d H:i:s", time());
-         $last_alert = '1970-01-01 00:00:00';
-         $agent_id = $this->id;
-
-         if(!$stmt->execute()){
-            $error->setMessage(1, 'Agent insert execution failed (' . $stmt->errno . ') ' . $stmt->error);
-            $error->log();
-            $stmt->close();
-            return $error;
-         }
-
-         $stmt->close();
-
-         PluginArmaditoToolbox::logIfExtradebug(
-            'pluginArmadito-Agent',
-            'ReEnroll Device with id '.$this->id
-         );
-
-         $error->setMessage(0, 'New device successfully re-enrolled.');
-         return $error;
-    }
-
-    /**
-    * Try to enroll a new Armadito device
-    *
-    * @return PluginArmaditoError obj
-    **/
-     function enrollNewDevice(){
+     function updateAgentInDB(){
          global $DB;
 
          $error = new PluginArmaditoError();
@@ -180,34 +114,94 @@ class PluginArmaditoAgent extends CommonDBTM {
 		 $params["antivirus_version"]["type"] = "s";
 		 $params["last_contact"]["type"] = "s";
 		 $params["last_alert"]["type"] = "s";
-		 $params["last_fingerprint"]["type"] = "s";
+		 $params["id"]["type"] = "i";
 
-	 	 $dbmanager->addQuery("NewAgent", "INSERT", $this->getTable(), $params );
+		 $query_name = "UpdateAgent";
+	 	 $dbmanager->addQuery($query_name, "UPDATE", $this->getTable(), $params, "id" );
 
-		 if(!$dbmanager->prepareQuery("NewAgent")){
+		 if(!$dbmanager->prepareQuery($query_name)){
 			return $dbmanager->getLastError();
 		 }
 
-		 if(!$dbmanager->bindQuery("NewAgent")){
+		 if(!$dbmanager->bindQuery($query_name)){
 			return $dbmanager->getLastError();
 		 }
 
-		 $dbmanager->setQueryValue("NewAgent", "entities_id", 0);
-		 $dbmanager->setQueryValue("NewAgent", "computers_id", 0);
-		 $dbmanager->setQueryValue("NewAgent", "plugin_fusioninventory_agents_id", 0);
-		 $dbmanager->setQueryValue("NewAgent", "device_id", $this->jobj->fusion_id);
-		 $dbmanager->setQueryValue("NewAgent", "agent_version", $this->jobj->agent_version);
-		 $dbmanager->setQueryValue("NewAgent", "antivirus_name", $this->jobj->task->antivirus->name);
-		 $dbmanager->setQueryValue("NewAgent", "antivirus_version", $this->jobj->task->antivirus->version);
-		 $dbmanager->setQueryValue("NewAgent", "last_contact", date("Y-m-d H:i:s", time());
-		 $dbmanager->setQueryValue("NewAgent", "last_alert", '1970-01-01 00:00:00');
-		 $dbmanager->setQueryValue("NewAgent", "fingerprint", $this->jobj->fingerprint);
+     	 $dbmanager->setQueryValue($query_name, "entities_id", 0);
+		 $dbmanager->setQueryValue($query_name, "computers_id", 0);
+		 $dbmanager->setQueryValue($query_name, "plugin_fusioninventory_agents_id", 0);
+		 $dbmanager->setQueryValue($query_name, "device_id", $this->jobj->fusion_id);
+		 $dbmanager->setQueryValue($query_name, "agent_version", $this->jobj->agent_version);
+		 $dbmanager->setQueryValue($query_name, "antivirus_name", $this->jobj->task->antivirus->name);
+		 $dbmanager->setQueryValue($query_name, "antivirus_version", $this->jobj->task->antivirus->version);
+		 $dbmanager->setQueryValue($query_name, "last_contact", date("Y-m-d H:i:s", time()));
+		 $dbmanager->setQueryValue($query_name, "last_alert", '1970-01-01 00:00:00');
+		 $dbmanager->setQueryValue($query_name, "id", $this->id);
 
-	 	 if(!$dbmanager->executeQuery("NewAgent")){
+         if(!$dbmanager->executeQuery($query_name)){
 			return $dbmanager->getLastError();
 		 }
 
-		 $dbmanager->closeQuery("NewAgent");
+		 $dbmanager->closeQuery($query_name);
+         PluginArmaditoToolbox::logIfExtradebug(
+            'pluginArmadito-Agent',
+            'ReEnroll Device with id '.$this->id
+         );
+
+         $error->setMessage(0, 'New device successfully re-enrolled.');
+         return $error;
+    }
+
+    /**
+    * Try to enroll a new Armadito device
+    *
+    * @return PluginArmaditoError obj
+    **/
+     function insertAgentInDB(){
+         global $DB;
+
+         $error = new PluginArmaditoError();
+		 $dbmanager = new PluginArmaditoDbManager();
+		 $dbmanager->init();
+
+		 $params["entities_id"]["type"] = "i";
+		 $params["computers_id"]["type"] = "i";
+		 $params["plugin_fusioninventory_agents_id"]["type"] = "i";
+		 $params["device_id"]["type"] = "s";
+		 $params["agent_version"]["type"] = "s";
+		 $params["antivirus_name"]["type"] = "s";
+		 $params["antivirus_version"]["type"] = "s";
+		 $params["last_contact"]["type"] = "s";
+		 $params["last_alert"]["type"] = "s";
+		 $params["fingerprint"]["type"] = "s";
+
+		 $query_name = "NewAgent";
+	 	 $dbmanager->addQuery($query_name, "INSERT", $this->getTable(), $params );
+
+		 if(!$dbmanager->prepareQuery($query_name)){
+			return $dbmanager->getLastError();
+		 }
+
+		 if(!$dbmanager->bindQuery($query_name)){
+			return $dbmanager->getLastError();
+		 }
+
+     	 $dbmanager->setQueryValue($query_name, "entities_id", 0);
+		 $dbmanager->setQueryValue($query_name, "computers_id", 0);
+		 $dbmanager->setQueryValue($query_name, "plugin_fusioninventory_agents_id", 0);
+		 $dbmanager->setQueryValue($query_name, "device_id", $this->jobj->fusion_id);
+		 $dbmanager->setQueryValue($query_name, "agent_version", $this->jobj->agent_version);
+		 $dbmanager->setQueryValue($query_name, "antivirus_name", $this->jobj->task->antivirus->name);
+		 $dbmanager->setQueryValue($query_name, "antivirus_version", $this->jobj->task->antivirus->version);
+		 $dbmanager->setQueryValue($query_name, "last_contact", date("Y-m-d H:i:s", time()));
+		 $dbmanager->setQueryValue($query_name, "last_alert", '1970-01-01 00:00:00');
+		 $dbmanager->setQueryValue($query_name, "fingerprint", $this->jobj->fingerprint);
+
+	 	 if(!$dbmanager->executeQuery($query_name)){
+			return $dbmanager->getLastError();
+		 }
+
+		 $dbmanager->closeQuery($query_name);
 
 		 $this->id = PluginArmaditoDbToolbox::getLastInsertedId();
 		 if($this->id > 0){
