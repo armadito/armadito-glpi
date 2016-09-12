@@ -145,5 +145,27 @@ class PluginArmaditoAntivirus extends CommonDBTM {
 		 $error->setMessage(0, 'Antivirus successfully updated in database.');
          return $error;
    }
+
+      /**
+      *  Get list of all Antiviruses managed
+      **/
+      static function getAntivirusList () {
+         global $DB;
+
+         $AVs = array();
+         $query = "SELECT DISTINCT full_name FROM `glpi_plugin_armadito_antiviruses`";
+         $ret = $DB->query($query);
+
+         if(!$ret){
+            throw new Exception(sprintf('Error getAntivirusList : %s', $DB->error()));
+         }
+
+         if($DB->numrows($ret) > 0){
+            while ($data = $DB->fetch_assoc($ret)) {
+                $AVs[] =  $data['full_name'];
+            }
+         }
+         return $AVs;
+      }
 }
 ?>

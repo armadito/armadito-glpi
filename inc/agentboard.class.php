@@ -141,7 +141,7 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard {
    function getAntivirusChartData() {
       global $DB;
 
-      $AVs = PluginArmaditoAgent::getAntivirusList();
+      $AVs = PluginArmaditoAntivirus::getAntivirusList();
       $colortbox = new PluginArmaditoColorToolbox();
       $palette = $colortbox->getPalette(sizeof($AVs), 0.157079632679);
 
