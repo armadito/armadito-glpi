@@ -287,6 +287,7 @@ class PluginArmaditoScanConfig extends CommonDBTM {
 
       if (Session::haveRight('plugin_armadito_antiviruses', READ)) {
        echo "<b>No Antivirus found in database.</b><br>";
+       echo "Please enroll a new device with Armadito Agent.<br>";
       }
    }
 }
