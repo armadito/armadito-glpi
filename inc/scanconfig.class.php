@@ -193,18 +193,11 @@ class PluginArmaditoScanConfig extends CommonDBTM {
 
       $i++;
 
-      $tab[$i]['table']     = $this->getTable();
-      $tab[$i]['field']     = 'antivirus_name';
-      $tab[$i]['name']      = __('Antivirus Name', 'armadito');
-      $tab[$i]['datatype']  = 'text';
-      $tab[$i]['massiveaction'] = FALSE;
-
-      $i++;
-
-      $tab[$i]['table']     = $this->getTable();
-      $tab[$i]['field']     = 'antivirus_version';
-      $tab[$i]['name']      = __('Antivirus Version', 'armadito');
-      $tab[$i]['datatype']  = 'text';
+      $tab[$i]['table']     = 'glpi_plugin_armadito_antiviruses';
+      $tab[$i]['field']     = 'fullname';
+      $tab[$i]['name']      = __('Antivirus', 'armadito');
+      $tab[$i]['datatype']  = 'itemlink';
+      $tab[$i]['itemlink_type'] = 'PluginArmaditoAntivirus';
       $tab[$i]['massiveaction'] = FALSE;
 
       return $tab;

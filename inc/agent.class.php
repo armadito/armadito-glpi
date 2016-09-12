@@ -339,7 +339,7 @@ class PluginArmaditoAgent extends CommonDBTM {
 
       $tab[$i]['table']     = 'glpi_plugin_armadito_antiviruses';
       $tab[$i]['field']     = 'fullname';
-      $tab[$i]['name']      = __('Antivirus Name', 'armadito');
+      $tab[$i]['name']      = __('Antivirus', 'armadito');
       $tab[$i]['datatype']  = 'itemlink';
       $tab[$i]['itemlink_type'] = 'PluginArmaditoAntivirus';
       $tab[$i]['massiveaction'] = FALSE;
