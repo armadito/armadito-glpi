@@ -32,7 +32,7 @@ class PluginArmaditoScanConfig extends CommonDBTM {
     protected $scan_name;
     protected $scan_path;
     protected $scan_options;
-    protected $antivirus_name;
+    protected $antivirus_id;
 
 
    function __construct() {
@@ -44,7 +44,7 @@ class PluginArmaditoScanConfig extends CommonDBTM {
          return "Invalid UNIX scan_path.";
       }
 
-      $this->antivirus_name = $POST["antivirus_name"];
+      $this->antivirus_id = $POST["antivirus_id"];
       $this->scan_name = $POST["scan_name"];
       $this->scan_path = $POST["scan_path"];
       $this->scan_options = $POST["scan_options"];
@@ -59,7 +59,7 @@ class PluginArmaditoScanConfig extends CommonDBTM {
             $this->scan_name = $this->fields["scan_name"];
             $this->scan_path = $this->fields["scan_path"];
             $this->scan_options = $this->fields["scan_options"];
-            $this->antivirus_name = $this->fields["antivirus_name"];
+            $this->antivirus_id = $this->fields["antivirus_id"];
             return true;
       }
       return false;
@@ -82,7 +82,7 @@ class PluginArmaditoScanConfig extends CommonDBTM {
                            (`scan_name`,
                             `scan_path`,
                             `scan_options`,
-                            `antivirus_name`) VALUES (?,?,?,?)";
+                            `plugin_armadito_antiviruses_id`) VALUES (?,?,?,?)";
 
       $stmt = $DB->prepare($query);
 
@@ -94,7 +94,7 @@ class PluginArmaditoScanConfig extends CommonDBTM {
          return $error;
       }
 
-      if(!$stmt->bind_param('ssss', $scan_name, $scan_path, $scan_options, $antivirus_name)) {
+      if(!$stmt->bind_param('sssi', $scan_name, $scan_path, $scan_options, $antivirus_id)) {
             $error->setMessage(1, 'scanconfig insert bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
             $error->log();
             $stmt->close();
@@ -104,7 +104,7 @@ class PluginArmaditoScanConfig extends CommonDBTM {
       $scan_name = $this->scan_name;
       $scan_path = $this->scan_path;
       $scan_options = $this->scan_options;
-      $antivirus_name = $this->antivirus_name;
+      $antivirus_id = $this->antivirus_id;
 
       if(!$stmt->execute()){
          $error->setMessage(1, 'scanconfig insert execution failed (' . $stmt->errno . ') ' . $stmt->error);
@@ -250,7 +250,7 @@ class PluginArmaditoScanConfig extends CommonDBTM {
 	  echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Antivirus', 'armadito')." :</td>";
       echo "<td>";
-	  Dropdown::showFromArray("antivirus_name", $antiviruses);
+	  Dropdown::showFromArray("antivirus_id", $antiviruses);
       echo "</td>";
       echo "</tr>";
 
