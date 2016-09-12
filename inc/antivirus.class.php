@@ -85,25 +85,26 @@ class PluginArmaditoAntivirus extends CommonDBTM {
 		 $params["version"]["type"] = "s";
 		 $params["fullname"]["type"] = "s";
 
-		 $dbmanager->addQuery("NewAntivirus", "INSERT", $this->getTable(), $params );
+		 $query_name = "NewAntivirus";
+		 $dbmanager->addQuery($query_name, "INSERT", $this->getTable(), $params );
 
-		 if(!$dbmanager->prepareQuery("NewAntivirus")){
+		 if(!$dbmanager->prepareQuery($query_name)){
 			return $dbmanager->getLastError();
 		 }
 
-		 if(!$dbmanager->bindQuery("NewAntivirus")){
+		 if(!$dbmanager->bindQuery($query_name)){
 			return $dbmanager->getLastError();
 		 }
 
-		 $dbmanager->setQueryValue("NewAntivirus", "name", $this->name);
-		 $dbmanager->setQueryValue("NewAntivirus", "version", $this->version);
-		 $dbmanager->setQueryValue("NewAntivirus", "fullname", $this->fullname);
+		 $dbmanager->setQueryValue($query_name, "name", $this->name);
+		 $dbmanager->setQueryValue($query_name, "version", $this->version);
+		 $dbmanager->setQueryValue($query_name, "fullname", $this->fullname);
 
-		 if(!$dbmanager->executeQuery("NewAntivirus")){
+		 if(!$dbmanager->executeQuery($query_name)){
 			return $dbmanager->getLastError();
 		 }
 
-		 $dbmanager->closeQuery("NewAntivirus");
+		 $dbmanager->closeQuery($query_name);
 
 		 $this->id = PluginArmaditoDbToolbox::getLastInsertedId();
 		 if($this->id > 0){
@@ -126,26 +127,27 @@ class PluginArmaditoAntivirus extends CommonDBTM {
 		 $params["fullname"]["type"] = "s";
 		 $params["id"]["type"] = "i";
 
-		 $dbmanager->addQuery("UpdateAntivirus", "UPDATE", $this->getTable(), $params, "id");
+		 $query_name = "UpdateAntivirus";
+		 $dbmanager->addQuery($query_name, "UPDATE", $this->getTable(), $params, "id");
 
-		 if(!$dbmanager->prepareQuery("UpdateAntivirus")){
+		 if(!$dbmanager->prepareQuery($query_name)){
 			return $dbmanager->getLastError();
 		 }
 
-		 if(!$dbmanager->bindQuery("UpdateAntivirus")){
+		 if(!$dbmanager->bindQuery($query_name)){
 			return $dbmanager->getLastError();
 		 }
 
-		 $dbmanager->setQueryValue("UpdateAntivirus", "name", $this->name);
-		 $dbmanager->setQueryValue("UpdateAntivirus", "version", $this->version);
-		 $dbmanager->setQueryValue("UpdateAntivirus", "fullname", $this->fullname);
-		 $dbmanager->setQueryValue("UpdateAntivirus", "id", $this->id); # WHERE
+		 $dbmanager->setQueryValue($query_name, "name", $this->name);
+		 $dbmanager->setQueryValue($query_name, "version", $this->version);
+		 $dbmanager->setQueryValue($query_name, "fullname", $this->fullname);
+		 $dbmanager->setQueryValue($query_name, "id", $this->id); # WHERE
 
-		 if(!$dbmanager->executeQuery("UpdateAntivirus")){
+		 if(!$dbmanager->executeQuery($query_name)){
 			return $dbmanager->getLastError();
 		 }
 
-		 $dbmanager->closeQuery("UpdateAntivirus");
+		 $dbmanager->closeQuery($query_name);
 		 $error->setMessage(0, 'Antivirus successfully updated in database.');
          return $error;
    }
