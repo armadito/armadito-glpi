@@ -238,7 +238,7 @@ class PluginArmaditoMenu extends CommonGLPI {
          $a_menu[1]['link'] = $CFG_GLPI['root_doc']."/plugins/armadito/front/scan.php";
       }
 
-      if (Session::haveRight('plugin_armadito_scan_configs', UPDATE)) {
+      if (Session::haveRight('plugin_armadito_scanconfigs', UPDATE)) {
          $a_menu[3]['name'] = __('Scan Configurations', 'armadito');
          $a_menu[3]['pic']  = $CFG_GLPI['root_doc']."/plugins/armadito/pics/menu_settings.png";
          $a_menu[3]['link'] = $CFG_GLPI['root_doc']."/plugins/armadito/front/scanconfig.php";
