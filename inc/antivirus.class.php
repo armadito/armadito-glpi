@@ -157,7 +157,7 @@ class PluginArmaditoAntivirus extends CommonDBTM {
          global $DB;
 
          $AVs = array();
-         $query = "SELECT DISTINCT fullname FROM `glpi_plugin_armadito_antiviruses`";
+         $query = "SELECT id, fullname FROM `glpi_plugin_armadito_antiviruses`";
          $ret = $DB->query($query);
 
          if(!$ret){
@@ -166,7 +166,8 @@ class PluginArmaditoAntivirus extends CommonDBTM {
 
          if($DB->numrows($ret) > 0){
             while ($data = $DB->fetch_assoc($ret)) {
-                $AVs[] =  $data['fullname'];
+                $AVs[$data["id"]] =  $data['fullname'];
+				PluginArmaditoToolbox::logE("AV = ".$data['fullname']);
             }
          }
          return $AVs;
