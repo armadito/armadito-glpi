@@ -238,6 +238,12 @@ class PluginArmaditoScanConfig extends CommonDBTM {
    function showForm($id, $options=array()) {
       global $CFG_GLPI;
 
+	  $antiviruses = PluginArmaditoAntivirus::getAntivirusList();
+      if(empty($antiviruses)){
+         PluginArmaditoScanConfig::showNoAntivirusForm();
+         return;
+      }
+
       $this->initForm($id, $options);
       $this->showFormHeader($options);
 
@@ -248,10 +254,10 @@ class PluginArmaditoScanConfig extends CommonDBTM {
       echo "</td>";
       echo "</tr>";
 
-      echo "<tr class='tab_bg_1'>";
+	  echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Antivirus', 'armadito')." :</td>";
       echo "<td>";
-      echo "<input type='text' name='antivirus_name' value='".htmlspecialchars($this->fields["antivirus_name"])."'/>";
+	  Dropdown::showFromArray("antivirus_name", $antiviruses);
       echo "</td>";
       echo "</tr>";
 
@@ -280,6 +286,14 @@ class PluginArmaditoScanConfig extends CommonDBTM {
        $scanconfig_url = $CFG_GLPI['root_doc'].PluginArmaditoScanConfig::getFormURL(false);
        echo "<b>No scan configuration found in database.</b><br>";
        echo "<a href=\"".$scanconfig_url."\"> Add a new configuration</a>";
+      }
+   }
+
+   static function showNoAntivirusForm(){
+      global $CFG_GLPI;
+
+      if (Session::haveRight('plugin_armadito_antiviruses', READ)) {
+       echo "<b>No Antivirus found in database.</b><br>";
       }
    }
 }
