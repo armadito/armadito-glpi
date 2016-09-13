@@ -36,6 +36,7 @@ class PluginArmaditoJob extends CommonDBTM {
       protected $type;
       protected $priority;
       protected $agentid;
+	  protected $agent;
 
       function __construct() {
          $this->type = -1;
@@ -47,6 +48,9 @@ class PluginArmaditoJob extends CommonDBTM {
 
       function initFromForm($key, $type, $POST) {
          $this->agentid = PluginArmaditoToolbox::validateInt($key);
+		 $this->agent = new PluginArmaditoAgent();
+		 $this->agent->initFromDB($this->agentid);
+
          $this->type = $type;
          $this->setPriority($POST["job_priority"]);
 
@@ -62,6 +66,9 @@ class PluginArmaditoJob extends CommonDBTM {
          $this->type = $data["job_type"];
          $this->priority = $data["job_priority"];
          $this->status = $data["job_status"];
+
+		 $this->agent = new PluginArmaditoAgent();
+		 $this->agent->initFromDB($this->agentid);
 
          // init Scan Obj for example or an other job_type
          $error = $this->initObjFromDB();

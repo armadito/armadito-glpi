@@ -47,6 +47,20 @@ class PluginArmaditoAntivirus extends CommonDBTM {
 	  $this->fullname = $jobj_->task->antivirus->name."+".$jobj_->task->antivirus->version;
    }
 
+   function initFromDB($av_id) {
+      global $DB;
+
+      if($this->getFromDB($av_id)){
+	    $this->id = $this->fields["id"];
+        $this->name = $this->fields["name"];
+        $this->version = $this->fields["version"];
+	    $this->fullname = $this->fields["fullname"];
+	  }
+	  else{
+		PluginArmaditoToolbox::logE("Unable to get Antivirus DB fields");
+	  }
+   }
+
    function isAntivirusInDB() {
 	  global $DB;
 

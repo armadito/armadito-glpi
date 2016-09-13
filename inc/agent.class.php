@@ -40,6 +40,24 @@ class PluginArmaditoAgent extends CommonDBTM {
 	  $this->antivirus->initFromJson($jobj);
    }
 
+   function initFromDB($agent_id) {
+      global $DB;
+
+      if($this->getFromDB($agent_id)){
+	    $this->id = $this->fields["id"];
+		$this->antivirus = new PluginArmaditoAntivirus();
+		$this->antivirus->initFromDB($this->fields["plugin_armadito_antiviruses_id"]);
+	  }
+	  else{
+		PluginArmaditoToolbox::logE("Unable to get Agetnt DB fields");
+	  }
+
+   }
+
+   function getAntivirusId(){
+		return $this->antivirus->getId();
+   }
+
    function toJson(){
        return '{"agent_id": '.$this->id.'}';
    }
