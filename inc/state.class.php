@@ -330,7 +330,7 @@ class PluginArmaditoState extends CommonDBTM {
 
 	 $antivirus = $this->agent->getAntivirus();
 	 PluginArmaditoToolbox::logE("Set AV_id = ".$antivirus->getId());
-	
+
 	 $dbmanager->setQueryValue($query_name, "plugin_armadito_statedetails_id", $stateid);
 	 $dbmanager->setQueryValue($query_name, "plugin_armadito_antiviruses_id", $antivirus->getId());
 	 $dbmanager->setQueryValue($query_name, "update_status", $this->jobj->task->obj->global_status);
