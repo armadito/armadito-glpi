@@ -323,10 +323,6 @@ class PluginArmaditoJob extends CommonDBTM {
                  }';
       }
 
-      function setJobId($id) {
-         $this->id = $id;
-      }
-
       function getJobId(){
          return $this->id;
       }
@@ -335,50 +331,46 @@ class PluginArmaditoJob extends CommonDBTM {
          global $DB;
 
          $error = new PluginArmaditoError();
-         $query = "INSERT INTO `glpi_plugin_armadito_jobs` (`plugin_armadito_agents_id`, `job_type`, `job_priority`, `job_status`, `plugin_armadito_antiviruses_id` ) VALUES (?,?,?,?,?)";
-         $stmt = $DB->prepare($query);
+	     $dbmanager = new PluginArmaditoDbManager();
+		 $dbmanager->init();
 
-         if(!$stmt) {
-            $error->setMessage(1, 'Job insert preparation failed.');
-            $error->log();
-            return $error;
-         }
+		 $params["plugin_armadito_agents_id"]["type"] = "i";
+		 $params["plugin_armadito_antiviruses_id"]["type"] = "i";
+		 $params["job_type"]["type"] = "s";
+		 $params["job_priority"]["type"] = "s";
+		 $params["job_status"]["type"] = "s";
 
-         if(!$stmt->bind_param('isssi', $agent_id, $job_type, $job_priority, $job_status, $av_id)) {
-               $error->setMessage(1, 'Job insert bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
-               $error->log();
-               $stmt->close();
-               return $error;
-         }
+		 $query_name = "NewJob";
+		 $dbmanager->addQuery($query_name, "INSERT", $this->getTable(), $params );
 
-         $agent_id = $this->agentid;
-         $job_type = $this->type;
-         $job_priority = $this->priority;
-         $job_status = "queued"; # Step 1
-		 $av_id = $this->agent->getAntivirusId();
+		 if(!$dbmanager->prepareQuery($query_name)){
+			return $dbmanager->getLastError();
+		 }
 
-         if(!$stmt->execute()){
-            $error->setMessage(1, 'Job insert execution failed (' . $stmt->errno . ') ' . $stmt->error);
-            $error->log();
-            $stmt->close();
-            return $error;
-         }
+		 if(!$dbmanager->bindQuery($query_name)){
+			return $dbmanager->getLastError();
+		 }
 
-         $stmt->close();
+		 $dbmanager->setQueryValue($query_name, "plugin_armadito_agents_id", $this->agentid);
+		 $dbmanager->setQueryValue($query_name, "plugin_armadito_antiviruses_id", $this->agent->getAntivirusId());
+		 $dbmanager->setQueryValue($query_name, "job_type", $this->type);
+		 $dbmanager->setQueryValue($query_name, "job_priority", $this->priority);
+		 $dbmanager->setQueryValue($query_name, "job_status", "queued");
 
-         // We get job_id
-         $result = $DB->query("SELECT LAST_INSERT_ID()");
-         if($result){
-            $data = $DB->fetch_array($result);
-            $this->setJobId($data[0]);
-         }
-         else {
-            $error->setMessage(1, 'Get last job id failed.');
-            $error->log();
-            return $error;
-         }
+		 if(!$dbmanager->executeQuery($query_name)){
+			return $dbmanager->getLastError();
+		 }
 
-         $error->setMessage(0, 'Job insertion successful.');
+		 $dbmanager->closeQuery($query_name);
+
+		 $this->id = PluginArmaditoDbToolbox::getLastInsertedId();
+		 if($this->id > 0){
+			PluginArmaditoToolbox::validateInt($this->id);
+			$error->setMessage(0, 'New Job successfully added in database.');
+		 }
+         else{
+			$error->setMessage(1, 'Unable to get new Job Id');
+		 }
          return $error;
       }
 
