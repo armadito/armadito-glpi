@@ -72,8 +72,7 @@ DROP TABLE IF EXISTS `glpi_plugin_armadito_jobs`;
 CREATE TABLE `glpi_plugin_armadito_jobs` (
    `id` int(11) NOT NULL AUTO_INCREMENT,
    `plugin_armadito_agents_id` int(11) NOT NULL,
-   `antivirus_name` varchar(255) collate utf8_unicode_ci NOT NULL,
-   `antivirus_version` varchar(255) collate utf8_unicode_ci default NULL,
+   `plugin_armadito_antiviruses_id` int(11) NOT NULL,
    `job_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
    `job_priority` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
    `job_status` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,

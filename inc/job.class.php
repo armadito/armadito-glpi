@@ -36,8 +36,6 @@ class PluginArmaditoJob extends CommonDBTM {
       protected $type;
       protected $priority;
       protected $agentid;
-      protected $antivirus_name;
-      protected $antivirus_version;
 
       function __construct() {
          $this->type = -1;
@@ -45,15 +43,12 @@ class PluginArmaditoJob extends CommonDBTM {
          $this->id = -1;
          $this->obj = "";
          $this->agentid = -1;
-         $this->antivirus_name = "";
-         $this->antivirus_version = "";
       }
 
       function initFromForm($key, $type, $POST) {
          $this->agentid = PluginArmaditoToolbox::validateInt($key);
          $this->type = $type;
          $this->setPriority($POST["job_priority"]);
-         $this->setAntivirusFromDB();
 
          // init Scan Obj for example or an other job_type
          $this->initObjFromForm($key, $type, $POST);
@@ -65,8 +60,6 @@ class PluginArmaditoJob extends CommonDBTM {
          $this->id = $data["id"];
          $this->agentid = $data["plugin_armadito_agents_id"];
          $this->type = $data["job_type"];
-         $this->antivirus_name = $data["antivirus_name"];
-         $this->antivirus_version = $data["antivirus_version"];
          $this->priority = $data["job_priority"];
          $this->status = $data["job_status"];
 
@@ -79,14 +72,6 @@ class PluginArmaditoJob extends CommonDBTM {
           $this->agentid = PluginArmaditoToolbox::validateInt($jobj->agent_id);
           $this->id = PluginArmaditoToolbox::validateInt($jobj->task->obj->{"job_id"});
           $this->jobj = $jobj;
-      }
-
-      function getAntivirusName(){
-         return $this->antivirus_name;
-      }
-
-      function getAntivirusVersion(){
-         return $this->antivirus_version;
       }
 
       function getId(){
@@ -224,24 +209,6 @@ class PluginArmaditoJob extends CommonDBTM {
          return false;
       }
 
-      function setAntivirusFromDB(){
-         global $DB;
-         $query = "SELECT `antivirus_name`, `antivirus_version` FROM `glpi_plugin_armadito_agents`
-                 WHERE `id`='".$this->agentid."'";
-
-         $ret = $DB->query($query);
-
-         if(!$ret){
-            throw new Exception(sprintf('Error setAntivirusFromDB : %s', $DB->error()));
-         }
-
-         if($DB->numrows($ret) > 0){
-            $data = $DB->fetch_assoc($ret);
-            $this->antivirus_name = $data["antivirus_name"];
-            $this->antivirus_version = $data["antivirus_version"];
-         }
-      }
-
       function insertErrorInDB($err_code, $err_msg){
          global $DB;
 
@@ -331,19 +298,12 @@ class PluginArmaditoJob extends CommonDBTM {
 
          $i++;
 
-         $tab[$i]['table']     = $this->getTable();
-         $tab[$i]['field']     = 'antivirus_name';
-         $tab[$i]['name']      = __('Antivirus Name', 'armadito');
-         $tab[$i]['datatype']  = 'text';
-         $tab[$i]['massiveaction'] = FALSE;
-
-         $i++;
-
-         $tab[$i]['table']     = $this->getTable();
-         $tab[$i]['field']     = 'antivirus_version';
-         $tab[$i]['name']      = __('Antivirus Version', 'armadito');
-         $tab[$i]['datatype']  = 'text';
-         $tab[$i]['massiveaction'] = FALSE;
+		 $tab[$i]['table']     = 'glpi_plugin_armadito_antiviruses';
+		 $tab[$i]['field']     = 'fullname';
+		 $tab[$i]['name']      = __('Antivirus', 'armadito');
+		 $tab[$i]['datatype']  = 'itemlink';
+		 $tab[$i]['itemlink_type'] = 'PluginArmaditoAntivirus';
+		 $tab[$i]['massiveaction'] = FALSE;
 
          return $tab;
       }
@@ -352,7 +312,6 @@ class PluginArmaditoJob extends CommonDBTM {
          return '{"job_id": '.$this->id.',
                   "job_type": "'.$this->type.'",
                   "job_priority": "'.$this->getPriorityValue().'",
-                  "antivirus_name": "'.$this->antivirus_name.'",
                   "obj": '.$this->obj->toJson().'
                  }';
       }
@@ -369,7 +328,7 @@ class PluginArmaditoJob extends CommonDBTM {
          global $DB;
 
          $error = new PluginArmaditoError();
-         $query = "INSERT INTO `glpi_plugin_armadito_jobs` (`plugin_armadito_agents_id`, `job_type`, `job_priority`, `job_status`, `antivirus_name`, `antivirus_version`) VALUES (?,?,?,?,?,?)";
+         $query = "INSERT INTO `glpi_plugin_armadito_jobs` (`plugin_armadito_agents_id`, `job_type`, `job_priority`, `job_status`) VALUES (?,?,?,?)";
          $stmt = $DB->prepare($query);
 
          if(!$stmt) {
@@ -378,7 +337,7 @@ class PluginArmaditoJob extends CommonDBTM {
             return $error;
          }
 
-         if(!$stmt->bind_param('isssss', $agent_id, $job_type, $job_priority, $job_status, $antivirus_name, $antivirus_version)) {
+         if(!$stmt->bind_param('isss', $agent_id, $job_type, $job_priority, $job_status)) {
                $error->setMessage(1, 'Job insert bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
                $error->log();
                $stmt->close();
@@ -389,8 +348,6 @@ class PluginArmaditoJob extends CommonDBTM {
          $job_type = $this->type;
          $job_priority = $this->priority;
          $job_status = "queued"; # Step 1
-         $antivirus_name = $this->antivirus_name;
-         $antivirus_version = $this->antivirus_version;
 
          if(!$stmt->execute()){
             $error->setMessage(1, 'Job insert execution failed (' . $stmt->errno . ') ' . $stmt->error);
@@ -408,7 +365,7 @@ class PluginArmaditoJob extends CommonDBTM {
             $this->setJobId($data[0]);
          }
          else {
-            $error->setMessage(1, 'Enrollment get agent_id failed.');
+            $error->setMessage(1, 'Get last job id failed.');
             $error->log();
             return $error;
          }
