@@ -59,7 +59,7 @@ class PluginArmaditoScanConfig extends CommonDBTM {
             $this->scan_name = $this->fields["scan_name"];
             $this->scan_path = $this->fields["scan_path"];
             $this->scan_options = $this->fields["scan_options"];
-            $this->antivirus_id = $this->fields["antivirus_id"];
+            $this->antivirus_id = $this->fields["plugin_armadito_antiviruses_id"];
             return true;
       }
       return false;
