@@ -217,43 +217,42 @@ class PluginArmaditoStateModule extends CommonDBTM {
     * @return PluginArmaditoError obj
     **/
     function insertStateModule(){
-      global $DB;
-      $error = new PluginArmaditoError();
+     $error = new PluginArmaditoError();
+	 $dbmanager = new PluginArmaditoDbManager();
+	 $dbmanager->init();
 
-      $query = "INSERT INTO `glpi_plugin_armadito_statedetails` (`plugin_armadito_agents_id`, `module_name`, `module_version`, `module_update_status`, `module_last_update`, `itemlink`) VALUES (?,?,?,?,?,?)";
+	 $params["plugin_armadito_agents_id"]["type"] = "i";
+	 $params["module_name"]["type"] = "s";
+	 $params["module_version"]["type"] = "s";
+	 $params["module_update_status"]["type"] = "s";
+	 $params["module_last_update"]["type"] = "s";
+	 $params["itemlink"]["type"] = "s";
 
-      $stmt = $DB->prepare($query);
+	 $query_name = "NewStateModule";
+	 $dbmanager->addQuery($query_name, "INSERT", "glpi_plugin_armadito_statedetails", $params );
 
-      if(!$stmt) {
-         $error->setMessage(1, 'State module insert preparation failed.');
-         $error->log();
-         return $error;
-      }
+	 if(!$dbmanager->prepareQuery($query_name)){
+		return $dbmanager->getLastError();
+	 }
 
-      if(!$stmt->bind_param('isssss', $agent_id, $module_name, $module_version, $module_update_status, $module_last_update, $itemlink)) {
-            $error->setMessage(1, 'State module insert bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
-            $error->log();
-            $stmt->close();
-            return $error;
-      }
+	 if(!$dbmanager->bindQuery($query_name)){
+		return $dbmanager->getLastError();
+	 }
 
-      $itemlink = "ShowAll";
-      $agent_id = $this->agentid;
-      $module_name = $this->jobj->name;
-      $module_version = "unknown"; // $this->jobj->version;
-      $module_update_status = $this->jobj->mod_status;
-      $module_last_update = date("Y-m-d H:i:s", $this->jobj->mod_update_timestamp);
+	 $dbmanager->setQueryValue($query_name, "plugin_armadito_agents_id", $this->agentid);
+	 $dbmanager->setQueryValue($query_name, "module_name", $this->jobj->name);
+	 $dbmanager->setQueryValue($query_name, "module_version", "unknown");
+	 $dbmanager->setQueryValue($query_name, "module_update_status", $this->jobj->mod_status);
+	 $dbmanager->setQueryValue($query_name, "module_last_update", date("Y-m-d H:i:s", $this->jobj->mod_update_timestamp));
+	 $dbmanager->setQueryValue($query_name, "itemlink", "ShowAll");
 
-      if(!$stmt->execute()){
-         $error->setMessage(1, 'State module insert execution failed (' . $stmt->errno . ') ' . $stmt->error);
-         $error->log();
-         $stmt->close();
-         return $error;
-      }
+	 if(!$dbmanager->executeQuery($query_name)){
+		return $dbmanager->getLastError();
+	 }
 
-      $stmt->close();
-      $error->setMessage(0, 'State module successfully inserted.');
-      return $error;
+	 $dbmanager->closeQuery($query_name);
+	 $error->setMessage(0, 'New StateModule successfully added in database.');
+     return $error;
     }
 
     /**
@@ -262,47 +261,42 @@ class PluginArmaditoStateModule extends CommonDBTM {
     * @return PluginArmaditoError obj
     **/
     function updateStateModule(){
-		global $DB;
-		$error = new PluginArmaditoError();
+	 $error = new PluginArmaditoError();
+	 $dbmanager = new PluginArmaditoDbManager();
+	 $dbmanager->init();
 
-		$query = "UPDATE `glpi_plugin_armadito_statedetails`
-				 SET `module_version`=?,
-				     `module_update_status`=?,
-					 `module_last_update`=?
-				  WHERE `plugin_armadito_agents_id`=? AND `module_name`=?";
+	 $params["module_version"]["type"] = "s";
+	 $params["module_update_status"]["type"] = "s";
+	 $params["module_last_update"]["type"] = "s";
+	 $params["plugin_armadito_agents_id"]["type"] = "i";
+	 $params["module_name"]["type"] = "s";
 
-		$stmt = $DB->prepare($query);
 
-		if(!$stmt) {
-			$error->setMessage(1, 'State module update preparation failed.');
-			$error->log();
-			return $error;
-		}
+	 $query_name = "UpdateStateModule";
+	 $dbmanager->addQuery($query_name, "UPDATE", "glpi_plugin_armadito_statedetails", $params, array("plugin_armadito_agents_id", "module_name"));
 
-		if(!$stmt->bind_param('sssis', $module_version, $module_update_status, $module_last_update, $agent_id, $module_name)) {
-			$error->setMessage(1, 'State module update bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
-			$error->log();
-			$stmt->close();
-			return $error;
-		}
+	 if(!$dbmanager->prepareQuery($query_name)){
+		return $dbmanager->getLastError();
+	 }
 
-      $itemlink = "ShowAll";
-      $agent_id = $this->agentid;
-      $module_name = $this->jobj->name;
-      $module_version = "unknown"; // $this->jobj->version;
-      $module_update_status = $this->jobj->mod_status;
-      $module_last_update = date("Y-m-d H:i:s", $this->jobj->mod_update_timestamp);
+	 if(!$dbmanager->bindQuery($query_name)){
+		return $dbmanager->getLastError();
+	 }
 
-		if(!$stmt->execute()){
-		 $error->setMessage(1, 'State module update execution failed (' . $stmt->errno . ') ' . $stmt->error);
-		 $error->log();
-		 $stmt->close();
-		 return $error;
-		}
+	 $dbmanager->setQueryValue($query_name, "plugin_armadito_agents_id", $this->agentid);
+	 $dbmanager->setQueryValue($query_name, "module_name", $this->jobj->name);
+	 $dbmanager->setQueryValue($query_name, "module_version", "unknown");
+	 $dbmanager->setQueryValue($query_name, "module_update_status", $this->jobj->mod_status);
+	 $dbmanager->setQueryValue($query_name, "module_last_update", date("Y-m-d H:i:s", $this->jobj->mod_update_timestamp));
 
-		$stmt->close();
-		$error->setMessage(0, 'State module successfully updated.');
-		return $error;
+	 if(!$dbmanager->executeQuery($query_name)){
+		return $dbmanager->getLastError();
+	 }
+
+	 $dbmanager->closeQuery($query_name);
+	 $error->setMessage(0, 'Antivirus successfully updated in database.');
+     return $error;
+
     }
 }
 ?>

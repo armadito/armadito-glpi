@@ -46,7 +46,7 @@ class PluginArmaditoDbManager {
 		$this->queries[$name]["params"][$property_name]["value"] = $property_value;
    }
 
-   function addQuery( $name, $type, $table, $params, $where_param="") {
+   function addQuery( $name, $type, $table, $params, $where_params=array()) {
 
 		$query = array();
 
@@ -55,7 +55,7 @@ class PluginArmaditoDbManager {
 				$query["query"] = $this->addInsertQuery($table, $params);
 				break;
 			case "UPDATE":
-				$query["query"] = $this->addUpdateQuery($table, $params, $where_param);
+				$query["query"] = $this->addUpdateQuery($table, $params, $where_params);
 				break;
 			default: return 1;
 		}
@@ -81,18 +81,41 @@ class PluginArmaditoDbManager {
 
 		$query = rtrim($query, ",");
 		$query .= ")";
+
+		PluginArmaditoToolbox::logE($query);
+
 		return $query;
    }
 
-   function addUpdateQuery($table, $params, $where_param){
+   function addUpdateQuery($table, $params, $where_params){
+
+		if(!is_array($where_params)){
+			$tmp = $where_params;
+			$where_params = array();
+			$where_params[0] = $tmp;
+		}
+
 		$query = "UPDATE `".$table."` SET";
 		foreach ($params as $property_name => $property_type) {
-				if($property_name != $where_param){
+				if(!in_array($property_name, $where_params)) {
 					$query .= " `".$property_name."`=?,";
 				}
 		}
+
 		$query = rtrim($query, ",");
-		$query .= " WHERE `".$where_param."`=?";
+		$query .= " WHERE";
+
+		$i = 0;
+		foreach($where_params as $where_param) {
+			if($i > 0){
+				$query .= " AND";
+			}
+			$query .= " `".$where_param."`=?";
+			$i++;
+		}
+
+		PluginArmaditoToolbox::logE($query);
+
 		return $query;
    }
 
