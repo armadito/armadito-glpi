@@ -286,51 +286,44 @@ class PluginArmaditoScan extends CommonDBTM {
     * @return PluginArmaditoError obj
     **/
     function updateScanInDB(){
-      global $DB;
-      $error = new PluginArmaditoError();
+     $error = new PluginArmaditoError();
+	 $dbmanager = new PluginArmaditoDbManager();
+	 $dbmanager->init();
 
-      $query = "UPDATE `glpi_plugin_armadito_scans`
-                           SET `start_time`=?,
-                               `duration`=?,
-                               `malware_count`=?,
-                               `suspicious_count`=?,
-                               `scanned_count`=?,
-                               `progress`=?
-                            WHERE `plugin_armadito_jobs_id`=?";
+	 $params["start_time"]["type"] = "s";
+	 $params["duration"]["type"] = "s";
+	 $params["malware_count"]["type"] = "i";
+	 $params["suspicious_count"]["type"] = "i";
+	 $params["scanned_count"]["type"] = "i";
+	 $params["progress"]["type"] = "i";
+	 $params["plugin_armadito_jobs_id"]["type"] = "i";
 
-      $stmt = $DB->prepare($query);
+	 $query_name = "UpdateScan";
+	 $dbmanager->addQuery($query_name, "UPDATE", $this->getTable(), $params, "plugin_armadito_jobs_id");
 
-      if(!$stmt) {
-         $error->setMessage(1, 'Scan insert preparation failed.');
-         $error->log();
-         return $error;
-      }
+	 if(!$dbmanager->prepareQuery($query_name)){
+		return $dbmanager->getLastError();
+	 }
 
-      if(!$stmt->bind_param('ssiiiii', $start_time, $duration, $malware_count, $suspicious_count, $scanned_count, $progress, $job_id)) {
-            $error->setMessage(1, 'Scan insert bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
-            $error->log();
-            $stmt->close();
-            return $error;
-      }
+	 if(!$dbmanager->bindQuery($query_name)){
+		return $dbmanager->getLastError();
+	 }
 
-      $duration = $this->jobj->task->obj->duration;
-      $start_time = $this->jobj->task->obj->start_time;
-      $malware_count = $this->jobj->task->obj->malware_count;
-      $suspicious_count = $this->jobj->task->obj->suspicious_count;
-      $scanned_count = $this->jobj->task->obj->scanned_count;
-      $progress = $this->jobj->task->obj->progress;
-      $job_id = $this->jobj->task->obj->job_id;
+	 $dbmanager->setQueryValue($query_name, "duration", $this->jobj->task->obj->duration);
+	 $dbmanager->setQueryValue($query_name, "start_time", $this->jobj->task->obj->start_time);
+	 $dbmanager->setQueryValue($query_name, "malware_count", $this->jobj->task->obj->malware_count);
+	 $dbmanager->setQueryValue($query_name, "suspicious_count", $this->jobj->task->obj->suspicious_count);
+	 $dbmanager->setQueryValue($query_name, "scanned_count", $this->jobj->task->obj->scanned_count);
+	 $dbmanager->setQueryValue($query_name, "progress", $this->jobj->task->obj->progress);
+	 $dbmanager->setQueryValue($query_name, "plugin_armadito_jobs_id",$this->jobj->task->obj->job_id); # WHERE
 
-      if(!$stmt->execute()){
-         $error->setMessage(1, 'Scan insert execution failed (' . $stmt->errno . ') ' . $stmt->error);
-         $error->log();
-         $stmt->close();
-         return $error;
-      }
+	 if(!$dbmanager->executeQuery($query_name)){
+		return $dbmanager->getLastError();
+	 }
 
-      $stmt->close();
-      $error->setMessage(0, 'Scan successfully inserted.');
-      return $error;
+	 $dbmanager->closeQuery($query_name);
+	 $error->setMessage(0, 'Scan successfully updated in database.');
+     return $error;
     }
 
       function defineTabs($options=array()){
