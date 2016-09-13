@@ -147,6 +147,7 @@ class PluginArmaditoStatedetail extends CommonDBTM {
 
       // Init Form
       $this->initForm($table_id, $options);
+	  $options['colspan']      = 4;
       $this->showFormHeader($options);
 
       $state = new PluginArmaditoState();
