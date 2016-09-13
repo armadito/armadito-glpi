@@ -30,6 +30,7 @@ if (!defined('GLPI_ROOT')) {
  * Class dealing with Armadito AV scan
  **/
 class PluginArmaditoScan extends CommonDBTM {
+	protected $id;
     protected $agentid;
     protected $agent;
     protected $jobj;
@@ -237,45 +238,46 @@ class PluginArmaditoScan extends CommonDBTM {
     * @return PluginArmaditoError obj
     **/
     function addObj( $job_id_ ){
-      global $DB;
-      $error = new PluginArmaditoError();
+     $error = new PluginArmaditoError();
+	 $dbmanager = new PluginArmaditoDbManager();
+	 $dbmanager->init();
 
-      $query = "INSERT INTO `glpi_plugin_armadito_scans`
-                           (`plugin_armadito_jobs_id`,
-                            `plugin_armadito_agents_id`,
-                            `plugin_armadito_scanconfigs_id`,
-							`plugin_armadito_antiviruses_id` ) VALUES (?,?,?,?)";
+	 $params["plugin_armadito_jobs_id"]["type"] = "i";
+	 $params["plugin_armadito_agents_id"]["type"] = "i";
+	 $params["plugin_armadito_scanconfigs_id"]["type"] = "i";
+	 $params["plugin_armadito_antiviruses_id"]["type"] = "i";
 
-      $stmt = $DB->prepare($query);
+	 $query_name = "NewScan";
+	 $dbmanager->addQuery($query_name, "INSERT", $this->getTable(), $params);
 
-      if(!$stmt) {
-         $error->setMessage(1, 'Scan insert preparation failed.');
-         $error->log();
-         return $error;
-      }
+	 if(!$dbmanager->prepareQuery($query_name)){
+		return $dbmanager->getLastError();
+	 }
 
-      if(!$stmt->bind_param('iiii', $job_id, $agent_id, $scanconfig_id, $av_id)) {
-            $error->setMessage(1, 'Scan insert bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
-            $error->log();
-            $stmt->close();
-            return $error;
-      }
+	 if(!$dbmanager->bindQuery($query_name)){
+		return $dbmanager->getLastError();
+	 }
 
-      $job_id = $job_id_;
-      $agent_id = $this->agentid;
-      $scanconfig_id = $this->scanconfigid;
-	  $av_id = 0;
+	 $dbmanager->setQueryValue($query_name, "plugin_armadito_jobs_id", $job_id_);
+	 $dbmanager->setQueryValue($query_name, "plugin_armadito_agents_id", $this->agentid);
+	 $dbmanager->setQueryValue($query_name, "plugin_armadito_scanconfigs_id", $this->scanconfigid);
+	 $dbmanager->setQueryValue($query_name, "plugin_armadito_antiviruses_id", 0);
 
-      if(!$stmt->execute()){
-         $error->setMessage(1, 'Scan insert execution failed (' . $stmt->errno . ') ' . $stmt->error);
-         $error->log();
-         $stmt->close();
-         return $error;
-      }
+	 if(!$dbmanager->executeQuery($query_name)){
+		return $dbmanager->getLastError();
+	 }
 
-      $stmt->close();
-      $error->setMessage(0, 'Scan successfully inserted.');
-      return $error;
+	 $dbmanager->closeQuery($query_name);
+
+	 $this->id = PluginArmaditoDbToolbox::getLastInsertedId();
+	 if($this->id > 0){
+		PluginArmaditoToolbox::validateInt($this->id);
+		$error->setMessage(0, 'New Scan successfully added in database.');
+	 }
+     else{
+		$error->setMessage(1, 'Unable to get new Scan Id');
+	 }
+     return $error;
     }
 
     /**
