@@ -149,14 +149,12 @@ class PluginArmaditoStatedetail extends CommonDBTM {
       $this->initForm($table_id, $options);
       $this->showFormHeader($options);
 
-      // get global state for agent_id
       $state = new PluginArmaditoState();
-      $state->setAgentId($this->fields["plugin_armadito_agents_id"]);
+	  $state->setAgentId($this->fields["plugin_armadito_agents_id"]);
       $state_id = $state->getTableIdForAgentId("glpi_plugin_armadito_states");
-
-      PluginArmaditoToolbox::logE("state_id : ".$state_id."; agent_id : ".$this->fields["plugin_armadito_agents_id"]);
-
-      $state->getFromDB($state_id);
+	  $state->initFromDB($state_id);
+	  $agent = $state->getAgent();
+	  $antivirus = $agent->getAntivirus();
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Name')." :</td>";
@@ -172,24 +170,24 @@ class PluginArmaditoStatedetail extends CommonDBTM {
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Antivirus Name', 'armadito')." :</td>";
       echo "<td align='center'>";
-      echo "<b>".htmlspecialchars($state->fields["antivirus_name"])."</b>";
+      echo "<b>".htmlspecialchars($antivirus->getAVName())."</b>";
       echo "</td>";
 
       echo "<td>".__('Antivirus Version', 'armadito')."&nbsp;:</td>";
       echo "<td align='center'>";
-      echo "".htmlspecialchars($state->fields["antivirus_version"])."";
+      echo "".htmlspecialchars($antivirus->getAVVersion())."";
       echo "</td>";
       echo "</tr>";
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>".__('Antivirus On-access', 'armadito')." :</td>";
       echo "<td align='center'>";
-      echo "".htmlspecialchars($state->fields["antivirus_realtime"])."";
+      echo "".htmlspecialchars($state->fields["realtime_status"])."";
       echo "</td>";
 
       echo "<td>".__('Antivirus Service', 'armadito')."&nbsp;:</td>";
       echo "<td align='center'>";
-      echo "".htmlspecialchars($state->fields["antivirus_service"])."";
+      echo "".htmlspecialchars($state->fields["service_status"])."";
       echo "</td>";
       echo "</tr>";
    }

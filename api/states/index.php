@@ -46,7 +46,7 @@ if (!empty($rawdata)) { // POST /states
    }
 
    $state = new PluginArmaditoState();
-   $state->init($jobj);
+   $state->initFromJson($jobj);
    $error = $state->run();
 
    if($error->getCode() == 0){ // success

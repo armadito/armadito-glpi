@@ -58,6 +58,10 @@ class PluginArmaditoAgent extends CommonDBTM {
 		return $this->antivirus->getId();
    }
 
+   function getAntivirus(){
+		return $this->antivirus;
+   }
+
    function toJson(){
        return '{"agent_id": '.$this->id.'}';
    }
