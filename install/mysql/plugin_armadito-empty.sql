@@ -102,7 +102,7 @@ CREATE TABLE `glpi_plugin_armadito_scans` (
    `suspicious_count` int(11) DEFAULT NULL,
    `scanned_count` int(11) DEFAULT NULL,
    `start_time` datetime DEFAULT NULL,
-   `duration` int(11) DEFAULT NULL,
+   `duration` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
    `progress` int(11) DEFAULT NULL,
    PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
