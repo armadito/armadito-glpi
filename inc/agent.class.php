@@ -49,7 +49,7 @@ class PluginArmaditoAgent extends CommonDBTM {
 		$this->antivirus->initFromDB($this->fields["plugin_armadito_antiviruses_id"]);
 	  }
 	  else{
-		PluginArmaditoToolbox::logE("Unable to get Agetnt DB fields");
+		PluginArmaditoToolbox::logE("Unable to get Agent DB fields");
 	  }
 
    }
