@@ -81,20 +81,6 @@ CREATE TABLE `glpi_plugin_armadito_jobs` (
    PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 
-DROP TABLE IF EXISTS `glpi_plugin_armadito_jobs_agents`;
-
-CREATE TABLE `glpi_plugin_armadito_jobs_agents` (
-   `job_id` int(11) NOT NULL,
-   `agent_id` int(11) NOT NULL,
-   PRIMARY KEY (`job_id`,`agent_id`),
-   FOREIGN KEY (`job_id`)
-      REFERENCES glpi_plugin_armadito_jobs(id)
-      ON UPDATE CASCADE ON DELETE CASCADE,
-   FOREIGN KEY (`agent_id`)
-      REFERENCES glpi_plugin_armadito_agents(id)
-      ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
-
 DROP TABLE IF EXISTS `glpi_plugin_armadito_alerts`;
 
 CREATE TABLE `glpi_plugin_armadito_alerts` (

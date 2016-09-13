@@ -374,50 +374,9 @@ class PluginArmaditoJob extends CommonDBTM {
          return $error;
       }
 
-      function insertInJobsAgents() {
-         global $DB;
-
-         $error = new PluginArmaditoError();
-         $query = "INSERT INTO `glpi_plugin_armadito_jobs_agents` (`job_id`, `agent_id`) VALUES (?,?)";
-         $stmt = $DB->prepare($query);
-
-         if(!$stmt) {
-            $error->setMessage(1, 'Job insert preparation failed.');
-            $error->log();
-            return $error;
-         }
-
-         if(!$stmt->bind_param('ii', $job_id, $agent_id)) {
-               $error->setMessage(1, 'Job insert bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
-               $error->log();
-               $stmt->close();
-               return $error;
-         }
-
-         $job_id = $this->id;
-         $agent_id = $this->agentid;
-
-         if(!$stmt->execute()){
-            $error->setMessage(1, 'Job insert execution failed (' . $stmt->errno . ') ' . $stmt->error);
-            $error->log();
-            $stmt->close();
-            return $error;
-         }
-
-         $error->setMessage(0, 'Job insertion successful.');
-         $stmt->close();
-         return $error;
-      }
-
       function addJob() {
          $error = new PluginArmaditoError();
          $error = $this->insertInJobs();
-         if($error->getCode() != 0){
-            $error->log();
-            return false;
-         }
-
-         $error = $this->insertInJobsAgents();
          if($error->getCode() != 0){
             $error->log();
             return false;
