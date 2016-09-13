@@ -310,7 +310,7 @@ class PluginArmaditoScan extends CommonDBTM {
 	 }
 
 	 $dbmanager->setQueryValue($query_name, "duration", $this->jobj->task->obj->duration);
-	 $dbmanager->setQueryValue($query_name, "start_time", $this->jobj->task->obj->start_time);
+	 $dbmanager->setQueryValue($query_name, "start_time", date("Y-m-d H:i:s" , strtotime($this->jobj->task->obj->start_time)));
 	 $dbmanager->setQueryValue($query_name, "malware_count", $this->jobj->task->obj->malware_count);
 	 $dbmanager->setQueryValue($query_name, "suspicious_count", $this->jobj->task->obj->suspicious_count);
 	 $dbmanager->setQueryValue($query_name, "scanned_count", $this->jobj->task->obj->scanned_count);
