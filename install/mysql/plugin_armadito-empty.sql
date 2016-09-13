@@ -44,10 +44,9 @@ CREATE TABLE `glpi_plugin_armadito_states` (
    `plugin_armadito_agents_id` int(11) NOT NULL,
    `update_status` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
    `last_update` datetime default NULL,
-   `antivirus_name` varchar(255) collate utf8_unicode_ci NOT NULL,
-   `antivirus_version` varchar(255) collate utf8_unicode_ci default NULL,
-   `antivirus_realtime` varchar(255) collate utf8_unicode_ci default NULL,
-   `antivirus_service` varchar(255) collate utf8_unicode_ci default NULL,
+   `plugin_armadito_antiviruses_id` int(11) NOT NULL,
+   `realtime_status` varchar(255) collate utf8_unicode_ci default NULL,
+   `service_status` varchar(255) collate utf8_unicode_ci default NULL,
    `plugin_armadito_statedetails_id` int(11) NOT NULL,
    PRIMARY KEY (`id`),
    UNIQUE KEY `plugin_armadito_agents_id` (`plugin_armadito_agents_id`)
