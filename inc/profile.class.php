@@ -72,7 +72,8 @@ class PluginArmaditoProfile extends Profile {
                 'label'     => __('Configuration', 'armadito'),
                 'field'     => 'plugin_armadito_configuration'),
 
-          array('itemtype'  => 'PluginArmaditoAgent',
+          array('rights'    => array(READ => __('Read'), UPDATE => __('Update')),
+				'itemtype'  => 'PluginArmaditoAgent',
                 'label'     => __('Agents', 'armadito'),
                 'field'     => 'plugin_armadito_agents')
       );
