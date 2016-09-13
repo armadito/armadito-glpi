@@ -75,47 +75,38 @@ class PluginArmaditoScanConfig extends CommonDBTM {
    }
 
    function insertInDB() {
-      global $DB;
-      $error = new PluginArmaditoError();
+	$error = new PluginArmaditoError();
+	$dbmanager = new PluginArmaditoDbManager();
+	$dbmanager->init();
 
-      $query = "INSERT INTO `glpi_plugin_armadito_scanconfigs`
-                           (`scan_name`,
-                            `scan_path`,
-                            `scan_options`,
-                            `plugin_armadito_antiviruses_id`) VALUES (?,?,?,?)";
+	$params["scan_name"]["type"] = "s";
+	$params["scan_path"]["type"] = "s";
+	$params["scan_options"]["type"] = "s";
+	$params["plugin_armadito_antiviruses_id"]["type"] = "i";
 
-      $stmt = $DB->prepare($query);
+	$query_name = "NewScanConfig";
+	$dbmanager->addQuery($query_name, "INSERT", $this->getTable(), $params );
 
-      PluginArmaditoToolbox::logE("insert new scanconfig in db.");
+	if(!$dbmanager->prepareQuery($query_name)){
+		return $dbmanager->getLastError();
+	}
 
-      if(!$stmt) {
-         $error->setMessage(1, 'scanconfig insert preparation failed.');
-         $error->log();
-         return $error;
-      }
+	if(!$dbmanager->bindQuery($query_name)){
+		return $dbmanager->getLastError();
+	}
 
-      if(!$stmt->bind_param('sssi', $scan_name, $scan_path, $scan_options, $antivirus_id)) {
-            $error->setMessage(1, 'scanconfig insert bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
-            $error->log();
-            $stmt->close();
-            return $error;
-      }
+	$dbmanager->setQueryValue($query_name, "scan_name", $this->scan_name);
+	$dbmanager->setQueryValue($query_name, "scan_path", $this->scan_path);
+	$dbmanager->setQueryValue($query_name, "scan_options", $this->scan_options);
+	$dbmanager->setQueryValue($query_name, "plugin_armadito_antiviruses_id", $this->antivirus_id);
 
-      $scan_name = $this->scan_name;
-      $scan_path = $this->scan_path;
-      $scan_options = $this->scan_options;
-      $antivirus_id = $this->antivirus_id;
+	if(!$dbmanager->executeQuery($query_name)){
+		return $dbmanager->getLastError();
+	}
 
-      if(!$stmt->execute()){
-         $error->setMessage(1, 'scanconfig insert execution failed (' . $stmt->errno . ') ' . $stmt->error);
-         $error->log();
-         $stmt->close();
-         return $error;
-      }
-
-      $stmt->close();
-      $error->setMessage(0, 'scanconfig successfully inserted.');
-      return $error;
+	$dbmanager->closeQuery($query_name);
+	$error->setMessage(0, 'New scanconfig successfully inserted.');
+    return $error;
    }
 
    static function canCreate() {
