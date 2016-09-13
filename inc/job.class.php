@@ -216,43 +216,36 @@ class PluginArmaditoJob extends CommonDBTM {
          return false;
       }
 
-      function insertErrorInDB($err_code, $err_msg){
-         global $DB;
-
+      function updateJobErrorInDB($err_code, $err_msg){
          $error = new PluginArmaditoError();
-         $query = "UPDATE `glpi_plugin_armadito_jobs`
-                        SET `job_error_code`=?,
-                            `job_error_msg`=?
-                            WHERE `id`=?";
+		 $dbmanager = new PluginArmaditoDbManager();
+		 $dbmanager->init();
 
-         $stmt = $DB->prepare($query);
+		 $params["job_error_code"]["type"] = "i";
+		 $params["job_error_msg"]["type"] = "s";
+		 $params["id"]["type"] = "i";
 
-         if(!$stmt) {
-            $error->setMessage(1, 'JobError insert preparation failed.');
-            $error->log();
-            return $error;
-         }
+		 $query_name = "UpdateJobError";
+		 $dbmanager->addQuery($query_name, "UPDATE", $this->getTable(), $params, "id");
 
-         if(!$stmt->bind_param('isi', $job_error_code, $job_error_msg, $job_id)) {
-               $error->setMessage(1, 'JobError insert bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
-               $error->log();
-               $stmt->close();
-               return $error;
-         }
+		 if(!$dbmanager->prepareQuery($query_name)){
+			return $dbmanager->getLastError();
+		 }
 
-         $job_id = $this->id;
-         $job_error_code = $err_code;
-         $job_error_msg = $err_msg;
+		 if(!$dbmanager->bindQuery($query_name)){
+			return $dbmanager->getLastError();
+		 }
 
-         if(!$stmt->execute()){
-            $error->setMessage(1, 'JobError insert execution failed (' . $stmt->errno . ') ' . $stmt->error);
-            $error->log();
-            $stmt->close();
-            return $error;
-         }
+ 		 $dbmanager->setQueryValue($query_name, "job_error_code", $err_code);
+		 $dbmanager->setQueryValue($query_name, "job_error_msg", $err_msg);
+		 $dbmanager->setQueryValue($query_name, "id", $this->id); # WHERE
 
-         $error->setMessage(0, 'JobError insertion successful.');
-         $stmt->close();
+		 if(!$dbmanager->executeQuery($query_name)){
+			return $dbmanager->getLastError();
+		 }
+
+		 $dbmanager->closeQuery($query_name);
+		 $error->setMessage(0, 'JobError successfully updated in database.');
          return $error;
       }
 

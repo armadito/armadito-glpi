@@ -79,7 +79,7 @@ else if(!empty($rawdata)) { // POST
    }
    else{
       $job->updateStatus("failed");
-      $error = $job->insertErrorInDB($jobj->task->obj->code, $jobj->task->obj->message);
+      $error = $job->updateJobErrorInDB($jobj->task->obj->code, $jobj->task->obj->message);
    }
 
    $communication->setMessage($error->toJson(), 200);
