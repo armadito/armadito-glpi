@@ -157,9 +157,9 @@ class PluginArmaditoStatedetail extends CommonDBTM {
 	  $antivirus = $agent->getAntivirus();
 
       echo "<tr class='tab_bg_1'>";
-      echo "<td>".__('Name')." :</td>";
+      echo "<td>".__('Id')." :</td>";
       echo "<td align='center'>";
-      Html::autocompletionTextField($this,'name', array('size' => 40));
+      echo "<b>".htmlspecialchars($this->fields["id"])."</b>";
       echo "</td>";
       echo "<td>".__('Agent Id', 'armadito')."&nbsp;:</td>";
       echo "<td align='center'>";
