@@ -236,7 +236,8 @@ class PluginArmaditoScan extends CommonDBTM {
       $query = "INSERT INTO `glpi_plugin_armadito_scans`
                            (`plugin_armadito_jobs_id`,
                             `plugin_armadito_agents_id`,
-                            `plugin_armadito_scanconfigs_id`) VALUES (?,?,?)";
+                            `plugin_armadito_scanconfigs_id`,
+							`plugin_armadito_antiviruses_id` ) VALUES (?,?,?,?)";
 
       $stmt = $DB->prepare($query);
 
@@ -246,7 +247,7 @@ class PluginArmaditoScan extends CommonDBTM {
          return $error;
       }
 
-      if(!$stmt->bind_param('iii', $job_id, $agent_id, $scanconfig_id)) {
+      if(!$stmt->bind_param('iiii', $job_id, $agent_id, $scanconfig_id, $av_id)) {
             $error->setMessage(1, 'Scan insert bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
             $error->log();
             $stmt->close();
@@ -256,6 +257,7 @@ class PluginArmaditoScan extends CommonDBTM {
       $job_id = $job_id_;
       $agent_id = $this->agentid;
       $scanconfig_id = $this->scanconfigid;
+	  $av_id = 0;
 
       if(!$stmt->execute()){
          $error->setMessage(1, 'Scan insert execution failed (' . $stmt->errno . ') ' . $stmt->error);

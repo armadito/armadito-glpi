@@ -76,7 +76,7 @@ CREATE TABLE `glpi_plugin_armadito_jobs` (
    `job_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
    `job_priority` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
    `job_status` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-   `job_error_code` int(11) NOT NULL,
+   `job_error_code` int(11) DEFAULT NULL,
    `job_error_msg` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
    PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
@@ -112,12 +112,12 @@ CREATE TABLE `glpi_plugin_armadito_scans` (
    `plugin_armadito_agents_id` int(11) NOT NULL,
    `plugin_armadito_scanconfigs_id` int(11) NOT NULL,
    `plugin_armadito_antiviruses_id` int(11) NOT NULL,
-   `malware_count` int(11) NOT NULL,
-   `suspicious_count` int(11) NOT NULL,
-   `scanned_count` int(11) NOT NULL,
-   `start_time` datetime default NULL,
-   `duration` int(11) NOT NULL,
-   `progress` int(11) NOT NULL,
+   `malware_count` int(11) DEFAULT NULL,
+   `suspicious_count` int(11) DEFAULT NULL,
+   `scanned_count` int(11) DEFAULT NULL,
+   `start_time` datetime DEFAULT NULL,
+   `duration` int(11) DEFAULT NULL,
+   `progress` int(11) DEFAULT NULL,
    PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 

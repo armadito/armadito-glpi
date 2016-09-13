@@ -335,7 +335,7 @@ class PluginArmaditoJob extends CommonDBTM {
          global $DB;
 
          $error = new PluginArmaditoError();
-         $query = "INSERT INTO `glpi_plugin_armadito_jobs` (`plugin_armadito_agents_id`, `job_type`, `job_priority`, `job_status`) VALUES (?,?,?,?)";
+         $query = "INSERT INTO `glpi_plugin_armadito_jobs` (`plugin_armadito_agents_id`, `job_type`, `job_priority`, `job_status`, `plugin_armadito_antiviruses_id` ) VALUES (?,?,?,?,?)";
          $stmt = $DB->prepare($query);
 
          if(!$stmt) {
@@ -344,7 +344,7 @@ class PluginArmaditoJob extends CommonDBTM {
             return $error;
          }
 
-         if(!$stmt->bind_param('isss', $agent_id, $job_type, $job_priority, $job_status)) {
+         if(!$stmt->bind_param('isssi', $agent_id, $job_type, $job_priority, $job_status, $av_id)) {
                $error->setMessage(1, 'Job insert bin_param failed (' . $stmt->errno . ') ' . $stmt->error);
                $error->log();
                $stmt->close();
@@ -355,6 +355,7 @@ class PluginArmaditoJob extends CommonDBTM {
          $job_type = $this->type;
          $job_priority = $this->priority;
          $job_status = "queued"; # Step 1
+		 $av_id = $this->agent->getAntivirusId();
 
          if(!$stmt->execute()){
             $error->setMessage(1, 'Job insert execution failed (' . $stmt->errno . ') ' . $stmt->error);
