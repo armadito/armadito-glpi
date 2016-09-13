@@ -375,7 +375,7 @@ class PluginArmaditoJob extends CommonDBTM {
             return false;
          }
 
-         $error = $this->obj->addObj($this->id);
+         $error = $this->obj->addObj($this->id, $this->agent);
          if($error->getCode() != 0){
             $error->log();
             return false;

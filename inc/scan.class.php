@@ -237,7 +237,7 @@ class PluginArmaditoScan extends CommonDBTM {
     *
     * @return PluginArmaditoError obj
     **/
-    function addObj( $job_id_ ){
+    function addObj( $job_id_, $agent ){
      $error = new PluginArmaditoError();
 	 $dbmanager = new PluginArmaditoDbManager();
 	 $dbmanager->init();
@@ -261,7 +261,7 @@ class PluginArmaditoScan extends CommonDBTM {
 	 $dbmanager->setQueryValue($query_name, "plugin_armadito_jobs_id", $job_id_);
 	 $dbmanager->setQueryValue($query_name, "plugin_armadito_agents_id", $this->agentid);
 	 $dbmanager->setQueryValue($query_name, "plugin_armadito_scanconfigs_id", $this->scanconfigid);
-	 $dbmanager->setQueryValue($query_name, "plugin_armadito_antiviruses_id", 0);
+	 $dbmanager->setQueryValue($query_name, "plugin_armadito_antiviruses_id", $agent->getAntivirusId());
 
 	 if(!$dbmanager->executeQuery($query_name)){
 		return $dbmanager->getLastError();
