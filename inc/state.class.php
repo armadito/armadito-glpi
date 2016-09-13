@@ -258,7 +258,7 @@ class PluginArmaditoState extends CommonDBTM {
       $agent_id = $this->agentid;
       $statedetails_id = $stateid;
       $update_status = $this->jobj->task->obj->global_status;
-      $last_update = $this->jobj->task->obj->global_update_timestamp;
+      $last_update = date("Y-m-d H:i:s", $this->jobj->task->obj->global_update_timestamp);
       $antivirus_name = $this->jobj->task->antivirus->name;
       $antivirus_version = $this->jobj->task->antivirus->version;
       $antivirus_realtime = "unknown"; //$this->jobj->task->obj->antivirus->realtime;
