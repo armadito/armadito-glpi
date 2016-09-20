@@ -94,6 +94,16 @@ function plugin_init_armadito() {
 
 }
 
+/*
+ * @function script_endswith()
+ * @param $scriptname : string representing the script to test
+ * test the end of the called scriptname ( this is usefull to load )
+ *
+ */
+function script_endswith($scriptname) {
+   return substr($_SERVER['SCRIPT_FILENAME'], -strlen($scriptname))===$scriptname;
+}
+
 function plugin_version_armadito() {
 
    return array('name'           => 'Armadito',
