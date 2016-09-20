@@ -1,9 +1,9 @@
 sudo: false
 language: php
 php:
-  - 5.4
-  - 5.5
-  - 5.6
+#  - 5.4
+#  - 5.5
+#  - 5.6
   - 7.0
 
 env:
@@ -26,6 +26,7 @@ before_install:
  - git clone git://github.com/glpi-project/glpi.git glpi
  - cd glpi
  - if [[ $GLPI != 'master' ]]; then git checkout -b $GLPI origin/$GLPI; fi
+ - if [[ $GLPI == 'master' ]]; then composer install --no-dev; fi
  - cd ..
  - mysql -u root -e "SET PASSWORD FOR 'travis'@'localhost' = PASSWORD('travis')"
  - mysql -u root -e "GRANT ALL PRIVILEGES ON glpi.* TO 'travis'@'localhost';"
@@ -33,7 +34,7 @@ before_install:
  - echo '<?php class DB extends DBmysql {var $dbhost = "localhost";var $dbuser = "travis";var $dbpassword= "travis";var $dbdefault = "glpi";}' > glpi/config/config_db.php
  - mv -f armadito-glpi glpi/plugins/armadito
  - composer self-update
- - ant -Dclearsavepoint='true' -Dbasedir=. -f ./glpi/plugins/fusioninventory/phpunit/build.xml composer
+ - ant -Dclearsavepoint='true' -Dbasedir=. -f ./glpi/plugins/armadito/phpunit/build.xml composer
 
 install:
  - composer require satooshi/php-coveralls
@@ -41,12 +42,13 @@ install:
 before_script:
   - phpenv version-name | grep ^5.[34] && echo "extension=apc.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; true
   - phpenv version-name | grep ^5.[34] && echo "apc.enable_cli=1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; true
+  - php -S localhost:8088 -t glpi > /dev/null 2>&1 &
 
-script: ant -Dclearsavepoint='true' -Dbasedir=. -f ./glpi/plugins/fusioninventory/phpunit/build.xml phpunit.all
+script: ant -Dclearsavepoint='true' -Dbasedir=. -f ./glpi/plugins/armadito/phpunit/build.xml phpunit.all
 
 after_script:
- - cp -fr build glpi/plugins/fusioninventory/
- - cd glpi/plugins/fusioninventory/
+ - cp -fr build glpi/plugins/armadito/
+ - cd glpi/plugins/armadito/
  - composer require satooshi/php-coveralls
  - php vendor/bin/coveralls -v
 

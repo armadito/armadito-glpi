@@ -36,19 +36,23 @@ class PluginArmaditoProfile extends Profile {
                 'label'     => __('Menu', 'armadito'),
                 'field'     => 'plugin_armadito_menu'),
 
-          array('itemtype'    => 'PluginArmaditoJob',
+          array('rights'    => array(READ => __('Read')),
+				'itemtype'    => 'PluginArmaditoJob',
                 'label'     => __('Jobs', 'armadito'),
                 'field'     => 'plugin_armadito_jobs'),
 
-          array('itemtype'    => 'PluginArmaditoState',
+          array('rights'    => array(READ => __('Read')),
+				'itemtype'    => 'PluginArmaditoState',
                 'label'     => __('States', 'armadito'),
                 'field'     => 'plugin_armadito_states'),
 
-          array('itemtype'    => 'PluginArmaditoStateDetail',
+          array('rights'    => array(READ => __('Read')),
+				'itemtype'    => 'PluginArmaditoStateDetail',
                 'label'     => __('Statedetails', 'armadito'),
                 'field'     => 'plugin_armadito_statedetail'),
 
-          array('itemtype'  => 'PluginArmaditoAlert',
+          array('rights'    => array(READ => __('Read')),
+				'itemtype'  => 'PluginArmaditoAlert',
                 'label'     => __('Alerts', 'armadito'),
                 'field'     => 'plugin_armadito_alerts'),
 
