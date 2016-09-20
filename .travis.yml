@@ -20,7 +20,6 @@ addons:
     packages:
     - ant
     - xsltproc
-    - tree
 
 before_install:
  - cd ..
@@ -35,6 +34,9 @@ before_install:
  - mv -f armadito-glpi glpi/plugins/armadito
  - composer self-update
  - ant -Dclearsavepoint='true' -Dbasedir=. -f ./glpi/plugins/armadito/phpunit/build.xml composer
+ - cd glpi
+ - composer install --no-dev
+ - cd ..
 
 install:
  - composer require satooshi/php-coveralls
