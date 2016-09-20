@@ -37,7 +37,7 @@ class ArmaditoInstallTest extends Common_TestCase {
       // Delete if Table of Armadito or Tracker yet in DB
       $query = "SHOW FULL TABLES WHERE TABLE_TYPE LIKE 'VIEW'";
       $result = $DB->query($query);
-      while ($data=$DB->fetch__array($result)) {
+      while ($data=$DB->fetch_array($result)) {
          if (strstr($data[0], "armadito")) {
             $DB->query("DROP VIEW ".$data[0]);
          }
