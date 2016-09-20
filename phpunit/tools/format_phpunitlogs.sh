@@ -3,6 +3,9 @@ scriptdir=$(dirname ${0})
 
 rm ${1}/build/logs/log.xml ${1}/build/logs/log.html
 
+echo "----TREE----"
+tree ${1}
+
 echo "<testsuites />" | xsltproc \
     --output ${1}/build/logs/log.xml \
     --stringparam basedir ${1} \

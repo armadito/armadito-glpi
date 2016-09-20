@@ -87,6 +87,7 @@
     <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;</xsl:text>
     <html>
       <head>
+		<link rel="icon" href="http://www.fusioninventory.org/favicon.ico" type="image/x-icon"/>
         <style>
           body { font-size: 14pt; color: black; background-color: white }
 
