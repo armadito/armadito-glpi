@@ -179,7 +179,7 @@
    <exec
     dir="${basedir}"
     executable='./glpi/plugins/armadito/phpunit/tools/format_phpunitlogs.sh'
-    failonerror="false"
+    failonerror="true"
     >
     <arg path='${basedir}'/>
     <arg value='${ant.project.name}' />
