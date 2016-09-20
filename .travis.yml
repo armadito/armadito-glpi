@@ -33,7 +33,7 @@ before_install:
  - echo '<?php class DB extends DBmysql {var $dbhost = "localhost";var $dbuser = "travis";var $dbpassword= "travis";var $dbdefault = "glpi";}' > glpi/config/config_db.php
  - mv -f armadito-glpi glpi/plugins/armadito
  - composer self-update
- - ant -Dclearsavepoint='true' -Dbasedir=. -f ./glpi/plugins/fusioninventory/phpunit/build.xml composer
+ - ant -Dclearsavepoint='true' -Dbasedir=. -f ./glpi/plugins/armadito/phpunit/build.xml composer
 
 install:
  - composer require satooshi/php-coveralls
@@ -42,11 +42,11 @@ before_script:
   - phpenv version-name | grep ^5.[34] && echo "extension=apc.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; true
   - phpenv version-name | grep ^5.[34] && echo "apc.enable_cli=1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; true
 
-script: ant -Dclearsavepoint='true' -Dbasedir=. -f ./glpi/plugins/fusioninventory/phpunit/build.xml phpunit.all
+script: ant -Dclearsavepoint='true' -Dbasedir=. -f ./glpi/plugins/armadito/phpunit/build.xml phpunit.all
 
 after_script:
- - cp -fr build glpi/plugins/fusioninventory/
- - cd glpi/plugins/fusioninventory/
+ - cp -fr build glpi/plugins/armadito/
+ - cd glpi/plugins/armadito/
  - composer require satooshi/php-coveralls
  - php vendor/bin/coveralls -v
 
