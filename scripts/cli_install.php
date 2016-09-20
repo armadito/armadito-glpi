@@ -67,6 +67,8 @@ if (!TableExists("glpi_configs")) {
    die("GLPI not installed\n");
 }
 
+echo "Init Plugin !"
+
 $plugin = new Plugin();
 
 require_once (GLPI_ROOT . "/plugins/armadito/install/climigration.class.php");
