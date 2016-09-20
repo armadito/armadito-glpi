@@ -6,7 +6,7 @@ CREATE TABLE `glpi_plugin_armadito_agents` (
    `computers_id` int(11) NOT NULL,
    `plugin_fusioninventory_agents_id` int(11) NOT NULL,
    `device_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Fusion deviceid',
-   `agent_version` varchar(255) collate utf8_unicode_ci DEFAULT NULL,
+   `agent_version` varchar(255) DEFAULT NULL,
    `plugin_armadito_antiviruses_id` int(11) NOT NULL,
    `last_contact` datetime DEFAULT NULL,
    `last_alert` datetime DEFAULT NULL,
