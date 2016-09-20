@@ -232,7 +232,7 @@
 
  <target name="phpunit.all" depends='prepare' description="Run every unit tests with PHPUnit">
 
-  <sequential if:true="${clearsavepoint}">
+  <sequential if:true="${clear.savepoint}">
    <phpunit.run type='update'
     configuration='${armadito.directory}/phpunit/testsuites_update.xml'/>
 

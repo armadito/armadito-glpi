@@ -4,6 +4,7 @@
   bootstrap="bootstrap.php"
   processIsolation="false"
   backupGlobals="false"
+  stopOnFailure="true"
   strict="false"
   >
   <logging>
