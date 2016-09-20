@@ -165,6 +165,19 @@ class PluginArmaditoConfig extends CommonDBTM {
       }
    }
 
+   static function loadCache() {
+      global $DB, $PF_CONFIG;
+
+      //Test if table exists before loading cache
+      //The only case where table doesn't exists is when you click on
+      //uninstall the plugin and it's already uninstalled
+      if (TableExists('glpi_plugin_armadito_configs')) {
+         $PF_CONFIG = array();
+         foreach ($DB->request('glpi_plugin_armadito_configs') as $data) {
+            $PF_CONFIG[$data['type']] = $data['value'];
+         }
+      }
+   }
 }
 
 ?>
