@@ -20,7 +20,7 @@ addons:
     packages:
     - ant
     - xsltproc
-	- tree
+    - tree
 
 before_install:
  - cd ..
