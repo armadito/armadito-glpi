@@ -67,8 +67,6 @@ if (!TableExists("glpi_configs")) {
    die("GLPI not installed\n");
 }
 
-echo "Init Plugin !"
-
 $plugin = new Plugin();
 
 require_once (GLPI_ROOT . "/plugins/armadito/install/climigration.class.php");
@@ -88,6 +86,9 @@ if ($current_version == '0') {
 
 $migration->displayWarning("Current Armadito plugin version: $current_version");
 $migration->displayWarning("Version to update: ".PLUGIN_ARMADITO_VERSION);
+
+echo "Current Armadito plugin version: $current_version\n";
+echo "Version to update: ".PLUGIN_ARMADITO_VERSION;
 
 // To prevent problem of execution time
 ini_set("max_execution_time", "0");
