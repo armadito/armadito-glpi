@@ -2,15 +2,15 @@ DROP TABLE IF EXISTS `glpi_plugin_armadito_agents`;
 
 CREATE TABLE `glpi_plugin_armadito_agents` (
    `id` int(11) NOT NULL AUTO_INCREMENT,
-   `entities_id` int(11) NOT NULL default 0,
+   `entities_id` int(11) NOT NULL DEFAULT '0',
    `computers_id` int(11) NOT NULL,
    `plugin_fusioninventory_agents_id` int(11) NOT NULL,
-   `device_id` varchar(255) COLLATE utf8_unicode_ci default NULL COMMENT 'Fusion deviceid',
-   `agent_version` varchar(255) collate utf8_unicode_ci default NULL,
+   `device_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Fusion deviceid',
+   `agent_version` varchar(255) collate utf8_unicode_ci DEFAULT NULL,
    `plugin_armadito_antiviruses_id` int(11) NOT NULL,
-   `last_contact` datetime default NULL,
-   `last_alert` datetime default NULL,
-   `fingerprint` varchar(255) collate utf8_unicode_ci NOT NULL,
+   `last_contact` datetime DEFAULT NULL,
+   `last_alert` datetime DEFAULT NULL,
+   `fingerprint` varchar(255) NOT NULL,
    PRIMARY KEY (`id`),
    UNIQUE KEY `fingerprint` (`fingerprint`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
@@ -20,8 +20,8 @@ DROP TABLE IF EXISTS `glpi_plugin_armadito_configs`;
 
 CREATE TABLE `glpi_plugin_armadito_configs` (
    `id` int(11) NOT NULL AUTO_INCREMENT,
-   `type` varchar(255) COLLATE utf8_unicode_ci default NULL,
-   `value` varchar(255) COLLATE utf8_unicode_ci default NULL,
+   `type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+   `value` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
    PRIMARY KEY (`id`),
    UNIQUE KEY `unicity` (`type`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
@@ -30,9 +30,9 @@ DROP TABLE IF EXISTS `glpi_plugin_armadito_antiviruses`;
 
 CREATE TABLE `glpi_plugin_armadito_antiviruses` (
    `id` int(11) NOT NULL AUTO_INCREMENT,
-   `name` varchar(255) COLLATE utf8_unicode_ci default NULL,
-   `fullname` varchar(255) COLLATE utf8_unicode_ci default NULL,
-   `version` varchar(255) COLLATE utf8_unicode_ci default NULL,
+   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+   `fullname` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+   `version` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
    PRIMARY KEY (`id`),
    UNIQUE KEY `fullname` (`fullname`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
@@ -42,11 +42,11 @@ DROP TABLE IF EXISTS `glpi_plugin_armadito_states`;
 CREATE TABLE `glpi_plugin_armadito_states` (
    `id` int(11) NOT NULL AUTO_INCREMENT,
    `plugin_armadito_agents_id` int(11) NOT NULL,
-   `update_status` varchar(255) COLLATE utf8_unicode_ci default NULL,
-   `last_update` datetime default NULL,
+   `update_status` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+   `last_update` datetime DEFAULT NULL,
    `plugin_armadito_antiviruses_id` int(11) NOT NULL,
-   `realtime_status` varchar(255) collate utf8_unicode_ci default NULL,
-   `service_status` varchar(255) collate utf8_unicode_ci default NULL,
+   `realtime_status` varchar(255) collate utf8_unicode_ci DEFAULT NULL,
+   `service_status` varchar(255) collate utf8_unicode_ci DEFAULT NULL,
    `plugin_armadito_statedetails_id` int(11) NOT NULL,
    PRIMARY KEY (`id`),
    UNIQUE KEY `plugin_armadito_agents_id` (`plugin_armadito_agents_id`)
@@ -72,11 +72,11 @@ CREATE TABLE `glpi_plugin_armadito_jobs` (
    `id` int(11) NOT NULL AUTO_INCREMENT,
    `plugin_armadito_agents_id` int(11) NOT NULL,
    `plugin_armadito_antiviruses_id` int(11) NOT NULL,
-   `job_type` varchar(255) COLLATE utf8_unicode_ci default NULL,
-   `job_priority` varchar(255) COLLATE utf8_unicode_ci default NULL,
-   `job_status` varchar(255) COLLATE utf8_unicode_ci default NULL,
-   `job_error_code` int(11) default NULL,
-   `job_error_msg` varchar(255) COLLATE utf8_unicode_ci default NULL,
+   `job_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+   `job_priority` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+   `job_status` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+   `job_error_code` int(11) DEFAULT NULL,
+   `job_error_msg` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
    PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 
@@ -84,8 +84,8 @@ DROP TABLE IF EXISTS `glpi_plugin_armadito_alerts`;
 
 CREATE TABLE `glpi_plugin_armadito_alerts` (
    `id` int(11) NOT NULL AUTO_INCREMENT,
-   `type` varchar(255) COLLATE utf8_unicode_ci default NULL,
-   `value` varchar(255) COLLATE utf8_unicode_ci default NULL,
+   `type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+   `value` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
    PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 
@@ -97,12 +97,12 @@ CREATE TABLE `glpi_plugin_armadito_scans` (
    `plugin_armadito_agents_id` int(11) NOT NULL,
    `plugin_armadito_scanconfigs_id` int(11) NOT NULL,
    `plugin_armadito_antiviruses_id` int(11) NOT NULL,
-   `malware_count` int(11) default NULL,
-   `suspicious_count` int(11) default NULL,
-   `scanned_count` int(11) default NULL,
-   `start_time` datetime default NULL,
-   `duration` varchar(255) COLLATE utf8_unicode_ci default NULL,
-   `progress` int(11) default NULL,
+   `malware_count` int(11) DEFAULT NULL,
+   `suspicious_count` int(11) DEFAULT NULL,
+   `scanned_count` int(11) DEFAULT NULL,
+   `start_time` datetime DEFAULT NULL,
+   `duration` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+   `progress` int(11) DEFAULT NULL,
    PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 
@@ -110,9 +110,9 @@ DROP TABLE IF EXISTS `glpi_plugin_armadito_scanconfigs`;
 
 CREATE TABLE `glpi_plugin_armadito_scanconfigs` (
    `id` int(11) NOT NULL AUTO_INCREMENT,
-   `scan_name` varchar(255) COLLATE utf8_unicode_ci default NULL,
-   `scan_path` varchar(255) COLLATE utf8_unicode_ci default NULL,
-   `scan_options` varchar(255) COLLATE utf8_unicode_ci default NULL,
+   `scan_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+   `scan_path` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+   `scan_options` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
    `plugin_armadito_antiviruses_id` int(11) NOT NULL,
    PRIMARY KEY (`id`),
    UNIQUE KEY `scan_name` (`scan_name`)
