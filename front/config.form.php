@@ -1,32 +1,31 @@
 <?php
 
 /**
-   Copyright (C) 2016 Teclib'
-   Copyright (C) 2010-2016 by the FusionInventory Development Team.
+Copyright (C) 2016 Teclib'
+Copyright (C) 2010-2016 by the FusionInventory Development Team.
 
-   This file is part of Armadito Plugin for GLPI.
+This file is part of Armadito Plugin for GLPI.
 
-   Armadito Plugin for GLPI is free software: you can redistribute it and/or modify
-   it under the terms of the GNU Affero General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
+Armadito Plugin for GLPI is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-   Armadito Plugin for GLPI is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-   GNU Affero General Public License for more details.
+Armadito Plugin for GLPI is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU Affero General Public License for more details.
 
-   You should have received a copy of the GNU Affero General Public License
-   along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the GNU Affero General Public License
+along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 
 **/
 
-include ("../../../inc/includes.php");
+include("../../../inc/includes.php");
 
 Session::checkRight('plugin_armadito_configuration', READ);
 
-Html::header(__('Features', 'armadito'), $_SERVER["PHP_SELF"],
-             "plugins", "pluginarmaditomenu", "config");
+Html::header(__('Features', 'armadito'), $_SERVER["PHP_SELF"], "plugins", "pluginarmaditomenu", "config");
 
 PluginArmaditoMenu::displayHeader();
 PluginArmaditoMenu::displayMenu("mini");
@@ -34,21 +33,21 @@ PluginArmaditoMenu::displayMenu("mini");
 $pfConfig = new PluginArmaditoConfig();
 
 if (isset($_POST['update'])) {
-   $data = $_POST;
-   unset($data['update']);
-   unset($data['id']);
-   unset($data['_glpi_csrf_token']);
-   foreach ($data as $key=>$value) {
-      $pfConfig->updateValue($key, $value);
-   }
-   Html::back();
+    $data = $_POST;
+    unset($data['update']);
+    unset($data['id']);
+    unset($data['_glpi_csrf_token']);
+    foreach ($data as $key => $value) {
+        $pfConfig->updateValue($key, $value);
+    }
+    Html::back();
 }
 
 $a_config = current($pfConfig->find("", "", 1));
 $pfConfig->getFromDB($a_config['id']);
 if (isset($_GET['glpi_tab'])) {
-   $_SESSION['glpi_tabs']['pluginarmaditoconfiguration'] = $_GET['glpi_tab'];
-   Html::redirect(Toolbox::getItemTypeFormURL($pfConfig->getType()));
+    $_SESSION['glpi_tabs']['pluginarmaditoconfiguration'] = $_GET['glpi_tab'];
+    Html::redirect(Toolbox::getItemTypeFormURL($pfConfig->getType()));
 }
 $pfConfig->showTabs(array());
 $pfConfig->addDivForTabs();
@@ -57,3 +56,4 @@ unset($_SESSION['glpi_tabs']['pluginarmaditoconfiguration']);
 Html::footer();
 
 ?>
+
