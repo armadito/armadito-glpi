@@ -44,7 +44,7 @@ class AgentTest extends RestoreDatabase_TestCase {
       $this->assertNotEquals(0, $jobj, json_last_error_msg());
 
 	  $agent->initFromJson($jobj);
-	  $error = $agent->antivirus->run();
+	  $error = $agent->getAntivirus()->run();
 	  $this->assertEquals(0, $error->getCode(), $error->getMessage());
 
 	  $error = $agent->insertAgentInDB();
