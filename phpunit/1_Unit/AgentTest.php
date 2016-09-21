@@ -1,6 +1,7 @@
 <?php
 
 /**
+   Copyright (C) 2010-2016 by the FusionInventory Development Team.
    Copyright (C) 2016 Teclib'
 
    This file is part of Armadito Plugin for GLPI.
@@ -20,36 +21,34 @@
 
 **/
 
-class PluginArmaditoError {
-   protected $message;
-   protected $code;
+class AgentTest extends RestoreDatabase_TestCase {
 
-   function __construct() {
-      $this->message = "Unknown error.";
-      $this->code = -1;
-   }
+   /**
+    * @test
+    */
+   public function addAgent() {
+      $agent = new PluginArmaditoAgent();
 
-   function setMessage($code_, $message_) {
-      $this->code = $code_;
-      $this->message = $message_;
-   }
+	  $jobj = (object) array(
+				'agent_id' => '0', 
+				'agent_version' => '0.1.0_02',
+				'fusion_id'   => 'lw007-2016-07-21-09-22-29',
+				'fingerprint' => '19af0324e1289255123101f3aaef97311947528cd98822775b5429160bf4ad58',
+				'task' => array( 
+					'name' => 'Enrollment',
+					'antivirus'   => array(
+						'name' => 'Armadito',
+						'version' => '0.10.2'   
+					 ),
+					'msg' => ''
+				)
+	  );
 
-   function getCode() {
-      return $this->code;
-   }
+	  $agent->initFromJson($jobj);
+	  $error = $agent->insertAgentInDB();
+      $this->assertEquals(0, $error->getCode(), $error->getMessage());
 
-   function getMessage() {
-      return $this->message;
-   }
-
-   function toJson() {
-      return '{ "code": '.$this->code.', "message": "'.$this->message.'"}';
-   }
-
-   function log() {
-      if($this->code > 0){
-         PluginArmaditoToolbox::logE("Error (".$this->code.") : ".$this->message);
-      }
+      return $agent;
    }
 }
-?>
+

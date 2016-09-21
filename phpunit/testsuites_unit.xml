@@ -23,9 +23,7 @@
   </filter>
   <testsuites>
     <testsuite name="Unit">
-      <!-- directory tag (unlike the file tag) are walked relatively to this xml configuration files -->
       <directory suffix="Test.php">./1_Unit/</directory>
-      <directory suffix="Test.php">./1_Unit/Tasks/</directory>
     </testsuite>
   </testsuites>
 </phpunit>
