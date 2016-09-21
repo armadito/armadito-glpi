@@ -40,7 +40,7 @@ class AgentTest extends RestoreDatabase_TestCase {
   "agent_id":1,
   "fingerprint":"19af0324e1289255123101f3aaef97311947528cd98822775b5429160bf4ad58"}';
 
-	  $jobj = PluginArmaditoToolbox::parseJSON($rawdata);
+	  $jobj = PluginArmaditoToolbox::parseJSON($json);
       $this->assertNotEquals(0, $jobj, json_last_error_msg());
 
 	  $agent->initFromJson($jobj);
@@ -68,7 +68,7 @@ class AgentTest extends RestoreDatabase_TestCase {
   "agent_id":1,
   "fingerprint":"19af0324e1289255123101f3aaef97311947528cd98822775b5429160bf4ad58"}';
 
-	  $jobj = PluginArmaditoToolbox::parseJSON($rawdata);
+	  $jobj = PluginArmaditoToolbox::parseJSON($json);
       $this->assertNotEquals(0, $jobj, json_last_error_msg());
 	  $agent->initFromJson($jobj);
       $this->assertEquals(1, $agent->isAgentInDB(), "isAgentInDB not working.");
