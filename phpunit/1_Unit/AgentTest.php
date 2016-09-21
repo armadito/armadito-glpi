@@ -44,6 +44,9 @@ class AgentTest extends RestoreDatabase_TestCase {
       $this->assertNotEquals(0, $jobj, json_last_error_msg());
 
 	  $agent->initFromJson($jobj);
+	  $error = $agent->antivirus->run();
+	  $this->assertEquals(0, $error->getCode(), $error->getMessage());
+
 	  $error = $agent->insertAgentInDB();
       $this->assertEquals(0, $error->getCode(), $error->getMessage());
 
@@ -70,8 +73,9 @@ class AgentTest extends RestoreDatabase_TestCase {
 
 	  $jobj = PluginArmaditoToolbox::parseJSON($json);
       $this->assertNotEquals(0, $jobj, json_last_error_msg());
+
 	  $agent->initFromJson($jobj);
-      $this->assertEquals(1, $agent->isAgentInDB(), "isAgentInDB not working.");
+      $this->assertEquals(true, $agent->isAgentInDB(), "isAgentInDB not working.");
    }
 }
 
