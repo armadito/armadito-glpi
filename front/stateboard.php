@@ -25,7 +25,7 @@ include("../../../inc/includes.php");
 
 if (PluginArmaditoMenu::canView()) {
     Html::header(__('Armadito', 'armadito'), $_SERVER["PHP_SELF"], "plugins", "pluginarmaditomenu", "stateboard");
-    
+
     PluginArmaditoMenu::displayHeader();
     PluginArmaditoMenu::displayMenu("mini");
     $board = new PluginArmaditoStateBoard();

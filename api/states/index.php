@@ -25,16 +25,16 @@ include_once("../../../../inc/includes.php");
 
 $rawdata = file_get_contents("php://input");
 if (!empty($rawdata)) { // POST /states
-    
+
     PluginArmaditoToolbox::checkPluginInstallation();
-    
+
     // init GLPI stuff
     $error         = new PluginArmaditoError();
     $communication = new PluginArmaditoCommunication();
     $communication->init();
-    
+
     PluginArmaditoLastContactStat::increment();
-    
+
     $jobj = PluginArmaditoToolbox::parseJSON($rawdata);
     if (!$jobj) {
         $error->setMessage(1, "Fail parsing incoming json : " . json_last_error_msg());
@@ -44,20 +44,20 @@ if (!empty($rawdata)) { // POST /states
         session_destroy();
         exit();
     }
-    
+
     $state = new PluginArmaditoState();
     $state->initFromJson($jobj);
     $error = $state->run();
-    
+
     if ($error->getCode() == 0) { // success
         $communication->setMessage($state->toJson(), 200);
     } else {
         $communication->setMessage($error->toJson(), 500);
         $error->log();
     }
-    
+
     $communication->sendMessage();
-    
+
     session_destroy();
 } else {
     http_response_code(400);

@@ -26,39 +26,39 @@ include_once("../../../../inc/includes.php");
 $rawdata = file_get_contents("php://input");
 
 if (isset($_GET['agent_id'])) { // GET
-    
+
     PluginArmaditoToolbox::checkPluginInstallation();
-    
+
     $error         = new PluginArmaditoError();
     $communication = new PluginArmaditoCommunication();
     $communication->init();
-    
+
     PluginArmaditoLastContactStat::increment();
-    
+
     $jobmanager = new PluginArmaditoJobmanager();
     $jobmanager->init($_GET['agent_id']);
     $error = $jobmanager->getJobs("queued");
-    
+
     if ($error->getCode() == 0) { // success
         $communication->setMessage($jobmanager->toJson(), 200);
         $jobmanager->updateJobStatuses("downloaded");
     } else {
         $communication->setMessage($error->toJson(), 500);
     }
-    
+
     $error->log();
     $communication->sendMessage();
     session_destroy();
 } else if (!empty($rawdata)) { // POST
-    
+
     PluginArmaditoToolbox::checkPluginInstallation();
-    
+
     $error         = new PluginArmaditoError();
     $communication = new PluginArmaditoCommunication();
     $communication->init();
-    
+
     PluginArmaditoLastContactStat::increment();
-    
+
     $jobj = PluginArmaditoToolbox::parseJSON($rawdata);
     if (!$jobj) {
         $error->setMessage(1, "Fail parsing incoming json : " . json_last_error_msg());
@@ -68,7 +68,7 @@ if (isset($_GET['agent_id'])) { // GET
         session_destroy();
         exit();
     }
-    
+
     $job = new PluginArmaditoJob();
     $job->initFromJson($jobj);
     if ($jobj->task->obj->code == 0) {
@@ -78,7 +78,7 @@ if (isset($_GET['agent_id'])) { // GET
         $job->updateStatus("failed");
         $error = $job->updateJobErrorInDB($jobj->task->obj->code, $jobj->task->obj->message);
     }
-    
+
     $communication->setMessage($error->toJson(), 200);
     $communication->sendMessage();
     session_destroy();
