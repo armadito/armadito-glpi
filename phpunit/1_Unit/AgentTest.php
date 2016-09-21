@@ -30,15 +30,15 @@ class AgentTest extends RestoreDatabase_TestCase {
       $agent = new PluginArmaditoAgent();
 
 	  $jobj = (object) array(
-				'agent_id' => '0', 
+				'agent_id' => '0',
 				'agent_version' => '0.1.0_02',
 				'fusion_id'   => 'lw007-2016-07-21-09-22-29',
 				'fingerprint' => '19af0324e1289255123101f3aaef97311947528cd98822775b5429160bf4ad58',
-				'task' => array( 
+				'task' => array(
 					'name' => 'Enrollment',
-					'antivirus'   => array(
+					'antivirus'   => (object) array(
 						'name' => 'Armadito',
-						'version' => '0.10.2'   
+						'version' => '0.10.2'
 					 ),
 					'msg' => ''
 				)
