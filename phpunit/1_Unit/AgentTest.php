@@ -28,27 +28,50 @@ class AgentTest extends RestoreDatabase_TestCase {
     */
    public function addAgent() {
       $agent = new PluginArmaditoAgent();
+	  $json = '{"fusion_id":"lw007-2016-07-21-09-22-29",
+  "task": {"obj":"{}",
+		   "name":"Enrollment",
+		   "antivirus": {
+						 "name":"Armadito",
+						 "version":"0.10.2"
+						}
+		  },
+  "agent_version":"2.3.18",
+  "agent_id":1,
+  "fingerprint":"19af0324e1289255123101f3aaef97311947528cd98822775b5429160bf4ad58"}';
 
-	  $jobj = (object) array(
-				'agent_id' => '0',
-				'agent_version' => '0.1.0_02',
-				'fusion_id'   => 'lw007-2016-07-21-09-22-29',
-				'fingerprint' => '19af0324e1289255123101f3aaef97311947528cd98822775b5429160bf4ad58',
-				'task' => array(
-					'name' => 'Enrollment',
-					'antivirus'   => (object) array(
-						'name' => 'Armadito',
-						'version' => '0.10.2'
-					 ),
-					'msg' => ''
-				)
-	  );
+	  $jobj = PluginArmaditoToolbox::parseJSON($rawdata);
+      $this->assertNotEquals(0, $jobj, json_last_error_msg());
 
 	  $agent->initFromJson($jobj);
 	  $error = $agent->insertAgentInDB();
       $this->assertEquals(0, $error->getCode(), $error->getMessage());
 
       return $agent;
+   }
+
+   /**
+    * @test
+    */
+   public function agentExists() {
+
+      $agent = new PluginArmaditoAgent();
+	  $json = '{"fusion_id":"lw007-2016-07-21-09-22-29",
+  "task": {"obj":"{}",
+		   "name":"Enrollment",
+		   "antivirus": {
+						 "name":"Armadito",
+						 "version":"0.10.2"
+						}
+		  },
+  "agent_version":"2.3.18",
+  "agent_id":1,
+  "fingerprint":"19af0324e1289255123101f3aaef97311947528cd98822775b5429160bf4ad58"}';
+
+	  $jobj = PluginArmaditoToolbox::parseJSON($rawdata);
+      $this->assertNotEquals(0, $jobj, json_last_error_msg());
+	  $agent->initFromJson($jobj);
+      $this->assertEquals(1, $agent->isAgentInDB(), "isAgentInDB not working.");
    }
 }
 
