@@ -31,12 +31,12 @@ if (!defined('GLPI_ROOT')) {
 class PluginArmaditoColorToolbox
 {
     protected $h;
-    
+
     function __construct()
     {
         $this->h = -1;
     }
-    
+
     /**
      *  Get nice random colors using golden ratio
      *  Reference : http://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/
@@ -50,7 +50,7 @@ class PluginArmaditoColorToolbox
         }
         return $palette;
     }
-    
+
     function getGoldenColor()
     {
         $golden_ratio_conjugate = 0.618033988749895;
@@ -58,7 +58,7 @@ class PluginArmaditoColorToolbox
         $this->h                = fmod($this->h, 1);
         return "#" . $this->HSVtoHexa($this->h, 0.5, 0.95);
     }
-    
+
     function HSVtoHexa($h, $s, $v)
     {
         $h_i = intval($h * 6);
@@ -66,7 +66,7 @@ class PluginArmaditoColorToolbox
         $p   = $v * (1 - $s);
         $q   = $v * (1 - $f * $s);
         $t   = $v * (1 - (1 - $f) * $s);
-        
+
         switch ($h_i) {
             case 0:
                 $r = $v;
@@ -99,13 +99,13 @@ class PluginArmaditoColorToolbox
                 $b = $q;
                 break;
         }
-        
+
         // echo "r = ".round($r*255).", g =".round($g*255).", b=".round($b*255)."<br>";
         $color = dechex((round($r * 255) << 16) + (round($g * 255) << 8) + round($b * 255));
         $color = str_repeat('0', 6 - strlen($color)) . $color;
         return $color;
     }
-    
+
     static function getRainbowColors()
     {
         $colors = array(

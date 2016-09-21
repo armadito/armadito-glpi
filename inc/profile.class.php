@@ -29,10 +29,10 @@ include_once("toolbox.class.php");
 
 class PluginArmaditoProfile extends Profile
 {
-    
+
     function getRightsGeneral()
     {
-        
+
         $rights = array(
             array(
                 'rights' => array(
@@ -41,7 +41,7 @@ class PluginArmaditoProfile extends Profile
                 'label' => __('Menu', 'armadito'),
                 'field' => 'plugin_armadito_menu'
             ),
-            
+
             array(
                 'rights' => array(
                     READ => __('Read')
@@ -50,7 +50,7 @@ class PluginArmaditoProfile extends Profile
                 'label' => __('Jobs', 'armadito'),
                 'field' => 'plugin_armadito_jobs'
             ),
-            
+
             array(
                 'rights' => array(
                     READ => __('Read')
@@ -59,7 +59,7 @@ class PluginArmaditoProfile extends Profile
                 'label' => __('States', 'armadito'),
                 'field' => 'plugin_armadito_states'
             ),
-            
+
             array(
                 'rights' => array(
                     READ => __('Read')
@@ -68,7 +68,7 @@ class PluginArmaditoProfile extends Profile
                 'label' => __('Statedetails', 'armadito'),
                 'field' => 'plugin_armadito_statedetail'
             ),
-            
+
             array(
                 'rights' => array(
                     READ => __('Read')
@@ -77,7 +77,7 @@ class PluginArmaditoProfile extends Profile
                 'label' => __('Alerts', 'armadito'),
                 'field' => 'plugin_armadito_alerts'
             ),
-            
+
             array(
                 'rights' => array(
                     READ => __('Read')
@@ -86,7 +86,7 @@ class PluginArmaditoProfile extends Profile
                 'label' => __('Scans', 'armadito'),
                 'field' => 'plugin_armadito_scans'
             ),
-            
+
             array(
                 'rights' => array(
                     READ => __('Read')
@@ -95,7 +95,7 @@ class PluginArmaditoProfile extends Profile
                 'label' => __('Antiviruses', 'armadito'),
                 'field' => 'plugin_armadito_antiviruses'
             ),
-            
+
             array(
                 'rights' => array(
                     READ => __('Read'),
@@ -105,7 +105,7 @@ class PluginArmaditoProfile extends Profile
                 'label' => __('Scan configuration', 'armadito'),
                 'field' => 'plugin_armadito_scanconfigs'
             ),
-            
+
             array(
                 'rights' => array(
                     READ => __('Read'),
@@ -115,7 +115,7 @@ class PluginArmaditoProfile extends Profile
                 'label' => __('Configuration', 'armadito'),
                 'field' => 'plugin_armadito_configuration'
             ),
-            
+
             array(
                 'rights' => array(
                     READ => __('Read'),
@@ -126,22 +126,22 @@ class PluginArmaditoProfile extends Profile
                 'field' => 'plugin_armadito_agents'
             )
         );
-        
+
         return $rights;
     }
-    
+
     function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
     {
         return self::createTabEntry('Armadito');
     }
-    
+
     function getAllRights()
     {
         $a_rights = array();
         $a_rights = array_merge($a_rights, $this->getRightsGeneral());
         return $a_rights;
     }
-    
+
     static function uninstallProfile()
     {
         $pfProfile = new self();
@@ -152,7 +152,7 @@ class PluginArmaditoProfile extends Profile
             ));
         }
     }
-    
+
     /**
      * Init profiles during installation :
      * - add rights in profile table for the current user's profile
@@ -163,7 +163,7 @@ class PluginArmaditoProfile extends Profile
         $pfProfile = new self();
         $profile   = new Profile();
         $a_rights  = $pfProfile->getAllRights();
-        
+
         foreach ($a_rights as $data) {
             if (countElementsInTable("glpi_profilerights", "`name` = '" . $data['field'] . "'") == 0) {
                 ProfileRight::addProfileRights(array(
@@ -172,7 +172,7 @@ class PluginArmaditoProfile extends Profile
                 $_SESSION['glpiactiveprofile'][$data['field']] = 0;
             }
         }
-        
+
         // Add all rights to current profile of the user
         if (isset($_SESSION['glpiactiveprofile'])) {
             $dataprofile       = array();
@@ -180,7 +180,7 @@ class PluginArmaditoProfile extends Profile
             $profile->getFromDB($_SESSION['glpiactiveprofile']['id']);
             foreach ($a_rights as $info) {
                 if (is_array($info) && ((!empty($info['itemtype'])) || (!empty($info['rights']))) && (!empty($info['label'])) && (!empty($info['field']))) {
-                    
+
                     if (isset($info['rights'])) {
                         $rights = $info['rights'];
                     } else {

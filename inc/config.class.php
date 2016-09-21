@@ -28,13 +28,13 @@ if (!defined('GLPI_ROOT')) {
 class PluginArmaditoConfig extends CommonDBTM
 {
     public $displaylist = FALSE;
-    
-    
+
+
     static $rightname = 'plugin_armadito_configuration';
-    
+
     CONST ACTION_CLEAN = 0;
     CONST ACTION_STATUS = 1;
-    
+
     /**
      * Display name of itemtype
      *
@@ -42,11 +42,11 @@ class PluginArmaditoConfig extends CommonDBTM
      **/
     static function getTypeName($nb = 0)
     {
-        
+
         return __('General setup');
-        
+
     }
-    
+
     /**
      * Display form for config
      *
@@ -56,10 +56,10 @@ class PluginArmaditoConfig extends CommonDBTM
     function showForm($options = array())
     {
         global $CFG_GLPI;
-        
+
         $this->showFormHeader($options);
     }
-    
+
     /**
      * Initialize config values of armadito plugin
      *
@@ -68,18 +68,18 @@ class PluginArmaditoConfig extends CommonDBTM
      **/
     function initConfigModule($getOnly = FALSE)
     {
-        
+
         $input               = array();
         $input['version']    = PLUGIN_ARMADITO_VERSION;
         $input['extradebug'] = '1';
-        
+
         if ($getOnly) {
             return $input;
         }
-        
+
         $this->addValues($input);
     }
-    
+
     /**
      * add multiple configuration values
      *
@@ -89,7 +89,7 @@ class PluginArmaditoConfig extends CommonDBTM
      **/
     function addValues($values, $update = TRUE)
     {
-        
+
         foreach ($values as $type => $value) {
             if ($this->getValue($type) === NULL) {
                 $this->addValue($type, $value);
@@ -98,7 +98,7 @@ class PluginArmaditoConfig extends CommonDBTM
             }
         }
     }
-    
+
     /**
      * Update configuration value
      *
@@ -122,7 +122,7 @@ class PluginArmaditoConfig extends CommonDBTM
             ));
         }
     }
-    
+
     /**
      * Add configuration value, if not already present
      *
@@ -143,7 +143,7 @@ class PluginArmaditoConfig extends CommonDBTM
             ));
         }
     }
-    
+
     /**
      * Get configuration value
      *
@@ -154,18 +154,18 @@ class PluginArmaditoConfig extends CommonDBTM
     function getValue($name)
     {
         global $PF_CONFIG;
-        
+
         if (isset($PF_CONFIG[$name])) {
             return $PF_CONFIG[$name];
         }
-        
+
         $config = current($this->find("`type`='" . $name . "'"));
         if (isset($config['value'])) {
             return $config['value'];
         }
         return NULL;
     }
-    
+
     /**
      * give state of a config field for an armadito plugin
      *
@@ -181,11 +181,11 @@ class PluginArmaditoConfig extends CommonDBTM
             return TRUE;
         }
     }
-    
+
     static function loadCache()
     {
         global $DB, $PF_CONFIG;
-        
+
         //Test if table exists before loading cache
         //The only case where table doesn't exists is when you click on
         //uninstall the plugin and it's already uninstalled

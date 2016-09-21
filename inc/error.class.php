@@ -24,34 +24,34 @@ class PluginArmaditoError
 {
     protected $message;
     protected $code;
-    
+
     function __construct()
     {
         $this->message = "Unknown error.";
         $this->code    = -1;
     }
-    
+
     function setMessage($code_, $message_)
     {
         $this->code    = $code_;
         $this->message = $message_;
     }
-    
+
     function getCode()
     {
         return $this->code;
     }
-    
+
     function getMessage()
     {
         return $this->message;
     }
-    
+
     function toJson()
     {
         return '{ "code": ' . $this->code . ', "message": "' . $this->message . '"}';
     }
-    
+
     function log()
     {
         if ($this->code > 0) {

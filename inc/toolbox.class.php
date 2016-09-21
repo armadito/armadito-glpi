@@ -30,7 +30,7 @@ if (!defined('GLPI_ROOT')) {
  **/
 class PluginArmaditoToolbox
 {
-    
+
     /**
      * Log when extra-debug is activated
      */
@@ -44,24 +44,24 @@ class PluginArmaditoToolbox
         Toolbox::logInFile($file, $message);
         //}
     }
-    
+
     /**
      * Log error message
      */
     static function logE($text)
     {
-        
+
         $ok = error_log(date("Y-m-d H:i:s") . " " . $text . "\n", 3, GLPI_LOG_DIR . "/pluginArmadito.log");
         return $ok;
     }
-    
+
     /**
      * Executes a query in database
      */
     static function ExecQuery($query)
     {
         global $DB;
-        
+
         if ($DB->query($query)) {
             return true;
         } else {
@@ -69,7 +69,7 @@ class PluginArmaditoToolbox
             return false;
         }
     }
-    
+
     /**
      * Integer validation to avoid SQL injections
      */
@@ -81,7 +81,7 @@ class PluginArmaditoToolbox
         }
         return $ret;
     }
-    
+
     /**
      * Checksum validation to avoid SQL injections
      */
@@ -97,7 +97,7 @@ class PluginArmaditoToolbox
         }
         return $ret;
     }
-    
+
     /**
      * Win32 path validation
      */
@@ -110,7 +110,7 @@ class PluginArmaditoToolbox
         ));
         return $ret;
     }
-    
+
     /**
      * Unix path validation
      */
@@ -126,7 +126,7 @@ class PluginArmaditoToolbox
         }
         return true;
     }
-    
+
     /**
      * Basic string validation (no spaces, only - and alphanumerics)
      */
@@ -142,7 +142,7 @@ class PluginArmaditoToolbox
         }
         return true;
     }
-    
+
     /**
      * Parse a json string given
      *
@@ -152,16 +152,16 @@ class PluginArmaditoToolbox
      */
     static function parseJSON($json_content)
     {
-        
+
         $jobj = json_decode($json_content);
-        
+
         if (json_last_error() == JSON_ERROR_NONE) {
             return $jobj;
         } else {
             return null;
         }
     }
-    
+
     /**
      * Dropdown for display hours
      *
@@ -169,33 +169,33 @@ class PluginArmaditoToolbox
      */
     static function showHours($name, $options = array())
     {
-        
+
         $p['value']   = '';
         $p['display'] = true;
         $p['width']   = '80%';
         $p['step']    = 5;
         $p['begin']   = 0;
         $p['end']     = (24 * 3600);
-        
+
         if (is_array($options) && count($options)) {
             foreach ($options as $key => $val) {
                 $p[$key] = $val;
             }
         }
-        
+
         if ($p['step'] <= 0) {
             $p['step'] = 5;
         }
-        
+
         $values = array();
-        
+
         $p['step'] = $p['step'] * 60; // to have in seconds
         for ($s = $p['begin']; $s <= $p['end']; $s += $p['step']) {
             $values[$s] = PluginArmaditoToolbox::getHourMinute($s);
         }
         return Dropdown::showFromArray($name, $values, $p);
     }
-    
+
     /**
      * Get hour:minute from number of seconds
      */
@@ -205,7 +205,7 @@ class PluginArmaditoToolbox
         $minute = (($seconds - ((floor($seconds / 3600)) * 3600)) / 60);
         return sprintf("%02s", $hour) . ":" . sprintf("%02s", $minute);
     }
-    
+
     /**
      *  Check plugin install and exit if it is not installed
      */

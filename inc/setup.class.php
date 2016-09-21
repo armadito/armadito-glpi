@@ -29,20 +29,20 @@ include_once("toolbox.class.php");
 
 class PluginArmaditoSetup
 {
-    
+
     // Uninstallation function
     static function uninstall()
     {
         global $DB;
-        
+
         PluginArmaditoProfile::uninstallProfile();
         ProfileRight::deleteProfileRights(array(
             'armadito:read'
         ));
-        
+
         $pfSetup = new PluginArmaditoSetup();
         $user    = new User();
-        
+
         // Current version tables
         if (TableExists("glpi_plugin_armadito_configs")) {
             $query = "DROP TABLE `glpi_plugin_armadito_configs`";
@@ -50,7 +50,7 @@ class PluginArmaditoSetup
                 die();
             }
         }
-        
+
         // Current version tables
         if (TableExists("glpi_plugin_armadito_agents")) {
             $query = "DROP TABLE `glpi_plugin_armadito_agents`";
@@ -58,7 +58,7 @@ class PluginArmaditoSetup
                 die();
             }
         }
-        
+
         // erase user display preferences TOFIX
         // cleanDefaultDisplayPreferences();
     }

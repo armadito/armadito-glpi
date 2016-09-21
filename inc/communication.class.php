@@ -35,50 +35,50 @@ class PluginArmaditoCommunication
 {
     protected $message;
     protected $status_code;
-    
+
     function __construct()
     {
         $this->message = "";
-        
+
         PluginArmaditoToolbox::logIfExtradebug('pluginArmadito-communication', 'New PluginArmaditoCommunication object.');
     }
-    
+
     function init()
     {
         ob_start();
         ini_set("memory_limit", "-1");
         ini_set("max_execution_time", "0");
         ini_set('display_errors', 1);
-        
+
         if (session_id() == "") {
             session_start();
         }
-        
+
         if (!defined('GLPI_ROOT')) {
             include_once("../../../inc/includes.php");
         }
-        
+
         $_SESSION['glpi_use_mode'] = Session::NORMAL_MODE;
         if (!isset($_SESSION['glpilanguage'])) {
             $_SESSION['glpilanguage'] = 'fr_FR';
         }
-        
+
         ini_set('display_errors', 'On');
         error_reporting(E_ALL | E_STRICT);
         set_error_handler(array(
             'Toolbox',
             'userErrorHandlerDebug'
         ));
-        
+
         $_SESSION['glpi_use_mode']       = 0;
         $_SESSION['glpiparententities']  = '';
         $_SESSION['glpishowallentities'] = TRUE;
-        
+
         ob_end_clean();
-        
+
         header("server-type: glpi/armadito " . PLUGIN_ARMADITO_VERSION);
     }
-    
+
     /**
      * Get readable JSON message
      *
@@ -88,28 +88,28 @@ class PluginArmaditoCommunication
     {
         return $this->message;
     }
-    
+
     /**
      * Send response to agent
      *
      **/
     function sendMessage($compressmode = 'none')
     {
-        
+
         if (!$this->message) {
             return;
         }
-        
+
         header("Content-Type: application/json");
         header("X-ArmaditoPlugin-Version: " . PLUGIN_ARMADITO_VERSION);
-        
+
         if ($this->status_code > 200) {
             http_response_code($this->status_code);
         }
-        
+
         echo $this->message;
     }
-    
+
     /**
      * Set JSON message (basic encapsulation)
      *
@@ -122,6 +122,6 @@ class PluginArmaditoCommunication
         $this->status_code = $status;
         $this->message     = $message;
     }
-    
+
 }
 ?>

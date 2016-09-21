@@ -27,17 +27,17 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginArmaditoChart extends CommonGLPI
 {
-    
+
     protected $title;
     protected $data;
     protected $name;
     protected $width;
-    
+
     function __construct()
     {
         //
     }
-    
+
     function init($name_, $title_, $data_, $width_ = 400)
     {
         $this->name  = $name_;
@@ -45,7 +45,7 @@ class PluginArmaditoChart extends CommonGLPI
         $this->data  = $data_;
         $this->width = $width_;
     }
-    
+
     function showBackground()
     {
         echo '<svg width="' . $this->width . '" style="background-color: #f3f3f3;" id="' . $this->name . '"></svg>';

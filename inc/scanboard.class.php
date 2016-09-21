@@ -27,12 +27,12 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginArmaditoScanBoard extends PluginArmaditoBoard
 {
-    
+
     function __construct()
     {
         //
     }
-    
+
     /**
      * Display a board in HTML with JS libs (nvd3)
      *
@@ -40,17 +40,17 @@ class PluginArmaditoScanBoard extends PluginArmaditoBoard
      **/
     function displayBoard()
     {
-        
+
         $restrict_entity = getEntitiesRestrictRequest(" AND", 'comp');
         $data            = $this->getScanStatusData($restrict_entity);
-        
+
         echo "<table align='center'>";
         echo "<tr height='420'>";
         $this->showScanStatusChart($data);
         echo "</tr>";
         echo "</table>";
     }
-    
+
     /**
      * Get data and display Scans' statuses (half donut)
      *
@@ -58,26 +58,26 @@ class PluginArmaditoScanBoard extends PluginArmaditoBoard
      **/
     function showScanStatusChart($data)
     {
-        
+
         $chart = new PluginArmaditoChartHalfDonut();
         $chart->init('scanstatus', "Scan(s) statuses", $data);
-        
+
         echo "<td width='380'>";
         $chart->showChart();
         echo "</td>";
     }
-    
+
     function countScanStatus($status)
     {
         return countElementsInTableForMyEntities('glpi_plugin_armadito_jobs', "`job_status`='" . $status . "' AND `job_type`='Scan'");
     }
-    
+
     function getScanStatusData($restrict_entity)
     {
         global $DB;
-        
+
         $statuses = PluginArmaditoJob::getAvailableStatuses();
-        
+
         $data = array();
         foreach ($statuses as $name => $color) {
             $n_status = $this->countScanStatus($name);
@@ -87,7 +87,7 @@ class PluginArmaditoScanBoard extends PluginArmaditoBoard
                 'color' => $color
             );
         }
-        
+
         return $data;
     }
 }

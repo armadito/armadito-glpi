@@ -27,12 +27,12 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginArmaditoStateBoard extends PluginArmaditoBoard
 {
-    
+
     function __construct()
     {
         //
     }
-    
+
     /**
      * Display a board in HTML with JS libs (nvd3)
      *
@@ -40,17 +40,17 @@ class PluginArmaditoStateBoard extends PluginArmaditoBoard
      **/
     function displayBoard()
     {
-        
+
         $restrict_entity = getEntitiesRestrictRequest(" AND", 'comp');
         $data            = $this->getUpdateStatusData($restrict_entity);
-        
+
         echo "<table align='center'>";
         echo "<tr height='420'>";
         $this->showUpdateStatusChart($data);
         echo "</tr>";
         echo "</table>";
     }
-    
+
     /**
      * Get data and display AV updates' statuses (half donut)
      *
@@ -58,26 +58,26 @@ class PluginArmaditoStateBoard extends PluginArmaditoBoard
      **/
     function showUpdateStatusChart($data)
     {
-        
+
         $chart = new PluginArmaditoChartHalfDonut();
         $chart->init('updatestatus', "AV Update(s) statuses", $data);
-        
+
         echo "<td width='380'>";
         $chart->showChart();
         echo "</td>";
     }
-    
+
     function countUpdateStatus($status)
     {
         return countElementsInTableForMyEntities('glpi_plugin_armadito_states', "`update_status`='" . $status . "'");
     }
-    
+
     function getUpdateStatusData($restrict_entity)
     {
         global $DB;
-        
+
         $statuses = PluginArmaditoState::getAvailableStatuses();
-        
+
         $data = array();
         foreach ($statuses as $name => $color) {
             $n_status = $this->countUpdateStatus($name);
@@ -87,7 +87,7 @@ class PluginArmaditoStateBoard extends PluginArmaditoBoard
                 'color' => $color
             );
         }
-        
+
         return $data;
     }
 }

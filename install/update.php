@@ -24,20 +24,20 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 function pluginArmaditoGetCurrentVersion()
 {
     global $DB;
-    
+
     if (!TableExists("glpi_plugin_armadito_configs")) {
         return "0";
     }
-    
+
     $query = "SELECT version FROM glpi_plugin_armadito_configs LIMIT 1";
-    
+
     $data = array();
     if ($result = $DB->query($query)) {
         if ($DB->numrows($result) == "1") {
             $data = $DB->fetch_assoc($result);
         }
     }
-    
+
     return $data['version'];
 }
 
@@ -45,19 +45,19 @@ function pluginArmaditoGetCurrentVersion()
 function pluginArmaditoUpdate($current_version, $migrationname = 'Migration')
 {
     global $DB;
-    
+
     ini_set("max_execution_time", "0");
     ini_set("memory_limit", "-1");
-    
+
     foreach (glob(GLPI_ROOT . '/plugins/armadito/inc/*.php') as $file) {
         require_once($file);
     }
-    
+
     $migration = new $migrationname($current_version);
-    
+
     $migration->displayMessage("Migration Classname : " . $migrationname);
     $migration->displayMessage("Update of plugin Armadito");
-    
+
     // Tables migration
     do_lastcontactstat_migration($migration);
 }
@@ -65,12 +65,12 @@ function pluginArmaditoUpdate($current_version, $migrationname = 'Migration')
 
 function do_lastcontactstat_migration($migration)
 {
-    
+
     if (!TableExists("glpi_plugin_armadito_lastcontactstats")) {
         $a_table            = array();
         $a_table['name']    = 'glpi_plugin_armadito_lastcontactstats';
         $a_table['oldname'] = array();
-        
+
         $a_table['fields']            = array();
         $a_table['fields']['id']      = array(
             'type' => "smallint(3) NOT NULL AUTO_INCREMENT",
@@ -88,17 +88,17 @@ function do_lastcontactstat_migration($migration)
             'type' => 'integer',
             'value' => NULL
         );
-        
+
         $a_table['oldfields'] = array();
-        
+
         $a_table['renamefields'] = array();
-        
+
         $a_table['keys'] = array();
-        
+
         $a_table['oldkeys'] = array();
-        
+
         migrateTablesArmadito($migration, $a_table);
-        
+
         PluginArmaditoLastContactStat::init();
     }
 }

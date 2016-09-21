@@ -31,12 +31,12 @@ if (!defined('GLPI_ROOT')) {
  **/
 class PluginArmaditoStatedetail extends CommonDBTM
 {
-    
+
     function __construct()
     {
         //
     }
-    
+
     /**
      * Get name of this type
      *
@@ -47,25 +47,25 @@ class PluginArmaditoStatedetail extends CommonDBTM
     {
         return __('Antivirus State', 'armadito');
     }
-    
+
     static function canCreate()
     {
-        
+
         if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
             return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w');
         }
         return false;
     }
-    
+
     static function canView()
     {
-        
+
         if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
             return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w' || $_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'r');
         }
         return false;
     }
-    
+
     // unused
     static function getDefaultDisplayPreferences()
     {
@@ -76,68 +76,68 @@ class PluginArmaditoStatedetail extends CommonDBTM
         }
         return $prefs;
     }
-    
+
     // unused
     function getSearchOptions()
     {
-        
+
         $tab           = array();
         $tab['common'] = __('StateDetail', 'armadito');
-        
+
         $i = 1;
-        
+
         $tab[$i]['table']         = $this->getTable();
         $tab[$i]['field']         = 'plugin_armadito_agents_id';
         $tab[$i]['name']          = __('Agent Id', 'armadito');
         $tab[$i]['datatype']      = 'text';
         $tab[$i]['massiveaction'] = FALSE;
-        
+
         $i++;
-        
+
         $tab[$i]['table']         = $this->getTable();
         $tab[$i]['field']         = 'module_name';
         $tab[$i]['name']          = __('Module Name', 'armadito');
         $tab[$i]['datatype']      = 'text';
         $tab[$i]['massiveaction'] = FALSE;
-        
+
         $i++;
-        
+
         $tab[$i]['table']         = $this->getTable();
         $tab[$i]['field']         = 'module_version';
         $tab[$i]['name']          = __('Module Version', 'armadito');
         $tab[$i]['datatype']      = 'text';
         $tab[$i]['massiveaction'] = FALSE;
-        
+
         $i++;
-        
+
         $tab[$i]['table']         = $this->getTable();
         $tab[$i]['field']         = 'module_update_status';
         $tab[$i]['name']          = __('Module Update Status', 'armadito');
         $tab[$i]['datatype']      = 'text';
         $tab[$i]['massiveaction'] = FALSE;
-        
+
         $i++;
-        
+
         $tab[$i]['table']         = $this->getTable();
         $tab[$i]['field']         = 'module_last_update';
         $tab[$i]['name']          = __('Module Last Update', 'armadito');
         $tab[$i]['datatype']      = 'text';
         $tab[$i]['massiveaction'] = FALSE;
-        
+
         return $tab;
     }
-    
+
     function defineTabs($options = array())
     {
-        
+
         $ong = array();
         $this->addDefaultFormTab($ong);
         $this->addStandardTab('PluginArmaditoStateModule', $ong, $options);
         $this->addStandardTab('Log', $ong, $options);
-        
+
         return $ong;
     }
-    
+
     /**
      * Display form
      *
@@ -149,22 +149,22 @@ class PluginArmaditoStatedetail extends CommonDBTM
      **/
     function showForm($table_id, $options = array())
     {
-        
+
         // Protect against injections
         PluginArmaditoToolbox::validateInt($table_id);
-        
+
         // Init Form
         $this->initForm($table_id, $options);
         $options['colspan'] = 4;
         $this->showFormHeader($options);
-        
+
         $state = new PluginArmaditoState();
         $state->setAgentId($this->fields["plugin_armadito_agents_id"]);
         $state_id = $state->getTableIdForAgentId("glpi_plugin_armadito_states");
         $state->initFromDB($state_id);
         $agent     = $state->getAgent();
         $antivirus = $agent->getAntivirus();
-        
+
         echo "<tr class='tab_bg_1'>";
         echo "<td>" . __('Id') . " :</td>";
         echo "<td align='center'>";
@@ -175,25 +175,25 @@ class PluginArmaditoStatedetail extends CommonDBTM
         echo "<b>" . htmlspecialchars($this->fields["plugin_armadito_agents_id"]) . "</b>";
         echo "</td>";
         echo "</tr>";
-        
+
         echo "<tr class='tab_bg_1'>";
         echo "<td>" . __('Antivirus Name', 'armadito') . " :</td>";
         echo "<td align='center'>";
         echo "<b>" . htmlspecialchars($antivirus->getAVName()) . "</b>";
         echo "</td>";
-        
+
         echo "<td>" . __('Antivirus Version', 'armadito') . "&nbsp;:</td>";
         echo "<td align='center'>";
         echo "" . htmlspecialchars($antivirus->getAVVersion()) . "";
         echo "</td>";
         echo "</tr>";
-        
+
         echo "<tr class='tab_bg_1'>";
         echo "<td>" . __('Antivirus On-access', 'armadito') . " :</td>";
         echo "<td align='center'>";
         echo "" . htmlspecialchars($state->fields["realtime_status"]) . "";
         echo "</td>";
-        
+
         echo "<td>" . __('Antivirus Service', 'armadito') . "&nbsp;:</td>";
         echo "<td align='center'>";
         echo "" . htmlspecialchars($state->fields["service_status"]) . "";

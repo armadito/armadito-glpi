@@ -27,12 +27,12 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginArmaditoJobBoard extends PluginArmaditoBoard
 {
-    
+
     function __construct()
     {
         //
     }
-    
+
     /**
      * Display a board in HTML with JS libs (nvd3)
      *
@@ -40,17 +40,17 @@ class PluginArmaditoJobBoard extends PluginArmaditoBoard
      **/
     function displayBoard()
     {
-        
+
         $restrict_entity = getEntitiesRestrictRequest(" AND", 'comp');
         $data            = $this->getJobStatusData($restrict_entity);
-        
+
         echo "<table align='center'>";
         echo "<tr height='420'>";
         $this->showJobStatusChart($data);
         echo "</tr>";
         echo "</table>";
     }
-    
+
     /**
      * Get data and display Jobs' statuses (half donut)
      *
@@ -58,26 +58,26 @@ class PluginArmaditoJobBoard extends PluginArmaditoBoard
      **/
     function showJobStatusChart($data)
     {
-        
+
         $chart = new PluginArmaditoChartHalfDonut();
         $chart->init('jobstatus', "Job(s) statuses", $data);
-        
+
         echo "<td width='380'>";
         $chart->showChart();
         echo "</td>";
     }
-    
+
     function countJobStatus($status)
     {
         return countElementsInTableForMyEntities('glpi_plugin_armadito_jobs', "`job_status`='" . $status . "'");
     }
-    
+
     function getJobStatusData($restrict_entity)
     {
         global $DB;
-        
+
         $statuses = PluginArmaditoJob::getAvailableStatuses();
-        
+
         $data = array();
         foreach ($statuses as $name => $color) {
             $n_status = $this->countJobStatus($name);
@@ -87,7 +87,7 @@ class PluginArmaditoJobBoard extends PluginArmaditoBoard
                 'color' => $color
             );
         }
-        
+
         return $data;
     }
 }

@@ -27,7 +27,7 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginArmaditoLastContactStat extends CommonDBTM
 {
-    
+
     /**
      * Get name of this type
      *
@@ -38,12 +38,12 @@ class PluginArmaditoLastContactStat extends CommonDBTM
     {
         return "LastContactStat";
     }
-    
-    
+
+
     static function init()
     {
         global $DB;
-        
+
         for ($d = 1; $d <= 365; $d++) {
             for ($h = 0; $h < 24; $h++) {
                 $query = "INSERT INTO `glpi_plugin_armadito_lastcontactstats` " . "(`day`, `hour`) " . "VALUES ('" . $d . "', '" . $h . "')";
@@ -51,22 +51,22 @@ class PluginArmaditoLastContactStat extends CommonDBTM
             }
         }
     }
-    
+
     static function increment()
     {
         global $DB;
-        
+
         $query = "UPDATE `glpi_plugin_armadito_lastcontactstats` " . "SET `counter` = counter + 1 " . "WHERE `day`='" . date('z') . "' " . "   AND `hour`='" . date('G') . "'";
         $DB->query($query);
     }
-    
+
     static function getLastHours($nb = 11)
     {
         global $DB;
-        
+
         $a_counters        = array();
         $a_counters['key'] = 'test';
-        
+
         $timestamp = date('U');
         for ($i = $nb; $i >= 0; $i--) {
             $timestampSearch        = $timestamp - ($i * 3600);

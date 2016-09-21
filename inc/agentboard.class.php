@@ -27,12 +27,12 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginArmaditoAgentBoard extends PluginArmaditoBoard
 {
-    
+
     function __construct()
     {
         //
     }
-    
+
     /**
      * Display a board in HTML with JS libs (nvd3)
      *
@@ -40,24 +40,24 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard
      **/
     function displayBoard()
     {
-        
+
         $restrict_entity = getEntitiesRestrictRequest(" AND", 'comp');
-        
+
         echo "<table align='center'>";
         echo "<tr height='420'>";
-        
+
         $this->addAntivirusChart($restrict_entity);
-        
+
         // Armadito Computers
         $this->addComputersChart($restrict_entity);
-        
+
         // Last Agent Connections
         $this->addLastContactsChart($restrict_entity);
-        
+
         echo "</tr>";
         echo "</table>";
     }
-    
+
     /**
      * Get data and display last updates chart (bar)
      *
@@ -65,19 +65,19 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard
      **/
     function addLastContactsChart($restrict_entity)
     {
-        
+
         // Number of agent connections in last hour, 6 hours, 24 hours
         $data = PluginArmaditoLastContactStat::getLastHours();
-        
+
         $bchart = new PluginArmaditoChartBar();
         $bchart->init('agentconnections', __('Agent connections of last hours', 'armadito'), $data);
-        
+
         echo "<td width='400'>";
         $bchart->showChart();
         echo "</td>";
-        
+
     }
-    
+
     /**
      * Get data and display armadito computers chart (half donut)
      *
@@ -86,7 +86,7 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard
     function addComputersChart($restrict_entity)
     {
         global $DB;
-        
+
         $armaditoComputers  = 0;
         $query_ao_computers = "SELECT COUNT(comp.`id`) as nb_computers
                              FROM glpi_computers comp
@@ -96,15 +96,15 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard
                                AND comp.`is_template` = '0'
                                AND ao_comp.`id` IS NOT NULL
                                $restrict_entity";
-        
+
         $res_ao_computers = $DB->query($query_ao_computers);
         if ($data_ao_computers = $DB->fetch_assoc($res_ao_computers)) {
             $armaditoComputers = $data_ao_computers['nb_computers'];
         }
-        
+
         // All Computers
         $allComputers = countElementsInTableForMyEntities('glpi_computers', "`is_deleted`='0' AND `is_template`='0'");
-        
+
         $dataComputer   = array();
         $dataComputer[] = array(
             'key' => __('Armadito computers', 'armadito') . ' : ' . $armaditoComputers,
@@ -116,41 +116,41 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard
             'y' => ($allComputers - $armaditoComputers),
             'color' => "#dedede"
         );
-        
+
         $hchart = new PluginArmaditoChartHalfDonut();
         $hchart->init('armaditocomputers', __('Armadito computers', 'armadito'), $dataComputer, 370);
-        
+
         echo "<td width='380'>";
         $hchart->showChart();
         echo "</td>";
     }
-    
+
     function addAntivirusChart($restrict_entity)
     {
-        
+
         $data = $this->getAntivirusChartData();
-        
+
         $hchart = new PluginArmaditoChartHalfDonut();
         $hchart->init('antiviruses', __('Antiviruses repartition', 'armadito'), $data, 370);
-        
+
         echo "<td width='380'>";
         $hchart->showChart();
         echo "</td>";
     }
-    
+
     function countAgentsForAV($AV)
     {
         return countElementsInTableForMyEntities('glpi_plugin_armadito_antiviruses', "`fullname`='" . $AV . "'");
     }
-    
+
     function getAntivirusChartData()
     {
         global $DB;
-        
+
         $AVs       = PluginArmaditoAntivirus::getAntivirusList();
         $colortbox = new PluginArmaditoColorToolbox();
         $palette   = $colortbox->getPalette(sizeof($AVs), 0.157079632679);
-        
+
         $data = array();
         $i    = 0;
         foreach ($AVs as $name) {
@@ -162,7 +162,7 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard
             );
             $i++;
         }
-        
+
         return $data;
     }
 }

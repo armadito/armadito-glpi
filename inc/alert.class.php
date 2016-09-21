@@ -32,24 +32,24 @@ if (!defined('GLPI_ROOT')) {
 class PluginArmaditoAlert extends CommonDBTM
 {
     protected $jobj;
-    
+
     function __construct()
     {
         //
     }
-    
+
     function init($jobj)
     {
         $this->jobj = $jobj;
-        
+
         PluginArmaditoToolbox::logIfExtradebug('pluginArmadito-alert', 'New PluginArmaditoAlert object.');
     }
-    
+
     function toJson()
     {
         return '{}';
     }
-    
+
     static function canCreate()
     {
         if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
@@ -57,23 +57,23 @@ class PluginArmaditoAlert extends CommonDBTM
         }
         return false;
     }
-    
+
     static function canView()
     {
-        
+
         if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
             return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w' || $_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'r');
         }
         return false;
     }
-    
+
     /* Insert Alerts in database
      *
      * @return PluginArmaditoError obj
      **/
     function run()
     {
-        
+
         $error = new PluginArmaditoError();
         $error->setMessage(0, 'Alerts successfully inserted.');
         return $error;

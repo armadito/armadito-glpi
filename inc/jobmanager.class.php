@@ -33,18 +33,18 @@ class PluginArmaditoJobmanager extends CommonDBTM
 {
     protected $jobs;
     protected $agentid;
-    
+
     function __construct()
     {
         $this->agentid = -1;
     }
-    
+
     function init($id)
     {
         $this->agentid = PluginArmaditoToolbox::validateInt($id);
         $this->jobs    = array();
     }
-    
+
     function toJson()
     {
         $json = '{ "jobs": [';
@@ -54,21 +54,21 @@ class PluginArmaditoJobmanager extends CommonDBTM
         }
         return rtrim($json, ",") . "]}";
     }
-    
+
     function getJobs($status)
     {
         global $DB;
         $error = new PluginArmaditoError();
-        
+
         $query = "SELECT * FROM `glpi_plugin_armadito_jobs`
                  WHERE `plugin_armadito_agents_id`='" . $this->agentid . "' AND `job_status`='" . $status . "' LIMIT 10";
-        
+
         $ret = $DB->query($query);
-        
+
         if (!$ret) {
             throw new Exception(sprintf('Error getJobs : %s', $DB->error()));
         }
-        
+
         if ($DB->numrows($ret) > 0) {
             $i = 0;
             while ($data = $DB->fetch_assoc($ret)) {
@@ -80,15 +80,15 @@ class PluginArmaditoJobmanager extends CommonDBTM
                     $i++;
                 }
             }
-            
+
             $error->setMessage(0, 'Got ' . $i . ' jobs for this agent.');
             return $error;
         }
-        
+
         $error->setMessage(0, 'No jobs queued for this agent.');
         return $error;
     }
-    
+
     function updateJobStatuses($status)
     {
         foreach ($this->jobs as $job) {

@@ -24,28 +24,28 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 function pluginArmaditoInstall($version, $migrationname = 'Migration')
 {
     global $DB;
-    
+
     ini_set("memory_limit", "-1");
     ini_set("max_execution_time", "0");
-    
+
     $migration = new $migrationname($version);
-    
+
     /*
      * Load classes
      */
     foreach (glob(GLPI_ROOT . '/plugins/armadito/inc/*.php') as $file) {
         require_once($file);
     }
-    
+
     $migration->displayMessage("Installation of plugin Armadito");
-    
-    
+
+
     /*
      * Manage profiles
      */
     $migration->displayMessage("Initialize profiles");
     PluginArmaditoProfile::initProfile();
-    
+
     /*
      * Create DB structure
      */
@@ -56,15 +56,15 @@ function pluginArmaditoInstall($version, $migrationname = 'Migration')
     } else {
         $migration->displayMessage("Installation of plugin Armadito successful");
     }
-    
+
     /*
      * Add config
      */
     $migration->displayMessage("Initialize configuration");
     $pfConfig = new PluginArmaditoConfig();
     $pfConfig->initConfigModule();
-    
-    
+
+
     PluginArmaditoLastContactStat::init();
 }
 ?>

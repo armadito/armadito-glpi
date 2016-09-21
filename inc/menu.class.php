@@ -28,7 +28,7 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginArmaditoMenu extends CommonGLPI
 {
-    
+
     /**
      * Name of the type
      *
@@ -38,56 +38,56 @@ class PluginArmaditoMenu extends CommonGLPI
     {
         return 'Armadito';
     }
-    
+
     static function canView()
     {
         $can_display = false;
         $profile     = new PluginArmaditoProfile();
-        
+
         foreach ($profile->getAllRights() as $right) {
             if (Session::haveRight($right['field'], READ)) {
                 $can_display = true;
                 break;
             }
         }
-        
+
         $can_display = true;
-        
+
         return $can_display;
     }
-    
+
     static function canCreate()
     {
         return false;
     }
-    
+
     static function getMenuName()
     {
         return self::getTypeName();
     }
-    
+
     static function getAdditionalMenuOptions()
     {
         global $CFG_GLPI;
-        
+
         $elements = array(
             'scanconfig' => 'PluginArmaditoScanConfig',
             'config' => 'PluginArmaditoConfig'
         );
-        
+
         $options = array();
-        
+
         $options['menu']['title'] = self::getTypeName();
         $options['menu']['page']  = self::getSearchURL(false);
-        
+
         if (Session::haveRight('plugin_armadito_configuration', READ)) {
             $options['menu']['links']['config'] = PluginArmaditoConfig::getFormURL(false);
         }
-        
+
         if (Session::haveRight('plugin_armadito_configuration', READ)) {
             $options['agent']['links']['config'] = PluginArmaditoConfig::getFormURL(false);
         }
-        
+
         foreach ($elements as $type => $itemtype) {
             $options[$type]                    = array(
                 'title' => $itemtype::getTypeName(),
@@ -97,33 +97,33 @@ class PluginArmaditoMenu extends CommonGLPI
             if ($itemtype::canCreate()) {
                 $options[$type]['links']['add'] = $itemtype::getFormURL(false);
             }
-            
+
             if (Session::haveRight('plugin_fusioninventory_configuration', READ)) {
                 $options[$type]['links']['config'] = PluginArmaditoConfig::getFormURL(false);
             }
         }
         return $options;
     }
-    
+
     static function getAdditionalMenuContent()
     {
         global $CFG_GLPI;
-        
+
         $menu = array();
-        
+
         return $menu;
     }
-    
+
     static function displayHeader()
     {
         global $CFG_GLPI;
-        
+
         echo "<center>";
         echo "<a href='http://github.com/armadito'>";
         echo "<img src='" . $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/armadito_header_logo.png' height='96' />";
         echo "</a>";
     }
-    
+
     /**
      * Display the menu of Plugin Armadito
      *
@@ -134,152 +134,152 @@ class PluginArmaditoMenu extends CommonGLPI
     static function displayMenu($type = "big")
     {
         global $CFG_GLPI;
-        
+
         $width_status = 0;
-        
+
         echo "<div align='center' style='height: 35px; display: inline-block; width: 100%; margin: 0 auto;'>";
         echo "<br \>";
         echo "<table width='100%'>";
-        
+
         echo "<tr>";
         echo "<td align='center'>";
-        
+
         echo "<table>";
         echo "<tr>";
         echo "<td>";
-        
+
         /*
          * General
          */
         $a_menu = array();
-        
+
         if (Session::haveRight('plugin_armadito_agents', READ)) {
             $a_menu[] = array(
                 'name' => __('Board', 'armadito'),
                 'pic' => $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_stats.png",
                 'link' => $CFG_GLPI['root_doc'] . "/plugins/armadito/front/menu.php"
             );
-            
+
             $a_menu[1]['name'] = __('Agents', 'armadito');
             $a_menu[1]['pic']  = $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_settings.png";
             $a_menu[1]['link'] = $CFG_GLPI['root_doc'] . "/plugins/armadito/front/agent.php";
         }
-        
-        
+
+
         if (Session::haveRight('config', UPDATE) || Session::haveRight('plugin_armadito_configuration', UPDATE)) {
             $a_menu[3]['name'] = __('Configuration', 'armadito');
             $a_menu[3]['pic']  = $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_settings.png";
             $a_menu[3]['link'] = $CFG_GLPI['root_doc'] . "/plugins/armadito/front/config.form.php";
         }
-        
-        
+
+
         if (!empty($a_menu)) {
             $width_status = PluginArmaditoMenu::htmlMenu(__('General', 'armadito'), $a_menu, $type, $width_status);
         }
-        
+
         /*
          * States
          */
         $a_menu = array();
-        
+
         if (Session::haveRight('plugin_armadito_states', READ)) {
-            
+
             $a_menu[] = array(
                 'name' => __('Board', 'armadito'),
                 'pic' => $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_stats.png",
                 'link' => $CFG_GLPI['root_doc'] . "/plugins/armadito/front/stateboard.php"
             );
-            
+
             $a_menu[1]['name'] = __('States', 'armadito');
             $a_menu[1]['pic']  = $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_settings.png";
             $a_menu[1]['link'] = $CFG_GLPI['root_doc'] . "/plugins/armadito/front/state.php";
         }
-        
+
         if (!empty($a_menu)) {
             $width_status = PluginArmaditoMenu::htmlMenu(__('State', 'armadto'), $a_menu, $type, $width_status);
         }
-        
+
         /*
          * Alerts
          */
         $a_menu = array();
-        
+
         if (Session::haveRight('plugin_armadito_alerts', READ)) {
-            
+
             $a_menu[] = array(
                 'name' => __('Board', 'armadito'),
                 'pic' => $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_stats.png",
                 'link' => $CFG_GLPI['root_doc'] . "/plugins/armadito/front/alertboard.php"
             );
-            
+
             $a_menu[1]['name'] = __('Alerts', 'armadito');
             $a_menu[1]['pic']  = $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_settings.png";
             $a_menu[1]['link'] = $CFG_GLPI['root_doc'] . "/plugins/armadito/front/alert.php";
         }
-        
+
         if (!empty($a_menu)) {
             $width_status = PluginArmaditoMenu::htmlMenu(__('Alerts', 'armadto'), $a_menu, $type, $width_status);
         }
-        
+
         /*
          * Scans
          */
         $a_menu = array();
-        
+
         if (Session::haveRight('plugin_armadito_scans', READ)) {
-            
+
             $a_menu[] = array(
                 'name' => __('Board', 'armadito'),
                 'pic' => $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_stats.png",
                 'link' => $CFG_GLPI['root_doc'] . "/plugins/armadito/front/scanboard.php"
             );
-            
+
             $a_menu[1]['name'] = __('Scans', 'armadito');
             $a_menu[1]['pic']  = $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_settings.png";
             $a_menu[1]['link'] = $CFG_GLPI['root_doc'] . "/plugins/armadito/front/scan.php";
         }
-        
+
         if (Session::haveRight('plugin_armadito_scanconfigs', UPDATE)) {
             $a_menu[3]['name'] = __('Scan Configurations', 'armadito');
             $a_menu[3]['pic']  = $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_settings.png";
             $a_menu[3]['link'] = $CFG_GLPI['root_doc'] . "/plugins/armadito/front/scanconfig.php";
         }
-        
+
         if (!empty($a_menu)) {
             $width_status = PluginArmaditoMenu::htmlMenu(__('Scans', 'armadto'), $a_menu, $type, $width_status);
         }
-        
+
         /*
          * Jobs
          */
         $a_menu = array();
-        
+
         if (Session::haveRight('plugin_armadito_jobs', READ)) {
             $a_menu[] = array(
                 'name' => __('Board', 'armadito'),
                 'pic' => $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_stats.png",
                 'link' => $CFG_GLPI['root_doc'] . "/plugins/armadito/front/jobboard.php"
             );
-            
+
             $a_menu[1]['name'] = __('Jobs', 'armadito');
             $a_menu[1]['pic']  = $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_settings.png";
             $a_menu[1]['link'] = $CFG_GLPI['root_doc'] . "/plugins/armadito/front/job.php";
         }
-        
+
         if (!empty($a_menu)) {
             $width_status = PluginArmaditoMenu::htmlMenu(__('Jobs', 'armadto'), $a_menu, $type, $width_status);
         }
-        
+
         echo "</td>";
         echo "</tr>";
         echo "</table>";
-        
+
         echo "</td>";
         echo "</tr>";
         echo "</table>";
         echo "</div><br/><br/><br/>";
     }
-    
+
     /**
      * htmlMenu
      *
@@ -293,11 +293,11 @@ class PluginArmaditoMenu extends CommonGLPI
     static function htmlMenu($menu_name, $a_menu = array(), $type = "big", $width_status = '300')
     {
         global $CFG_GLPI;
-        
+
         $width_max = 1250;
-        
+
         $width = 180;
-        
+
         if (($width + $width_status) > $width_max) {
             $width_status = 0;
             echo "</td>";
@@ -311,11 +311,11 @@ class PluginArmaditoMenu extends CommonGLPI
             echo "<td valign='top'>";
         }
         $width_status = ($width + $width_status);
-        
+
         echo "<table class='tab_cadre' style='position: relative; z-index: 30;'
          onMouseOver='document.getElementById(\"menu" . $menu_name . "\").style.display=\"block\"'
          onMouseOut='document.getElementById(\"menu" . $menu_name . "\").style.display=\"none\"'>";
-        
+
         echo "<tr>";
         echo "<th colspan='" . count($a_menu) . "' nowrap width='" . $width . "'>
          <img src='" . $CFG_GLPI["root_doc"] . "/pics/deplier_down.png' />
@@ -323,7 +323,7 @@ class PluginArmaditoMenu extends CommonGLPI
          <img src='" . $CFG_GLPI["root_doc"] . "/pics/deplier_down.png' />
       </th>";
         echo "</tr>";
-        
+
         echo "<tr class='tab_bg_1' id='menu" . $menu_name . "' style='display:none; position: relative; z-index: 30;'>";
         echo "<td>";
         echo "<table>";
@@ -340,11 +340,11 @@ class PluginArmaditoMenu extends CommonGLPI
             echo "</tr>";
         }
         echo "</table>";
-        
+
         echo "</td>";
         echo "</tr>";
         echo "</table>";
-        
+
         return $width_status;
     }
 }

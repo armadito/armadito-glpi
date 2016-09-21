@@ -27,12 +27,12 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginArmaditoChartHalfDonut extends PluginArmaditoChart
 {
-    
+
     function __construct()
     {
         //
     }
-    
+
     function showChart()
     {
         parent::showBackground();
@@ -40,6 +40,6 @@ class PluginArmaditoChartHalfDonut extends PluginArmaditoChart
          A6ostatHalfDonut('" . $this->name . "', '" . json_encode($this->data) . "', '" . $this->title . "');
 </script>";
     }
-    
+
 }
 ?>

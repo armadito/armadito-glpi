@@ -27,12 +27,12 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginArmaditoChartBar extends PluginArmaditoChart
 {
-    
+
     function __construct()
     {
         //
     }
-    
+
     function showChart()
     {
         parent::showBackground();

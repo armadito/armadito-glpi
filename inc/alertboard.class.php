@@ -27,12 +27,12 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginArmaditoAlertBoard extends PluginArmaditoBoard
 {
-    
+
     function __construct()
     {
         //
     }
-    
+
     /**
      * Display a board in HTML with JS libs (nvd3)
      *
@@ -41,7 +41,7 @@ class PluginArmaditoAlertBoard extends PluginArmaditoBoard
     function displayBoard()
     {
         $restrict_entity = getEntitiesRestrictRequest(" AND", 'comp');
-        
+
         echo "<table align='center'>";
         echo "<tr height='420'>";
         echo "</tr>";

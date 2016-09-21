@@ -28,7 +28,7 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginArmaditoBoard extends CommonGLPI
 {
-    
+
     function __construct()
     {
         //

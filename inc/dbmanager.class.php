@@ -26,36 +26,36 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginArmaditoDbManager
 {
-    
+
     protected $statements = array();
     protected $queries = array();
     protected $error;
-    
+
     function __construct()
     {
         //
     }
-    
+
     function init()
     {
         $this->error = new PluginArmaditoError();
     }
-    
+
     function getLastError()
     {
         return $this->error;
     }
-    
+
     function setQueryValue($name, $property_name, $property_value)
     {
         $this->queries[$name]["params"][$property_name]["value"] = $property_value;
     }
-    
+
     function addQuery($name, $type, $table, $params, $where_params = array())
     {
-        
+
         $query = array();
-        
+
         switch ($type) {
             case "INSERT":
                 $query["query"] = $this->addInsertQuery($table, $params);
@@ -66,54 +66,54 @@ class PluginArmaditoDbManager
             default:
                 return 1;
         }
-        
+
         $query["type"]        = $type;
         $query["params"]      = $params;
         $this->queries[$name] = $query;
         return 0;
     }
-    
+
     function addInsertQuery($table, $params)
     {
         $query = "INSERT INTO `" . $table . "` (";
         foreach ($params as $property_name => $property_type) {
             $query .= "`" . $property_name . "`,";
         }
-        
+
         $query = rtrim($query, ",");
         $query .= ") VALUES (";
-        
+
         for ($i = 0; $i < count($params); $i++) {
             $query .= "?,";
         }
-        
+
         $query = rtrim($query, ",");
         $query .= ")";
-        
+
         PluginArmaditoToolbox::logE($query);
-        
+
         return $query;
     }
-    
+
     function addUpdateQuery($table, $params, $where_params)
     {
-        
+
         if (!is_array($where_params)) {
             $tmp             = $where_params;
             $where_params    = array();
             $where_params[0] = $tmp;
         }
-        
+
         $query = "UPDATE `" . $table . "` SET";
         foreach ($params as $property_name => $property_type) {
             if (!in_array($property_name, $where_params)) {
                 $query .= " `" . $property_name . "`=?,";
             }
         }
-        
+
         $query = rtrim($query, ",");
         $query .= " WHERE";
-        
+
         $i = 0;
         foreach ($where_params as $where_param) {
             if ($i > 0) {
@@ -122,12 +122,12 @@ class PluginArmaditoDbManager
             $query .= " `" . $where_param . "`=?";
             $i++;
         }
-        
+
         PluginArmaditoToolbox::logE($query);
-        
+
         return $query;
     }
-    
+
     function prepareQuery($name)
     {
         global $DB;
@@ -139,7 +139,7 @@ class PluginArmaditoDbManager
         }
         return 1;
     }
-    
+
     function getbindQueryArgs($name)
     {
         $bindargs = array(
@@ -151,7 +151,7 @@ class PluginArmaditoDbManager
         }
         return $bindargs;
     }
-    
+
     function bindQuery($name)
     {
         global $DB;
@@ -165,7 +165,7 @@ class PluginArmaditoDbManager
         }
         return 1;
     }
-    
+
     function executeQuery($name)
     {
         global $DB;
@@ -177,12 +177,12 @@ class PluginArmaditoDbManager
         }
         return 1;
     }
-    
+
     function closeQuery($name)
     {
         return $this->statements[$name]->close();
     }
-    
+
 }
 
 ?>

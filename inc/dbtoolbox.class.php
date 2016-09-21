@@ -30,18 +30,18 @@ if (!defined('GLPI_ROOT')) {
  **/
 class PluginArmaditoDbToolbox
 {
-    
+
     static function getLastInsertedId()
     {
         global $DB;
-        
+
         $res = $DB->query("SELECT LAST_INSERT_ID()");
         if (!$res) {
             return -1;
         }
-        
+
         $data = $DB->fetch_array($res);
         return $data[0];
     }
-    
+
 }
