@@ -131,10 +131,10 @@ print("Load Done...\n");
 
 
 if ($args['--optimize']) {
-    
+
     $migration->displayTitle(__('Optimizing tables'));
-    
+
     DBmysql::optimize_tables($migration);
-    
+
     $migration->displayWarning("Optimize done.");
 }

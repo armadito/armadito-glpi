@@ -23,21 +23,21 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 
 class ArmaditoDB extends PHPUnit_Framework_Assert
 {
-    
+
     public function checkInstall($pluginname = '', $when = '')
     {
         global $DB;
-        
+
         if ($pluginname == '') {
             return;
         }
-        
+
         $comparaisonSQLFile = "plugin_" . $pluginname . "-empty.sql";
         // See http://joefreeman.co.uk/blog/2009/07/php-script-to-compare-mysql-database-schemas/
-        
+
         $file_content = file_get_contents(GLPI_ROOT . "/plugins/" . $pluginname . "/install/mysql/" . $comparaisonSQLFile);
         $a_lines      = explode("\n", $file_content);
-        
+
         $a_tables_ref  = array();
         $current_table = '';
         foreach ($a_lines as $line) {
@@ -56,7 +56,7 @@ class ArmaditoDB extends PHPUnit_Framework_Assert
                 }
             }
         }
-        
+
         // * Get tables from MySQL
         $a_tables_db = array();
         $a_tables    = array();
@@ -71,13 +71,13 @@ class ArmaditoDB extends PHPUnit_Framework_Assert
                 $a_tables[] = $data[0];
             }
         }
-        
+
         foreach ($a_tables as $table) {
             $query  = "SHOW CREATE TABLE " . $table;
             $result = $DB->query($query);
             while ($data = $DB->fetch_array($result)) {
                 $a_lines = explode("\n", $data['Create Table']);
-                
+
                 foreach ($a_lines as $line) {
                     if (strstr($line, "CREATE TABLE ") OR strstr($line, "CREATE VIEW")) {
                         $matches = array();
@@ -100,7 +100,7 @@ class ArmaditoDB extends PHPUnit_Framework_Assert
                 }
             }
         }
-        
+
         $a_tables_ref_tableonly = array();
         foreach ($a_tables_ref as $table => $data) {
             $a_tables_ref_tableonly[] = $table;
@@ -109,15 +109,15 @@ class ArmaditoDB extends PHPUnit_Framework_Assert
         foreach ($a_tables_db as $table => $data) {
             $a_tables_db_tableonly[] = $table;
         }
-        
+
         // Compare
         $tables_toremove = array_diff($a_tables_db_tableonly, $a_tables_ref_tableonly);
         $tables_toadd    = array_diff($a_tables_ref_tableonly, $a_tables_db_tableonly);
-        
+
         // See tables missing or to delete
         $this->assertEquals(count($tables_toadd), 0, 'Tables missing ' . $when . ' ' . print_r($tables_toadd, TRUE));
         $this->assertEquals(count($tables_toremove), 0, 'Tables to delete ' . $when . ' ' . print_r($tables_toremove, TRUE));
-        
+
         // See if fields are same
         foreach ($a_tables_db as $table => $data) {
             if (isset($a_tables_ref[$table])) {
@@ -126,14 +126,14 @@ class ArmaditoDB extends PHPUnit_Framework_Assert
                 $diff            = "======= DB ============== Ref =======> " . $table . "\n";
                 $diff .= print_r($data, TRUE);
                 $diff .= print_r($a_tables_ref[$table], TRUE);
-                
+
                 // See tables missing or to delete
                 $this->assertEquals(count($fields_toadd), 0, 'Fields missing/not good in ' . $when . ' ' . $table . ' ' . print_r($fields_toadd, TRUE) . " into " . $diff);
                 $this->assertEquals(count($fields_toremove), 0, 'Fields to delete in ' . $when . ' ' . $table . ' ' . print_r($fields_toremove, TRUE) . " into " . $diff);
-                
+
             }
         }
-        
+
         /*
          * Verify config fields added
          */
@@ -144,21 +144,21 @@ class ArmaditoDB extends PHPUnit_Framework_Assert
             $fields     = current($data);
             $plugins_id = $fields['id'];
         }
-        
+
         $query  = "SELECT `id` FROM `glpi_plugin_armadito_configs`
          WHERE `type`='extradebug'";
         $result = $DB->query($query);
         $this->assertEquals($DB->numrows($result), 1, "type 'extradebug' not added in config");
-        
+
         $query  = "SELECT * FROM `glpi_plugin_armadito_configs`
          WHERE `type`='version'";
         $result = $DB->query($query);
         $this->assertEquals($DB->numrows($result), 1, "type 'version' not added in config");
         $data = $DB->fetch_assoc($result);
         $this->assertEquals($data['value'], '9.1+0.2', "Field 'version' not with right version");
-        
+
         // TODO : test glpi_displaypreferences, rules, bookmark...
-        
+
         /*
          * Verify table `glpi_plugin_armadito_lastcontactstats` filled with data
          */

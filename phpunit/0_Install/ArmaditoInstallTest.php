@@ -25,17 +25,17 @@ require_once("0_Install/ArmaditoDB.php");
 
 class ArmaditoInstallTest extends Common_TestCase
 {
-    
+
     /**
      * @depends GLPIInstallTest::installDatabase
      */
     public function testInstall()
     {
-        
+
         global $DB;
         $DB->connect();
         $this->assertTrue($DB->connected, "Problem connecting to the Database");
-        
+
         // Delete if Table of Armadito or Tracker yet in DB
         $query  = "SHOW FULL TABLES WHERE TABLE_TYPE LIKE 'VIEW'";
         $result = $DB->query($query);
@@ -44,7 +44,7 @@ class ArmaditoInstallTest extends Common_TestCase
                 $DB->query("DROP VIEW " . $data[0]);
             }
         }
-        
+
         $query  = "SHOW TABLES";
         $result = $DB->query($query);
         while ($data = $DB->fetch_array($result)) {
@@ -52,19 +52,19 @@ class ArmaditoInstallTest extends Common_TestCase
                 $DB->query("DROP TABLE " . $data[0]);
             }
         }
-        
+
         $output     = array();
         $returncode = 0;
         exec("php -f " . ARMADITO_ROOT . "/scripts/cli_install.php -- --as-user 'glpi'", $output, $returncode);
         $this->assertEquals(0, $returncode, "Error when installing plugin in CLI mode\n" . implode("\n", $output));
-        
+
         $GLPIlog = new GLPIlogs();
         $GLPIlog->testSQLlogs();
         $GLPIlog->testPHPlogs();
-        
+
         $FusinvDBTest = new ArmaditoDB();
         $FusinvDBTest->checkInstall("armadito", "install new version");
-        
+
         PluginArmaditoConfig::loadCache();
     }
 }

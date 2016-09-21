@@ -25,12 +25,12 @@ include_once("inc/toolbox.class.php");
 
 function setDefaultDisplayPreferences()
 {
-    
+
     // Set preferences for search_options
     $query = "INSERT INTO `glpi_displaypreferences` (`id`, `itemtype`, `num`, `rank`,
                         `users_id`)
 		      VALUES ";
-    
+
     $query .= PluginArmaditoAgent::getDefaultDisplayPreferences();
     $query .= PluginArmaditoState::getDefaultDisplayPreferences();
     $query .= PluginArmaditoScan::getDefaultDisplayPreferences();
@@ -38,7 +38,7 @@ function setDefaultDisplayPreferences()
     $query .= PluginArmaditoJob::getDefaultDisplayPreferences();
     $query .= PluginArmaditoStateDetail::getDefaultDisplayPreferences();
     $query = rtrim($query, ",");
-    
+
     if (!PluginArmaditoToolbox::ExecQuery($query)) {
         die();
     }
@@ -47,54 +47,54 @@ function setDefaultDisplayPreferences()
 function cleanDefaultDisplayPreferences()
 {
     global $DB;
-    
+
     $query = "DELETE FROM `glpi_displaypreferences`
       WHERE `itemtype`='PluginArmaditoScan'";
-    
+
     PluginArmaditoToolbox::ExecQuery($query);
-    
+
     $query = "DELETE FROM `glpi_displaypreferences`
       WHERE `itemtype`='PluginArmaditoScanConfig'";
-    
+
     PluginArmaditoToolbox::ExecQuery($query);
-    
+
     $query = "DELETE FROM `glpi_displaypreferences`
       WHERE `itemtype`='PluginArmaditoJob'";
-    
+
     PluginArmaditoToolbox::ExecQuery($query);
-    
+
     $query = "DELETE FROM `glpi_displaypreferences`
       WHERE `itemtype`='PluginArmaditoAgent'";
-    
+
     PluginArmaditoToolbox::ExecQuery($query);
-    
+
     $query = "DELETE FROM `glpi_displaypreferences`
       WHERE `itemtype`='PluginArmaditoState'";
-    
+
     PluginArmaditoToolbox::ExecQuery($query);
-    
+
     $query = "DELETE FROM `glpi_displaypreferences`
       WHERE `itemtype`='PluginArmaditoStateDetail'";
-    
+
     PluginArmaditoToolbox::ExecQuery($query);
 }
 
 function plugin_armadito_install()
 {
     global $DB;
-    
+
     ini_set("max_execution_time", "0");
-    
+
     if (basename($_SERVER['SCRIPT_NAME']) != "cli_install.php") {
         Html::header(__('Setup'), $_SERVER['PHP_SELF'], "config", "plugins");
         $migrationname = 'Migration';
     } else {
         $migrationname = 'CliMigration';
     }
-    
+
     require_once(GLPI_ROOT . "/plugins/armadito/install/update.php");
     $version_detected = pluginArmaditoGetCurrentVersion();
-    
+
     if (isset($version_detected) AND (defined('FORCE_UPGRADE') OR ($version_detected != PLUGIN_ARMADITO_VERSION AND $version_detected != '0'))) {
         pluginArmaditoUpdate($version_detected, $migrationname);
     } else if ((isset($version_detected)) && ($version_detected == PLUGIN_ARMADITO_VERSION)) {
@@ -103,11 +103,11 @@ function plugin_armadito_install()
         require_once(GLPI_ROOT . "/plugins/armadito/install/install.php");
         pluginArmaditoInstall(PLUGIN_ARMADITO_VERSION, $migrationname);
     }
-    
+
     // erase user display preferences and set default instead
     cleanDefaultDisplayPreferences();
     setDefaultDisplayPreferences();
-    
+
     return true;
 }
 

@@ -29,21 +29,21 @@ define("PLUGIN_ARMADITO_VERSION", "9.1+0.2");
 function plugin_init_armadito()
 {
     global $PLUGIN_HOOKS, $CFG_GLPI;
-    
+
     $PLUGIN_HOOKS['csrf_compliant']['armadito'] = TRUE;
-    
+
     $Plugin   = new Plugin();
     $moduleId = 0;
-    
+
     if (isset($_SESSION['glpi_use_mode'])) {
         $debug_mode = ($_SESSION['glpi_use_mode'] == Session::DEBUG_MODE);
     } else {
         $debug_mode = false;
     }
-    
-    
+
+
     if ($Plugin->isActivated('armadito')) {
-        
+
         $types = array(
             'Central',
             'Computer',
@@ -51,15 +51,15 @@ function plugin_init_armadito()
             'Preference',
             'Profile'
         );
-        
+
         Plugin::registerClass('PluginArmaditoAgent', array(
             'addtabon' => $types,
             'link_types' => true
         ));
-        
+
         Plugin::registerClass('PluginArmaditoState');
         Plugin::registerClass('PluginArmaditoStatedetails');
-        
+
         /**
          * Load the relevant javascript/css files only on pages that need them.
          */
@@ -68,22 +68,22 @@ function plugin_init_armadito()
         if (strpos($_SERVER['SCRIPT_FILENAME'], "plugins/armadito") != false) {
             array_push($PLUGIN_HOOKS['add_javascript']['armadito'], "lib/d3-3.4.3/d3" . ($debug_mode ? "" : ".min") . ".js", "lib/nvd3/nv.d3" . ($debug_mode ? "" : ".min") . ".js");
         }
-        
+
         if (script_endswith_("menu.php") || script_endswith_("board.php")) {
             $PLUGIN_HOOKS['add_javascript']['armadito'][] = "js/stats" . ($debug_mode ? "" : ".min") . ".js";
         }
-        
+
         if (Session::haveRight('plugin_armadito_configuration', READ) || Session::haveRight('profile', UPDATE)) { // Config page
             $PLUGIN_HOOKS['config_page']['armadito'] = 'front/config.form.php' . '?itemtype=pluginarmaditoconfig&glpi_tab=1';
         }
-        
+
         // Profile definition
         $_SESSION["glpi_plugin_armadito_profile"]['armadito'] = 'w';
         if (isset($_SESSION["glpi_plugin_armadito_profile"])) { // Right set in change_profile hook
-            
+
             $PLUGIN_HOOKS['menu_toadd']['armadito']['plugins'] = 'PluginArmaditoMenu';
         }
-        
+
         // Add fusion plugin hook
         $PLUGIN_HOOKS['item_update']['armadito'] = array(
             'PluginFusioninventoryAgent' => array(
@@ -96,7 +96,7 @@ function plugin_init_armadito()
         // include_once(GLPI_ROOT.'/plugins/armadito/inc/module.class.php');
         // $moduleId = PluginArmaditoModule::getModuleId('armadito');
     }
-    
+
 }
 
 /*
@@ -112,7 +112,7 @@ function script_endswith_($scriptname)
 
 function plugin_version_armadito()
 {
-    
+
     return array(
         'name' => 'Armadito',
         'shortname' => 'armadito',
@@ -128,16 +128,16 @@ function plugin_version_armadito()
 // Optional : check prerequisites before install : may print errors or add to message after redirect
 function plugin_armadito_check_prerequisites()
 {
-    
+
     if (!isset($_SESSION['glpi_plugins'])) {
         $_SESSION['glpi_plugins'] = array();
     }
-    
+
     if (version_compare(GLPI_VERSION, '9.1', 'lt') || version_compare(GLPI_VERSION, '9.2', 'ge')) {
         echo __('Your GLPI version not compatible, require >= 9.1', 'armadito');
         return FALSE;
     }
-    
+
     return true;
 }
 
@@ -149,7 +149,7 @@ function plugin_armadito_check_config($verbose = false)
     if (true) { // Your configuration check
         return true;
     }
-    
+
     if ($verbose) {
         _e('Installed / not configured', 'armadito');
     }
