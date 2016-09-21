@@ -66,7 +66,7 @@ function plugin_init_armadito() {
          );
       }
 
-      if (script_endswith("menu.php") || script_endswith("board.php")) {
+      if (script_endswith_("menu.php") || script_endswith_("board.php")) {
             $PLUGIN_HOOKS['add_javascript']['armadito'][] = "js/stats".($debug_mode?"":".min").".js";
       }
 
@@ -95,12 +95,12 @@ function plugin_init_armadito() {
 }
 
 /*
- * @function script_endswith()
+ * @function script_endswith_()
  * @param $scriptname : string representing the script to test
  * test the end of the called scriptname ( this is usefull to load )
  *
  */
-function script_endswith($scriptname) {
+function script_endswith_($scriptname) {
    return substr($_SERVER['SCRIPT_FILENAME'], -strlen($scriptname))===$scriptname;
 }
 
