@@ -35,4 +35,3 @@ class PluginArmaditoBoard extends CommonGLPI
     }
 }
 ?>
-?>

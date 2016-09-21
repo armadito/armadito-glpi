@@ -207,4 +207,3 @@ class PluginArmaditoAntivirus extends CommonDBTM
     }
 }
 ?>
-?>
