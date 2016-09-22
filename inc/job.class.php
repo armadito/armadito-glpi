@@ -112,16 +112,6 @@ class PluginArmaditoJob extends CommonDBTM
         return __('Job', 'armadito');
     }
 
-    static function getDefaultDisplayPreferences()
-    {
-        $prefs      = "";
-        $nb_columns = 8;
-        for ($i = 1; $i <= $nb_columns; $i++) {
-            $prefs .= "(NULL, 'PluginArmaditoJob', '" . $i . "', '" . $i . "', '0'),";
-        }
-        return $prefs;
-    }
-
     static function canCreate()
     {
         if (isset($_SESSION["glpi_plugin_armadito_profile"])) {

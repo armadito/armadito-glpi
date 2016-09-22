@@ -116,16 +116,6 @@ class PluginArmaditoScan extends CommonDBTM
         return $this->scanconfigobj->toJson();
     }
 
-    static function getDefaultDisplayPreferences()
-    {
-        $prefs      = "";
-        $nb_columns = 10;
-        for ($i = 1; $i <= $nb_columns; $i++) {
-            $prefs .= "(NULL, 'PluginArmaditoScan', '" . $i . "', '" . $i . "', '0'),";
-        }
-        return $prefs;
-    }
-
     function getSearchOptions()
     {
 

@@ -23,21 +23,17 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 
 include_once("inc/toolbox.class.php");
 
-function setDefaultDisplayPreferences()
+function setDefaultDisplayPreferences( $classes)
 {
-
     // Set preferences for search_options
     $query = "INSERT INTO `glpi_displaypreferences` (`id`, `itemtype`, `num`, `rank`,
                         `users_id`)
 		      VALUES ";
 
-    $query .= PluginArmaditoAgent::getDefaultDisplayPreferences();
-    $query .= PluginArmaditoState::getDefaultDisplayPreferences();
-    $query .= PluginArmaditoAlert::getDefaultDisplayPreferences();
-    $query .= PluginArmaditoScan::getDefaultDisplayPreferences();
-    $query .= PluginArmaditoScanConfig::getDefaultDisplayPreferences();
-    $query .= PluginArmaditoJob::getDefaultDisplayPreferences();
-    $query .= PluginArmaditoStateDetail::getDefaultDisplayPreferences();
+    foreach ( $classes as $class => $rounds ){
+        $query .= getDefaultDisplayPreferences($class, $rounds);
+    }
+
     $query = rtrim($query, ",");
 
     if (!PluginArmaditoToolbox::ExecQuery($query)) {
@@ -45,39 +41,30 @@ function setDefaultDisplayPreferences()
     }
 }
 
-function cleanDefaultDisplayPreferences()
+function getDefaultDisplayPreferences( $class, $rounds )
+{
+    $prefs      = "";
+    for ($i = 1; $i <= $rounds; $i++) {
+        $prefs .= "(NULL, '".$class."', '" . $i . "', '" . $i . "', '0'),";
+    }
+    return $prefs;
+}
+
+function cleanDefaultDisplayPreferences($class)
 {
     global $DB;
 
     $query = "DELETE FROM `glpi_displaypreferences`
-      WHERE `itemtype`='PluginArmaditoScan'";
+      WHERE `itemtype`='".$class."'";
 
     PluginArmaditoToolbox::ExecQuery($query);
+}
 
-    $query = "DELETE FROM `glpi_displaypreferences`
-      WHERE `itemtype`='PluginArmaditoScanConfig'";
-
-    PluginArmaditoToolbox::ExecQuery($query);
-
-    $query = "DELETE FROM `glpi_displaypreferences`
-      WHERE `itemtype`='PluginArmaditoJob'";
-
-    PluginArmaditoToolbox::ExecQuery($query);
-
-    $query = "DELETE FROM `glpi_displaypreferences`
-      WHERE `itemtype`='PluginArmaditoAgent'";
-
-    PluginArmaditoToolbox::ExecQuery($query);
-
-    $query = "DELETE FROM `glpi_displaypreferences`
-      WHERE `itemtype`='PluginArmaditoState'";
-
-    PluginArmaditoToolbox::ExecQuery($query);
-
-    $query = "DELETE FROM `glpi_displaypreferences`
-      WHERE `itemtype`='PluginArmaditoStateDetail'";
-
-    PluginArmaditoToolbox::ExecQuery($query);
+function cleanAllDisplayPreferences( $classes )
+{
+    foreach ( $classes as $class => $rounds ){
+        cleanDefaultDisplayPreferences($class);
+    }
 }
 
 function plugin_armadito_install()
@@ -106,8 +93,17 @@ function plugin_armadito_install()
     }
 
     // erase user display preferences and set default instead
-    cleanDefaultDisplayPreferences();
-    setDefaultDisplayPreferences();
+    $classes = array( 'PluginArmaditoAgent' => 10,
+                      'PluginArmaditoJob' => 10,
+                      'PluginArmaditoState' => 10,
+                      'PluginArmaditoAlert' => 10,
+                      'PluginArmaditoScan' => 10,
+                      'PluginArmaditoScanConfig' => 10,
+                      'PluginArmaditoStateDetail' => 10
+                     );
+
+    cleanAllDisplayPreferences($classes);
+    setDefaultDisplayPreferences($classes);
 
     return true;
 }

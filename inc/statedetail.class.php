@@ -66,18 +66,6 @@ class PluginArmaditoStatedetail extends CommonDBTM
         return false;
     }
 
-    // unused
-    static function getDefaultDisplayPreferences()
-    {
-        $prefs      = "";
-        $nb_columns = 7;
-        for ($i = 1; $i <= $nb_columns; $i++) {
-            $prefs .= "(NULL, 'PluginArmaditoStateDetail', '" . $i . "', '" . $i . "', '0'),";
-        }
-        return $prefs;
-    }
-
-    // unused
     function getSearchOptions()
     {
 

@@ -340,16 +340,6 @@ class PluginArmaditoAgent extends CommonDBTM
         return true;
     }
 
-    static function getDefaultDisplayPreferences()
-    {
-        $prefs      = "";
-        $nb_columns = 10;
-        for ($i = 1; $i <= $nb_columns; $i++) {
-            $prefs .= "(NULL, 'PluginArmaditoAgent', '" . $i . "', '" . $i . "', '0'),";
-        }
-        return $prefs;
-    }
-
     function getSearchOptions()
     {
 
