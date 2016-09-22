@@ -198,11 +198,7 @@ class PluginArmaditoState extends CommonDBTM
         } else {
             $error = $this->insertState($statedetails_id);
         }
-
-        if ($error->getCode() != 0) {
-            return $error;
-        }
-
+        
         return $error;
     }
 
