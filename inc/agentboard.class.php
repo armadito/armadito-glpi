@@ -138,9 +138,9 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard
         echo "</td>";
     }
 
-    function countAgentsForAV($AV)
+    function countAgentsForAV($AV_id)
     {
-        return countElementsInTableForMyEntities('glpi_plugin_armadito_antiviruses', "`fullname`='" . $AV . "'");
+        return countElementsInTableForMyEntities('glpi_plugin_armadito_agents', "`plugin_armadito_antiviruses_id`='" . $AV_id . "'");
     }
 
     function getAntivirusChartData()
@@ -153,14 +153,16 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard
 
         $data = array();
         $i    = 0;
-        foreach ($AVs as $name) {
-            $n_AVs  = $this->countAgentsForAV($name);
-            $data[] = array(
-                'key' => __($name, 'armadito') . ' : ' . $n_AVs,
-                'y' => $n_AVs,
-                'color' => $palette[$i]
-            );
-            $i++;
+        foreach ($AVs as $id => $name) {
+            $n_AVs  = $this->countAgentsForAV($id);
+            if($n_AVs > 0){
+                $data[] = array(
+                    'key' => __($name, 'armadito') . ' : ' . $n_AVs,
+                    'y' => $n_AVs,
+                    'color' => $palette[$i]
+                );
+                $i++;
+            }
         }
 
         return $data;
