@@ -35,7 +35,6 @@ if (!empty($rawdata)) { // POST /alerts
 
     PluginArmaditoLastContactStat::increment();
 
-    // Parse json obj
     $jobj = PluginArmaditoToolbox::parseJSON($rawdata);
 
     if (!$jobj) {
@@ -48,7 +47,7 @@ if (!empty($rawdata)) { // POST /alerts
     }
 
     $alert = new PluginArmaditoAlert();
-    $alert->init($jobj);
+    $alert->initFromJson($jobj);
     $error = $alert->run();
 
     if ($error->getCode() == 0) { // success

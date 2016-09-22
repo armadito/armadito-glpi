@@ -32,17 +32,20 @@ if (!defined('GLPI_ROOT')) {
 class PluginArmaditoAlert extends CommonDBTM
 {
     protected $jobj;
+    protected $agentid;
+    protected $agent;
 
     function __construct()
     {
         //
     }
 
-    function init($jobj)
+    function initFromJson($jobj)
     {
+        $this->agentid = PluginArmaditoToolbox::validateInt($jobj->agent_id);
+        $this->agent   = new PluginArmaditoAgent();
+        $this->agent->initFromDB($this->agentid);
         $this->jobj = $jobj;
-
-        PluginArmaditoToolbox::logIfExtradebug('pluginArmadito-alert', 'New PluginArmaditoAlert object.');
     }
 
     function toJson()
@@ -73,9 +76,67 @@ class PluginArmaditoAlert extends CommonDBTM
      **/
     function run()
     {
-
         $error = new PluginArmaditoError();
+
+        $error = $this->insertAlert();
+        
         $error->setMessage(0, 'Alerts successfully inserted.');
+        return $error;
+    }
+    
+    /**
+     * Insert alert in database
+     *
+     * @return PluginArmaditoError obj
+     **/
+    function insertAlert()
+    {
+        $error     = new PluginArmaditoError();
+        $dbmanager = new PluginArmaditoDbManager();
+        $dbmanager->init();
+
+        $params["plugin_armadito_agents_id"]["type"]       = "i";
+        $params["plugin_armadito_antiviruses_id"]["type"]  = "i";
+        $params["name"]["type"]                            = "s";
+        $params["module_name"]["type"]                     = "s";
+        $params["filepath"]["type"]                        = "s";
+        $params["impact_severity"]["type"]                 = "s";
+        $params["detection_time"]["type"]                  = "s";
+
+        $query_name = "NewAlert";
+        $dbmanager->addQuery($query_name, "INSERT", $this->getTable(), $params);
+
+        if (!$dbmanager->prepareQuery($query_name)) {
+            return $dbmanager->getLastError();
+        }
+
+        if (!$dbmanager->bindQuery($query_name)) {
+            return $dbmanager->getLastError();
+        }
+
+        $antivirus = $this->agent->getAntivirus();
+
+        $dbmanager->setQueryValue($query_name, "plugin_armadito_agents_id", $this->agentid);
+        $dbmanager->setQueryValue($query_name, "plugin_armadito_antiviruses_id", $antivirus->getId());
+        $dbmanager->setQueryValue($query_name, "name", $this->jobj->task->obj->alert->module_specific->value);
+        $dbmanager->setQueryValue($query_name, "filepath", $this->jobj->task->obj->alert->uri->value);
+        $dbmanager->setQueryValue($query_name, "module_name", $this->jobj->task->obj->alert->module->value);
+        $dbmanager->setQueryValue($query_name, "detection_time", date("Y-m-d H:i:s", 1474544183)); # TODO
+        $dbmanager->setQueryValue($query_name, "impact_severity", $this->jobj->task->obj->alert->level->value);
+
+        if (!$dbmanager->executeQuery($query_name)) {
+            return $dbmanager->getLastError();
+        }
+
+        $dbmanager->closeQuery($query_name);
+
+        $this->id = PluginArmaditoDbToolbox::getLastInsertedId();
+        if ($this->id > 0) {
+            PluginArmaditoToolbox::validateInt($this->id);
+            $error->setMessage(0, 'New Alert successfully added in database.');
+        } else {
+            $error->setMessage(1, 'Unable to get new State Id');
+        }
         return $error;
     }
 }
