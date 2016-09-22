@@ -205,8 +205,8 @@ class PluginArmaditoAntivirus extends CommonDBTM
         }
         return $AVs;
     }
-    
-    
+
+
     static function getTypeName($nb = 0)
     {
         return __('Antivirus', 'armadito');
@@ -229,8 +229,8 @@ class PluginArmaditoAntivirus extends CommonDBTM
         }
         return false;
     }
-    
-    
+
+
     function defineTabs($options = array())
     {
 
@@ -240,11 +240,11 @@ class PluginArmaditoAntivirus extends CommonDBTM
 
         return $ong;
     }
-    
+
     /**
      * Display form
      *
-     * @param $antivirus_id 
+     * @param $antivirus_id
      * @param $options array
      *
      * @return bool TRUE if form is ok
@@ -262,9 +262,9 @@ class PluginArmaditoAntivirus extends CommonDBTM
         echo "<td align='center'>";
         echo "<b>" . htmlspecialchars($this->fields["id"]) . "</b>";
         echo "</td>";
-        echo "<td></td>";  
+        echo "<td></td>";
         echo "</tr>";
-        
+
         echo "<tr class='tab_bg_1'>";
         echo "<td>" . __('Name', 'armadito') . "&nbsp;:</td>";
         echo "<td align='center'>";
@@ -272,13 +272,13 @@ class PluginArmaditoAntivirus extends CommonDBTM
         echo "</td>";
 
         echo "</tr>";
-        
+
         echo "<tr class='tab_bg_1'>";
         echo "<td>" . __('Version', 'armadito') . "&nbsp;:</td>";
         echo "<td align='center'>";
         echo htmlspecialchars($this->fields["version"]);
         echo "</td>";
-        echo "<td></td>";  
+        echo "<td></td>";
         echo "</tr>";
 
     }
