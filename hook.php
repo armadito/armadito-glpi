@@ -33,6 +33,7 @@ function setDefaultDisplayPreferences()
 
     $query .= PluginArmaditoAgent::getDefaultDisplayPreferences();
     $query .= PluginArmaditoState::getDefaultDisplayPreferences();
+    $query .= PluginArmaditoAlert::getDefaultDisplayPreferences();
     $query .= PluginArmaditoScan::getDefaultDisplayPreferences();
     $query .= PluginArmaditoScanConfig::getDefaultDisplayPreferences();
     $query .= PluginArmaditoJob::getDefaultDisplayPreferences();

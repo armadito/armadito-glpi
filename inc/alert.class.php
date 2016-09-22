@@ -70,6 +70,83 @@ class PluginArmaditoAlert extends CommonDBTM
         return false;
     }
 
+    static function getDefaultDisplayPreferences()
+    {
+        $prefs      = "";
+        $nb_columns = 8;
+        for ($i = 1; $i <= $nb_columns; $i++) {
+            $prefs .= "(NULL, 'PluginArmaditoAlert', '" . $i . "', '" . $i . "', '0'),";
+        }
+        return $prefs;
+    }
+
+    function getSearchOptions()
+    {
+
+        $tab           = array();
+        $tab['common'] = __('State', 'armadito');
+
+        $i = 1;
+
+        $tab[$i]['table']         = 'glpi_plugin_armadito_agents';
+        $tab[$i]['field']         = 'id';
+        $tab[$i]['name']          = __('Agent Id', 'armadito');
+        $tab[$i]['datatype']      = 'itemlink';
+        $tab[$i]['itemlink_type'] = 'PluginArmaditoAgent';
+        $tab[$i]['massiveaction'] = FALSE;
+
+        $i++;
+
+        $tab[$i]['table']         = $this->getTable();
+        $tab[$i]['field']         = 'name';
+        $tab[$i]['name']          = __('Threat name', 'armadito');
+        $tab[$i]['datatype']      = 'text';
+        $tab[$i]['massiveaction'] = FALSE;
+
+        $i++;
+
+        $tab[$i]['table']         = $this->getTable();
+        $tab[$i]['field']         = 'filepath';
+        $tab[$i]['name']          = __('Filepath', 'armadito');
+        $tab[$i]['datatype']      = 'text';
+        $tab[$i]['massiveaction'] = FALSE;
+
+        $i++;
+
+        $tab[$i]['table']         = 'glpi_plugin_armadito_antiviruses';
+        $tab[$i]['field']         = 'fullname';
+        $tab[$i]['name']          = __('Antivirus', 'armadito');
+        $tab[$i]['datatype']      = 'itemlink';
+        $tab[$i]['itemlink_type'] = 'PluginArmaditoAntivirus';
+        $tab[$i]['massiveaction'] = FALSE;
+
+        $i++;
+
+        $tab[$i]['table']         = $this->getTable();
+        $tab[$i]['field']         = 'module_name';
+        $tab[$i]['name']          = __('Module', 'armadito');
+        $tab[$i]['datatype']      = 'text';
+        $tab[$i]['massiveaction'] = FALSE;
+
+        $i++;
+
+        $tab[$i]['table']         = $this->getTable();
+        $tab[$i]['field']         = 'impact_severity';
+        $tab[$i]['name']          = __('Severity', 'armadito');
+        $tab[$i]['datatype']      = 'text';
+        $tab[$i]['massiveaction'] = FALSE;
+
+        $i++;
+
+        $tab[$i]['table']         = $this->getTable();
+        $tab[$i]['field']         = 'detection_time';
+        $tab[$i]['name']          = __('Detection Time', 'armadito');
+        $tab[$i]['datatype']      = 'text';
+        $tab[$i]['massiveaction'] = FALSE;
+
+        return $tab;
+    }
+
     /* Insert Alerts in database
      *
      * @return PluginArmaditoError obj
