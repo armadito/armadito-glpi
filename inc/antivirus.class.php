@@ -205,5 +205,83 @@ class PluginArmaditoAntivirus extends CommonDBTM
         }
         return $AVs;
     }
+    
+    
+    static function getTypeName($nb = 0)
+    {
+        return __('Antivirus', 'armadito');
+    }
+
+    static function canCreate()
+    {
+
+        if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
+            return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w');
+        }
+        return false;
+    }
+
+    static function canView()
+    {
+
+        if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
+            return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w' || $_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'r');
+        }
+        return false;
+    }
+    
+    
+    function defineTabs($options = array())
+    {
+
+        $ong = array();
+        $this->addDefaultFormTab($ong);
+        $this->addStandardTab('Log', $ong, $options);
+
+        return $ong;
+    }
+    
+    /**
+     * Display form
+     *
+     * @param $antivirus_id 
+     * @param $options array
+     *
+     * @return bool TRUE if form is ok
+     *
+     **/
+    function showForm($table_id, $options = array())
+    {
+        PluginArmaditoToolbox::validateInt($table_id);
+
+        $this->initForm($table_id, $options);
+        $this->showFormHeader($options);
+
+        echo "<tr class='tab_bg_1'>";
+        echo "<td>" . __('Id', 'armadito') . "&nbsp;:</td>";
+        echo "<td align='center'>";
+        echo "<b>" . htmlspecialchars($this->fields["id"]) . "</b>";
+        echo "</td>";
+        echo "<td></td>";  
+        echo "</tr>";
+        
+        echo "<tr class='tab_bg_1'>";
+        echo "<td>" . __('Name', 'armadito') . "&nbsp;:</td>";
+        echo "<td align='center'>";
+        echo htmlspecialchars($this->fields["name"]);
+        echo "</td>";
+
+        echo "</tr>";
+        
+        echo "<tr class='tab_bg_1'>";
+        echo "<td>" . __('Version', 'armadito') . "&nbsp;:</td>";
+        echo "<td align='center'>";
+        echo htmlspecialchars($this->fields["version"]);
+        echo "</td>";
+        echo "<td></td>";  
+        echo "</tr>";
+
+    }
+
 }
 ?>
