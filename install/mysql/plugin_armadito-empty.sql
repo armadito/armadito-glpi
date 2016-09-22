@@ -86,7 +86,7 @@ CREATE TABLE `glpi_plugin_armadito_alerts` (
    `id` int(11) NOT NULL AUTO_INCREMENT,
    `name` varchar(255) DEFAULT NULL,
    `filepath` varchar(255) DEFAULT NULL,
-   `module_name` varchar(255) DEFAULT NULL, 
+   `module_name` varchar(255) DEFAULT NULL,
    `plugin_armadito_agents_id` int(11) NOT NULL,
    `plugin_armadito_antiviruses_id` int(11) NOT NULL,
    `impact_severity` varchar(255) DEFAULT NULL,

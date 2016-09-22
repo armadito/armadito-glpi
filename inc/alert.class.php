@@ -79,11 +79,11 @@ class PluginArmaditoAlert extends CommonDBTM
         $error = new PluginArmaditoError();
 
         $error = $this->insertAlert();
-        
+
         $error->setMessage(0, 'Alerts successfully inserted.');
         return $error;
     }
-    
+
     /**
      * Insert alert in database
      *
