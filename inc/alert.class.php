@@ -214,5 +214,28 @@ class PluginArmaditoAlert extends CommonDBTM
     {
         PluginArmaditoLastAlertStat::increment($this->jobj->task->obj->alert->detection_time->value);
     }
+    
+    /**
+     *  Get list of all Virus names
+     **/
+    static function getVirusNamesList()
+    {
+        global $DB;
+
+        $VirusNames   = array();
+        $query = "SELECT DISTINCT name FROM `glpi_plugin_armadito_alerts`";
+        $ret   = $DB->query($query);
+
+        if (!$ret) {
+            throw new Exception(sprintf('Error getVirusNamesList : %s', $DB->error()));
+        }
+
+        if ($DB->numrows($ret) > 0) {
+            while ($data = $DB->fetch_assoc($ret)) {
+                array_push($VirusNames, $data['name']);
+            }
+        }
+        return $VirusNames;
+    }
 }
 ?>
