@@ -200,7 +200,6 @@ class PluginArmaditoAntivirus extends CommonDBTM
         if ($DB->numrows($ret) > 0) {
             while ($data = $DB->fetch_assoc($ret)) {
                 $AVs[$data["id"]] = $data['fullname'];
-                PluginArmaditoToolbox::logE("AV = " . $data['fullname']);
             }
         }
         return $AVs;
