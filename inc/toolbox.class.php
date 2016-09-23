@@ -196,6 +196,11 @@ class PluginArmaditoToolbox
         return Dropdown::showFromArray($name, $values, $p);
     }
 
+    static function ISO8601DateTime_to_MySQLDateTime($ISO8601_datetime) {
+        $datetime = new DateTime($ISO8601_datetime);
+        return $datetime->format("Y-m-d H:i:s");
+    }
+
     /**
      * Get hour:minute from number of seconds
      */
