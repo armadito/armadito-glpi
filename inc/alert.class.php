@@ -214,7 +214,7 @@ class PluginArmaditoAlert extends CommonDBTM
     {
         PluginArmaditoLastAlertStat::increment($this->jobj->task->obj->alert->detection_time->value);
     }
-    
+
     /**
      *  Get list of all Virus names
      **/
