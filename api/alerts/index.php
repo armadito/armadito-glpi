@@ -52,6 +52,7 @@ if (!empty($rawdata)) { // POST /alerts
 
     if ($error->getCode() == 0) { // success
         $communication->setMessage($alert->toJson(), 200);
+        $alert->updateAlertStat();
     } else {
         $communication->setMessage($error->toJson(), 500);
         $error->log();

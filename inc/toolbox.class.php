@@ -201,6 +201,16 @@ class PluginArmaditoToolbox
         return $datetime->format("Y-m-d H:i:s");
     }
 
+    static function getDayOfYearFromISO8601DateTime($ISO8601_datetime) {
+        $datetime = new DateTime($ISO8601_datetime);
+        return $datetime->format("z");
+    }
+    
+    static function getHourFromISO8601DateTime($ISO8601_datetime) {
+        $datetime = new DateTime($ISO8601_datetime);
+        return $datetime->format("G");
+    }
+
     /**
      * Get hour:minute from number of seconds
      */

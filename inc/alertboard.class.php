@@ -44,8 +44,30 @@ class PluginArmaditoAlertBoard extends PluginArmaditoBoard
 
         echo "<table align='center'>";
         echo "<tr height='420'>";
+        
+        $this->addLastAlertsChart($restrict_entity);
+        
         echo "</tr>";
         echo "</table>";
+    }
+    
+    /**
+     * Get data and display last alerts chart (bar)
+     *
+     *@return nothing
+     **/
+    function addLastAlertsChart($restrict_entity)
+    {
+
+        // Number of alerts in last hour, 6 hours, 24 hours
+        $data = PluginArmaditoLastAlertStat::getLastHours();
+
+        $bchart = new PluginArmaditoChartBar();
+        $bchart->init('lastalerts', __('Virus alerts of last hours', 'armadito'), $data);
+
+        echo "<td width='400'>";
+        $bchart->showChart();
+        echo "</td>";
     }
 }
 ?>

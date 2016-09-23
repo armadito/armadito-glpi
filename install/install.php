@@ -39,7 +39,6 @@ function pluginArmaditoInstall($version, $migrationname = 'Migration')
 
     $migration->displayMessage("Installation of plugin Armadito");
 
-
     /*
      * Manage profiles
      */
@@ -66,5 +65,6 @@ function pluginArmaditoInstall($version, $migrationname = 'Migration')
 
 
     PluginArmaditoLastContactStat::init();
+    PluginArmaditoLastAlertStat::init();
 }
 ?>

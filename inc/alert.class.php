@@ -202,11 +202,17 @@ class PluginArmaditoAlert extends CommonDBTM
         $this->id = PluginArmaditoDbToolbox::getLastInsertedId();
         if ($this->id > 0) {
             PluginArmaditoToolbox::validateInt($this->id);
+            
             $error->setMessage(0, 'New Alert successfully added in database.');
         } else {
             $error->setMessage(1, 'Unable to get new State Id');
         }
         return $error;
+    }
+    
+    function updateAlertStat ()
+    {
+        PluginArmaditoLastAlertStat::increment($this->jobj->task->obj->alert->detection_time->value);
     }
 }
 ?>
