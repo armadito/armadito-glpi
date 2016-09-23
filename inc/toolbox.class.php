@@ -205,7 +205,7 @@ class PluginArmaditoToolbox
         $datetime = new DateTime($ISO8601_datetime);
         return $datetime->format("z");
     }
-    
+
     static function getHourFromISO8601DateTime($ISO8601_datetime) {
         $datetime = new DateTime($ISO8601_datetime);
         return $datetime->format("G");

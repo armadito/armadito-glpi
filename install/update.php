@@ -104,7 +104,7 @@ function do_laststat_migration($migration, $table_name)
     $a_table['renamefields'] = array();
     $a_table['keys'] = array();
     $a_table['oldkeys'] = array();
-    
+
     migrateTablesArmadito($migration, $a_table);
 }
 

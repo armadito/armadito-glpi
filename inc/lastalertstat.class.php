@@ -55,7 +55,7 @@ class PluginArmaditoLastAlertStat extends CommonDBTM
     static function increment( $ISO8601DateTime )
     {
         global $DB;
-        
+
         $dayOfYear = PluginArmaditoToolbox::getDayOfYearFromISO8601DateTime($ISO8601DateTime);
         $hour =  PluginArmaditoToolbox::getHourFromISO8601DateTime($ISO8601DateTime);
 

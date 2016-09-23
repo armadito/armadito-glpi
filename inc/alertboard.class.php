@@ -44,13 +44,13 @@ class PluginArmaditoAlertBoard extends PluginArmaditoBoard
 
         echo "<table align='center'>";
         echo "<tr height='420'>";
-        
+
         $this->addLastAlertsChart($restrict_entity);
-        
+
         echo "</tr>";
         echo "</table>";
     }
-    
+
     /**
      * Get data and display last alerts chart (bar)
      *
