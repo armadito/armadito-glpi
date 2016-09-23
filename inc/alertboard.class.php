@@ -46,6 +46,7 @@ class PluginArmaditoAlertBoard extends PluginArmaditoBoard
         echo "<tr height='420'>";
 
         $this->addLastAlertsChart($restrict_entity);
+        $this->addAlertsByAntivirusChart($restrict_entity);
 
         echo "</tr>";
         echo "</table>";
@@ -63,11 +64,54 @@ class PluginArmaditoAlertBoard extends PluginArmaditoBoard
         $data = PluginArmaditoLastAlertStat::getLastHours();
 
         $bchart = new PluginArmaditoChartBar();
-        $bchart->init('lastalerts', __('Virus alerts of last hours', 'armadito'), $data);
+        $bchart->init('lastalerts', __('Alerts of last hours', 'armadito'), $data);
 
         echo "<td width='400'>";
         $bchart->showChart();
         echo "</td>";
+    }
+
+    function addAlertsByAntivirusChart($restrict_entity)
+    {
+
+        $data = $this->getAlertsByAntivirusChartData();
+
+        $hchart = new PluginArmaditoChartHalfDonut();
+        $hchart->init('antiviruses', __('Alerts by antiviruses', 'armadito'), $data, 370);
+
+        echo "<td width='380'>";
+        $hchart->showChart();
+        echo "</td>";
+    }
+
+    function countAlertsForAV($AV_id)
+    {
+        return countElementsInTableForMyEntities('glpi_plugin_armadito_alerts', "`plugin_armadito_antiviruses_id`='" . $AV_id . "'");
+    }
+
+    function getAlertsByAntivirusChartData()
+    {
+        global $DB;
+
+        $AVs       = PluginArmaditoAntivirus::getAntivirusList();
+        $colortbox = new PluginArmaditoColorToolbox();
+        $palette   = $colortbox->getPalette(sizeof($AVs), 0.157079632679);
+
+        $data = array();
+        $i    = 0;
+        foreach ($AVs as $id => $name) {
+            $n_AVs  = $this->countAlertsForAV($id);
+            if($n_AVs > 0){
+                $data[] = array(
+                    'key' => __($name, 'armadito') . ' : ' . $n_AVs,
+                    'y' => $n_AVs,
+                    'color' => $palette[$i]
+                );
+                $i++;
+            }
+        }
+
+        return $data;
     }
 }
 ?>
