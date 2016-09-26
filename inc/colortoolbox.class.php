@@ -106,16 +106,14 @@ class PluginArmaditoColorToolbox
         return $color;
     }
 
-    static function getRainbowColors()
+    static function getGoldenColors()
     {
         $colors = array(
-            "violet" => "#8B00FF",
-            "indigo" => "#4B0082",
-            "blue" => "#0000FF",
-            "green" => "#00FF00",
-            "yellow" => "#FFFF00",
-            "orange" => "#FF7F00",
-            "red" => "#FF0000"
+            "violet" => "#C879F2",
+            "blue" => "#7994F2",
+            "green1" => "#79F2A5",
+            "green2" => "#B8F279",
+            "red" => "#F28179"
         );
         return $colors;
     }
