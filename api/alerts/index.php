@@ -28,7 +28,6 @@ if (!empty($rawdata)) { // POST /alerts
 
     PluginArmaditoToolbox::checkPluginInstallation();
 
-    // init GLPI stuff
     $error         = new PluginArmaditoError();
     $communication = new PluginArmaditoCommunication();
     $communication->init();
@@ -53,6 +52,8 @@ if (!empty($rawdata)) { // POST /alerts
     if ($error->getCode() == 0) { // success
         $communication->setMessage($alert->toJson(), 200);
         $alert->updateAlertStat();
+        $agent = new PluginArmaditoAgent();
+        $agent->updateLastAlert($alert);
     } else {
         $communication->setMessage($error->toJson(), 500);
         $error->log();

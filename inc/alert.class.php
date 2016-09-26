@@ -31,6 +31,7 @@ class PluginArmaditoAlert extends CommonDBTM
     protected $jobj;
     protected $agentid;
     protected $agent;
+    protected $detection_time;
 
     function __construct()
     {
@@ -42,6 +43,16 @@ class PluginArmaditoAlert extends CommonDBTM
         $this->agent   = new PluginArmaditoAgent();
         $this->agent->initFromDB($this->agentid);
         $this->jobj = $jobj;
+    }
+
+    function getDetectionTime()
+    {
+        return $this->detection_time;
+    }
+
+    function getAgentId()
+    {
+        return $this->agentid;
     }
 
     function toJson()
@@ -170,14 +181,14 @@ class PluginArmaditoAlert extends CommonDBTM
 
         $antivirus = $this->agent->getAntivirus();
 
-        $detection_time = PluginArmaditoToolbox::ISO8601DateTime_to_MySQLDateTime($this->jobj->task->obj->alert->detection_time->value);
+        $this->detection_time = PluginArmaditoToolbox::ISO8601DateTime_to_MySQLDateTime($this->jobj->task->obj->alert->detection_time->value);
 
         $dbmanager->setQueryValue($query_name, "plugin_armadito_agents_id", $this->agentid);
         $dbmanager->setQueryValue($query_name, "plugin_armadito_antiviruses_id", $antivirus->getId());
         $dbmanager->setQueryValue($query_name, "name", $this->jobj->task->obj->alert->module_specific->value);
         $dbmanager->setQueryValue($query_name, "filepath", $this->jobj->task->obj->alert->uri->value);
         $dbmanager->setQueryValue($query_name, "module_name", $this->jobj->task->obj->alert->module->value);
-        $dbmanager->setQueryValue($query_name, "detection_time", $detection_time);
+        $dbmanager->setQueryValue($query_name, "detection_time", $this->detection_time);
         $dbmanager->setQueryValue($query_name, "impact_severity", $this->jobj->task->obj->alert->level->value);
 
         if (!$dbmanager->executeQuery($query_name)) {

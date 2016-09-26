@@ -32,7 +32,6 @@ class PluginArmaditoAgent extends CommonDBTM
 
     function __construct()
     {
-        //
     }
 
     function initFromJson($jobj)
@@ -54,7 +53,20 @@ class PluginArmaditoAgent extends CommonDBTM
         } else {
             PluginArmaditoToolbox::logE("Unable to get Agent DB fields");
         }
+    }
 
+    function updateLastAlert( $alert )
+    {
+        global $DB;
+        $paAgent = new self();
+
+        $input                = array();
+        $input['id']          = $alert->getAgentId();;
+        $input['last_alert']  = $alert->getDetectionTime();
+        if ($paAgent->update($input)) {
+            return true;
+        }
+        return false;
     }
 
     function getAntivirusId()
