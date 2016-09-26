@@ -101,11 +101,6 @@ class PluginArmaditoAlertBoard extends PluginArmaditoBoard
         return countElementsInTableForMyEntities('glpi_plugin_armadito_alerts', "`plugin_armadito_antiviruses_id`='" . $AV_id . "'");
     }
 
-    function countAlertsForVirusName($name)
-    {
-        return countElementsInTableForMyEntities('glpi_plugin_armadito_alerts', "`name`='" . $name . "'");
-    }
-
     function getAlertsByAntivirusChartData()
     {
         global $DB;
@@ -135,18 +130,17 @@ class PluginArmaditoAlertBoard extends PluginArmaditoBoard
     {
         global $DB;
 
-        $VirusNames = PluginArmaditoAlert::getVirusNamesList();
+        $VirusNames = PluginArmaditoAlert::getVirusNamesList(5);
         $colortbox  = new PluginArmaditoColorToolbox();
         $palette    = $colortbox->getPalette(sizeof($VirusNames), 0.157079632679);
 
         $data = array();
         $i    = 0;
-        foreach ($VirusNames as $name) {
-            $n_Viruses  = $this->countAlertsForVirusName($name);
-            if($n_Viruses > 0){
+        foreach ($VirusNames as $name => $counter) {
+            if($counter > 0){
                 $data[] = array(
-                    'key' => __($name, 'armadito') . ' : ' . $n_Viruses,
-                    'y' => $n_Viruses,
+                    'key' => __($name, 'armadito') . ' : ' . $counter,
+                    'y' => $counter,
                     'color' => $palette[$i]
                 );
                 $i++;

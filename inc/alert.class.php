@@ -218,12 +218,12 @@ class PluginArmaditoAlert extends CommonDBTM
     /**
      *  Get list of all Virus names
      **/
-    static function getVirusNamesList()
+    static function getVirusNamesList( $max )
     {
         global $DB;
 
         $VirusNames   = array();
-        $query = "SELECT DISTINCT name FROM `glpi_plugin_armadito_alerts`";
+        $query = "SELECT name FROM `glpi_plugin_armadito_alerts`";
         $ret   = $DB->query($query);
 
         if (!$ret) {
@@ -232,9 +232,31 @@ class PluginArmaditoAlert extends CommonDBTM
 
         if ($DB->numrows($ret) > 0) {
             while ($data = $DB->fetch_assoc($ret)) {
-                array_push($VirusNames, $data['name']);
+                    $VirusNames[$data['name']]++;
             }
         }
+
+        return PluginArmaditoAlert::prepareVirusNamesListForDisplay($VirusNames, $max);
+    }
+
+    static function prepareVirusNamesListForDisplay( $VirusNames, $max )
+    {
+        arsort($VirusNames);
+
+        $i = 0;
+        $others = 0;
+        foreach ($VirusNames as $name => $counter) {
+            if($i > $max) {
+                unset($VirusNames[$name]);
+                $others++;
+            }
+            $i++;
+        }
+
+        if( $others > 0 ){
+              $VirusNames["others"] = $others;
+        }
+
         return $VirusNames;
     }
 }
