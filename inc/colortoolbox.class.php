@@ -113,7 +113,9 @@ class PluginArmaditoColorToolbox
             "blue" => "#7994F2",
             "green1" => "#79F2A5",
             "green2" => "#B8F279",
-            "red" => "#F28179"
+            "red" => "#F28179",
+            "orange" => "#F2B881",
+            "yellow" => "#F2F281"
         );
         return $colors;
     }

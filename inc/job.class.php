@@ -208,7 +208,7 @@ class PluginArmaditoJob extends CommonDBTM
             "downloaded" => $gcolors["blue"],
             "successful" => $gcolors["green1"],
             "failed" => $gcolors["red"],
-            "cancelled" => $gcolors["violet"]
+            "cancelled" => $gcolors["orange"]
         );
     }
 
