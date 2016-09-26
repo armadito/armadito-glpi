@@ -63,7 +63,6 @@ class PluginArmaditoScan extends CommonDBTM
 
     function __construct()
     {
-        //
     }
 
     function initFromForm($jobobj, $POST)
@@ -153,7 +152,7 @@ class PluginArmaditoScan extends CommonDBTM
 
         $tab[$i]['table']         = 'glpi_plugin_armadito_scanconfigs';
         $tab[$i]['field']         = 'scan_name';
-        $tab[$i]['name']          = __('Scan Name', 'armadito');
+        $tab[$i]['name']          = __('Configuration', 'armadito');
         $tab[$i]['datatype']      = 'itemlink';
         $tab[$i]['itemlink_type'] = 'PluginArmaditoScanConfig';
         $tab[$i]['massiveaction'] = FALSE;
@@ -209,11 +208,6 @@ class PluginArmaditoScan extends CommonDBTM
         return $tab;
     }
 
-    /**
-     * Check if Scan is already in database
-     *
-     * @return TRUE or FALSE
-     **/
     function isScaninDB()
     {
         global $DB;
@@ -349,11 +343,7 @@ class PluginArmaditoScan extends CommonDBTM
      **/
     function showForm($table_id, $options = array())
     {
-
-        // Protect against injections
         PluginArmaditoToolbox::validateInt($table_id);
-
-        // Init Form
         $this->initForm($table_id, $options);
         $this->showFormHeader($options);
 
