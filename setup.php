@@ -25,7 +25,6 @@ include_once("inc/toolbox.class.php");
 
 define("PLUGIN_ARMADITO_VERSION", "9.1+0.2");
 
-// Init the hooks of the plugins -Needed
 function plugin_init_armadito()
 {
     global $PLUGIN_HOOKS, $CFG_GLPI;
@@ -40,7 +39,6 @@ function plugin_init_armadito()
     } else {
         $debug_mode = false;
     }
-
 
     if ($Plugin->isActivated('armadito')) {
 
@@ -60,9 +58,6 @@ function plugin_init_armadito()
         Plugin::registerClass('PluginArmaditoState');
         Plugin::registerClass('PluginArmaditoStatedetails');
 
-        /**
-         * Load the relevant javascript/css files only on pages that need them.
-         */
         $PLUGIN_HOOKS['add_javascript']['armadito'] = array();
         $PLUGIN_HOOKS['add_css']['armadito']        = array();
         if (strpos($_SERVER['SCRIPT_FILENAME'], "plugins/armadito") != false) {
@@ -73,13 +68,13 @@ function plugin_init_armadito()
             $PLUGIN_HOOKS['add_javascript']['armadito'][] = "js/stats" . ($debug_mode ? "" : ".min") . ".js";
         }
 
-        if (Session::haveRight('plugin_armadito_configuration', READ) || Session::haveRight('profile', UPDATE)) { // Config page
+        if (Session::haveRight('plugin_armadito_configuration', READ) || Session::haveRight('profile', UPDATE)) {
             $PLUGIN_HOOKS['config_page']['armadito'] = 'front/config.form.php' . '?itemtype=pluginarmaditoconfig&glpi_tab=1';
         }
 
         // Profile definition
         $_SESSION["glpi_plugin_armadito_profile"]['armadito'] = 'w';
-        if (isset($_SESSION["glpi_plugin_armadito_profile"])) { // Right set in change_profile hook
+        if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
 
             $PLUGIN_HOOKS['menu_toadd']['armadito']['plugins'] = 'PluginArmaditoMenu';
         }
@@ -99,12 +94,6 @@ function plugin_init_armadito()
 
 }
 
-/*
- * @function script_endswith_()
- * @param $scriptname : string representing the script to test
- * test the end of the called scriptname ( this is usefull to load )
- *
- */
 function script_endswith_($scriptname)
 {
     return substr($_SERVER['SCRIPT_FILENAME'], -strlen($scriptname)) === $scriptname;
@@ -124,8 +113,7 @@ function plugin_version_armadito()
     );
 }
 
-
-// Optional : check prerequisites before install : may print errors or add to message after redirect
+// Before install
 function plugin_armadito_check_prerequisites()
 {
 
@@ -141,9 +129,6 @@ function plugin_armadito_check_prerequisites()
     return true;
 }
 
-
-// Check configuration process for plugin : need to return true if succeeded
-// Can display a message only if failure and $verbose is true
 function plugin_armadito_check_config($verbose = false)
 {
     if (true) { // Your configuration check

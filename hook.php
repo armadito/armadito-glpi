@@ -25,7 +25,6 @@ include_once("inc/toolbox.class.php");
 
 function setDefaultDisplayPreferences( $classes)
 {
-    // Set preferences for search_options
     $query = "INSERT INTO `glpi_displaypreferences` (`id`, `itemtype`, `num`, `rank`,
                         `users_id`)
 		      VALUES ";
