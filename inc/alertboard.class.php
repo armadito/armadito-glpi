@@ -30,14 +30,8 @@ class PluginArmaditoAlertBoard extends PluginArmaditoBoard
 
     function __construct()
     {
-        //
     }
 
-    /**
-     * Display a board in HTML with JS libs (nvd3)
-     *
-     *@return nothing
-     **/
     function displayBoard()
     {
         $restrict_entity = getEntitiesRestrictRequest(" AND", 'comp');
@@ -53,15 +47,8 @@ class PluginArmaditoAlertBoard extends PluginArmaditoBoard
         echo "</table>";
     }
 
-    /**
-     * Get data and display last alerts chart (bar)
-     *
-     *@return nothing
-     **/
     function addLastAlertsChart($restrict_entity)
     {
-
-        // Number of alerts in last hour, 6 hours, 24 hours
         $data = PluginArmaditoLastAlertStat::getLastHours();
 
         $bchart = new PluginArmaditoChartBar();

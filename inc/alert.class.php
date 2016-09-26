@@ -26,9 +26,6 @@ if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
-/**
- * Class dealing with Armadito AV state
- **/
 class PluginArmaditoAlert extends CommonDBTM
 {
     protected $jobj;
@@ -37,7 +34,6 @@ class PluginArmaditoAlert extends CommonDBTM
 
     function __construct()
     {
-        //
     }
 
     function initFromJson($jobj)
@@ -137,10 +133,6 @@ class PluginArmaditoAlert extends CommonDBTM
         return $tab;
     }
 
-    /* Insert Alerts in database
-     *
-     * @return PluginArmaditoError obj
-     **/
     function run()
     {
         $error = new PluginArmaditoError();
@@ -151,11 +143,6 @@ class PluginArmaditoAlert extends CommonDBTM
         return $error;
     }
 
-    /**
-     * Insert alert in database
-     *
-     * @return PluginArmaditoError obj
-     **/
     function insertAlert()
     {
         $error     = new PluginArmaditoError();
@@ -215,9 +202,6 @@ class PluginArmaditoAlert extends CommonDBTM
         PluginArmaditoLastAlertStat::increment($this->jobj->task->obj->alert->detection_time->value);
     }
 
-    /**
-     *  Get list of all Virus names
-     **/
     static function getVirusNamesList( $max )
     {
         global $DB;
