@@ -36,7 +36,8 @@ class PluginArmaditoProfile extends Profile
         $rights = array(
             array(
                 'rights' => array(
-                    READ => __('Read')
+                    READ => __('Read'),
+                    UPDATE => __('Update')
                 ),
                 'label' => __('Menu', 'armadito'),
                 'field' => 'plugin_armadito_menu'
@@ -44,7 +45,8 @@ class PluginArmaditoProfile extends Profile
 
             array(
                 'rights' => array(
-                    READ => __('Read')
+                    READ => __('Read'),
+                    UPDATE => __('Update')
                 ),
                 'itemtype' => 'PluginArmaditoJob',
                 'label' => __('Jobs', 'armadito'),
@@ -53,7 +55,8 @@ class PluginArmaditoProfile extends Profile
 
             array(
                 'rights' => array(
-                    READ => __('Read')
+                    READ => __('Read'),
+                    UPDATE => __('Update')
                 ),
                 'itemtype' => 'PluginArmaditoState',
                 'label' => __('States', 'armadito'),
@@ -62,7 +65,8 @@ class PluginArmaditoProfile extends Profile
 
             array(
                 'rights' => array(
-                    READ => __('Read')
+                    READ => __('Read'),
+                    UPDATE => __('Update')
                 ),
                 'itemtype' => 'PluginArmaditoStateDetail',
                 'label' => __('Statedetails', 'armadito'),
@@ -71,7 +75,8 @@ class PluginArmaditoProfile extends Profile
 
             array(
                 'rights' => array(
-                    READ => __('Read')
+                    READ => __('Read'),
+                    UPDATE => __('Update')
                 ),
                 'itemtype' => 'PluginArmaditoAlert',
                 'label' => __('Alerts', 'armadito'),
@@ -80,7 +85,8 @@ class PluginArmaditoProfile extends Profile
 
             array(
                 'rights' => array(
-                    READ => __('Read')
+                    READ => __('Read'),
+                    UPDATE => __('Update')
                 ),
                 'itemtype' => 'PluginArmaditoScan',
                 'label' => __('Scans', 'armadito'),
@@ -89,7 +95,8 @@ class PluginArmaditoProfile extends Profile
 
             array(
                 'rights' => array(
-                    READ => __('Read')
+                    READ => __('Read'),
+                    UPDATE => __('Update')
                 ),
                 'itemtype' => 'PluginArmaditoAntivirus',
                 'label' => __('Antiviruses', 'armadito'),
