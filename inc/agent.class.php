@@ -84,11 +84,6 @@ class PluginArmaditoAgent extends CommonDBTM
         return '{"agent_id": ' . $this->id . '}';
     }
 
-    /**
-     * Add or update agent
-     *
-     * @return PluginArmaditoError obj
-     **/
     function run()
     {
 
@@ -106,11 +101,6 @@ class PluginArmaditoAgent extends CommonDBTM
         return $error;
     }
 
-    /**
-     * Check if device is already enrolled
-     *
-     * @return TRUE or FALSE
-     **/
     function isAgentInDB()
     {
         global $DB;
@@ -134,11 +124,6 @@ class PluginArmaditoAgent extends CommonDBTM
         return false;
     }
 
-    /**
-     * Try to enroll a new Armadito device
-     *
-     * @return PluginArmaditoError obj
-     **/
     function updateAgentInDB()
     {
         global $DB;
@@ -189,11 +174,6 @@ class PluginArmaditoAgent extends CommonDBTM
         return $error;
     }
 
-    /**
-     * Try to enroll a new Armadito device
-     *
-     * @return PluginArmaditoError obj
-     **/
     function insertAgentInDB()
     {
         global $DB;
@@ -427,9 +407,6 @@ class PluginArmaditoAgent extends CommonDBTM
         return true;
     }
 
-    /**
-     * Massive action ()
-     */
     function getSpecificMassiveActions($checkitem = NULL)
     {
 

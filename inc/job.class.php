@@ -493,11 +493,7 @@ class PluginArmaditoJob extends CommonDBTM
      **/
     function showForm($table_id, $options = array())
     {
-
-        // Protect against injections
         PluginArmaditoToolbox::validateInt($table_id);
-
-        // Init Form
         $this->initForm($table_id, $options);
         $this->showFormHeader($options);
 
