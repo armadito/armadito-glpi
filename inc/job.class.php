@@ -26,9 +26,6 @@ if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
-/**
- * Class dealing with Jobs
- **/
 class PluginArmaditoJob extends CommonDBTM
 {
     protected $id;
@@ -58,8 +55,6 @@ class PluginArmaditoJob extends CommonDBTM
 
         $this->type = $type;
         $this->setPriority($POST["job_priority"]);
-
-        // init Scan Obj for example or an other job_type
         $this->initObjFromForm($key, $type, $POST);
     }
 
@@ -76,7 +71,6 @@ class PluginArmaditoJob extends CommonDBTM
         $this->agent = new PluginArmaditoAgent();
         $this->agent->initFromDB($this->agentid);
 
-        // init Scan Obj for example or an other job_type
         $error = $this->initObjFromDB();
         return $error;
     }
@@ -103,12 +97,6 @@ class PluginArmaditoJob extends CommonDBTM
         return $this->agentid;
     }
 
-    /**
-     * Get name of this type
-     *
-     * @return text name of this type by language of the user connected
-     *
-     **/
     static function getTypeName($nb = 0)
     {
         return __('Job', 'armadito');
@@ -420,9 +408,6 @@ class PluginArmaditoJob extends CommonDBTM
         return false;
     }
 
-    /**
-     * Massive action ()
-     */
     function getSpecificMassiveActions($checkitem = NULL)
     {
 
@@ -493,15 +478,6 @@ class PluginArmaditoJob extends CommonDBTM
         return $ong;
     }
 
-    /**
-     * Display form
-     *
-     * @param $agent_id integer ID of the agent
-     * @param $options array
-     *
-     * @return bool TRUE if form is ok
-     *
-     **/
     function showForm($table_id, $options = array())
     {
         PluginArmaditoToolbox::validateInt($table_id);
