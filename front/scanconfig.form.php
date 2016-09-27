@@ -48,7 +48,7 @@ if (isset($_POST['add'])) {
     } else {
         echo "<span style=\"color:red\"> $res </span><br>";
     }
-    //Html::back();
+    Html::redirect(Toolbox::getItemTypeSearchURL('PluginArmaditoScanConfig'));
 }
 
 if (isset($_GET["id"])) {
