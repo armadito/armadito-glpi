@@ -99,6 +99,7 @@ class PluginArmaditoConfig extends CommonDBTM
         $input               = array();
         $input['version']    = PLUGIN_ARMADITO_VERSION;
         $input['extradebug'] = '1';
+        $input['getjobs_limit'] = 10;
 
         if ($getOnly) {
             return $input;
@@ -161,6 +162,17 @@ class PluginArmaditoConfig extends CommonDBTM
     function showJobsForm($options = array())
     {
         $paConfig = $this->initConfigForm($options, __('Jobs configuration', 'armadito'));
+
+        echo "<tr class='tab_bg_1'>";
+        echo "<td>".__('Maximum jobs agents can get by round', 'armadito')."&nbsp;:</td>";
+        echo "<td width='20%'>";
+        Dropdown::showNumber("getjobs_limit", array(
+             'value' => $this->getValue('getjobs_limit'),
+             'min' => 1,
+             'max' => 100)
+         );
+        echo "</td>";
+        echo "</tr>";
 
         $options['candel'] = FALSE;
         $paConfig->showFormButtons($options);

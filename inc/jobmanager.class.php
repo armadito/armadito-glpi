@@ -59,9 +59,12 @@ class PluginArmaditoJobmanager extends CommonDBTM
     {
         global $DB;
         $error = new PluginArmaditoError();
+        $paConfig = new PluginArmaditoConfig();
+
+        $getjobs_limit = PluginArmaditoToolbox::validateInt($paConfig->getValue('getjobs_limit'));
 
         $query = "SELECT * FROM `glpi_plugin_armadito_jobs`
-                 WHERE `plugin_armadito_agents_id`='" . $this->agentid . "' AND `job_status`='" . $status . "' LIMIT 10";
+                 WHERE `plugin_armadito_agents_id`='" . $this->agentid . "' AND `job_status`='" . $status . "' LIMIT ".$getjobs_limit;
 
         $ret = $DB->query($query);
 
