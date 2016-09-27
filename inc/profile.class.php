@@ -106,7 +106,8 @@ class PluginArmaditoProfile extends Profile
             array(
                 'rights' => array(
                     READ => __('Read'),
-                    UPDATE => __('Update')
+                    UPDATE => __('Update'),
+                    PURGE => __('Purge')
                 ),
                 'itemtype' => 'PluginArmaditoScanConfig',
                 'label' => __('Scan configuration', 'armadito'),

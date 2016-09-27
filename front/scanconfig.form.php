@@ -50,6 +50,13 @@ if (isset($_POST['add'])) {
     }
     //Html::back();
 }
+else if (isset($_POST["purge"]))
+{
+      Session::checkRight('plugin_armadito_scanconfigs', PURGE);
+
+      $scanConfig->delete($_POST);
+      Html::redirect(Toolbox::getItemTypeSearchURL('PluginFusioninventoryIPRange'));
+}
 
 if (isset($_GET["id"])) {
     $scanConfig->display(array(
@@ -62,5 +69,4 @@ if (isset($_GET["id"])) {
 }
 
 Html::footer();
-
 ?>

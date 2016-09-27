@@ -119,7 +119,9 @@ CREATE TABLE `glpi_plugin_armadito_scanconfigs` (
    `scan_path` varchar(255) DEFAULT NULL,
    `scan_options` varchar(255) DEFAULT NULL,
    `plugin_armadito_antiviruses_id` int(11) NOT NULL,
+   `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
    PRIMARY KEY (`id`),
+   KEY `is_deleted` (`is_deleted`),
    UNIQUE KEY `scan_name` (`scan_name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 

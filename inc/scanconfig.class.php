@@ -35,6 +35,7 @@ class PluginArmaditoScanConfig extends CommonDBTM
     protected $scan_options;
     protected $antivirus_id;
 
+    static $rightname = 'plugin_armadito_scanconfigs';
 
     function __construct()
     {
@@ -113,6 +114,11 @@ class PluginArmaditoScanConfig extends CommonDBTM
         $dbmanager->closeQuery($query_name);
         $error->setMessage(0, 'New scanconfig successfully inserted.');
         return $error;
+    }
+
+    static function canDelete()
+    {
+        return true;
     }
 
     static function canCreate()
