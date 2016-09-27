@@ -124,7 +124,6 @@ class PluginArmaditoScan extends CommonDBTM
 
     function getSearchOptions()
     {
-
         $tab           = array();
         $tab['common'] = __('Scan', 'armadito');
 
@@ -234,12 +233,12 @@ class PluginArmaditoScan extends CommonDBTM
         return false;
     }
 
-    /**
-     * Add Scan in database
-     *
-     * @return PluginArmaditoError obj
-     **/
     function addObj($job_id_, $agent)
+    {
+        return $this->insertScanInDB($job_id_, $agent);
+    }
+
+    function insertScanInDB($job_id_, $agent)
     {
         $error     = new PluginArmaditoError();
         $dbmanager = new PluginArmaditoDbManager();
@@ -282,11 +281,7 @@ class PluginArmaditoScan extends CommonDBTM
         return $error;
     }
 
-    /**
-     * Add Scan Results in database
-     *
-     * @return PluginArmaditoError obj
-     **/
+
     function updateScanInDB()
     {
         $error     = new PluginArmaditoError();
@@ -339,15 +334,6 @@ class PluginArmaditoScan extends CommonDBTM
         return $ong;
     }
 
-    /**
-     * Display form
-     *
-     * @param $agent_id integer ID of the agent
-     * @param $options array
-     *
-     * @return bool TRUE if form is ok
-     *
-     **/
     function showForm($table_id, $options = array())
     {
         PluginArmaditoToolbox::validateInt($table_id);
