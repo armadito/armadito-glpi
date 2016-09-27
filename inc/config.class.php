@@ -42,30 +42,57 @@ class PluginArmaditoConfig extends CommonDBTM
      **/
     static function getTypeName($nb = 0)
     {
-
         return __('General setup');
-
     }
 
-    /**
-     * Display form for config
-     *
-     * @return bool TRUE if form is ok
-     *
-     **/
-    function showForm($options = array())
+    function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
+
+      if ($item->getType()==__CLASS__) {
+      
+         $array_ret = array();
+         $array_ret[0] = __('General setup');
+         $array_ret[1] = __('States', 'armadito');
+         $array_ret[2] = __('Alerts', 'armadito');
+         $array_ret[3] = __('Scans', 'armadito');
+         $array_ret[4] = __('Jobs', 'armadito');
+
+         return $array_ret;
+      }
+      return '';
+    }
+
+    static function displayTabContentForItem(CommonGLPI $item, $tabnum=1, $withtemplate=0) {
+
+       switch ($tabnum) {
+          case 0:
+             $item->showForm();
+             break;
+          case 1:
+             $item->showStatesForm();
+             break;
+          case 2:
+             $item->showAlertsForm();
+             break;
+          case 3:
+             $item->showScansForm();
+             break;
+          case 4:
+             $item->showJobsForm();
+             break;
+       }
+       return TRUE;
+    }
+
+    function defineTabs($options=array())
     {
-        global $CFG_GLPI;
+        $plugin = new Plugin;
 
-        $this->showFormHeader($options);
+        $ong = array();
+        $this->addStandardTab("PluginArmaditoConfig", $ong, $options);
+
+        return $ong;
     }
 
-    /**
-     * Initialize config values of armadito plugin
-     *
-     * @return nothing
-     *
-     **/
     function initConfigModule($getOnly = FALSE)
     {
 
@@ -78,6 +105,66 @@ class PluginArmaditoConfig extends CommonDBTM
         }
 
         $this->addValues($input);
+    }
+
+    function showForm($options = array())
+    {
+        global $CFG_GLPI;
+        $this->showFormHeader($options);
+
+        $options['candel'] = FALSE;
+        $this->showFormButtons($options);
+        return TRUE;
+    }
+
+    function initConfigForm($options, $title)
+    {
+        $paConfig = new PluginArmaditoConfig();
+        $paConfig->fields['id'] = 1;
+        $paConfig->showFormHeader($options);
+        
+        echo "<tr>";
+        echo "<th colspan='4'>";
+        echo $title;
+        echo "</th>";
+        echo "</tr>";
+        
+        return $paConfig;
+    }
+
+    function showStatesForm($options = array())
+    {
+        $paConfig = $this->initConfigForm($options, __('States configuration', 'armadito'));
+        $options['candel'] = FALSE;
+        $paConfig->showFormButtons($options);
+        return TRUE;
+    }
+    
+    function showAlertsForm($options = array())
+    {
+        $paConfig = $this->initConfigForm($options, __('Alerts configuration', 'armadito'));
+        
+        $options['candel'] = FALSE;
+        $paConfig->showFormButtons($options);
+        return TRUE;
+    }
+    
+    function showScansForm($options = array())
+    {
+        $paConfig = $this->initConfigForm($options, __('Scans configuration', 'armadito'));
+        
+        $options['candel'] = FALSE;
+        $paConfig->showFormButtons($options);
+        return TRUE;
+    }
+    
+    function showJobsForm($options = array())
+    {
+        $paConfig = $this->initConfigForm($options, __('Jobs configuration', 'armadito'));
+
+        $options['candel'] = FALSE;
+        $paConfig->showFormButtons($options);
+        return TRUE;
     }
 
     /**
