@@ -48,7 +48,7 @@ class PluginArmaditoConfig extends CommonDBTM
     function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
 
       if ($item->getType()==__CLASS__) {
-      
+
          $array_ret = array();
          $array_ret[0] = __('General setup');
          $array_ret[1] = __('States', 'armadito');
@@ -122,13 +122,13 @@ class PluginArmaditoConfig extends CommonDBTM
         $paConfig = new PluginArmaditoConfig();
         $paConfig->fields['id'] = 1;
         $paConfig->showFormHeader($options);
-        
+
         echo "<tr>";
         echo "<th colspan='4'>";
         echo $title;
         echo "</th>";
         echo "</tr>";
-        
+
         return $paConfig;
     }
 
@@ -139,25 +139,25 @@ class PluginArmaditoConfig extends CommonDBTM
         $paConfig->showFormButtons($options);
         return TRUE;
     }
-    
+
     function showAlertsForm($options = array())
     {
         $paConfig = $this->initConfigForm($options, __('Alerts configuration', 'armadito'));
-        
+
         $options['candel'] = FALSE;
         $paConfig->showFormButtons($options);
         return TRUE;
     }
-    
+
     function showScansForm($options = array())
     {
         $paConfig = $this->initConfigForm($options, __('Scans configuration', 'armadito'));
-        
+
         $options['candel'] = FALSE;
         $paConfig->showFormButtons($options);
         return TRUE;
     }
-    
+
     function showJobsForm($options = array())
     {
         $paConfig = $this->initConfigForm($options, __('Jobs configuration', 'armadito'));
