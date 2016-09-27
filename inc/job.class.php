@@ -39,6 +39,8 @@ class PluginArmaditoJob extends CommonDBTM
     protected $agentid;
     protected $agent;
 
+    static $rightname = 'plugin_armadito_jobs';
+
     function __construct()
     {
         $this->type     = -1;
@@ -110,6 +112,11 @@ class PluginArmaditoJob extends CommonDBTM
     static function getTypeName($nb = 0)
     {
         return __('Job', 'armadito');
+    }
+
+    static function canDelete()
+    {
+        return true;
     }
 
     static function canCreate()

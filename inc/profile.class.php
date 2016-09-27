@@ -46,7 +46,8 @@ class PluginArmaditoProfile extends Profile
             array(
                 'rights' => array(
                     READ => __('Read'),
-                    UPDATE => __('Update')
+                    UPDATE => __('Update'),
+                    PURGE => __('Purge')
                 ),
                 'itemtype' => 'PluginArmaditoJob',
                 'label' => __('Jobs', 'armadito'),
@@ -76,7 +77,8 @@ class PluginArmaditoProfile extends Profile
             array(
                 'rights' => array(
                     READ => __('Read'),
-                    UPDATE => __('Update')
+                    UPDATE => __('Update'),
+                    PURGE => __('Purge')
                 ),
                 'itemtype' => 'PluginArmaditoAlert',
                 'label' => __('Alerts', 'armadito'),
@@ -86,7 +88,8 @@ class PluginArmaditoProfile extends Profile
             array(
                 'rights' => array(
                     READ => __('Read'),
-                    UPDATE => __('Update')
+                    UPDATE => __('Update'),
+                    PURGE => __('Purge')
                 ),
                 'itemtype' => 'PluginArmaditoScan',
                 'label' => __('Scans', 'armadito'),

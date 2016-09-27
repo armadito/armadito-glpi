@@ -31,7 +31,6 @@ Html::header(__('Armadito', 'armadito'), $_SERVER["PHP_SELF"], "plugins", "plugi
 
 PluginArmaditoMenu::displayMenu("mini");
 
-
 if (isset($_GET["id"])) {
     $job->display(array(
         "id" => $_GET["id"]

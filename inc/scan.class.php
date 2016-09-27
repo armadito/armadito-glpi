@@ -39,9 +39,16 @@ class PluginArmaditoScan extends CommonDBTM
     protected $scanconfigid;
     protected $scanconfigobj;
 
+    static $rightname = 'plugin_armadito_scans';
+
     static function getTypeName($nb = 0)
     {
         return __('Scan', 'armadito');
+    }
+
+    static function canDelete()
+    {
+        return true;
     }
 
     static function canCreate()

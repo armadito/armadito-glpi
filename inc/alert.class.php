@@ -33,6 +33,8 @@ class PluginArmaditoAlert extends CommonDBTM
     protected $agent;
     protected $detection_time;
 
+    static $rightname = 'plugin_armadito_alerts';
+
     function __construct()
     {
     }
@@ -58,6 +60,11 @@ class PluginArmaditoAlert extends CommonDBTM
     function toJson()
     {
         return '{}';
+    }
+
+    static function canDelete()
+    {
+        return true;
     }
 
     static function canCreate()
