@@ -220,6 +220,16 @@ class PluginArmaditoAlert extends CommonDBTM
         PluginArmaditoLastAlertStat::increment($this->jobj->task->obj->alert->detection_time->value);
     }
 
+    static function addVirusName ($VirusNames, $name)
+    {
+        if(!isset($VirusNames[$data['name']])) {
+            $VirusNames[$data['name']] = 0;
+        }
+
+        $VirusNames[$data['name']]++;
+        return $VirusNames;
+    }
+
     static function getVirusNamesList( $max )
     {
         global $DB;
@@ -234,7 +244,7 @@ class PluginArmaditoAlert extends CommonDBTM
 
         if ($DB->numrows($ret) > 0) {
             while ($data = $DB->fetch_assoc($ret)) {
-                    $VirusNames[$data['name']]++;
+                $VirusNames = PluginArmaditoAlert::addVirusName($VirusNames);
             }
         }
 
