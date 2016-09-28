@@ -135,20 +135,20 @@ class PluginArmaditoScan extends CommonDBTM
 
         $i++;
 
-        $tab[$i]['table']         = 'glpi_plugin_armadito_jobs';
-        $tab[$i]['field']         = 'id';
-        $tab[$i]['name']          = __('Job Id', 'armadito');
-        $tab[$i]['datatype']      = 'itemlink';
-        $tab[$i]['itemlink_type'] = 'PluginArmaditoJob';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
         $tab[$i]['table']         = 'glpi_plugin_armadito_agents';
         $tab[$i]['field']         = 'id';
         $tab[$i]['name']          = __('Agent Id', 'armadito');
         $tab[$i]['datatype']      = 'itemlink';
         $tab[$i]['itemlink_type'] = 'PluginArmaditoAgent';
+        $tab[$i]['massiveaction'] = FALSE;
+
+        $i++;
+
+        $tab[$i]['table']         = 'glpi_plugin_armadito_jobs';
+        $tab[$i]['field']         = 'job_status';
+        $tab[$i]['name']          = __('Job', 'armadito');
+        $tab[$i]['datatype']      = 'itemlink';
+        $tab[$i]['itemlink_type'] = 'PluginArmaditoJob';
         $tab[$i]['massiveaction'] = FALSE;
 
         $i++;
