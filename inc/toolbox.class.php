@@ -211,6 +211,11 @@ class PluginArmaditoToolbox
         return $datetime->format("G");
     }
 
+    static function FormatISO8601DateInterval($ISO8601_dateinterval) {
+        $interval = new DateInterval($ISO8601_dateinterval);
+        return $interval->format('%dd %Hh %Im %Ss');
+    }
+
     /**
      * Get hour:minute from number of seconds
      */
