@@ -7,15 +7,6 @@ Prerequisites
 * Git client
 * Perl > 5.8 (`Strawberry Perl <http://strawberryperl.com/>`_ or something else)
 * Perl module **inc::Module::Install**
-* Perl module **FusionInventory::Agent** > 2.3.17 (to be tested on older versions)
-
-
-FusionInventory Agent
-~~~~~~~~~~~~~~~~~~~~~
-
-Simply follow the `Installation tutorial <http://fusioninventory.org/documentation/agent/installation/windows/>`_
-
-.. warning:: You **can't** install **FusionInventory Agent** from **cpan** on Windows because it works only on Linux.
 
 Modules
 ~~~~~~~
