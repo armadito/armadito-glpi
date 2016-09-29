@@ -30,7 +30,7 @@ class AgentTest extends RestoreDatabase_TestCase
     public function addAgent()
     {
         $agent = new PluginArmaditoAgent();
-        $json  = '{"fusion_id":"lw007-2016-07-21-09-22-29",
+        $json  = '{
   "task": {"obj":"{}",
 		   "name":"Enrollment",
 		   "antivirus": {
@@ -62,7 +62,7 @@ class AgentTest extends RestoreDatabase_TestCase
     {
 
         $agent = new PluginArmaditoAgent();
-        $json  = '{"fusion_id":"lw007-2016-07-21-09-22-29",
+        $json  = '{
   "task": {"obj":"{}",
 		   "name":"Enrollment",
 		   "antivirus": {
