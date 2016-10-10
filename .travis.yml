@@ -28,7 +28,7 @@ addons:
       description: "Build submitted via Travis CI"
     notification_email: vhamon@teclib.com
     build_command_prepend: ""
-    build_command:   ""
+    build_command:   "--no-command"
     branch_pattern: coverity_scan
 
 before_install:
