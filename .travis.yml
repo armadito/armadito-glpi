@@ -7,13 +7,11 @@ php:
   - 7.0
 
 env:
-#  - GLPI=0.90/bugfixes
-#  - GLPI=0.85/bugfixes
-  - GLPI=master
   global:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
    #   via the "travis encrypt" command using the project repo's public key
    - secure: "mbExjXZdEP/vHDb/BAkQRdo6OPtkIDCtJkFS0SOk98/sIXAvowj8KlgckaBAqxWRqzMS37BE5UCKGJ2ylltrW7yUEfYdZQvBm/KOysvb/9L9KVLRNi7TL4JxYwfwGWfMGspZE4AmGxeQW/eaCt9pk5Tl4Wm3NOD+qRYxeP/6fVbTzSaT0VgCo1JsH9W5Q3vebSPPs1ndVsUB23EHc/YWD9h8cvnOQoJhrqruPsX5f0DY8q6q0sj08Ea6uLwk0LLBaQoe7eogkuCpc1KvTa1gmcYwE5yd4NunxGdi4kD6Uf+MOFe/eSBjZrBLflFJR3qBOwaQXvnkBFx74KHsCxX9A4PYGPXAcYyCzc3iXYRl7cVe6JgkPGxaG9TxZ3omN2WlDr77o1TuL2LTcuMThW4rIEzvoICHY5W5A3gyM3H/9dMiAP+xYtLAYRfDI4twYUNPUJ7NyN4qBTUhtIPX4WUb/IM71/YQ4rR0gqDCTxv6i0Asr1lgLWn7f9TlnbRPvSWqWXI/PMbxmPDbYWjDpaj8TURsei9T19vOz+Bv27hgUfErRaniTLXW/fLMSUeXs1YycVV9FgV6NUoME1fo/AQOnvZlJfuXX8RphVmE9e5uOigqo19+xZdnEmOu38tMnkHjAIvLYqTc/XEhLSpW85zMupgXkTAOk26wusZmc2qyjD4="
+   - GLPI=master
 
 cache:
   directories:
