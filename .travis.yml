@@ -10,6 +10,10 @@ env:
 #  - GLPI=0.90/bugfixes
 #  - GLPI=0.85/bugfixes
   - GLPI=master
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "mbExjXZdEP/vHDb/BAkQRdo6OPtkIDCtJkFS0SOk98/sIXAvowj8KlgckaBAqxWRqzMS37BE5UCKGJ2ylltrW7yUEfYdZQvBm/KOysvb/9L9KVLRNi7TL4JxYwfwGWfMGspZE4AmGxeQW/eaCt9pk5Tl4Wm3NOD+qRYxeP/6fVbTzSaT0VgCo1JsH9W5Q3vebSPPs1ndVsUB23EHc/YWD9h8cvnOQoJhrqruPsX5f0DY8q6q0sj08Ea6uLwk0LLBaQoe7eogkuCpc1KvTa1gmcYwE5yd4NunxGdi4kD6Uf+MOFe/eSBjZrBLflFJR3qBOwaQXvnkBFx74KHsCxX9A4PYGPXAcYyCzc3iXYRl7cVe6JgkPGxaG9TxZ3omN2WlDr77o1TuL2LTcuMThW4rIEzvoICHY5W5A3gyM3H/9dMiAP+xYtLAYRfDI4twYUNPUJ7NyN4qBTUhtIPX4WUb/IM71/YQ4rR0gqDCTxv6i0Asr1lgLWn7f9TlnbRPvSWqWXI/PMbxmPDbYWjDpaj8TURsei9T19vOz+Bv27hgUfErRaniTLXW/fLMSUeXs1YycVV9FgV6NUoME1fo/AQOnvZlJfuXX8RphVmE9e5uOigqo19+xZdnEmOu38tMnkHjAIvLYqTc/XEhLSpW85zMupgXkTAOk26wusZmc2qyjD4="
 
 cache:
   directories:
@@ -20,6 +24,14 @@ addons:
     packages:
     - ant
     - xsltproc
+  coverity_scan:
+    project:
+      name: "armadito/armadito-glpi"
+      description: "Build submitted via Travis CI"
+    notification_email: vhamon@teclib.com
+    build_command_prepend: ""
+    build_command:   ""
+    branch_pattern: coverity_scan
 
 before_install:
  - cd ..
@@ -34,7 +46,8 @@ before_install:
  - echo '<?php class DB extends DBmysql {var $dbhost = "localhost";var $dbuser = "travis";var $dbpassword= "travis";var $dbdefault = "glpi";}' > glpi/config/config_db.php
  - mv -f armadito-glpi glpi/plugins/armadito
  - composer self-update
- - ant -Dclearsavepoint='true' -Dbasedir=. -f ./glpi/plugins/armadito/phpunit/build.xml composer
+ - ant -Dclearsavepoint='true' -Dbasedir=. -f ./glpi/plugins/fusioninventory/phpunit/build.xml composer
+ - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
 
 install:
  - composer require satooshi/php-coveralls
