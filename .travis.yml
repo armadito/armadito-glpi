@@ -28,7 +28,7 @@ addons:
       description: "Build submitted via Travis CI"
     notification_email: vhamon@teclib.com
     build_command_prepend: "cd /home/travis/build/armadito/glpi/plugins/armadito; mv /home/travis/build/armadito/glpi/plugins/armadito/lib /home/travis/build/armadito/glpi/plugins/_lib"
-    build_command:   "--no-command --fs-capture-search /home/travis/build/armadito/glpi/plugins/armadito"
+    build_command:   "--no-command --fs-capture-search /home/travis/build/armadito/glpi/"
     branch_pattern: coverity_scan
 
 before_install:
