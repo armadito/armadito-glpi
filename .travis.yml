@@ -51,12 +51,11 @@ install:
  - composer require satooshi/php-coveralls
 
 before_script:
-  - cp -r /home/travis/build/armadito/glpi/plugins/_lib /home/travis/build/armadito/glpi/plugins/armadito/lib
   - phpenv version-name | grep ^5.[34] && echo "extension=apc.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; true
   - phpenv version-name | grep ^5.[34] && echo "apc.enable_cli=1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; true
   - php -S localhost:8088 -t glpi > /dev/null 2>&1 &
 
-script: ant -Dclearsavepoint='true' -Dbasedir=. -f ./glpi/plugins/armadito/phpunit/build.xml phpunit.all
+script: cp -r /home/travis/build/armadito/glpi/plugins/_lib /home/travis/build/armadito/glpi/plugins/armadito/lib && ant -Dclearsavepoint='true' -Dbasedir=. -f ./glpi/plugins/armadito/phpunit/build.xml phpunit.all
 
 after_script:
  - cp -fr build glpi/plugins/armadito/
