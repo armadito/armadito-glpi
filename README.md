@@ -1,6 +1,7 @@
 Plugin Armadito for GLPI
 ========================
 
+[![Build Status](https://travis-ci.org/armadito/armadito-glpi.svg?branch=DEV)](https://travis-ci.org/armadito/armadito-glpi)
 <a href="https://scan.coverity.com/projects/armadito-armadito-mod-clamav">
   <img alt="Coverity Scan Build Status"
        src="https://scan.coverity.com/projects/10495/badge.svg"/>
