@@ -1,6 +1,11 @@
 Plugin Armadito for GLPI
 ========================
 
+<a href="https://scan.coverity.com/projects/armadito-armadito-mod-clamav">
+  <img alt="Coverity Scan Build Status"
+       src="https://scan.coverity.com/projects/10495/badge.svg"/>
+</a>
+
 Armadito is an open-source antivirus.
 
 This repository contains the source code of the Plugin Armadito for GLPI.
