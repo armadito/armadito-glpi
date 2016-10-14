@@ -55,7 +55,7 @@ before_script:
   - phpenv version-name | grep ^5.[34] && echo "apc.enable_cli=1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; true
   - php -S localhost:8088 -t glpi > /dev/null 2>&1 &
 
-script: ./tools/travis_build.sh
+script: /home/travis/build/armadito/glpi/plugins/armadito/tools/travis_build.sh
 
 after_script:
  - cp -fr build glpi/plugins/armadito/
