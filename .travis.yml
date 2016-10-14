@@ -25,7 +25,7 @@ addons:
   coverity_scan:
     project:
       name: "armadito/armadito-glpi"
-      description: "Build submitted via Travis CI"
+      description: "Build submitted via Travis-CI"
     notification_email: vhamon@teclib.com
     build_command_prepend: "/home/travis/build/armadito/glpi/plugins/armadito/tools/prepend_coverity.sh && cd /home/travis/build/armadito/glpi/plugins/armadito"
     build_command:   "--no-command --fs-capture-search /home/travis/build/armadito/glpi/plugins/armadito"
