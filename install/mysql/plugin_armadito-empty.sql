@@ -4,8 +4,6 @@ CREATE TABLE `glpi_plugin_armadito_agents` (
    `id` int(11) NOT NULL AUTO_INCREMENT,
    `entities_id` int(11) NOT NULL DEFAULT '0',
    `computers_id` int(11) NOT NULL,
-   `plugin_fusioninventory_agents_id` int(11) NOT NULL,
-   `device_id` varchar(255) DEFAULT NULL COMMENT 'Fusion deviceid',
    `agent_version` varchar(255) DEFAULT NULL,
    `plugin_armadito_antiviruses_id` int(11) NOT NULL,
    `last_contact` datetime DEFAULT NULL,
