@@ -72,26 +72,15 @@ function plugin_init_armadito()
             $PLUGIN_HOOKS['config_page']['armadito'] = 'front/config.form.php' . '?itemtype=pluginarmaditoconfig&glpi_tab=1';
         }
 
-        // Profile definition
         $_SESSION["glpi_plugin_armadito_profile"]['armadito'] = 'w';
         if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
 
             $PLUGIN_HOOKS['menu_toadd']['armadito']['plugins'] = 'PluginArmaditoMenu';
         }
 
-        // Add fusion plugin hook
-        $PLUGIN_HOOKS['item_update']['armadito'] = array(
-            'PluginFusioninventoryAgent' => array(
-                'PluginArmaditoAgent',
-                'item_update_agent'
-            )
-        );
-    } else { // plugin not active
-        // TODO
-        // include_once(GLPI_ROOT.'/plugins/armadito/inc/module.class.php');
-        // $moduleId = PluginArmaditoModule::getModuleId('armadito');
+        $PLUGIN_HOOKS['fusioninventory_inventory']['armadito']
+         = array('PluginArmaditoAgent', 'FusionInventoryHook');
     }
-
 }
 
 function script_endswith_($scriptname)

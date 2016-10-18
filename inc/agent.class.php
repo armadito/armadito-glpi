@@ -84,9 +84,60 @@ class PluginArmaditoAgent extends CommonDBTM
         return '{"agent_id": ' . $this->id . '}';
     }
 
+    static function getAgentIdForFingerprint($fingerprint)
+    {
+        global $DB;
+
+        $query = "SELECT id FROM `glpi_plugin_armadito_agents`
+				WHERE `fingerprint`='" . $fingerprint . "'";
+        $ret   = $DB->query($query);
+
+        if (!$ret) {
+            throw new Exception(sprintf('Error isAlreadyEnrolled : %s', $DB->error()));
+        }
+
+        if ($DB->numrows($ret) > 0) {
+            $data     = $DB->fetch_assoc($ret);
+            return PluginArmaditoToolbox::validateInt($data["id"]);
+        }
+
+        return -1;
+    }
+
+    static function FusionInventoryHook($params = array())
+    {
+        if (!empty($params)
+         && isset($params['inventory_data'])
+         && !empty($params['inventory_data'])) {
+
+             $uuid = $params['inventory_data']['Computer']['uuid'];
+             $serial = $params['inventory_data']['Computer']['serial'];
+             $agent_id = PluginArmaditoAgent::getAgentIdForFingerprint($uuid.'-'.$serial);
+
+             if($agent_id > 0)
+             {
+                $computers_id = PluginArmaditoToolbox::validateInt($params['computers_id']);
+                PluginArmaditoAgent::associateAgentWithComputer($agent_id, $computers_id);
+             }
+        }
+    }
+
+    static function associateAgentWithComputer( $agent_id, $computers_id )
+    {
+            $pfAgent = new PluginArmaditoAgent();
+
+            if ($pfAgent->getFromDB($agent_id))
+            {
+                $input                = array();
+                $input['id']          = $agent_id;
+                $input['computers_id'] = $computers_id;
+
+                return $pfAgent->update($input);
+            }
+    }
+
     function run()
     {
-
         $error = $this->antivirus->run();
         if ($error->getCode() != 0) {
             return $error;
@@ -105,7 +156,7 @@ class PluginArmaditoAgent extends CommonDBTM
     {
         global $DB;
 
-        PluginArmaditoToolbox::validateHash($this->jobj->fingerprint);
+       // PluginArmaditoToolbox::validateFingerprint($this->jobj->fingerprint);
 
         $query = "SELECT id FROM `glpi_plugin_armadito_agents`
 				WHERE `fingerprint`='" . $this->jobj->fingerprint . "'";
