@@ -44,8 +44,6 @@ function plugin_init_armadito()
 
         $types = array(
             'Central',
-            'Computer',
-            'ComputerDisk',
             'Preference',
             'Profile'
         );
