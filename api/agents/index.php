@@ -28,14 +28,12 @@ if (!empty($rawdata)) { // POST /states
 
     PluginArmaditoToolbox::checkPluginInstallation();
 
-    // init GLPI stuff
     $error         = new PluginArmaditoError();
     $communication = new PluginArmaditoCommunication();
     $communication->init();
 
     PluginArmaditoLastContactStat::increment();
 
-    // Parse json obj
     $jobj = PluginArmaditoToolbox::parseJSON($rawdata);
 
     if (!$jobj) {
