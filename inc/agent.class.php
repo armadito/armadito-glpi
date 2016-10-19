@@ -86,18 +86,6 @@ class PluginArmaditoAgent extends CommonDBTM
         return '{"agent_id": ' . $this->id . '}';
     }
 
-    static function getUUIDFromFingerprint($fingerprint)
-    {
-        $parts = explode("-", $fingerprint);
-        return $parts[0].'-'.$parts[1].'-'.$parts[2].'-'.$parts[3].'-'.$parts[4];
-    }
-
-    static function getSerialFromFingerprint($fingerprint)
-    {
-        $parts = explode("-", $fingerprint);
-        return $parts[5];
-    }
-
     static function getAgentIdForComputerId($computers_id)
     {
         global $DB;
@@ -145,8 +133,10 @@ class PluginArmaditoAgent extends CommonDBTM
         global $DB;
 
         PluginArmaditoToolbox::validateFingerprint($fingerprint);
-        $serial = PluginArmaditoAgent::getSerialFromFingerprint($fingerprint);
-        $uuid = PluginArmaditoAgent::getUUIDFromFingerprint($fingerprint);
+
+        $parts = explode("---", $fingerprint);
+        $serial = $parts[0];
+        $uuid = $parts[1];
 
         $query = "SELECT id FROM `glpi_computers`
 				WHERE `serial`='" . $serial . "' AND `uuid`='". $uuid . "'";

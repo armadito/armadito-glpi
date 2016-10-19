@@ -102,7 +102,7 @@ class PluginArmaditoToolbox
     {
         $ret = filter_var($var, FILTER_VALIDATE_REGEXP, array(
             "options" => array(
-                "regexp" => "/^[A-Za-z0-9\-]{40,}$/"
+                "regexp" => "/^[A-Za-z0-9\- ]{40,}$/"
             )
         ));
         if ($ret != $var) {
