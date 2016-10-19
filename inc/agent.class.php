@@ -29,6 +29,7 @@ class PluginArmaditoAgent extends CommonDBTM
     protected $id;
     protected $jobj;
     protected $antivirus;
+    protected $computerid;
 
     function __construct()
     {
@@ -40,6 +41,7 @@ class PluginArmaditoAgent extends CommonDBTM
         $this->jobj      = $jobj;
         $this->antivirus = new PluginArmaditoAntivirus();
         $this->antivirus->initFromJson($jobj);
+        $this->computerid = PluginArmaditoAgent::getComputerIdForFingerprint($this->jobj->fingerprint);
     }
 
     function initFromDB($agent_id)
@@ -84,6 +86,18 @@ class PluginArmaditoAgent extends CommonDBTM
         return '{"agent_id": ' . $this->id . '}';
     }
 
+    static function getUUIDFromFingerprint($fingerprint)
+    {
+        $parts = explode("-", $fingerprint);
+        return $parts[0].'-'.$parts[1].'-'.$parts[2].'-'.$parts[3].'-'.$parts[4];
+    }
+
+    static function getSerialFromFingerprint($fingerprint)
+    {
+        $parts = explode("-", $fingerprint);
+        return $parts[5];
+    }
+
     static function getAgentIdForFingerprint($fingerprint)
     {
         global $DB;
@@ -93,7 +107,31 @@ class PluginArmaditoAgent extends CommonDBTM
         $ret   = $DB->query($query);
 
         if (!$ret) {
-            throw new Exception(sprintf('Error isAlreadyEnrolled : %s', $DB->error()));
+            throw new Exception(sprintf('Error getAgentIdForFingerprint : %s', $DB->error()));
+        }
+
+        if ($DB->numrows($ret) > 0) {
+            $data     = $DB->fetch_assoc($ret);
+            return PluginArmaditoToolbox::validateInt($data["id"]);
+        }
+
+        return -1;
+    }
+
+    static function getComputerIdForFingerprint($fingerprint)
+    {
+        global $DB;
+
+        PluginArmaditoToolbox::validateFingerprint($fingerprint);
+        $serial = PluginArmaditoAgent::getSerialFromFingerprint($fingerprint);
+        $uuid = PluginArmaditoAgent::getUUIDFromFingerprint($fingerprint);
+
+        $query = "SELECT id FROM `glpi_computers`
+				WHERE `serial`='" . $serial . "' AND `uuid`='". $uuid . "'";
+        $ret   = $DB->query($query);
+
+        if (!$ret) {
+            throw new Exception(sprintf('Error getComputerIdForFingerprint : %s', $DB->error()));
         }
 
         if ($DB->numrows($ret) > 0) {
@@ -156,7 +194,7 @@ class PluginArmaditoAgent extends CommonDBTM
     {
         global $DB;
 
-       // PluginArmaditoToolbox::validateFingerprint($this->jobj->fingerprint);
+        PluginArmaditoToolbox::validateFingerprint($this->jobj->fingerprint);
 
         $query = "SELECT id FROM `glpi_plugin_armadito_agents`
 				WHERE `fingerprint`='" . $this->jobj->fingerprint . "'";
@@ -203,7 +241,7 @@ class PluginArmaditoAgent extends CommonDBTM
         }
 
         $dbmanager->setQueryValue($query_name, "entities_id", 0);
-        $dbmanager->setQueryValue($query_name, "computers_id", 0);
+        $dbmanager->setQueryValue($query_name, "computers_id", $this->computerid);
         $dbmanager->setQueryValue($query_name, "agent_version", $this->jobj->agent_version);
         $dbmanager->setQueryValue($query_name, "plugin_armadito_antiviruses_id", $this->antivirus->getId());
         $dbmanager->setQueryValue($query_name, "last_contact", date("Y-m-d H:i:s", time()));
@@ -249,7 +287,7 @@ class PluginArmaditoAgent extends CommonDBTM
         }
 
         $dbmanager->setQueryValue($query_name, "entities_id", 0);
-        $dbmanager->setQueryValue($query_name, "computers_id", 0);
+        $dbmanager->setQueryValue($query_name, "computers_id", $this->computerid);
         $dbmanager->setQueryValue($query_name, "agent_version", $this->jobj->agent_version);
         $dbmanager->setQueryValue($query_name, "plugin_armadito_antiviruses_id", $this->antivirus->getId());
         $dbmanager->setQueryValue($query_name, "last_contact", date("Y-m-d H:i:s", time()));

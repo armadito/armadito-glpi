@@ -98,6 +98,20 @@ class PluginArmaditoToolbox
         return $ret;
     }
 
+    static function validateFingerprint($var)
+    {
+        $ret = filter_var($var, FILTER_VALIDATE_REGEXP, array(
+            "options" => array(
+                "regexp" => "/^[A-Za-z0-9\-]{40,}$/"
+            )
+        ));
+        if ($ret != $var) {
+            throw new Exception(sprintf('Invalid fingerprint : "%s"', $var));
+        }
+        return $ret;
+    }
+
+
     /**
      * Win32 path validation
      */
