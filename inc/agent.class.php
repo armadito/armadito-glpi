@@ -516,49 +516,53 @@ class PluginArmaditoAgent extends CommonDBTM
         return $actions;
     }
 
+    static function processMassiveActionNewScan(MassiveAction $ma, CommonDBTM $item, $key)
+    {
+        $agent_id = $key;
+
+        if($item->getType() == "Computer") {
+            $agent_id = PluginArmaditoAgent::getAgentIdForComputerId($key);
+        }
+
+        $job = new PluginArmaditoJob();
+        $job->initFromForm($agent_id, "Scan", $_POST);
+
+        if ($job->addJob()) {
+            $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_OK);
+        } else {
+            $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_KO);
+        }
+    }
+
+    static function processMassiveActionTransfer(MassiveAction $ma, CommonDBTM $item, $key)
+    {
+        $pfAgent = new self();
+        if ($pfAgent->getFromDB($key)) {
+            $input                = array();
+            $input['id']          = $key;
+            $input['entities_id'] = $_POST['entities_id'];
+
+            if ($pfAgent->update($input)) {
+                $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_OK);
+            } else {
+                $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_KO);
+            }
+        }
+    }
+
     static function processMassiveActionsForOneItemtype(MassiveAction $ma, CommonDBTM $item, array $ids)
     {
-
-        $pfAgent = new self();
-
         switch ($ma->getAction()) {
 
             case 'transfert':
                 foreach ($ids as $key) {
-                    if ($pfAgent->getFromDB($key)) {
-                        $input                = array();
-                        $input['id']          = $key;
-                        $input['entities_id'] = $_POST['entities_id'];
-                        if ($pfAgent->update($input)) {
-                            //set action massive ok for this item
-                            $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_OK);
-                        } else {
-                            // KO
-                            $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_KO);
-                        }
-                    }
+                    PluginArmaditoAgent::processMassiveActionTransfer($ma, $item, $key);
                 }
                 return;
 
             case 'newscan':
                 foreach ($ids as $key) {
-
-                    $agent_id = $key;
-
-                    if($item->getType() == "Computer") {
-                        $agent_id = PluginArmaditoAgent::getAgentIdForComputerId($key);
-                    }
-
-                    PluginArmaditoToolbox::logE(" New scan AgentID :".$agent_id);
-
-                    $job = new PluginArmaditoJob();
-                    $job->initFromForm($agent_id, "Scan", $_POST);
-
-                    if ($job->addJob()) {
-                        $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_OK);
-                    } else {
-                        $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_KO);
-                    }
+                    PluginArmaditoAgent::processMassiveActionNewScan($ma, $item, $key);
                 }
                 return;
         }
