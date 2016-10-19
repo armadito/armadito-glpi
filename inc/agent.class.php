@@ -98,6 +98,28 @@ class PluginArmaditoAgent extends CommonDBTM
         return $parts[5];
     }
 
+    static function getAgentIdForComputerId($computers_id)
+    {
+        global $DB;
+
+        PluginArmaditoToolbox::validateInt($computers_id);
+
+        $query = "SELECT id FROM `glpi_plugin_armadito_agents`
+				WHERE `computers_id`='" . $computers_id . "'";
+        $ret   = $DB->query($query);
+
+        if (!$ret) {
+            throw new Exception(sprintf('Error getAgentIdForFingerprint : %s', $DB->error()));
+        }
+
+        if ($DB->numrows($ret) > 0) {
+            $data     = $DB->fetch_assoc($ret);
+            return PluginArmaditoToolbox::validateInt($data["id"]);
+        }
+
+        return -1;
+    }
+
     static function getAgentIdForFingerprint($fingerprint)
     {
         global $DB;
@@ -520,8 +542,18 @@ class PluginArmaditoAgent extends CommonDBTM
 
             case 'newscan':
                 foreach ($ids as $key) {
+
+                    $agent_id = $key;
+
+                    if($item->getType() == "Computer") {
+                        $agent_id = PluginArmaditoAgent::getAgentIdForComputerId($key);
+                    }
+
+                    PluginArmaditoToolbox::logE(" New scan AgentID :".$agent_id);
+
                     $job = new PluginArmaditoJob();
-                    $job->initFromForm($key, "Scan", $_POST);
+                    $job->initFromForm($agent_id, "Scan", $_POST);
+
                     if ($job->addJob()) {
                         $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_OK);
                     } else {

@@ -56,6 +56,8 @@ function plugin_init_armadito()
         Plugin::registerClass('PluginArmaditoState');
         Plugin::registerClass('PluginArmaditoStatedetails');
 
+        $PLUGIN_HOOKS['use_massive_action']['armadito'] = 1;
+
         $PLUGIN_HOOKS['add_javascript']['armadito'] = array();
         $PLUGIN_HOOKS['add_css']['armadito']        = array();
         if (strpos($_SERVER['SCRIPT_FILENAME'], "plugins/armadito") != false) {

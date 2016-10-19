@@ -113,4 +113,25 @@ function plugin_armadito_uninstall()
     require_once(GLPI_ROOT . "/plugins/armadito/inc/profile.class.php");
     return PluginArmaditoSetup::uninstall();
 }
+
+/**
+ * Add massive actions to GLPI itemtypes
+ */
+function plugin_armadito_MassiveActions($type)
+{
+   $sep = MassiveAction::CLASS_ACTION_SEPARATOR;
+   $ma = array();
+
+   switch ($type) {
+      case "Computer":
+         if (Session::haveRight('plugin_armadito_jobs', UPDATE)) {
+            $ma["PluginArmaditoAgent".$sep."newscan"]
+               = __('Armadito - New Scan', 'armadito');
+         }
+         break;
+   }
+
+   return $ma;
+}
+
 ?>
