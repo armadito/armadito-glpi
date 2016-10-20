@@ -447,20 +447,28 @@ class PluginArmaditoAgent extends CommonDBTM
 
         $i++;
 
+        $tab[$i]['table']         = 'glpi_computers';
+        $tab[$i]['field']         = 'name';
+        $tab[$i]['name']          = __('Computer', 'armadito');
+        $tab[$i]['datatype']      = 'itemlink';
+        $tab[$i]['itemlink_type'] = 'Computer';
+        $tab[$i]['massiveaction'] = FALSE;
+
+        $i++;
+
+        $tab[$i]['table']         = $this->getTable();
+        $tab[$i]['field']         = 'uuid';
+        $tab[$i]['name']          = __('UUID', 'armadito');
+        $tab[$i]['datatype']      = 'text';
+        $tab[$i]['massiveaction'] = FALSE;
+
+        $i++;
+
         $tab[$i]['table']         = 'glpi_plugin_armadito_antiviruses';
         $tab[$i]['field']         = 'fullname';
         $tab[$i]['name']          = __('Antivirus', 'armadito');
         $tab[$i]['datatype']      = 'itemlink';
         $tab[$i]['itemlink_type'] = 'PluginArmaditoAntivirus';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = 'glpi_computers';
-        $tab[$i]['field']         = 'name';
-        $tab[$i]['name']          = __('Inventory', 'armadito');
-        $tab[$i]['datatype']      = 'itemlink';
-        $tab[$i]['itemlink_type'] = 'Computer';
         $tab[$i]['massiveaction'] = FALSE;
 
         $i++;
