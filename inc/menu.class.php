@@ -161,7 +161,7 @@ class PluginArmaditoMenu extends CommonGLPI
             );
 
             $a_menu[1]['name'] = __('Agents', 'armadito');
-            $a_menu[1]['pic']  = $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_settings.png";
+            $a_menu[1]['pic']  = $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_listing.png";
             $a_menu[1]['link'] = $CFG_GLPI['root_doc'] . "/plugins/armadito/front/agent.php";
         }
 
@@ -191,7 +191,7 @@ class PluginArmaditoMenu extends CommonGLPI
             );
 
             $a_menu[1]['name'] = __('States', 'armadito');
-            $a_menu[1]['pic']  = $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_settings.png";
+            $a_menu[1]['pic']  = $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_listing.png";
             $a_menu[1]['link'] = $CFG_GLPI['root_doc'] . "/plugins/armadito/front/state.php";
         }
 
@@ -213,7 +213,7 @@ class PluginArmaditoMenu extends CommonGLPI
             );
 
             $a_menu[1]['name'] = __('Alerts', 'armadito');
-            $a_menu[1]['pic']  = $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_settings.png";
+            $a_menu[1]['pic']  = $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_listing.png";
             $a_menu[1]['link'] = $CFG_GLPI['root_doc'] . "/plugins/armadito/front/alert.php";
         }
 
@@ -235,13 +235,13 @@ class PluginArmaditoMenu extends CommonGLPI
             );
 
             $a_menu[1]['name'] = __('Scans', 'armadito');
-            $a_menu[1]['pic']  = $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_settings.png";
+            $a_menu[1]['pic']  = $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_listing.png";
             $a_menu[1]['link'] = $CFG_GLPI['root_doc'] . "/plugins/armadito/front/scan.php";
         }
 
         if (Session::haveRight('plugin_armadito_scanconfigs', UPDATE)) {
             $a_menu[3]['name'] = __('Scan Configurations', 'armadito');
-            $a_menu[3]['pic']  = $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_settings.png";
+            $a_menu[3]['pic']  = $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_listing.png";
             $a_menu[3]['link'] = $CFG_GLPI['root_doc'] . "/plugins/armadito/front/scanconfig.php";
         }
 
@@ -262,7 +262,7 @@ class PluginArmaditoMenu extends CommonGLPI
             );
 
             $a_menu[1]['name'] = __('Jobs', 'armadito');
-            $a_menu[1]['pic']  = $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_settings.png";
+            $a_menu[1]['pic']  = $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_listing.png";
             $a_menu[1]['link'] = $CFG_GLPI['root_doc'] . "/plugins/armadito/front/job.php";
         }
 
