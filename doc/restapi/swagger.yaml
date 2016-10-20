@@ -241,7 +241,7 @@ definitions:
         format: double
       agent_version:
         type: string
-      fingerprint:
+      uuid:
         type: string
       task:
         $ref: '#/definitions/Task'

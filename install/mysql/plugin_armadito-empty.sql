@@ -8,9 +8,9 @@ CREATE TABLE `glpi_plugin_armadito_agents` (
    `plugin_armadito_antiviruses_id` int(11) NOT NULL,
    `last_contact` datetime DEFAULT NULL,
    `last_alert` datetime DEFAULT NULL,
-   `fingerprint` varchar(255) NOT NULL,
+   `uuid` varchar(255) NOT NULL,
    PRIMARY KEY (`id`),
-   UNIQUE KEY `fingerprint` (`fingerprint`)
+   UNIQUE KEY `uuid` (`uuid`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 
 

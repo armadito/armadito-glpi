@@ -98,15 +98,15 @@ class PluginArmaditoToolbox
         return $ret;
     }
 
-    static function validateFingerprint($var)
+    static function validateUUID($var)
     {
         $ret = filter_var($var, FILTER_VALIDATE_REGEXP, array(
             "options" => array(
-                "regexp" => "/^[A-Za-z0-9\- ]{40,}$/"
+                "regexp" => "/^[A-Z0-9]{8}\-[A-Z0-9]{4}\-[A-Z0-9]{4}\-[A-Z0-9]{4}\-[A-Z0-9]{12}$/"
             )
         ));
         if ($ret != $var) {
-            throw new Exception(sprintf('Invalid fingerprint : "%s"', $var));
+            throw new Exception(sprintf('Invalid UUID : "%s"', $var));
         }
         return $ret;
     }

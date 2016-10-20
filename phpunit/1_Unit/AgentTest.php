@@ -40,7 +40,7 @@ class AgentTest extends RestoreDatabase_TestCase
 		  },
   "agent_version":"2.3.18",
   "agent_id":1,
-  "fingerprint":"4C4C4544-0033-4A10-8051-C7C04F503732---G3JQP72"}';
+  "uuid":"4C4C4544-0033-4A10-8051-C7C04F503732"}';
 
         $jobj = PluginArmaditoToolbox::parseJSON($json);
         $this->assertNotEquals(0, $jobj, json_last_error_msg());
@@ -72,7 +72,7 @@ class AgentTest extends RestoreDatabase_TestCase
 		  },
   "agent_version":"2.3.18",
   "agent_id":1,
-  "fingerprint":"4C4C4544-0033-4A10-8051-C7C04F503732---G3JQP72"}';
+  "uuid":"4C4C4544-0033-4A10-8051-C7C04F503732"}';
 
         $jobj = PluginArmaditoToolbox::parseJSON($json);
         $this->assertNotEquals(0, $jobj, json_last_error_msg());
