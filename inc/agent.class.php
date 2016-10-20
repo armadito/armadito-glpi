@@ -57,7 +57,7 @@ class PluginArmaditoAgent extends CommonDBTM
         }
     }
 
-    function updateLastAlert( $alert )
+    function updateLastAlert($alert)
     {
         global $DB;
         $paAgent = new self();
@@ -327,7 +327,6 @@ class PluginArmaditoAgent extends CommonDBTM
 
     static function canCreate()
     {
-
         if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
             return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w');
         }
@@ -336,7 +335,6 @@ class PluginArmaditoAgent extends CommonDBTM
 
     static function canView()
     {
-
         if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
             return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w' || $_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'r');
         }
@@ -350,7 +348,6 @@ class PluginArmaditoAgent extends CommonDBTM
 
     function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
     {
-
         if (!$withtemplate) {
             switch ($item->getType()) {
                 case 'Profile':
@@ -380,7 +377,6 @@ class PluginArmaditoAgent extends CommonDBTM
 
     static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
     {
-
         switch ($item->getType()) {
             case 'Phone':
             case 'Central':
@@ -388,7 +384,6 @@ class PluginArmaditoAgent extends CommonDBTM
                 break;
 
             case 'Preference':
-                // Complete form display
                 $data = plugin_version_armadito();
 
                 echo "<form action='Where to post form'>";
@@ -424,7 +419,6 @@ class PluginArmaditoAgent extends CommonDBTM
 
     function getSearchOptions()
     {
-
         $tab           = array();
         $tab['common'] = __('Agent', 'armadito');
 
@@ -490,12 +484,6 @@ class PluginArmaditoAgent extends CommonDBTM
         return $tab;
     }
 
-    static function item_update_agent(PluginFusioninventoryAgent $item)
-    {
-        // call when new inventory
-        return true;
-    }
-
     function getSpecificMassiveActions($checkitem = NULL)
     {
 
@@ -529,39 +517,15 @@ class PluginArmaditoAgent extends CommonDBTM
         }
     }
 
-    static function processMassiveActionTransfer(MassiveAction $ma, CommonDBTM $item, $key)
-    {
-        $pfAgent = new self();
-        if ($pfAgent->getFromDB($key)) {
-            $input                = array();
-            $input['id']          = $key;
-            $input['entities_id'] = $_POST['entities_id'];
-
-            if ($pfAgent->update($input)) {
-                $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_OK);
-            } else {
-                $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_KO);
-            }
-        }
-    }
-
     static function processMassiveActionsForOneItemtype(MassiveAction $ma, CommonDBTM $item, array $ids)
     {
         switch ($ma->getAction()) {
-
-            case 'transfert':
-                foreach ($ids as $key) {
-                    PluginArmaditoAgent::processMassiveActionTransfer($ma, $item, $key);
-                }
-                return;
-
             case 'newscan':
                 foreach ($ids as $key) {
                     PluginArmaditoAgent::processMassiveActionNewScan($ma, $item, $key);
                 }
                 return;
         }
-
         return;
     }
 
@@ -572,14 +536,7 @@ class PluginArmaditoAgent extends CommonDBTM
      **/
     static function showMassiveActionsSubForm(MassiveAction $ma)
     {
-
         switch ($ma->getAction()) {
-            case 'transfert':
-                Dropdown::show('Entity');
-                echo "<br><br>" . Html::submit(__('Post'), array(
-                    'name' => 'massiveaction'
-                ));
-                return true;
             case 'newscan':
                 PluginArmaditoAgent::showNewScanForm();
                 return true;
@@ -588,12 +545,8 @@ class PluginArmaditoAgent extends CommonDBTM
         return parent::showMassiveActionsSubForm($ma);
     }
 
-    /**
-     *  Show complete form for a new on-demand scan
-     **/
     static function showNewScanForm()
     {
-
         $configs = PluginArmaditoScanConfig::getScanConfigsList();
         if (empty($configs)) {
             PluginArmaditoScanConfig::showNoScanConfigForm();
@@ -620,7 +573,6 @@ class PluginArmaditoAgent extends CommonDBTM
 
     function defineTabs($options = array())
     {
-
         $ong = array();
         $this->addDefaultFormTab($ong);
         $this->addStandardTab('Log', $ong, $options);
@@ -628,15 +580,6 @@ class PluginArmaditoAgent extends CommonDBTM
         return $ong;
     }
 
-    /**
-     * Display form
-     *
-     * @param $agent_id
-     * @param $options array
-     *
-     * @return bool TRUE if form is ok
-     *
-     **/
     function showForm($table_id, $options = array())
     {
         PluginArmaditoToolbox::validateInt($table_id);
@@ -651,7 +594,6 @@ class PluginArmaditoAgent extends CommonDBTM
         echo "</td>";
         echo "</tr>";
     }
-
 }
 
 ?>
