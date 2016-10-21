@@ -65,6 +65,7 @@ before_script:
 
 script:
 - /home/travis/build/armadito/glpi/plugins/armadito/tools/travis_build.sh
+- cd /home/travis/build/armadito/glpi/plugins/armadito/
 - sonar-scanner -e -X -Dsonar.host.url=https://sonarqube.com -Dsonar.login=$SONAR_TOKEN
 
 after_script:
