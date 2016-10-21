@@ -11,6 +11,7 @@ env:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
    #   via the "travis encrypt" command using the project repo's public key
    - secure: "mbExjXZdEP/vHDb/BAkQRdo6OPtkIDCtJkFS0SOk98/sIXAvowj8KlgckaBAqxWRqzMS37BE5UCKGJ2ylltrW7yUEfYdZQvBm/KOysvb/9L9KVLRNi7TL4JxYwfwGWfMGspZE4AmGxeQW/eaCt9pk5Tl4Wm3NOD+qRYxeP/6fVbTzSaT0VgCo1JsH9W5Q3vebSPPs1ndVsUB23EHc/YWD9h8cvnOQoJhrqruPsX5f0DY8q6q0sj08Ea6uLwk0LLBaQoe7eogkuCpc1KvTa1gmcYwE5yd4NunxGdi4kD6Uf+MOFe/eSBjZrBLflFJR3qBOwaQXvnkBFx74KHsCxX9A4PYGPXAcYyCzc3iXYRl7cVe6JgkPGxaG9TxZ3omN2WlDr77o1TuL2LTcuMThW4rIEzvoICHY5W5A3gyM3H/9dMiAP+xYtLAYRfDI4twYUNPUJ7NyN4qBTUhtIPX4WUb/IM71/YQ4rR0gqDCTxv6i0Asr1lgLWn7f9TlnbRPvSWqWXI/PMbxmPDbYWjDpaj8TURsei9T19vOz+Bv27hgUfErRaniTLXW/fLMSUeXs1YycVV9FgV6NUoME1fo/AQOnvZlJfuXX8RphVmE9e5uOigqo19+xZdnEmOu38tMnkHjAIvLYqTc/XEhLSpW85zMupgXkTAOk26wusZmc2qyjD4="
+   - secure: "uOnlTp4V9B7Z08ztj/dzY9L2a8/1ZPRfScN4nTKIovaHEHERwdqbx77c1YvW14voQJ33SJjP/j0Au9I88l/qba8pQkssaolF2KP25mmBlFs4DkXww/FMjeBT1dDzN0Golz+KYUuBXc+T0UcxugOPtzupSZs4TyL56yloj4gMo1aBslBDjr2+fYxoC+h09nLfxvsEFmtyvqlV0LSvv3JuEtdX3i8IA5zufGuGu46pzNvcyXXZVHc6JxpF8uLdpPsCF/Lql8ftZ2A+hr7wPv5+S53qqXyOqKalXnFclrONVfnKMbTXzo+y1pHHqBOM8XJ4djQPwJR6ckzy2n5MAbElvU5EE4hzNO+0I3NKOCrkOxyBiPt+VNGVu1qERE0KYTBkdDYwzm1r+JuZeNtq4gsRowe9VIGL7v+tBjzvpuAw41LK7V6osWF7f2GURgdMvwm8GVEOi7HjRK1oTswgluMrfl4RkPCpdUIdiQKUk2HupNUxxXNlxrXHcqf96hksdx61prwFLWYLNG6rHcj3VLS1LEcMS0akXxQ0YRjNm+VyT0fj/IKQftMGhsZYGAA6aZCXe7SIXUz1Wv79AmNjWZuutcgENOXV9+FMLHis/jvLjBUDibmPUHrnUUyznxx5070y3wQcZEqTH/rN+HuYx+/Euv+38/q28Kf/J8lywzgO9ZE="
    - GLPI=master
 
 cache:
@@ -30,6 +31,7 @@ addons:
     build_command_prepend: "/home/travis/build/armadito/glpi/plugins/armadito/tools/prepend_coverity.sh && cd /home/travis/build/armadito/glpi/plugins/armadito"
     build_command:   "--no-command --fs-capture-search /home/travis/build/armadito/glpi/plugins/armadito"
     branch_pattern: coverity_scan
+  sonarqube: true
 
 before_install:
  - cd ..
@@ -55,7 +57,9 @@ before_script:
   - phpenv version-name | grep ^5.[34] && echo "apc.enable_cli=1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; true
   - php -S localhost:8088 -t glpi > /dev/null 2>&1 &
 
-script: /home/travis/build/armadito/glpi/plugins/armadito/tools/travis_build.sh
+script:
+- /home/travis/build/armadito/glpi/plugins/armadito/tools/travis_build.sh
+- sonar-scanner -e -X -Dsonar.host.url=https://sonarqube.com -Dsonar.login=$SONAR_TOKEN
 
 after_script:
  - cp -fr build glpi/plugins/armadito/
