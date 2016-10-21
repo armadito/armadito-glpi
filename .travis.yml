@@ -23,7 +23,6 @@ addons:
     packages:
     - ant
     - xsltproc
-    - openjdk-7-jdk
   coverity_scan:
     project:
       name: "armadito/armadito-glpi"
@@ -33,6 +32,9 @@ addons:
     build_command:   "--no-command --fs-capture-search /home/travis/build/armadito/glpi/plugins/armadito"
     branch_pattern: coverity_scan
   sonarqube: true
+
+jdk:
+  - oraclejdk8
 
 before_install:
  - cd ..
