@@ -34,10 +34,10 @@ addons:
   sonarqube: true
 
 before_install:
- - sudo apt-get install python-software-properties
- - sudo apt-add-repository ppa:webupd8team/java
- - sudo apt-get update
- - sudo apt-get install oracle-java8-installer
+ - apt-get install python-software-properties
+ - yes | apt-add-repository ppa:webupd8team/java
+ - apt-get update
+ - apt-get install oracle-java8-installer
  - java -version
  - cd ..
  - git clone git://github.com/glpi-project/glpi.git glpi
