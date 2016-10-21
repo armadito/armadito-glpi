@@ -39,7 +39,7 @@ before_install:
  - sudo apt-get update
  - sudo apt-get install oracle-java8-installer
  - java -version
- - echo $JAVA_HOME
+ - JAVA_HOME="/usr/lib/jvm/java-8-oracle"
  - cd ..
  - git clone git://github.com/glpi-project/glpi.git glpi
  - cd glpi
