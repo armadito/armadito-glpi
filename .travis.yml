@@ -24,7 +24,6 @@ addons:
     packages:
     - ant
     - xsltproc
-    - mysql
     - mysql-server
   coverity_scan:
     project:
