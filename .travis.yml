@@ -33,10 +33,12 @@ addons:
     branch_pattern: coverity_scan
   sonarqube: true
 
-jdk:
-  - oraclejdk8
-
 before_install:
+ - sudo apt-get install python-software-properties
+ - sudo apt-add-repository ppa:webupd8team/java
+ - sudo apt-get update
+ - sudo apt-get install oracle-java8-installer
+ - java -version
  - cd ..
  - git clone git://github.com/glpi-project/glpi.git glpi
  - cd glpi
