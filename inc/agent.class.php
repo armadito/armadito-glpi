@@ -359,43 +359,6 @@ class PluginArmaditoAgent extends CommonDBTM
 
     static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
     {
-        switch ($item->getType()) {
-            case 'Phone':
-            case 'Central':
-                _e("Plugin central action", 'armadito');
-                break;
-
-            case 'Preference':
-                $data = plugin_version_armadito();
-
-                echo "<form action='Where to post form'>";
-                echo "<table class='tab_cadre_fixe'>";
-                echo "<tr><th colspan='3'>" . $data['name'] . " - " . $data['version'];
-                echo "</th></tr>";
-
-                echo "<tr class='tab_bg_1'><td>Name of the pref</td>";
-                echo "<td>Input to set the pref</td>";
-
-                echo "<td><input class='submit' type='submit' name='submit' value='submit'></td>";
-                echo "</tr>";
-
-                echo "</table>";
-                echo "</form>";
-                break;
-
-            case 'Computer':
-                echo "Armadito AV inventory here";
-                echo "";
-                break;
-            case 'Notification':
-            case 'ComputerDisk':
-            case 'Supplier':
-
-            default:
-                //TRANS: %1$s is a class name, %2$d is an item ID
-                printf(__('Plugin armadito CLASS=%1$s id=%2$d', 'armadito'), $item->getType(), $item->getField('id'));
-                break;
-        }
         return true;
     }
 
