@@ -39,8 +39,6 @@ class PluginArmaditoCommunication
     function __construct()
     {
         $this->message = "";
-
-        PluginArmaditoToolbox::logIfExtradebug('pluginArmadito-communication', 'New PluginArmaditoCommunication object.');
     }
 
     function init()
@@ -79,23 +77,13 @@ class PluginArmaditoCommunication
         header("server-type: glpi/armadito " . PLUGIN_ARMADITO_VERSION);
     }
 
-    /**
-     * Get readable JSON message
-     *
-     * @return readable JSON message
-     **/
     function getMessage()
     {
         return $this->message;
     }
 
-    /**
-     * Send response to agent
-     *
-     **/
-    function sendMessage($compressmode = 'none')
+    function sendMessage()
     {
-
         if (!$this->message) {
             return;
         }
@@ -110,18 +98,10 @@ class PluginArmaditoCommunication
         echo $this->message;
     }
 
-    /**
-     * Set JSON message (basic encapsulation)
-     *
-     * @param $message JSON message
-     *
-     * @return nothing
-     **/
     function setMessage($message, $status = 200)
     {
         $this->status_code = $status;
         $this->message     = $message;
     }
-
 }
 ?>
