@@ -25,7 +25,7 @@ include_once("../../../../inc/includes.php");
 
 $rawdata = file_get_contents("php://input");
 
-if (isset($_GET['agent_id'])) { // GET
+if (isset($_GET['agent_id'])) {
 
     PluginArmaditoToolbox::checkPluginInstallation();
 

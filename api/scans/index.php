@@ -24,7 +24,7 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 include_once("../../../../inc/includes.php");
 
 $rawdata = file_get_contents("php://input");
-if (!empty($rawdata)) { // POST /scans
+if (!empty($rawdata)) {
 
     PluginArmaditoToolbox::checkPluginInstallation();
 
