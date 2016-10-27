@@ -60,8 +60,6 @@ class PluginArmaditoJob extends CommonDBTM
 
     function initFromDB($data)
     {
-        $error = new PluginArmaditoError();
-
         $this->id       = $data["id"];
         $this->agentid  = $data["plugin_armadito_agents_id"];
         $this->type     = $data["job_type"];
@@ -71,8 +69,7 @@ class PluginArmaditoJob extends CommonDBTM
         $this->agent = new PluginArmaditoAgent();
         $this->agent->initFromDB($this->agentid);
 
-        $error = $this->initObjFromDB();
-        return $error;
+        return $this->initObjFromDB();
     }
 
     function initFromJson($jobj)
@@ -117,7 +114,6 @@ class PluginArmaditoJob extends CommonDBTM
 
     static function canView()
     {
-
         if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
             return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w' || $_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'r');
         }
@@ -127,15 +123,13 @@ class PluginArmaditoJob extends CommonDBTM
     function initObjFromForm($key, $type, $POST)
     {
         $error = new PluginArmaditoError();
-        switch ($this->type) {
-            case "Scan":
-                $this->obj = new PluginArmaditoScan();
-                $error     = $this->obj->initFromForm($this, $POST);
-                break;
-            default:
-                $this->obj = "unknown";
-                $error->setMessage(0, 'Unknown Job Type.');
-                break;
+        if($this->type == "Scan") {
+            $this->obj = new PluginArmaditoScan();
+            $error     = $this->obj->initFromForm($this, $POST);
+        }
+        else {
+            $this->obj = "unknown";
+            $error->setMessage(0, 'Unknown Job Type.');
         }
         return $error;
     }
@@ -143,15 +137,12 @@ class PluginArmaditoJob extends CommonDBTM
     function initObjFromDB()
     {
         $error = new PluginArmaditoError();
-        switch ($this->type) {
-            case "Scan":
-                $this->obj = new PluginArmaditoScan();
-                $error     = $this->obj->initFromDB($this->id);
-                break;
-            default:
-                $this->obj = "unknown";
-                $error->setMessage(0, 'Unknown Job Type.');
-                break;
+         if($this->type == "Scan") {
+            $this->obj = new PluginArmaditoScan();
+            $error     = $this->obj->initFromDB($this->id);
+         else {
+            $this->obj = "unknown";
+            $error->setMessage(0, 'Unknown Job Type.');
         }
         return $error;
     }
@@ -235,11 +226,7 @@ class PluginArmaditoJob extends CommonDBTM
         $query_name = "UpdateJobError";
         $dbmanager->addQuery($query_name, "UPDATE", $this->getTable(), $params, "id");
 
-        if (!$dbmanager->prepareQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        if (!$dbmanager->bindQuery($query_name)) {
+        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
             return $dbmanager->getLastError();
         }
 
@@ -258,7 +245,6 @@ class PluginArmaditoJob extends CommonDBTM
 
     function getSearchOptions()
     {
-
         $tab           = array();
         $tab['common'] = __('Scan', 'armadito');
 
@@ -332,8 +318,6 @@ class PluginArmaditoJob extends CommonDBTM
 
     function insertInJobs()
     {
-        global $DB;
-
         $error     = new PluginArmaditoError();
         $dbmanager = new PluginArmaditoDbManager();
         $dbmanager->init();
@@ -347,11 +331,7 @@ class PluginArmaditoJob extends CommonDBTM
         $query_name = "NewJob";
         $dbmanager->addQuery($query_name, "INSERT", $this->getTable(), $params);
 
-        if (!$dbmanager->prepareQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        if (!$dbmanager->bindQuery($query_name)) {
+        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
             return $dbmanager->getLastError();
         }
 
@@ -410,7 +390,6 @@ class PluginArmaditoJob extends CommonDBTM
 
     function getSpecificMassiveActions($checkitem = NULL)
     {
-
         $actions = array();
         if (Session::haveRight("plugin_armadito_jobs", UPDATE)) {
             $actions[__CLASS__ . MassiveAction::CLASS_ACTION_SEPARATOR . 'canceljob'] = __('Cancel', 'armadito');
@@ -419,18 +398,11 @@ class PluginArmaditoJob extends CommonDBTM
         return $actions;
     }
 
-    /**
-     * @since version 0.85
-     *
-     * @see CommonDBTM::showMassiveActionsSubForm()
-     **/
     static function showMassiveActionsSubForm(MassiveAction $ma)
     {
-
-        switch ($ma->getAction()) {
-            case 'canceljob':
-                PluginArmaditoJob::showCancelForm();
-                return true;
+        if($ma->getAction() == 'canceljob') {
+            PluginArmaditoJob::showCancelForm();
+            return true;
         }
 
         return parent::showMassiveActionsSubForm($ma);
@@ -438,24 +410,19 @@ class PluginArmaditoJob extends CommonDBTM
 
     static function processMassiveActionsForOneItemtype(MassiveAction $ma, CommonDBTM $item, array $ids)
     {
-
         $job = new self();
-
-        switch ($ma->getAction()) {
-
-            case 'canceljob':
-                foreach ($ids as $job_id) {
-                    $job->setId($job_id);
-                    if ($job->cancelJob()) {
-                        $ma->itemDone($item->getType(), $job_id, MassiveAction::ACTION_OK);
-                    } else {
-                        $ma->itemDone($item->getType(), $job_id, MassiveAction::ACTION_KO);
-                    }
+        if($ma->getAction() == 'canceljob')
+        {
+            foreach ($ids as $job_id)
+            {
+                $job->setId($job_id);
+                if ($job->cancelJob()) {
+                    $ma->itemDone($item->getType(), $job_id, MassiveAction::ACTION_OK);
+                } else {
+                    $ma->itemDone($item->getType(), $job_id, MassiveAction::ACTION_KO);
                 }
-                return;
+            }
         }
-
-        return;
     }
 
     static function showCancelForm()
@@ -470,11 +437,9 @@ class PluginArmaditoJob extends CommonDBTM
 
     function defineTabs($options = array())
     {
-
         $ong = array();
         $this->addDefaultFormTab($ong);
         $this->addStandardTab('Log', $ong, $options);
-
         return $ong;
     }
 
