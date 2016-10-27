@@ -77,7 +77,8 @@ function plugin_armadito_install()
     require_once(GLPI_ROOT . "/plugins/armadito/install/update.php");
     $version_detected = pluginArmaditoGetCurrentVersion();
 
-    if (isset($version_detected) && (defined('FORCE_UPGRADE') || ($version_detected != PLUGIN_ARMADITO_VERSION AND $version_detected != '0'))) {
+    if (isset($version_detected) &&
+        (defined('FORCE_UPGRADE') || ($version_detected != PLUGIN_ARMADITO_VERSION && $version_detected != '0'))) {
         pluginArmaditoUpdate($version_detected, $migrationname);
     } else if ((isset($version_detected)) && ($version_detected == PLUGIN_ARMADITO_VERSION)) {
         //Same version : Nothing to do
@@ -117,11 +118,9 @@ function plugin_armadito_MassiveActions($type)
     $sep = MassiveAction::CLASS_ACTION_SEPARATOR;
     $ma = array();
 
-    if($type == "Computer") {
-        if (Session::haveRight('plugin_armadito_jobs', UPDATE)) {
-            $ma["PluginArmaditoAgent".$sep."newscan"]
-             = __('Armadito - New Scan', 'armadito');
-        }
+    if($type == "Computer" && Session::haveRight('plugin_armadito_jobs', UPDATE)) {
+        $ma["PluginArmaditoAgent".$sep."newscan"]
+         = __('Armadito - New Scan', 'armadito');
     }
 
     return $ma;
