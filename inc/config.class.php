@@ -28,18 +28,11 @@ if (!defined('GLPI_ROOT')) {
 class PluginArmaditoConfig extends CommonDBTM
 {
     public $displaylist = FALSE;
-
-
     static $rightname = 'plugin_armadito_configuration';
 
     CONST ACTION_CLEAN = 0;
     CONST ACTION_STATUS = 1;
 
-    /**
-     * Display name of itemtype
-     *
-     * @return value name of this itemtype
-     **/
     static function getTypeName($nb = 0)
     {
         return __('General setup');
@@ -47,7 +40,7 @@ class PluginArmaditoConfig extends CommonDBTM
 
     function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
 
-      if ($item->getType()==__CLASS__) {
+      if ($item->getType() == __CLASS__) {
 
          $array_ret = array();
          $array_ret[0] = __('General setup');
@@ -79,14 +72,15 @@ class PluginArmaditoConfig extends CommonDBTM
           case 4:
              $item->showJobsForm();
              break;
+          default:
+             break;
        }
+
        return TRUE;
     }
 
     function defineTabs($options=array())
     {
-        $plugin = new Plugin;
-
         $ong = array();
         $this->addStandardTab("PluginArmaditoConfig", $ong, $options);
 
@@ -110,9 +104,7 @@ class PluginArmaditoConfig extends CommonDBTM
 
     function showForm($options = array())
     {
-        global $CFG_GLPI;
         $this->showFormHeader($options);
-
         $options['candel'] = FALSE;
         $this->showFormButtons($options);
         return TRUE;
@@ -179,36 +171,20 @@ class PluginArmaditoConfig extends CommonDBTM
         return TRUE;
     }
 
-    /**
-     * add multiple configuration values
-     *
-     * @param $values array of configuration values, indexed by name
-     *
-     * @return nothing
-     **/
     function addValues($values, $update = TRUE)
     {
-
         foreach ($values as $type => $value) {
             if ($this->getValue($type) === NULL) {
                 $this->addValue($type, $value);
-            } else if ($update == TRUE) {
+            } else if ($update) {
                 $this->updateValue($type, $value);
             }
         }
     }
 
-    /**
-     * Update configuration value
-     *
-     * @param $name field name
-     * @param $value field value
-     *
-     * @return boolean : TRUE on success
-     **/
     function updateValue($name, $value)
     {
-        $config = current($this->find("`type`='" . $name . "'"));
+        $config = current($this->find("`type`='" . $DB->escape($name) . "'"));
         if (isset($config['id'])) {
             return $this->update(array(
                 'id' => $config['id'],
@@ -222,14 +198,6 @@ class PluginArmaditoConfig extends CommonDBTM
         }
     }
 
-    /**
-     * Add configuration value, if not already present
-     *
-     * @param $name field name
-     * @param $value field value
-     *
-     * @return integer the new id of the added item (or FALSE if fail)
-     **/
     function addValue($name, $value)
     {
         $existing_value = $this->getValue($name);
@@ -243,42 +211,29 @@ class PluginArmaditoConfig extends CommonDBTM
         }
     }
 
-    /**
-     * Get configuration value
-     *
-     * @param $name field name
-     *
-     * @return field value for an existing field, FALSE otherwise
-     **/
     function getValue($name)
     {
-        global $PF_CONFIG;
+        global $DB, $PF_CONFIG;
 
         if (isset($PF_CONFIG[$name])) {
             return $PF_CONFIG[$name];
         }
 
-        $config = current($this->find("`type`='" . $name . "'"));
+        $config = current($this->find("`type`='" . $DB->escape($name) . "'"));
         if (isset($config['value'])) {
             return $config['value'];
         }
+
         return NULL;
     }
 
-    /**
-     * give state of a config field for an armadito plugin
-     *
-     * @param $name field name
-     *
-     * @return TRUE for an existing field, FALSE otherwise
-     **/
     function isActive($name)
     {
-        if (!($this->getValue($name))) {
-            return FALSE;
-        } else {
-            return TRUE;
+        if(is_null($this->getValue($name)){
+           return FALSE;
         }
+
+        return $this->getValue($name);
     }
 
     static function loadCache()
