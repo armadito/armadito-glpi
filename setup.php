@@ -119,14 +119,7 @@ function plugin_armadito_check_prerequisites()
 
 function plugin_armadito_check_config($verbose = false)
 {
-    if (true) { // Your configuration check
-        return true;
-    }
-
-    if ($verbose) {
-        _e('Installed / not configured', 'armadito');
-    }
-    return false;
+    return true;
 }
 
 // center all columns of plugin

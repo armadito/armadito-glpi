@@ -84,8 +84,7 @@ abstract class Common_TestCase extends PHPUnit_Framework_TestCase
 
             foreach ($objects as $object) {
                 if ($object != "." && $object != "..") {
-                    if (filetype($dir . "/" . $object) == "dir") {
-                    } else {
+                    if (filetype($dir . "/" . $object) != "dir") {
                         unlink($dir . "/" . $object);
                     }
                 }
