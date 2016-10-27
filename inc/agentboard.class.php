@@ -30,42 +30,25 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard
 
     function __construct()
     {
-        //
     }
 
-    /**
-     * Display a board in HTML with JS libs (nvd3)
-     *
-     *@return nothing
-     **/
     function displayBoard()
     {
-
         $restrict_entity = getEntitiesRestrictRequest(" AND", 'comp');
 
         echo "<table align='center'>";
         echo "<tr height='420'>";
 
         $this->addAntivirusChart($restrict_entity);
-
-        // Armadito Computers
         $this->addComputersChart($restrict_entity);
-
-        // Last Agent Connections
         $this->addLastContactsChart($restrict_entity);
 
         echo "</tr>";
         echo "</table>";
     }
 
-    /**
-     * Get data and display last updates chart (bar)
-     *
-     *@return nothing
-     **/
     function addLastContactsChart($restrict_entity)
     {
-
         // Number of agent connections in last hour, 6 hours, 24 hours
         $data = PluginArmaditoLastContactStat::getLastHours();
 
@@ -75,14 +58,8 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard
         echo "<td width='400'>";
         $bchart->showChart();
         echo "</td>";
-
     }
 
-    /**
-     * Get data and display armadito computers chart (half donut)
-     *
-     *@return nothing
-     **/
     function addComputersChart($restrict_entity)
     {
         global $DB;
@@ -102,7 +79,6 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard
             $armaditoComputers = $data_ao_computers['nb_computers'];
         }
 
-        // All Computers
         $allComputers = countElementsInTableForMyEntities('glpi_computers', "`is_deleted`='0' AND `is_template`='0'");
 
         $dataComputer   = array();
@@ -127,7 +103,6 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard
 
     function addAntivirusChart($restrict_entity)
     {
-
         $data = $this->getAntivirusChartData();
 
         $hchart = new PluginArmaditoChartHalfDonut();
@@ -145,8 +120,6 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard
 
     function getAntivirusChartData()
     {
-        global $DB;
-
         $AVs       = PluginArmaditoAntivirus::getAntivirusList();
         $colortbox = new PluginArmaditoColorToolbox();
         $palette   = $colortbox->getPalette(sizeof($AVs), 0.157079632679);
