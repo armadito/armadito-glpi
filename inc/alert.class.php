@@ -77,7 +77,6 @@ class PluginArmaditoAlert extends CommonDBTM
 
     static function canView()
     {
-
         if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
             return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w' || $_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'r');
         }
@@ -178,11 +177,7 @@ class PluginArmaditoAlert extends CommonDBTM
         $query_name = "NewAlert";
         $dbmanager->addQuery($query_name, "INSERT", $this->getTable(), $params);
 
-        if (!$dbmanager->prepareQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        if (!$dbmanager->bindQuery($query_name)) {
+        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
             return $dbmanager->getLastError();
         }
 
