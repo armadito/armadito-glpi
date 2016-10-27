@@ -46,8 +46,6 @@ class PluginArmaditoAgent extends CommonDBTM
 
     function initFromDB($agent_id)
     {
-        global $DB;
-
         if ($this->getFromDB($agent_id)) {
             $this->id        = $this->fields["id"];
             $this->antivirus = new PluginArmaditoAntivirus();
@@ -59,7 +57,6 @@ class PluginArmaditoAgent extends CommonDBTM
 
     function updateLastAlert($alert)
     {
-        global $DB;
         $paAgent = new self();
 
         $input                = array();
