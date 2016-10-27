@@ -37,12 +37,12 @@ class PluginArmaditoToolbox
     static function logIfExtradebug($file, $message)
     {
         $config = new PluginArmaditoConfig();
-        //if ($config->getValue('extradebug')) {
-        if (is_array($message)) {
-            $message = print_r($message, TRUE);
+        if ($config->getValue('extradebug')) {
+            if (is_array($message)) {
+                $message = print_r($message, TRUE);
+            }
+            Toolbox::logInFile($file, $message);
         }
-        Toolbox::logInFile($file, $message);
-        //}
     }
 
     /**
