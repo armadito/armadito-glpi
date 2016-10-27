@@ -26,8 +26,7 @@ include_once("inc/toolbox.class.php");
 function setDefaultDisplayPreferences( $classes)
 {
     $query = "INSERT INTO `glpi_displaypreferences` (`id`, `itemtype`, `num`, `rank`,
-                        `users_id`)
-              VALUES ";
+                        `users_id`) VALUES ";
 
     foreach ( $classes as $class => $rounds ){
         $query .= getDefaultDisplayPreferences($class, $rounds);
@@ -115,19 +114,17 @@ function plugin_armadito_uninstall()
  */
 function plugin_armadito_MassiveActions($type)
 {
-   $sep = MassiveAction::CLASS_ACTION_SEPARATOR;
-   $ma = array();
+    $sep = MassiveAction::CLASS_ACTION_SEPARATOR;
+    $ma = array();
 
-   switch ($type) {
-      case "Computer":
-         if (Session::haveRight('plugin_armadito_jobs', UPDATE)) {
+    if($type == "Computer") {
+        if (Session::haveRight('plugin_armadito_jobs', UPDATE)) {
             $ma["PluginArmaditoAgent".$sep."newscan"]
-               = __('Armadito - New Scan', 'armadito');
-         }
-         break;
-   }
+             = __('Armadito - New Scan', 'armadito');
+        }
+    }
 
-   return $ma;
+    return $ma;
 }
 
 ?>
