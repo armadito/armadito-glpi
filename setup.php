@@ -23,7 +23,7 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 
 include_once("inc/toolbox.class.php");
 
-define("PLUGIN_ARMADITO_VERSION", "9.2+0.2");
+define("PLUGIN_ARMADITO_VERSION", "9.1+0.2");
 
 function plugin_init_armadito()
 {
@@ -98,7 +98,7 @@ function plugin_version_armadito()
         'author' => '<a href="mailto:armadito@teclib.com">Teclib\'</a>',
         'license' => 'AGPLv3+',
         'homepage' => 'https://github.com/armadito/',
-        'minGlpiVersion' => '9.2'
+        'minGlpiVersion' => '9.1'
     );
 }
 
@@ -109,8 +109,8 @@ function plugin_armadito_check_prerequisites()
         $_SESSION['glpi_plugins'] = array();
     }
 
-    if (version_compare(GLPI_VERSION, '9.2', 'lt')) {
-        echo __('Your GLPI version not compatible, require >= 9.2', 'armadito');
+    if (version_compare(GLPI_VERSION, '9.1', 'lt')) {
+        echo __('Your GLPI version not compatible, require >= 9.1', 'armadito');
         return FALSE;
     }
 
