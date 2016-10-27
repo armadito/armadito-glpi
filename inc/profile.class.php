@@ -150,8 +150,9 @@ class PluginArmaditoProfile extends Profile
 
     static function uninstallProfile()
     {
-        $pfProfile = new self();
-        $a_rights  = $pfProfile->getAllRights();
+        $paProfile = new self();
+        $a_rights  = $paProfile->getAllRights();
+
         foreach ($a_rights as $data) {
             ProfileRight::deleteProfileRights(array(
                 $data['field']
@@ -159,16 +160,10 @@ class PluginArmaditoProfile extends Profile
         }
     }
 
-    /**
-     * Init profiles during installation :
-     * - add rights in profile table for the current user's profile
-     * - current profile has all rights on the plugin
-     */
     static function initProfile()
     {
-        $pfProfile = new self();
-        $profile   = new Profile();
-        $a_rights  = $pfProfile->getAllRights();
+        $paProfile = new self();
+        $a_rights  = $paProfile->getAllRights();
 
         foreach ($a_rights as $data) {
             if (countElementsInTable("glpi_profilerights", "`name` = '" . $data['field'] . "'") == 0) {
@@ -179,26 +174,50 @@ class PluginArmaditoProfile extends Profile
             }
         }
 
-        // Add all rights to current profile of the user
         if (isset($_SESSION['glpiactiveprofile'])) {
-            $dataprofile       = array();
-            $dataprofile['id'] = $_SESSION['glpiactiveprofile']['id'];
-            $profile->getFromDB($_SESSION['glpiactiveprofile']['id']);
-            foreach ($a_rights as $info) {
-                if (is_array($info) && ((!empty($info['itemtype'])) || (!empty($info['rights']))) && (!empty($info['label'])) && (!empty($info['field']))) {
+           $paProfile->addRightsToActiveProfile($a_rights);
+        }
+    }
 
-                    if (isset($info['rights'])) {
-                        $rights = $info['rights'];
-                    } else {
-                        $rights = $profile->getRightsFor($info['itemtype']);
-                    }
-                    foreach ($rights as $right => $label) {
-                        $dataprofile['_' . $info['field']][$right]     = 1;
-                        $_SESSION['glpiactiveprofile'][$data['field']] = $right;
-                    }
-                }
+    function addRightsToActiveProfile($a_rights)
+    {
+        $dataprofile       = array();
+        $dataprofile['id'] = $_SESSION['glpiactiveprofile']['id'];
+
+        $profile   = new Profile();
+        $profile->getFromDB($dataprofile['id']);
+
+        foreach ($a_rights as $info) {
+            $dataprofile = $this->addRight($info, $dataprofile);
+        }
+
+        $profile->update($dataprofile);
+    }
+
+    function addRight($info, $dataprofile)
+    {
+       if (is_array($info)
+            && ((!empty($info['itemtype'])) || (!empty($info['rights'])))
+             && (!empty($info['label'])) && (!empty($info['field']))) {
+
+            $rights = $this->getRights($info);
+
+            foreach ($rights as $right => $label)
+            {
+                $dataprofile['_' . $info['field']][$right]     = 1;
+                $_SESSION['glpiactiveprofile'][$info['field']] = $right;
             }
-            $profile->update($dataprofile);
+        }
+
+        return $dataprofile;
+    }
+
+    function getRights($info)
+    {
+        if (isset($info['rights'])) {
+            return $info['rights'];
+        } else {
+            return $this->getRightsFor($info['itemtype']);
         }
     }
 }
