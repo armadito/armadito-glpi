@@ -262,8 +262,6 @@ class PluginArmaditoAgent extends CommonDBTM
 
     function insertAgentInDB()
     {
-        global $DB;
-
         $error     = new PluginArmaditoError();
         $dbmanager = new PluginArmaditoDbManager();
         $dbmanager->init();
