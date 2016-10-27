@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
 Copyright (C) 2010-2016 by the FusionInventory Development Team.
 Copyright (C) 2016 Teclib'
 
@@ -25,7 +25,7 @@ if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
-/**
+/*
  * Toolbox of various utility methods
  **/
 class PluginArmaditoToolbox

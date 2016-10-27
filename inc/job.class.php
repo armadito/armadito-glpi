@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
 Copyright (C) 2016 Teclib'
 
 This file is part of Armadito Plugin for GLPI.

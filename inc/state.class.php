@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
 Copyright (C) 2016 Teclib'
 
 This file is part of Armadito Plugin for GLPI.
@@ -26,7 +26,7 @@ if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
-/**
+/*
  * Class dealing with Armadito AV state
  **/
 class PluginArmaditoState extends CommonDBTM
