@@ -97,7 +97,6 @@ class PluginArmaditoColorToolbox
                 break;
             default:
                 throw new UnexpectedValueException("HSVtoHexa error : h_i value is > 5.");
-                return '';
         }
 
         $color = dechex((round($r * 255) << 16) + (round($g * 255) << 8) + round($b * 255));
