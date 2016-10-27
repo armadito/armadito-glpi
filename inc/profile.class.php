@@ -32,8 +32,7 @@ class PluginArmaditoProfile extends Profile
 
     function getRightsGeneral()
     {
-
-        $rights = array(
+        return array(
             array(
                 'rights' => array(
                     READ => __('Read'),
@@ -137,20 +136,16 @@ class PluginArmaditoProfile extends Profile
                 'field' => 'plugin_armadito_agents'
             )
         );
-
-        return $rights;
     }
 
     function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
     {
-        return self::createTabEntry('Armadito');
+        return createTabEntry('Armadito');
     }
 
     function getAllRights()
     {
-        $a_rights = array();
-        $a_rights = array_merge($a_rights, $this->getRightsGeneral());
-        return $a_rights;
+        return $this->getRightsGeneral();
     }
 
     static function uninstallProfile()

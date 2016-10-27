@@ -265,7 +265,6 @@ class PluginArmaditoMenu extends CommonGLPI
         global $CFG_GLPI;
 
         $width_max = 1250;
-
         $width = 180;
 
         if (($width + $width_status) > $width_max) {
