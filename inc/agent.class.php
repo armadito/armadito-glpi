@@ -357,11 +357,6 @@ class PluginArmaditoAgent extends CommonDBTM
         return $tabname;
     }
 
-    static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
-    {
-        return true;
-    }
-
     function getSearchOptions()
     {
         $tab           = array();
