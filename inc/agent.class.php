@@ -90,7 +90,7 @@ class PluginArmaditoAgent extends CommonDBTM
         PluginArmaditoToolbox::validateInt($computers_id);
 
         $query = "SELECT id FROM `glpi_plugin_armadito_agents`
-				WHERE `computers_id`='" . $computers_id . "'";
+                WHERE `computers_id`='" . $computers_id . "'";
         $ret   = $DB->query($query);
 
         if (!$ret) {
@@ -112,7 +112,7 @@ class PluginArmaditoAgent extends CommonDBTM
         PluginArmaditoToolbox::validateUUID($uuid);
 
         $query = "SELECT id FROM `glpi_plugin_armadito_agents`
-				WHERE `uuid`='" . $uuid . "'";
+                WHERE `uuid`='" . $uuid . "'";
         $ret   = $DB->query($query);
 
         if (!$ret) {
@@ -134,7 +134,7 @@ class PluginArmaditoAgent extends CommonDBTM
         PluginArmaditoToolbox::validateUUID($uuid);
 
         $query = "SELECT id FROM `glpi_computers`
-				WHERE `uuid`='". $uuid . "'";
+                WHERE `uuid`='". $uuid . "'";
         $ret   = $DB->query($query);
 
         if (!$ret) {
@@ -203,7 +203,7 @@ class PluginArmaditoAgent extends CommonDBTM
         PluginArmaditoToolbox::validateUUID($this->jobj->uuid);
 
         $query = "SELECT id FROM `glpi_plugin_armadito_agents`
-				WHERE `uuid`='" . $this->jobj->uuid . "'";
+                WHERE `uuid`='" . $this->jobj->uuid . "'";
         $ret   = $DB->query($query);
 
         if (!$ret) {

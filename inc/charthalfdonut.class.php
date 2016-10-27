@@ -30,7 +30,6 @@ class PluginArmaditoChartHalfDonut extends PluginArmaditoChart
 
     function __construct()
     {
-        //
     }
 
     function showChart()

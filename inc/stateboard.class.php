@@ -30,14 +30,8 @@ class PluginArmaditoStateBoard extends PluginArmaditoBoard
 
     function __construct()
     {
-        //
     }
 
-    /**
-     * Display a board in HTML with JS libs (nvd3)
-     *
-     *@return nothing
-     **/
     function displayBoard()
     {
 
@@ -51,11 +45,6 @@ class PluginArmaditoStateBoard extends PluginArmaditoBoard
         echo "</table>";
     }
 
-    /**
-     * Get data and display AV updates' statuses (half donut)
-     *
-     *@return nothing
-     **/
     function showUpdateStatusChart($data)
     {
 

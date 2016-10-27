@@ -35,7 +35,6 @@ class PluginArmaditoChart extends CommonGLPI
 
     function __construct()
     {
-        //
     }
 
     function init($name_, $title_, $data_, $width_ = 400)

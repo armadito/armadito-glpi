@@ -29,8 +29,6 @@ include_once("toolbox.class.php");
 
 class PluginArmaditoSetup
 {
-
-    // Uninstallation function
     static function uninstall()
     {
         global $DB;
@@ -43,7 +41,6 @@ class PluginArmaditoSetup
         $pfSetup = new PluginArmaditoSetup();
         $user    = new User();
 
-        // Current version tables
         if (TableExists("glpi_plugin_armadito_configs")) {
             $query = "DROP TABLE `glpi_plugin_armadito_configs`";
             if (!PluginArmaditoToolbox::ExecQuery($query)) {
@@ -51,7 +48,6 @@ class PluginArmaditoSetup
             }
         }
 
-        // Current version tables
         if (TableExists("glpi_plugin_armadito_agents")) {
             $query = "DROP TABLE `glpi_plugin_armadito_agents`";
             if (!PluginArmaditoToolbox::ExecQuery($query)) {

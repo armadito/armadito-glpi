@@ -26,9 +26,6 @@ if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
-/*
- * Class dealing with Armadito AV module state
- **/
 class PluginArmaditoStateModule extends CommonDBTM
 {
     protected $jobj;
@@ -37,7 +34,6 @@ class PluginArmaditoStateModule extends CommonDBTM
 
     function __construct()
     {
-        //
     }
 
     function init($agent_id, $state_jobj, $jobj)
@@ -49,25 +45,11 @@ class PluginArmaditoStateModule extends CommonDBTM
         PluginArmaditoToolbox::logIfExtradebug('pluginArmadito-statemodule', 'New PluginArmaditoStateModule object.');
     }
 
-    /**
-     * Get name of this type
-     *
-     * @return text name of this type by language of the user connected
-     *
-     **/
     static function getTypeName($nb = 0)
     {
         return __('State Module', 'armadito');
     }
 
-    /**
-     * Display tab
-     *
-     * @param CommonGLPI $item
-     * @param integer $withtemplate
-     *
-     * @return varchar name of the tab(s) to display
-     */
     function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
     {
 
@@ -77,15 +59,6 @@ class PluginArmaditoStateModule extends CommonDBTM
         return '';
     }
 
-    /**
-     * Display content of tab
-     *
-     * @param CommonGLPI $item
-     * @param integer $tabnum
-     * @param interger $withtemplate
-     *
-     * @return boolean TRUE
-     */
     static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
     {
 
@@ -96,20 +69,8 @@ class PluginArmaditoStateModule extends CommonDBTM
         return TRUE;
     }
 
-
-    /**
-     * Display form
-     *
-     * @param $agent_id integer ID of the agent
-     * @param $options array
-     *
-     * @return bool TRUE if form is ok
-     *
-     **/
     function showForm($agent_id, $options = array())
     {
-
-        // Protect against injections
         PluginArmaditoToolbox::validateInt($agent_id);
 
         echo "<table class='tab_cadre_fixe'>";
@@ -122,7 +83,6 @@ class PluginArmaditoStateModule extends CommonDBTM
 
         $av_modules = $this->findModules($agent_id);
 
-        // TODO: protect against html injections of data (XSS & co)
         foreach ($av_modules as $data) {
             echo "<tr class='tab_bg_1'>";
             echo "<td align='center'>" . htmlspecialchars($data["module_name"]) . "</td>";
@@ -171,11 +131,6 @@ class PluginArmaditoStateModule extends CommonDBTM
         return $data;
     }
 
-    /**
-     * Check if module state is already in database
-     *
-     * @return TRUE or FALSE
-     **/
     function isStateModuleinDB()
     {
         global $DB;
@@ -218,11 +173,6 @@ class PluginArmaditoStateModule extends CommonDBTM
         return false;
     }
 
-    /**
-     * Insert module state in database
-     *
-     * @return PluginArmaditoError obj
-     **/
     function insertStateModule()
     {
         $error     = new PluginArmaditoError();
@@ -263,11 +213,6 @@ class PluginArmaditoStateModule extends CommonDBTM
         return $error;
     }
 
-    /**
-     * Uptate module state in database
-     *
-     * @return PluginArmaditoError obj
-     **/
     function updateStateModule()
     {
         $error     = new PluginArmaditoError();

@@ -30,7 +30,6 @@ class PluginArmaditoChartBar extends PluginArmaditoChart
 
     function __construct()
     {
-        //
     }
 
     function showChart()

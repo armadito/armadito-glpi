@@ -26,9 +26,6 @@ if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
-/*
- * Class dealing with Armadito AV state
- **/
 class PluginArmaditoState extends CommonDBTM
 {
     protected $id;
@@ -43,7 +40,6 @@ class PluginArmaditoState extends CommonDBTM
 
     function __construct()
     {
-        //
     }
 
     function initFromJson($jobj)

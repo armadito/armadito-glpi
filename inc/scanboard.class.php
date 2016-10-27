@@ -30,7 +30,6 @@ class PluginArmaditoScanBoard extends PluginArmaditoBoard
 
     function __construct()
     {
-        //
     }
 
     /**

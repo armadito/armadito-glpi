@@ -33,7 +33,6 @@ class PluginArmaditoDbManager
 
     function __construct()
     {
-        //
     }
 
     function init()

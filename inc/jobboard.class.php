@@ -30,7 +30,6 @@ class PluginArmaditoJobBoard extends PluginArmaditoBoard
 
     function __construct()
     {
-        //
     }
 
     /**

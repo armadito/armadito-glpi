@@ -26,23 +26,13 @@ if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
-/*
- * Class used for State Details
- **/
 class PluginArmaditoStatedetail extends CommonDBTM
 {
 
     function __construct()
     {
-        //
     }
 
-    /**
-     * Get name of this type
-     *
-     * @return text name of this type by language of the user connected
-     *
-     **/
     static function getTypeName($nb = 0)
     {
         return __('Antivirus State', 'armadito');
@@ -68,7 +58,6 @@ class PluginArmaditoStatedetail extends CommonDBTM
 
     function getSearchOptions()
     {
-
         $tab           = array();
         $tab['common'] = __('StateDetail', 'armadito');
 
@@ -126,22 +115,11 @@ class PluginArmaditoStatedetail extends CommonDBTM
         return $ong;
     }
 
-    /**
-     * Display form
-     *
-     * @param $agent_id integer ID of the agent
-     * @param $options array
-     *
-     * @return bool TRUE if form is ok
-     *
-     **/
     function showForm($table_id, $options = array())
     {
 
-        // Protect against injections
         PluginArmaditoToolbox::validateInt($table_id);
 
-        // Init Form
         $this->initForm($table_id, $options);
         $options['colspan'] = 4;
         $this->showFormHeader($options);

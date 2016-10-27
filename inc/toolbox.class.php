@@ -25,15 +25,8 @@ if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
-/*
- * Toolbox of various utility methods
- **/
 class PluginArmaditoToolbox
 {
-
-    /**
-     * Log when extra-debug is activated
-     */
     static function logIfExtradebug($file, $message)
     {
         $config = new PluginArmaditoConfig();
@@ -45,9 +38,6 @@ class PluginArmaditoToolbox
         }
     }
 
-    /**
-     * Log error message
-     */
     static function logE($text)
     {
 
@@ -55,9 +45,6 @@ class PluginArmaditoToolbox
         return $ok;
     }
 
-    /**
-     * Executes a query in database
-     */
     static function ExecQuery($query)
     {
         global $DB;
@@ -70,9 +57,6 @@ class PluginArmaditoToolbox
         }
     }
 
-    /**
-     * Integer validation to avoid SQL injections
-     */
     static function validateInt($var)
     {
         $ret = filter_var($var, FILTER_VALIDATE_INT);
@@ -82,9 +66,6 @@ class PluginArmaditoToolbox
         return $ret;
     }
 
-    /**
-     * Checksum validation to avoid SQL injections
-     */
     static function validateHash($var)
     {
         $ret = filter_var($var, FILTER_VALIDATE_REGEXP, array(
@@ -111,10 +92,6 @@ class PluginArmaditoToolbox
         return $ret;
     }
 
-
-    /**
-     * Win32 path validation
-     */
     static function isValidWin32Path($var)
     {
         $ret = filter_var($var, FILTER_VALIDATE_REGEXP, array(
@@ -125,9 +102,6 @@ class PluginArmaditoToolbox
         return $ret;
     }
 
-    /**
-     * Unix path validation
-     */
     static function isValidUnixPath($var)
     {
         $ret = filter_var($var, FILTER_VALIDATE_REGEXP, array(
@@ -141,9 +115,6 @@ class PluginArmaditoToolbox
         return true;
     }
 
-    /**
-     * Basic string validation (no spaces, only - and alphanumerics)
-     */
     static function isValidBasicString($var)
     {
         $ret = filter_var($var, FILTER_VALIDATE_REGEXP, array(
@@ -157,13 +128,6 @@ class PluginArmaditoToolbox
         return true;
     }
 
-    /**
-     * Parse a json string given
-     *
-     * @param $message XML message
-     *
-     * @return null or jobj
-     */
     static function parseJSON($json_content)
     {
 
@@ -176,11 +140,6 @@ class PluginArmaditoToolbox
         }
     }
 
-    /**
-     * Dropdown for display hours
-     *
-     * @return type
-     */
     static function showHours($name, $options = array())
     {
 
@@ -230,9 +189,6 @@ class PluginArmaditoToolbox
         return $interval->format('%dd %Hh %Im %Ss');
     }
 
-    /**
-     * Get hour:minute from number of seconds
-     */
     static function getHourMinute($seconds)
     {
         $hour   = floor($seconds / 3600);
@@ -240,9 +196,6 @@ class PluginArmaditoToolbox
         return sprintf("%02s", $hour) . ":" . sprintf("%02s", $minute);
     }
 
-    /**
-     *  Check plugin install and exit if it is not installed
-     */
     static function checkPluginInstallation()
     {
         if (!class_exists("PluginArmaditoAgent")) {
