@@ -220,8 +220,6 @@ class PluginArmaditoAgent extends CommonDBTM
 
     function updateAgentInDB()
     {
-        global $DB;
-
         $error     = new PluginArmaditoError();
         $dbmanager = new PluginArmaditoDbManager();
         $dbmanager->init();
@@ -237,11 +235,7 @@ class PluginArmaditoAgent extends CommonDBTM
         $query_name = "UpdateAgent";
         $dbmanager->addQuery($query_name, "UPDATE", $this->getTable(), $params, "id");
 
-        if (!$dbmanager->prepareQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        if (!$dbmanager->bindQuery($query_name)) {
+        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
             return $dbmanager->getLastError();
         }
 
@@ -262,6 +256,8 @@ class PluginArmaditoAgent extends CommonDBTM
 
         $error->setMessage(0, 'New device successfully re-enrolled.');
         return $error;
+
+
     }
 
     function insertAgentInDB()
@@ -283,11 +279,7 @@ class PluginArmaditoAgent extends CommonDBTM
         $query_name = "NewAgent";
         $dbmanager->addQuery($query_name, "INSERT", $this->getTable(), $params);
 
-        if (!$dbmanager->prepareQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        if (!$dbmanager->bindQuery($query_name)) {
+        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
             return $dbmanager->getLastError();
         }
 
