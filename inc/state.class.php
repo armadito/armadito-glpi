@@ -208,7 +208,7 @@ class PluginArmaditoState extends CommonDBTM
         $ret   = $DB->query($query);
 
         if (!$ret) {
-            throw new Exception(sprintf('Error isStateinDB : %s', $DB->error()));
+            throw new RuntimeException(sprintf('Error isStateinDB : %s', $DB->error()));
         }
 
         if ($DB->numrows($ret) > 0) {
@@ -234,7 +234,7 @@ class PluginArmaditoState extends CommonDBTM
         $ret = $DB->query($query);
 
         if (!$ret) {
-            throw new Exception(sprintf('Error getTableIdForAgentId : %s', $DB->error()));
+            throw new RuntimeException(sprintf('Error getTableIdForAgentId : %s', $DB->error()));
         }
 
         if ($DB->numrows($ret) > 0) {

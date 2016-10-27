@@ -69,7 +69,7 @@ class PluginArmaditoJobmanager extends CommonDBTM
         $ret = $DB->query($query);
 
         if (!$ret) {
-            throw new Exception(sprintf('Error getJobs : %s', $DB->error()));
+            throw new RuntimeException(sprintf('Error getJobs : %s', $DB->error()));
         }
 
         if ($DB->numrows($ret) > 0) {

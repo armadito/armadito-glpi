@@ -77,7 +77,7 @@ class PluginArmaditoToolbox
     {
         $ret = filter_var($var, FILTER_VALIDATE_INT);
         if ($ret != $var) {
-            throw new Exception(sprintf('Invalid int : "%s"', $var));
+            throw new InvalidArgumentException(sprintf('Invalid int : "%s"', $var));
         }
         return $ret;
     }
@@ -93,7 +93,7 @@ class PluginArmaditoToolbox
             )
         ));
         if ($ret != $var) {
-            throw new Exception(sprintf('Invalid hash : "%s"', $var));
+            throw new InvalidArgumentException(sprintf('Invalid hash : "%s"', $var));
         }
         return $ret;
     }
@@ -106,7 +106,7 @@ class PluginArmaditoToolbox
             )
         ));
         if ($ret != $var) {
-            throw new Exception(sprintf('Invalid UUID : "%s"', $var));
+            throw new InvalidArgumentException(sprintf('Invalid UUID : "%s"', $var));
         }
         return $ret;
     }

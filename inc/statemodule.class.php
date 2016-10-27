@@ -186,12 +186,12 @@ class PluginArmaditoStateModule extends CommonDBTM
         $stmt = $DB->prepare($query);
 
         if (!$stmt) {
-            throw new Exception(sprintf("State module select preparation failed."));
+            throw new RuntimeException(sprintf("State module select preparation failed."));
         }
 
         if (!$stmt->bind_param('is', $agent_id, $module_name)) {
             $stmt->close();
-            throw new Exception(sprintf("State module select bind_param failed. (%d) %s", $stmt->errno, $stmt->error));
+            throw new RuntimeException(sprintf("State module select bind_param failed. (%d) %s", $stmt->errno, $stmt->error));
         }
 
         $agent_id    = $this->agentid;
@@ -199,12 +199,12 @@ class PluginArmaditoStateModule extends CommonDBTM
 
         if (!$stmt->execute()) {
             $stmt->close();
-            throw new Exception(sprintf("State module select execution failed. (%d) %s", $stmt->errno, $stmt->error));
+            throw new RuntimeException(sprintf("State module select execution failed. (%d) %s", $stmt->errno, $stmt->error));
         }
 
         if (!$stmt->store_result()) {
             $stmt->close();
-            throw new Exception(sprintf("State module select store_result failed. (%d) %s", $stmt->errno, $stmt->error));
+            throw new RuntimeException(sprintf("State module select store_result failed. (%d) %s", $stmt->errno, $stmt->error));
         }
 
         if ($stmt->num_rows() > 0) {

@@ -209,7 +209,7 @@ class PluginArmaditoScanConfig extends CommonDBTM
         $ret     = $DB->query($query);
 
         if (!$ret) {
-            throw new Exception(sprintf('Error getScanConfigsList : %s', $DB->error()));
+            throw new RuntimeException(sprintf('Error getScanConfigsList : %s', $DB->error()));
         }
 
         if ($DB->numrows($ret) > 0) {
