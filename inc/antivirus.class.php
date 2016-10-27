@@ -36,7 +36,6 @@ class PluginArmaditoAntivirus extends CommonDBTM
 
     function __construct()
     {
-        //
     }
 
     function getId()
@@ -63,8 +62,6 @@ class PluginArmaditoAntivirus extends CommonDBTM
 
     function initFromDB($av_id)
     {
-        global $DB;
-
         if ($this->getFromDB($av_id)) {
             $this->id       = $this->fields["id"];
             $this->name     = $this->fields["name"];
@@ -97,7 +94,6 @@ class PluginArmaditoAntivirus extends CommonDBTM
 
     function run()
     {
-
         if (!$this->isAntivirusInDB()) {
             return $this->insertAntivirusInDB();
         } else {
@@ -118,11 +114,7 @@ class PluginArmaditoAntivirus extends CommonDBTM
         $query_name = "NewAntivirus";
         $dbmanager->addQuery($query_name, "INSERT", $this->getTable(), $params);
 
-        if (!$dbmanager->prepareQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        if (!$dbmanager->bindQuery($query_name)) {
+        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
             return $dbmanager->getLastError();
         }
 
@@ -160,11 +152,7 @@ class PluginArmaditoAntivirus extends CommonDBTM
         $query_name = "UpdateAntivirus";
         $dbmanager->addQuery($query_name, "UPDATE", $this->getTable(), $params, "id");
 
-        if (!$dbmanager->prepareQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        if (!$dbmanager->bindQuery($query_name)) {
+        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
             return $dbmanager->getLastError();
         }
 
@@ -182,9 +170,6 @@ class PluginArmaditoAntivirus extends CommonDBTM
         return $error;
     }
 
-    /**
-     *  Get list of all Antiviruses managed
-     **/
     static function getAntivirusList()
     {
         global $DB;
@@ -205,7 +190,6 @@ class PluginArmaditoAntivirus extends CommonDBTM
         return $AVs;
     }
 
-
     static function getTypeName($nb = 0)
     {
         return __('Antivirus', 'armadito');
@@ -213,7 +197,6 @@ class PluginArmaditoAntivirus extends CommonDBTM
 
     static function canCreate()
     {
-
         if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
             return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w');
         }
@@ -222,17 +205,14 @@ class PluginArmaditoAntivirus extends CommonDBTM
 
     static function canView()
     {
-
         if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
             return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w' || $_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'r');
         }
         return false;
     }
 
-
     function defineTabs($options = array())
     {
-
         $ong = array();
         $this->addDefaultFormTab($ong);
         $this->addStandardTab('Log', $ong, $options);
@@ -240,15 +220,6 @@ class PluginArmaditoAntivirus extends CommonDBTM
         return $ong;
     }
 
-    /**
-     * Display form
-     *
-     * @param $antivirus_id
-     * @param $options array
-     *
-     * @return bool TRUE if form is ok
-     *
-     **/
     function showForm($table_id, $options = array())
     {
         PluginArmaditoToolbox::validateInt($table_id);
@@ -269,7 +240,6 @@ class PluginArmaditoAntivirus extends CommonDBTM
         echo "<td align='center'>";
         echo htmlspecialchars($this->fields["name"]);
         echo "</td>";
-
         echo "</tr>";
 
         echo "<tr class='tab_bg_1'>";
@@ -279,8 +249,6 @@ class PluginArmaditoAntivirus extends CommonDBTM
         echo "</td>";
         echo "<td></td>";
         echo "</tr>";
-
     }
-
 }
 ?>
