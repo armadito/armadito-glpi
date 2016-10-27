@@ -29,11 +29,6 @@ if (!defined('GLPI_ROOT')) {
 class PluginArmaditoMenu extends CommonGLPI
 {
 
-    /**
-     * Name of the type
-     *
-     * @param $nb  integer  number of item in the type (default 0)
-     **/
     static function getTypeName($nb = 0)
     {
         return 'Armadito';
@@ -51,8 +46,6 @@ class PluginArmaditoMenu extends CommonGLPI
             }
         }
 
-        $can_display = true;
-
         return $can_display;
     }
 
@@ -63,13 +56,11 @@ class PluginArmaditoMenu extends CommonGLPI
 
     static function getMenuName()
     {
-        return self::getTypeName();
+        return 'Armadito';
     }
 
     static function getAdditionalMenuOptions()
     {
-        global $CFG_GLPI;
-
         $elements = array(
             'scanconfig' => 'PluginArmaditoScanConfig',
             'config' => 'PluginArmaditoConfig'
@@ -77,8 +68,8 @@ class PluginArmaditoMenu extends CommonGLPI
 
         $options = array();
 
-        $options['menu']['title'] = self::getTypeName();
-        $options['menu']['page']  = self::getSearchURL(false);
+        $options['menu']['title'] = getTypeName();
+        $options['menu']['page']  = getSearchURL(false);
 
         if (Session::haveRight('plugin_armadito_configuration', READ)) {
             $options['menu']['links']['config'] = PluginArmaditoConfig::getFormURL(false);
@@ -107,11 +98,7 @@ class PluginArmaditoMenu extends CommonGLPI
 
     static function getAdditionalMenuContent()
     {
-        global $CFG_GLPI;
-
-        $menu = array();
-
-        return $menu;
+        return array();
     }
 
     static function displayHeader()
@@ -124,13 +111,6 @@ class PluginArmaditoMenu extends CommonGLPI
         echo "</a>";
     }
 
-    /**
-     * Display the menu of Plugin Armadito
-     *
-     *@param type value "big" or "mini"
-     *
-     *@return nothing
-     **/
     static function displayMenu($type = "big")
     {
         global $CFG_GLPI;
@@ -196,7 +176,7 @@ class PluginArmaditoMenu extends CommonGLPI
         }
 
         if (!empty($a_menu)) {
-            $width_status = PluginArmaditoMenu::htmlMenu(__('State', 'armadto'), $a_menu, $type, $width_status);
+            $width_status = PluginArmaditoMenu::htmlMenu(__('State', 'armadito'), $a_menu, $type, $width_status);
         }
 
         /*
@@ -218,7 +198,7 @@ class PluginArmaditoMenu extends CommonGLPI
         }
 
         if (!empty($a_menu)) {
-            $width_status = PluginArmaditoMenu::htmlMenu(__('Alerts', 'armadto'), $a_menu, $type, $width_status);
+            $width_status = PluginArmaditoMenu::htmlMenu(__('Alerts', 'armadito'), $a_menu, $type, $width_status);
         }
 
         /*
@@ -246,7 +226,7 @@ class PluginArmaditoMenu extends CommonGLPI
         }
 
         if (!empty($a_menu)) {
-            $width_status = PluginArmaditoMenu::htmlMenu(__('Scans', 'armadto'), $a_menu, $type, $width_status);
+            $width_status = PluginArmaditoMenu::htmlMenu(__('Scans', 'armadito'), $a_menu, $type, $width_status);
         }
 
         /*
@@ -267,7 +247,7 @@ class PluginArmaditoMenu extends CommonGLPI
         }
 
         if (!empty($a_menu)) {
-            $width_status = PluginArmaditoMenu::htmlMenu(__('Jobs', 'armadto'), $a_menu, $type, $width_status);
+            $width_status = PluginArmaditoMenu::htmlMenu(__('Jobs', 'armadito'), $a_menu, $type, $width_status);
         }
 
         echo "</td>";
@@ -280,16 +260,6 @@ class PluginArmaditoMenu extends CommonGLPI
         echo "</div><br/><br/><br/>";
     }
 
-    /**
-     * htmlMenu
-     *
-     *@param $menu_name value of the menu
-     *@param $a_menu array menu of each module
-     *@param $type value "big" or "mini"
-     *@param $width_status integer width of space before and after menu position
-     *
-     *@return $width_status integer total width used by menu
-     **/
     static function htmlMenu($menu_name, $a_menu = array(), $type = "big", $width_status = '300')
     {
         global $CFG_GLPI;
