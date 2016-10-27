@@ -97,7 +97,7 @@ class PluginArmaditoAgent extends CommonDBTM
         $ret   = $DB->query($query);
 
         if (!$ret) {
-            throw new RuntimeException(sprintf('Error getAgentIdForComputerId : %s', $DB->error()));
+            throw new InvalidArgumentException(sprintf('Error getAgentIdForComputerId : %s', $DB->error()));
         }
 
         if ($DB->numrows($ret) > 0) {
@@ -119,7 +119,7 @@ class PluginArmaditoAgent extends CommonDBTM
         $ret   = $DB->query($query);
 
         if (!$ret) {
-            throw new RuntimeException(sprintf('Error getAgentIdForUUID : %s', $DB->error()));
+            throw new InvalidArgumentException(sprintf('Error getAgentIdForUUID : %s', $DB->error()));
         }
 
         if ($DB->numrows($ret) > 0) {
@@ -141,7 +141,7 @@ class PluginArmaditoAgent extends CommonDBTM
         $ret   = $DB->query($query);
 
         if (!$ret) {
-            throw new RuntimeException(sprintf('Error getComputerIdForUUID : %s', $DB->error()));
+            throw new InvalidArgumentException(sprintf('Error getComputerIdForUUID : %s', $DB->error()));
         }
 
         if ($DB->numrows($ret) > 0) {
@@ -210,7 +210,7 @@ class PluginArmaditoAgent extends CommonDBTM
         $ret   = $DB->query($query);
 
         if (!$ret) {
-            throw new RuntimeException(sprintf('Error isAlreadyEnrolled : %s', $DB->error()));
+            throw new InvalidArgumentException(sprintf('Error isAlreadyEnrolled : %s', $DB->error()));
         }
 
         if ($DB->numrows($ret) > 0) {

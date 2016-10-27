@@ -84,7 +84,7 @@ class PluginArmaditoAntivirus extends CommonDBTM
         $ret   = $DB->query($query);
 
         if (!$ret) {
-            throw new RuntimeException(sprintf('Error isAlreadyEnrolled : %s', $DB->error()));
+            throw new InvalidArgumentException(sprintf('Error isAlreadyEnrolled : %s', $DB->error()));
         }
 
         if ($DB->numrows($ret) > 0) {
@@ -194,7 +194,7 @@ class PluginArmaditoAntivirus extends CommonDBTM
         $ret   = $DB->query($query);
 
         if (!$ret) {
-            throw new RuntimeException(sprintf('Error getAntivirusList : %s', $DB->error()));
+            throw new InvalidArgumentException(sprintf('Error getAntivirusList : %s', $DB->error()));
         }
 
         if ($DB->numrows($ret) > 0) {

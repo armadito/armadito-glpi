@@ -91,7 +91,7 @@ class PluginArmaditoScan extends CommonDBTM
         $ret = $DB->query($query);
 
         if (!$ret) {
-            throw new RuntimeException(sprintf('Error getJobs : %s', $DB->error()));
+            throw new InvalidArgumentException(sprintf('Error getJobs : %s', $DB->error()));
         }
 
         if ($DB->numrows($ret) > 0) {
@@ -220,7 +220,7 @@ class PluginArmaditoScan extends CommonDBTM
         $ret   = $DB->query($query);
 
         if (!$ret) {
-            throw new RuntimeException(sprintf('Error isScaninDB : %s', $DB->error()));
+            throw new InvalidArgumentException(sprintf('Error isScaninDB : %s', $DB->error()));
         }
 
         if ($DB->numrows($ret) > 0) {
