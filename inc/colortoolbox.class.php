@@ -25,9 +25,6 @@ if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
-/*
- * Toolbox of various utility methods to manipulate colors
- **/
 class PluginArmaditoColorToolbox
 {
     protected $h;
@@ -98,17 +95,19 @@ class PluginArmaditoColorToolbox
                 $g = $p;
                 $b = $q;
                 break;
+            default:
+                throw new UnexpectedValueException("HSVtoHexa error : h_i value is > 5.");
+                return '';
         }
 
-        // echo "r = ".round($r*255).", g =".round($g*255).", b=".round($b*255)."<br>";
         $color = dechex((round($r * 255) << 16) + (round($g * 255) << 8) + round($b * 255));
-        $color = str_repeat('0', 6 - strlen($color)) . $color;
-        return $color;
+
+        return str_repeat('0', 6 - strlen($color)) . $color;
     }
 
     static function getGoldenColors()
     {
-        $colors = array(
+        return array(
             "violet" => "#C879F2",
             "blue" => "#7994F2",
             "green1" => "#79F2A5",
@@ -117,7 +116,6 @@ class PluginArmaditoColorToolbox
             "orange" => "#F2B881",
             "yellow" => "#F2F281"
         );
-        return $colors;
     }
 }
 
