@@ -1,7 +1,7 @@
 <?php
 
 /* ----------------------------------------------------------------- */
-/**
+/*
  * Extends class Migration to redefine display mode
  **/
 class CliMigration extends Migration
