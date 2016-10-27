@@ -459,25 +459,16 @@ class PluginArmaditoAgent extends CommonDBTM
 
     static function processMassiveActionsForOneItemtype(MassiveAction $ma, CommonDBTM $item, array $ids)
     {
-        switch ($ma->getAction()) {
-            case 'newscan':
+        if($ma->getAction() == 'newscan') {
                 foreach ($ids as $key) {
                     PluginArmaditoAgent::processMassiveActionNewScan($ma, $item, $key);
                 }
-                return;
         }
-        return;
     }
 
-    /**
-     * @since version 0.85
-     *
-     * @see CommonDBTM::showMassiveActionsSubForm()
-     **/
     static function showMassiveActionsSubForm(MassiveAction $ma)
     {
-        switch ($ma->getAction()) {
-            case 'newscan':
+        if($ma->getAction() == 'newscan') {
                 PluginArmaditoAgent::showNewScanForm();
                 return true;
         }
@@ -488,6 +479,7 @@ class PluginArmaditoAgent extends CommonDBTM
     static function showNewScanForm()
     {
         $configs = PluginArmaditoScanConfig::getScanConfigsList();
+
         if (empty($configs)) {
             PluginArmaditoScanConfig::showNoScanConfigForm();
             return;
@@ -496,7 +488,6 @@ class PluginArmaditoAgent extends CommonDBTM
         echo "<b> Scan Parameters </b><br>";
         echo "Configuration: ";
         Dropdown::showFromArray("scanconfig_id", $configs);
-        # PluginArmaditoToolbox::showHours('beginhours', array('step' => 15));
 
         echo "<br><br><b> Job Parameters </b><br>";
         echo "Priority ";
