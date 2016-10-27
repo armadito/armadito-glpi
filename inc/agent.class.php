@@ -334,31 +334,27 @@ class PluginArmaditoAgent extends CommonDBTM
 
     function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
     {
+        $tabname = '';
+
         if (!$withtemplate) {
             switch ($item->getType()) {
                 case 'Profile':
                     if ($item->getField('central')) {
-                        return __('Armadito', 'armadito');
+                        $tabname = __("Armadito", 'armadito');
                     }
                     break;
-
-                case 'Phone':
-                case 'ComputerDisk':
-                case 'Supplier':
                 case 'Computer':
-                    return array(
-                        1 => __("Armadito AV", 'armadito')
-                    );
-                case 'Central':
-                case 'Preference':
+                    $tabname = array( 1 => __("Armadito AV", 'armadito'));
+                    break;
                 case 'Notification':
-                    return array(
-                        1 => __("Armadito Plugin", 'armadito')
-                    );
-
+                    $tabname = array( 1 => __("Armadito Plugin", 'armadito'));
+                    break;
+                default :
+                    break;
             }
         }
-        return '';
+
+        return $tabname;
     }
 
     static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
