@@ -21,6 +21,8 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 
 **/
 
+require_once("classloader.php");
+
 function pluginArmaditoInstall($version, $migrationname = 'Migration')
 {
     global $DB;
@@ -29,19 +31,10 @@ function pluginArmaditoInstall($version, $migrationname = 'Migration')
     ini_set("max_execution_time", "0");
 
     $migration = new $migrationname($version);
-
-    /*
-     * Load classes
-     */
-    foreach (glob(GLPI_ROOT . '/plugins/armadito/inc/*.php') as $file) {
-        require_once($file);
-    }
-
     $migration->displayMessage("Installation of plugin Armadito");
 
-    /*
-     * Manage profiles
-     */
+    loadPluginClasses();
+
     $migration->displayMessage("Initialize profiles");
     PluginArmaditoProfile::initProfile();
 
@@ -67,4 +60,5 @@ function pluginArmaditoInstall($version, $migrationname = 'Migration')
     PluginArmaditoLastContactStat::init();
     PluginArmaditoLastAlertStat::init();
 }
+
 ?>

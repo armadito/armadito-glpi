@@ -20,6 +20,7 @@ You should have received a copy of the GNU Affero General Public License
 along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 
 **/
+require_once("classloader.php");
 
 function pluginArmaditoGetCurrentVersion()
 {
@@ -41,7 +42,6 @@ function pluginArmaditoGetCurrentVersion()
     return $data['version'];
 }
 
-
 function pluginArmaditoUpdate($current_version, $migrationname = 'Migration')
 {
     global $DB;
@@ -49,9 +49,7 @@ function pluginArmaditoUpdate($current_version, $migrationname = 'Migration')
     ini_set("max_execution_time", "0");
     ini_set("memory_limit", "-1");
 
-    foreach (glob(GLPI_ROOT . '/plugins/armadito/inc/*.php') as $file) {
-        require_once($file);
-    }
+    loadPluginClasses();
 
     $migration = new $migrationname($current_version);
     $migration->displayMessage("Migration Classname : " . $migrationname);
