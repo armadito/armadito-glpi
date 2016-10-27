@@ -25,7 +25,6 @@ include_once("toolbox.class.php");
 
 class PluginArmaditoAgent extends CommonDBTM
 {
-
     protected $id;
     protected $jobj;
     protected $antivirus;
@@ -60,7 +59,7 @@ class PluginArmaditoAgent extends CommonDBTM
         $paAgent = new self();
 
         $input                = array();
-        $input['id']          = $alert->getAgentId();;
+        $input['id']          = $alert->getAgentId();
         $input['last_alert']  = $alert->getDetectionTime();
         if ($paAgent->update($input)) {
             return true;
