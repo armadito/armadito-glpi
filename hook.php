@@ -27,7 +27,7 @@ function setDefaultDisplayPreferences( $classes)
 {
     $query = "INSERT INTO `glpi_displaypreferences` (`id`, `itemtype`, `num`, `rank`,
                         `users_id`)
-		      VALUES ";
+              VALUES ";
 
     foreach ( $classes as $class => $rounds ){
         $query .= getDefaultDisplayPreferences($class, $rounds);
@@ -51,8 +51,6 @@ function getDefaultDisplayPreferences( $class, $rounds )
 
 function cleanDefaultDisplayPreferences($class)
 {
-    global $DB;
-
     $query = "DELETE FROM `glpi_displaypreferences`
       WHERE `itemtype`='".$class."'";
 
@@ -68,8 +66,6 @@ function cleanAllDisplayPreferences( $classes )
 
 function plugin_armadito_install()
 {
-    global $DB;
-
     ini_set("max_execution_time", "0");
 
     if (basename($_SERVER['SCRIPT_NAME']) != "cli_install.php") {
@@ -82,7 +78,7 @@ function plugin_armadito_install()
     require_once(GLPI_ROOT . "/plugins/armadito/install/update.php");
     $version_detected = pluginArmaditoGetCurrentVersion();
 
-    if (isset($version_detected) AND (defined('FORCE_UPGRADE') OR ($version_detected != PLUGIN_ARMADITO_VERSION AND $version_detected != '0'))) {
+    if (isset($version_detected) && (defined('FORCE_UPGRADE') || ($version_detected != PLUGIN_ARMADITO_VERSION AND $version_detected != '0'))) {
         pluginArmaditoUpdate($version_detected, $migrationname);
     } else if ((isset($version_detected)) && ($version_detected == PLUGIN_ARMADITO_VERSION)) {
         //Same version : Nothing to do
