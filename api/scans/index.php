@@ -51,7 +51,7 @@ if (!empty($rawdata)) {
     $scan->initFromJson($jobj);
     $error = $scan->updateScanInDB();
 
-    if ($error->getCode() == 0) { // success
+    if ($error->getCode() == 0) {
         $communication->setMessage($error->toJson(), 200);
     } else {
         $communication->setMessage($error->toJson(), 500);

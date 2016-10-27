@@ -49,7 +49,7 @@ if (!empty($rawdata)) {
     $Agent->initFromJson($jobj);
     $error = $Agent->run();
 
-    if ($error->getCode() == 0) { // success
+    if ($error->getCode() == 0) {
         $communication->setMessage($Agent->toJson(), 200);
     } else {
         $communication->setMessage($error->toJson(), 500);

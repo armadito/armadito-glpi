@@ -49,7 +49,7 @@ if (!empty($rawdata)) {
     $state->initFromJson($jobj);
     $error = $state->run();
 
-    if ($error->getCode() == 0) { // success
+    if ($error->getCode() == 0) {
         $communication->setMessage($state->toJson(), 200);
     } else {
         $communication->setMessage($error->toJson(), 500);

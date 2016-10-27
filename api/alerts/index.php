@@ -49,7 +49,7 @@ if (!empty($rawdata)) {
     $alert->initFromJson($jobj);
     $error = $alert->run();
 
-    if ($error->getCode() == 0) { // success
+    if ($error->getCode() == 0) {
         $communication->setMessage($alert->toJson(), 200);
         $alert->updateAlertStat();
         $agent = new PluginArmaditoAgent();

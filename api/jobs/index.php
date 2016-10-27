@@ -49,7 +49,7 @@ if (isset($_GET['agent_id'])) {
     $error->log();
     $communication->sendMessage();
     session_destroy();
-} else if (!empty($rawdata)) { // POST
+} else if (!empty($rawdata)) {
 
     PluginArmaditoToolbox::checkPluginInstallation();
 
