@@ -32,14 +32,8 @@ class PluginArmaditoJobBoard extends PluginArmaditoBoard
     {
     }
 
-    /**
-     * Display a board in HTML with JS libs (nvd3)
-     *
-     *@return nothing
-     **/
     function displayBoard()
     {
-
         $restrict_entity = getEntitiesRestrictRequest(" AND", 'comp');
         $data            = $this->getJobStatusData($restrict_entity);
 
@@ -50,14 +44,8 @@ class PluginArmaditoJobBoard extends PluginArmaditoBoard
         echo "</table>";
     }
 
-    /**
-     * Get data and display Jobs' statuses (half donut)
-     *
-     *@return nothing
-     **/
     function showJobStatusChart($data)
     {
-
         $chart = new PluginArmaditoChartHalfDonut();
         $chart->init('jobstatus', "Job(s) statuses", $data);
 
@@ -73,8 +61,6 @@ class PluginArmaditoJobBoard extends PluginArmaditoBoard
 
     function getJobStatusData($restrict_entity)
     {
-        global $DB;
-
         $statuses = PluginArmaditoJob::getAvailableStatuses();
 
         $data = array();
