@@ -52,7 +52,6 @@ class PluginArmaditoDbManager
 
     function addQuery($name, $type, $table, $params, $where_params = array())
     {
-
         $query = array();
 
         switch ($type) {
@@ -141,9 +140,7 @@ class PluginArmaditoDbManager
 
     function getbindQueryArgs($name)
     {
-        $bindargs = array(
-            ""
-        );
+        $bindargs = array("");
         foreach ($this->queries[$name]["params"] as $property_name => $property_array) {
             $bindargs[0] .= $property_array["type"];
             $bindargs[] =& $this->queries[$name]["params"][$property_name]["value"];
@@ -153,7 +150,6 @@ class PluginArmaditoDbManager
 
     function bindQuery($name)
     {
-        global $DB;
         $ref    = new ReflectionClass('mysqli_stmt');
         $method = $ref->getMethod("bind_param");
         if (!$method->invokeArgs($this->statements[$name], $this->getbindQueryArgs($name))) {
@@ -167,7 +163,6 @@ class PluginArmaditoDbManager
 
     function executeQuery($name)
     {
-        global $DB;
         if (!$this->statements[$name]->execute()) {
             $this->error->setMessage(1, 'executeQuery ' . $name . ' failed. ' . $this->statements[$name]->error);
             $this->error->log();
@@ -181,7 +176,5 @@ class PluginArmaditoDbManager
     {
         return $this->statements[$name]->close();
     }
-
 }
-
 ?>
