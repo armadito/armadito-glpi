@@ -7,4 +7,4 @@ then
 	cp -r /home/travis/build/armadito/armadito_lib /home/travis/build/armadito/glpi/plugins/armadito/lib
 fi
 
-ant -Dclearsavepoint='true' -Dbasedir=. -f ./phpunit/build.xml phpunit.all
+ant -Dclearsavepoint='true' -Dbasedir=/home/travis/build/armadito -f ./phpunit/build.xml phpunit.all

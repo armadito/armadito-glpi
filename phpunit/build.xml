@@ -136,7 +136,7 @@
    </macrodef>
    <macrodef name="format.testlog">
       <sequential>
-         <exec dir="${basedir}" executable="./glpi/plugins/armadito/phpunit/tools/format_phpunitlogs.sh" failonerror="true">
+         <exec dir="${basedir}" executable="${armadito.directory}/phpunit/tools/format_phpunitlogs.sh" failonerror="true">
             <arg path="${basedir}" />
             <arg value="${ant.project.name}" />
          </exec>
