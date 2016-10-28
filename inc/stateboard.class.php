@@ -34,7 +34,6 @@ class PluginArmaditoStateBoard extends PluginArmaditoBoard
 
     function displayBoard()
     {
-
         $restrict_entity = getEntitiesRestrictRequest(" AND", 'comp');
         $data            = $this->getUpdateStatusData($restrict_entity);
 
@@ -47,7 +46,6 @@ class PluginArmaditoStateBoard extends PluginArmaditoBoard
 
     function showUpdateStatusChart($data)
     {
-
         $chart = new PluginArmaditoChartHalfDonut();
         $chart->init('updatestatus', "AV Update(s) statuses", $data);
 
@@ -63,8 +61,6 @@ class PluginArmaditoStateBoard extends PluginArmaditoBoard
 
     function getUpdateStatusData($restrict_entity)
     {
-        global $DB;
-
         $statuses = PluginArmaditoState::getAvailableStatuses();
 
         $data = array();
