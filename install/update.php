@@ -33,10 +33,8 @@ function pluginArmaditoGetCurrentVersion()
     $query = "SELECT version FROM glpi_plugin_armadito_configs LIMIT 1";
 
     $data = array();
-    if ($result = $DB->query($query)) {
-        if ($DB->numrows($result) == "1") {
-            $data = $DB->fetch_assoc($result);
-        }
+    if ($result = $DB->query($query) && $DB->numrows($result) == "1") {
+        $data = $DB->fetch_assoc($result);
     }
 
     return $data['version'];

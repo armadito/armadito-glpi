@@ -184,6 +184,7 @@ class PluginArmaditoConfig extends CommonDBTM
 
     function updateValue($name, $value)
     {
+        global $DB;
         $config = current($this->find("`type`='" . $DB->escape($name) . "'"));
         if (isset($config['id'])) {
             return $this->update(array(
