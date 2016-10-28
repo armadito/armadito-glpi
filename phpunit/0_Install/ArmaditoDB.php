@@ -60,7 +60,6 @@ class ArmaditoDB extends PHPUnit_Framework_Assert
         // * Get tables from MySQL
         $a_tables_db = array();
         $a_tables    = array();
-        // SHOW TABLES;
         $query       = "SHOW TABLES";
         $result      = $DB->query($query);
         while ($data = $DB->fetch_array($result)) {
@@ -156,8 +155,6 @@ class ArmaditoDB extends PHPUnit_Framework_Assert
         $this->assertEquals($DB->numrows($result), 1, "type 'version' not added in config");
         $data = $DB->fetch_assoc($result);
         $this->assertEquals($data['value'], '9.1+0.2', "Field 'version' not with right version");
-
-        // TODO : test glpi_displaypreferences, rules, bookmark...
 
         /*
          * Verify table `glpi_plugin_armadito_lastcontactstats` filled with data
