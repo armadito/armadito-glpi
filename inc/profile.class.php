@@ -188,19 +188,19 @@ class PluginArmaditoProfile extends Profile
         $profile->getFromDB($dataprofile['id']);
 
         foreach ($a_rights as $info) {
-            $dataprofile = $this->addRight($info, $dataprofile);
+            $dataprofile = $this->addRightsToProfile($info, $dataprofile);
         }
 
         $profile->update($dataprofile);
     }
 
-    function addRight($info, $dataprofile)
+    function addRightsToProfile($info, $dataprofile)
     {
        if (is_array($info)
             && ((!empty($info['itemtype'])) || (!empty($info['rights'])))
              && (!empty($info['label'])) && (!empty($info['field']))) {
 
-            $rights = $this->getRights($info);
+            $rights = $this->getRightsForItem($info);
 
             foreach ($rights as $right => $label)
             {
@@ -212,7 +212,7 @@ class PluginArmaditoProfile extends Profile
         return $dataprofile;
     }
 
-    function getRights($info)
+    function getRightsForItem($info)
     {
         if (isset($info['rights'])) {
             return $info['rights'];
