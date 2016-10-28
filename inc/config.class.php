@@ -229,11 +229,12 @@ class PluginArmaditoConfig extends CommonDBTM
 
     function isActive($name)
     {
-        if(is_null($this->getValue($name)){
+        $value = $this->getValue($name);
+        if($value === NULL){
            return FALSE;
         }
 
-        return $this->getValue($name);
+        return $value;
     }
 
     static function loadCache()
