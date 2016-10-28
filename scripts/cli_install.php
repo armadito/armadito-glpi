@@ -39,11 +39,18 @@ $specs->add('as-user:', 'Do install/upgrade as specified USER.' )
 $parser = new OptionParser($specs);
 echo "Enabled options: \n";
 try {
+
     $result = $parser->parse( $argv );
 
-    $args['--force-upgrade'] = $result->keys['force-upgrade'];
-    $args['--as-user'] = $result->keys['as-user']->value;
-    $args['--optimize'] = $result->keys['optimize'];
+    if(isset($result->keys['force-upgrade']) {
+        $args['--force-upgrade'] = $result->keys['force-upgrade'];
+    }
+    if(isset($result->keys['as-user']) {
+        $args['--as-user'] = $result->keys['as-user']->value;
+    }
+    if(isset($result->keys['optimize']) {
+        $args['--optimize'] = $result->keys['optimize'];
+    }
 
 } catch( Exception $e ) {
     echo $e->getMessage();
