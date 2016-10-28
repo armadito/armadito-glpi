@@ -41,7 +41,7 @@ class ArmaditoDB extends PHPUnit_Framework_Assert
         $a_tables_ref  = array();
         $current_table = '';
         foreach ($a_lines as $line) {
-            if (strstr($line, "CREATE TABLE ") OR strstr($line, "CREATE VIEW")) {
+            if (strstr($line, "CREATE TABLE ") || strstr($line, "CREATE VIEW")) {
                 $matches = array();
                 preg_match("/`(.*)`/", $line, $matches);
                 $current_table = $matches[1];
@@ -79,7 +79,7 @@ class ArmaditoDB extends PHPUnit_Framework_Assert
                 $a_lines = explode("\n", $data['Create Table']);
 
                 foreach ($a_lines as $line) {
-                    if (strstr($line, "CREATE TABLE ") OR strstr($line, "CREATE VIEW")) {
+                    if (strstr($line, "CREATE TABLE ") || strstr($line, "CREATE VIEW")) {
                         $matches = array();
                         preg_match("/`(.*)`/", $line, $matches);
                         $current_table = $matches[1];
