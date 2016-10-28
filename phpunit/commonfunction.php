@@ -33,7 +33,7 @@ function load_mysql_file($dbuser = '', $dbhost = '', $dbdefault = '', $dbpasswor
 
 function mysql_dump($dbuser = '', $dbhost = '', $dbpassword = '', $dbdefault = '', $file = NULL)
 {
-    if (is_null($file) or empty($file)) {
+    if (is_null($file) || empty($file)) {
         return array(
             'returncode' => 1,
             'output' => array(
