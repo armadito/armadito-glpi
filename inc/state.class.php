@@ -242,7 +242,7 @@ class PluginArmaditoState extends CommonDBTM
         $query_name = "NewState";
         $dbmanager->addQuery($query_name, "INSERT", $this->getTable(), $params);
 
-        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
+        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
             return $dbmanager->getLastError();
         }
 
