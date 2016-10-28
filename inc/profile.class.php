@@ -38,6 +38,7 @@ class PluginArmaditoProfile extends Profile
                     READ => __('Read'),
                     UPDATE => __('Update')
                 ),
+                'itemtype' => 'PluginArmaditoMenu',
                 'label' => __('Menu', 'armadito'),
                 'field' => 'plugin_armadito_menu'
             ),
@@ -196,17 +197,12 @@ class PluginArmaditoProfile extends Profile
 
     function addRightsToProfile($info, $dataprofile)
     {
-       if (is_array($info)
-            && ((!empty($info['itemtype'])) || (!empty($info['rights'])))
-             && (!empty($info['label'])) && (!empty($info['field']))) {
+        $rights = $this->getRightsForItem($info);
 
-            $rights = $this->getRightsForItem($info);
-
-            foreach ($rights as $right => $label)
-            {
-                $dataprofile['_' . $info['field']][$right]     = 1;
-                $_SESSION['glpiactiveprofile'][$info['field']] = $right;
-            }
+        foreach ($rights as $right => $label)
+        {
+            $dataprofile['_' . $info['field']][$right]     = 1;
+            $_SESSION['glpiactiveprofile'][$info['field']] = $right;
         }
 
         return $dataprofile;
