@@ -227,7 +227,7 @@ class PluginArmaditoJob extends CommonDBTM
         $query_name = "UpdateJobError";
         $dbmanager->addQuery($query_name, "UPDATE", $this->getTable(), $params, "id");
 
-        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
+        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
             return $dbmanager->getLastError();
         }
 
@@ -332,7 +332,7 @@ class PluginArmaditoJob extends CommonDBTM
         $query_name = "NewJob";
         $dbmanager->addQuery($query_name, "INSERT", $this->getTable(), $params);
 
-        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
+        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
             return $dbmanager->getLastError();
         }
 
