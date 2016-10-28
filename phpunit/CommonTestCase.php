@@ -41,7 +41,7 @@ abstract class CommonTestCase extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        global $DB;
+        global $DB, $CFG_GLPI;
         $DB = new DB();
 
         // Force profile in session to SuperAdmin

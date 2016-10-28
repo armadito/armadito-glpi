@@ -27,7 +27,6 @@ class ArmaditoInstallTest extends CommonTestCase
 {
     public function testInstall()
     {
-
         global $DB;
         $DB->connect();
         $this->assertTrue($DB->connected, "Problem connecting to the Database");
