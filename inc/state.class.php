@@ -289,7 +289,7 @@ class PluginArmaditoState extends CommonDBTM
         $query_name = "UpdateState";
         $dbmanager->addQuery($query_name, "UPDATE", $this->getTable(), $params, "plugin_armadito_agents_id");
 
-        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
+        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
             return $dbmanager->getLastError();
         }
 
