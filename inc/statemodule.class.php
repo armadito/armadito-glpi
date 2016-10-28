@@ -100,7 +100,6 @@ class PluginArmaditoStateModule extends CommonDBTM
 
     function run()
     {
-
         if ($this->isStateModuleinDB()) {
             $error = $this->updateStateModule();
         } else {
@@ -108,7 +107,6 @@ class PluginArmaditoStateModule extends CommonDBTM
         }
         return $error;
     }
-
 
     function findModules($agent_id)
     {
@@ -118,11 +116,9 @@ class PluginArmaditoStateModule extends CommonDBTM
                  WHERE `plugin_armadito_agents_id`='" . $agent_id . "'";
 
         $data = array();
-        if ($result = $DB->query($query)) {
-            if ($DB->numrows($result)) {
-                while ($line = $DB->fetch_assoc($result)) {
-                    $data[$line['id']] = $line;
-                }
+        if ($result = $DB->query($query) && $DB->numrows($result)) {
+            while ($line = $DB->fetch_assoc($result)) {
+                $data[$line['id']] = $line;
             }
         }
 
