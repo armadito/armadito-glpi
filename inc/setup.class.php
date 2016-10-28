@@ -31,15 +31,10 @@ class PluginArmaditoSetup
 {
     static function uninstall()
     {
-        global $DB;
-
         PluginArmaditoProfile::uninstallProfile();
         ProfileRight::deleteProfileRights(array(
             'armadito:read'
         ));
-
-        $pfSetup = new PluginArmaditoSetup();
-        $user    = new User();
 
         if (TableExists("glpi_plugin_armadito_configs")) {
             $query = "DROP TABLE `glpi_plugin_armadito_configs`";
@@ -54,9 +49,6 @@ class PluginArmaditoSetup
                 die();
             }
         }
-
-        // erase user display preferences TOFIX
-        // cleanDefaultDisplayPreferences();
     }
 }
 ?>
