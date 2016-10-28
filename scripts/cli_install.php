@@ -23,23 +23,34 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 chdir(dirname($_SERVER["SCRIPT_FILENAME"]));
 
 include("../../../inc/includes.php");
-include("./docopt.php");
+require_once __DIR__ . '/../vendor/autoload.php';
 
-$doc = <<<DOC
-cli_install.php
+use GetOptionKit\OptionCollection;
+use GetOptionKit\OptionParser;
+use GetOptionKit\OptionPrinter\ConsoleOptionPrinter;
 
-Usage:
-   cli_install.php [--force-upgrade] [--as-user USER] [--optimize]
+$specs = new OptionCollection;
+$specs->add('f|force-upgrade:', 'Force upgrade.');
+$specs->add('o|optimize:', 'Optimize tables.');
+$specs->add('h|help:', 'Print usage.');
+$specs->add('as-user:', 'Do install/upgrade as specified USER.' )
+    ->isa('String');
 
-Options:
-   --force-upgrade      Force upgrade.
-   --as-user USER       Do install/upgrade as specified USER.
-   --optimize           Optimize tables.
+$parser = new OptionParser($specs);
+echo "Enabled options: \n";
+try {
+    $result = $parser->parse( $argv );
 
-DOC;
+    $args['--force-upgrade'] = $result->keys['force-upgrade'];
+    $args['--as-user'] = $result->keys['as-user']->value;
+    $args['--optimize'] = $result->keys['optimize'];
 
-$docopt = new \Docopt\Handler();
-$args   = $docopt->handle($doc);
+} catch( Exception $e ) {
+    echo $e->getMessage();
+
+    $printer = new ConsoleOptionPrinter();
+    echo $printer->render($specs);
+}
 
 // Init debug variable
 $_SESSION['glpi_use_mode'] = Session::DEBUG_MODE;

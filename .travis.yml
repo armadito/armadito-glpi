@@ -57,6 +57,7 @@ before_install:
 
 install:
  - composer require satooshi/php-coveralls
+ - composer require corneltek/getoptionkit
 
 before_script:
   - phpenv version-name | grep ^5.[34] && echo "extension=apc.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; true
