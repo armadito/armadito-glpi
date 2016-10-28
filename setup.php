@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
 Copyright (C) 2016 Teclib'
 Copyright (C) 2010-2016 by the FusionInventory Development Team.
 
@@ -27,12 +27,11 @@ define("PLUGIN_ARMADITO_VERSION", "9.1+0.2");
 
 function plugin_init_armadito()
 {
-    global $PLUGIN_HOOKS, $CFG_GLPI;
+    global $PLUGIN_HOOKS;
 
     $PLUGIN_HOOKS['csrf_compliant']['armadito'] = TRUE;
 
     $Plugin   = new Plugin();
-    $moduleId = 0;
 
     if (isset($_SESSION['glpi_use_mode'])) {
         $debug_mode = ($_SESSION['glpi_use_mode'] == Session::DEBUG_MODE);
@@ -60,7 +59,7 @@ function plugin_init_armadito()
 
         $PLUGIN_HOOKS['add_javascript']['armadito'] = array();
         $PLUGIN_HOOKS['add_css']['armadito']        = array();
-        if (strpos($_SERVER['SCRIPT_FILENAME'], "plugins/armadito") != false) {
+        if (strpos($_SERVER['SCRIPT_FILENAME'], "plugins/armadito")) {
             array_push($PLUGIN_HOOKS['add_javascript']['armadito'], "lib/d3-3.4.3/d3" . ($debug_mode ? "" : ".min") . ".js", "lib/nvd3/nv.d3" . ($debug_mode ? "" : ".min") . ".js");
         }
 

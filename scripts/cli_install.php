@@ -23,7 +23,6 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 chdir(dirname($_SERVER["SCRIPT_FILENAME"]));
 
 include("../../../inc/includes.php");
-
 include("./docopt.php");
 
 $doc = <<<DOC
