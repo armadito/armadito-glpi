@@ -42,13 +42,13 @@ try {
 
     $result = $parser->parse( $argv );
 
-    if(isset($result->keys['force-upgrade']) {
+    if(isset($result->keys['force-upgrade'])) {
         $args['--force-upgrade'] = $result->keys['force-upgrade'];
     }
-    if(isset($result->keys['as-user']) {
+    if(isset($result->keys['as-user'])) {
         $args['--as-user'] = $result->keys['as-user']->value;
     }
-    if(isset($result->keys['optimize']) {
+    if(isset($result->keys['optimize'])) {
         $args['--optimize'] = $result->keys['optimize'];
     }
 
