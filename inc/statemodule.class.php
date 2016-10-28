@@ -222,7 +222,7 @@ class PluginArmaditoStateModule extends CommonDBTM
             "module_name"
         ));
 
-        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
+        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
             return $dbmanager->getLastError();
         }
 
