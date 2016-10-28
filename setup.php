@@ -89,7 +89,6 @@ function script_endswith_($scriptname)
 
 function plugin_version_armadito()
 {
-
     return array(
         'name' => 'Armadito',
         'shortname' => 'armadito',
@@ -103,7 +102,6 @@ function plugin_version_armadito()
 
 function plugin_armadito_check_prerequisites()
 {
-
     if (!isset($_SESSION['glpi_plugins'])) {
         $_SESSION['glpi_plugins'] = array();
     }
