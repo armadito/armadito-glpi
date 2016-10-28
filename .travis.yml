@@ -54,6 +54,7 @@ before_install:
  - composer self-update
  - ant -Dclearsavepoint='true' -Dbasedir=. -f ./glpi/plugins/armadito/phpunit/build.xml composer
  - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+ - cd glpi/plugins/armadito
 
 install:
  - composer require satooshi/php-coveralls
