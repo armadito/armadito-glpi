@@ -25,10 +25,6 @@ require_once("0_Install/ArmaditoDB.php");
 
 class ArmaditoInstallTest extends Common_TestCase
 {
-
-    /**
-     * @depends GLPIInstallTest::installDatabase
-     */
     public function testInstall()
     {
 
@@ -48,7 +44,7 @@ class ArmaditoInstallTest extends Common_TestCase
         $query  = "SHOW TABLES";
         $result = $DB->query($query);
         while ($data = $DB->fetch_array($result)) {
-            if (strstr($data[0], "tracker") OR strstr($data[0], "armadito")) {
+            if (strstr($data[0], "tracker") || strstr($data[0], "armadito")) {
                 $DB->query("DROP TABLE " . $data[0]);
             }
         }
