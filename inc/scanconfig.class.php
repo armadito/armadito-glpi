@@ -39,7 +39,6 @@ class PluginArmaditoScanConfig extends CommonDBTM
 
     function __construct()
     {
-        //
     }
 
     function initFromForm($POST)
@@ -57,8 +56,6 @@ class PluginArmaditoScanConfig extends CommonDBTM
 
     function initFromDB($id)
     {
-        global $DB;
-
         $this->id = $id;
         if ($this->getFromDB($id)) {
             $this->scan_name    = $this->fields["scan_name"];
@@ -94,11 +91,7 @@ class PluginArmaditoScanConfig extends CommonDBTM
         $query_name = "NewScanConfig";
         $dbmanager->addQuery($query_name, "INSERT", $this->getTable(), $params);
 
-        if (!$dbmanager->prepareQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        if (!$dbmanager->bindQuery($query_name)) {
+        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
             return $dbmanager->getLastError();
         }
 
@@ -131,18 +124,12 @@ class PluginArmaditoScanConfig extends CommonDBTM
 
     static function canView()
     {
-
         if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
             return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w' || $_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'r');
         }
         return false;
     }
 
-    /**
-     * Display name of itemtype
-     *
-     * @return value name of this itemtype
-     **/
     static function getTypeName($nb = 0)
     {
 
@@ -151,7 +138,6 @@ class PluginArmaditoScanConfig extends CommonDBTM
 
     function getSearchOptions()
     {
-
         $tab           = array();
         $tab['common'] = __('ScanConfig', 'armadito');
 
@@ -220,16 +206,8 @@ class PluginArmaditoScanConfig extends CommonDBTM
         return $configs;
     }
 
-    /**
-     * Display form
-     *
-     * @return bool TRUE if form is ok
-     *
-     **/
     function showForm($id, $options = array())
     {
-        global $CFG_GLPI;
-
         $antiviruses = PluginArmaditoAntivirus::getAntivirusList();
         if (empty($antiviruses)) {
             PluginArmaditoScanConfig::showNoAntivirusForm();
@@ -284,8 +262,6 @@ class PluginArmaditoScanConfig extends CommonDBTM
 
     static function showNoAntivirusForm()
     {
-        global $CFG_GLPI;
-
         if (Session::haveRight('plugin_armadito_antiviruses', READ)) {
             echo "<b>No Antivirus found in database.</b><br>";
             echo "Please enroll a new device with Armadito Agent.<br>";
