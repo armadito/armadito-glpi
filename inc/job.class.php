@@ -140,6 +140,7 @@ class PluginArmaditoJob extends CommonDBTM
         if($this->type == "Scan") {
             $this->obj = new PluginArmaditoScan();
             $error     = $this->obj->initFromDB($this->id);
+        }
         else {
             $this->obj = "unknown";
             $error->setMessage(0, 'Unknown Job Type.');
