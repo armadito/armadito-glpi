@@ -94,20 +94,19 @@ class PluginArmaditoScan extends CommonDBTM
             throw new InvalidArgumentException(sprintf('Error getJobs : %s', $DB->error()));
         }
 
-        if ($DB->numrows($ret) > 0) {
-            if ($data = $DB->fetch_assoc($ret)) {
-                $this->agentid      = $data["plugin_armadito_agents_id"];
-                $this->scanconfigid = $data["plugin_armadito_scanconfigs_id"];
+        if ($DB->numrows($ret) > 0 && $data = $DB->fetch_assoc($ret))
+        {
+            $this->agentid      = $data["plugin_armadito_agents_id"];
+            $this->scanconfigid = $data["plugin_armadito_scanconfigs_id"];
 
-                $this->scanconfigobj = new PluginArmaditoScanConfig();
-                if (!$this->scanconfigobj->initFromDB($this->scanconfigid)) {
-                    $error->setMessage(1, 'Init scanconfig from DB failed.');
-                    return $error;
-                }
-
-                $error->setMessage(0, 'Successfully scan init from DB.');
+            $this->scanconfigobj = new PluginArmaditoScanConfig();
+            if (!$this->scanconfigobj->initFromDB($this->scanconfigid)) {
+                $error->setMessage(1, 'Init scanconfig from DB failed.');
                 return $error;
             }
+
+            $error->setMessage(0, 'Successfully scan init from DB.');
+            return $error;
         }
 
         $error->setMessage(1, 'No scans found for job_id ' . $job_id);
@@ -249,11 +248,7 @@ class PluginArmaditoScan extends CommonDBTM
         $query_name = "NewScan";
         $dbmanager->addQuery($query_name, "INSERT", $this->getTable(), $params);
 
-        if (!$dbmanager->prepareQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        if (!$dbmanager->bindQuery($query_name)) {
+        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
             return $dbmanager->getLastError();
         }
 
@@ -296,11 +291,7 @@ class PluginArmaditoScan extends CommonDBTM
         $query_name = "UpdateScan";
         $dbmanager->addQuery($query_name, "UPDATE", $this->getTable(), $params, "plugin_armadito_jobs_id");
 
-        if (!$dbmanager->prepareQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        if (!$dbmanager->bindQuery($query_name)) {
+        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
             return $dbmanager->getLastError();
         }
 
@@ -326,7 +317,6 @@ class PluginArmaditoScan extends CommonDBTM
 
     function defineTabs($options = array())
     {
-
         $ong = array();
         $this->addDefaultFormTab($ong);
         $this->addStandardTab('Log', $ong, $options);
