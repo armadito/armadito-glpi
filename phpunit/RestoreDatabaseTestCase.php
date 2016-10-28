@@ -16,7 +16,7 @@ abstract class RestoreDatabaseTestCase extends CommonTestCase
 
     public static function setUpBeforeClass()
     {
-        restore_database();
+        self::restore_database();
     }
 }
 ?>
