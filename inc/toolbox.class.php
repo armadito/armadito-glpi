@@ -40,9 +40,7 @@ class PluginArmaditoToolbox
 
     static function logE($text)
     {
-
-        $ok = error_log(date("Y-m-d H:i:s") . " " . $text . "\n", 3, GLPI_LOG_DIR . "/pluginArmadito.log");
-        return $ok;
+        return error_log(date("Y-m-d H:i:s") . " " . $text . "\n", 3, GLPI_LOG_DIR . "/pluginArmadito.log");
     }
 
     static function ExecQuery($query)
@@ -94,43 +92,33 @@ class PluginArmaditoToolbox
 
     static function isValidWin32Path($var)
     {
-        $ret = filter_var($var, FILTER_VALIDATE_REGEXP, array(
+        return filter_var($var, FILTER_VALIDATE_REGEXP, array(
             "options" => array(
                 "regexp" => "/^[A-Za-z]:\\[A-Za-z0-9 ]*$/"
             )
         ));
-        return $ret;
     }
 
     static function isValidUnixPath($var)
     {
-        $ret = filter_var($var, FILTER_VALIDATE_REGEXP, array(
+        return filter_var($var, FILTER_VALIDATE_REGEXP, array(
             "options" => array(
                 "regexp" => '/^\/[^\0]*$/'
             )
         ));
-        if ($ret != $var) {
-            return false;
-        }
-        return true;
     }
 
     static function isValidBasicString($var)
     {
-        $ret = filter_var($var, FILTER_VALIDATE_REGEXP, array(
+        return filter_var($var, FILTER_VALIDATE_REGEXP, array(
             "options" => array(
                 "regexp" => '/^[\w-]*$/'
             )
         ));
-        if ($ret != $var) {
-            return false;
-        }
-        return true;
     }
 
     static function parseJSON($json_content)
     {
-
         $jobj = json_decode($json_content);
 
         if (json_last_error() == JSON_ERROR_NONE) {
@@ -142,7 +130,6 @@ class PluginArmaditoToolbox
 
     static function showHours($name, $options = array())
     {
-
         $p['value']   = '';
         $p['display'] = true;
         $p['width']   = '80%';
@@ -161,11 +148,12 @@ class PluginArmaditoToolbox
         }
 
         $values = array();
+        $p['step'] = $p['step'] * 60;
 
-        $p['step'] = $p['step'] * 60; // to have in seconds
         for ($s = $p['begin']; $s <= $p['end']; $s += $p['step']) {
             $values[$s] = PluginArmaditoToolbox::getHourMinute($s);
         }
+
         return Dropdown::showFromArray($name, $values, $p);
     }
 
