@@ -41,9 +41,8 @@ abstract class CommonTestCase extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        global $CFG_GLPI, $DB;
-        $DB                       = new DB();
-
+        global $DB;
+        $DB = new DB();
 
         // Force profile in session to SuperAdmin
         $_SESSION['glpiprofiles'] = array(
@@ -72,11 +71,13 @@ abstract class CommonTestCase extends PHPUnit_Framework_TestCase
         if (file_exists($dir)) {
             $objects = scandir($dir);
 
-            foreach ($objects as $object) {
-                if ($object != "." && $object != "..") {
-                    if (filetype($dir . "/" . $object) != "dir") {
-                        unlink($dir . "/" . $object);
-                    }
+            foreach ($objects as $object)
+            {
+                if ($object != "."
+                 && $object != ".."
+                 && filetype($dir . "/" . $object) != "dir")
+                {
+                    unlink($dir . "/" . $object);
                 }
             }
         }
