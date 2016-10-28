@@ -52,8 +52,6 @@ class PluginArmaditoState extends CommonDBTM
 
     function initFromDB($state_id)
     {
-        global $DB;
-
         if ($this->getFromDB($state_id)) {
             $this->id    = $state_id;
             $this->agent = new PluginArmaditoAgent();
@@ -92,7 +90,6 @@ class PluginArmaditoState extends CommonDBTM
 
     function getSearchOptions()
     {
-
         $tab           = array();
         $tab['common'] = __('State', 'armadito');
 
@@ -158,29 +155,14 @@ class PluginArmaditoState extends CommonDBTM
         return $tab;
     }
 
-    /**
-     * Insert or Update states
-     *
-     * @return PluginArmaditoError obj
-     **/
     function run()
     {
-
-        // if AV is Armadito, we also update states of each modules
         if ($this->jobj->task->antivirus->name == "Armadito") {
-            foreach ($this->jobj->task->obj->modules as $jobj_module) {
-                $module = new PluginArmaditoStateModule();
-                $module->init($this->agentid, $this->jobj, $jobj_module);
-                $error = $module->run();
-                if ($error->getCode() != 0) {
-                    return $error;
-                }
-            }
+            $this->insertOrUpdateStateModules();
         }
 
         $statedetails_id = $this->getTableIdForAgentId("glpi_plugin_armadito_statedetails");
 
-        // Update global Antivirus state
         if ($this->isStateinDB()) {
             $error = $this->updateState($statedetails_id);
         } else {
@@ -190,11 +172,18 @@ class PluginArmaditoState extends CommonDBTM
         return $error;
     }
 
-    /**
-     * Check if state is already in database
-     *
-     * @return TRUE or FALSE
-     **/
+    function insertOrUpdateStateModules()
+    {
+        foreach ($this->jobj->task->obj->modules as $jobj_module) {
+            $module = new PluginArmaditoStateModule();
+            $module->init($this->agentid, $this->jobj, $jobj_module);
+            $error = $module->run();
+            if ($error->getCode() != 0) {
+                return $error;
+            }
+        }
+    }
+
     function isStateinDB()
     {
         global $DB;
@@ -214,11 +203,6 @@ class PluginArmaditoState extends CommonDBTM
         return false;
     }
 
-    /**
-     * Get statedetails table id for itemlink
-     *
-     * @return id
-     **/
     function getTableIdForAgentId($table)
     {
         global $DB;
@@ -241,11 +225,6 @@ class PluginArmaditoState extends CommonDBTM
         return $id;
     }
 
-    /**
-     * Insert state in database
-     *
-     * @return PluginArmaditoError obj
-     **/
     function insertState($stateid)
     {
         $error     = new PluginArmaditoError();
@@ -263,11 +242,7 @@ class PluginArmaditoState extends CommonDBTM
         $query_name = "NewState";
         $dbmanager->addQuery($query_name, "INSERT", $this->getTable(), $params);
 
-        if (!$dbmanager->prepareQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        if (!$dbmanager->bindQuery($query_name)) {
+        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
             return $dbmanager->getLastError();
         }
 
@@ -297,11 +272,6 @@ class PluginArmaditoState extends CommonDBTM
         return $error;
     }
 
-    /**
-     * Uptate state in database
-     *
-     * @return PluginArmaditoError obj
-     **/
     function updateState($stateid)
     {
         $error     = new PluginArmaditoError();
@@ -319,11 +289,7 @@ class PluginArmaditoState extends CommonDBTM
         $query_name = "UpdateState";
         $dbmanager->addQuery($query_name, "UPDATE", $this->getTable(), $params, "plugin_armadito_agents_id");
 
-        if (!$dbmanager->prepareQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        if (!$dbmanager->bindQuery($query_name)) {
+        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
             return $dbmanager->getLastError();
         }
 
