@@ -52,7 +52,6 @@ class PluginArmaditoStateModule extends CommonDBTM
 
     function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
     {
-
         if ($item->getType() == 'PluginArmaditoStatedetail') {
             return __('Antivirus modules', 'armadito');
         }
@@ -61,7 +60,6 @@ class PluginArmaditoStateModule extends CommonDBTM
 
     static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
     {
-
         if ($item->getType() == 'PluginArmaditoStatedetail') {
             $pfStatemodule = new self();
             $pfStatemodule->showForm($item->fields["plugin_armadito_agents_id"]);
@@ -189,11 +187,7 @@ class PluginArmaditoStateModule extends CommonDBTM
         $query_name = "NewStateModule";
         $dbmanager->addQuery($query_name, "INSERT", "glpi_plugin_armadito_statedetails", $params);
 
-        if (!$dbmanager->prepareQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        if (!$dbmanager->bindQuery($query_name)) {
+        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
             return $dbmanager->getLastError();
         }
 
@@ -232,11 +226,7 @@ class PluginArmaditoStateModule extends CommonDBTM
             "module_name"
         ));
 
-        if (!$dbmanager->prepareQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        if (!$dbmanager->bindQuery($query_name)) {
+        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
             return $dbmanager->getLastError();
         }
 
@@ -253,7 +243,6 @@ class PluginArmaditoStateModule extends CommonDBTM
         $dbmanager->closeQuery($query_name);
         $error->setMessage(0, 'Antivirus successfully updated in database.');
         return $error;
-
     }
 }
 ?>
