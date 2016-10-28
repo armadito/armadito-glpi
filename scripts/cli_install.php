@@ -63,13 +63,11 @@ $CFG_GLPI["debug_sql"]        = $CFG_GLPI["debug_vars"] = 0;
 $CFG_GLPI["use_log_in_files"] = 1;
 ini_set('display_errors', 'On');
 error_reporting(E_ALL | E_STRICT);
-//set_error_handler('userErrorHandlerDebug');
 
 $DB = new DB();
 if (!$DB->connected) {
     die("No DB connection\n");
 }
-
 
 /*---------------------------------------------------------------------*/
 
@@ -105,7 +103,7 @@ ini_set("max_execution_time", "0");
 ini_set("memory_limit", "-1");
 ini_set("session.use_cookies", "0");
 $mess = '';
-if (($current_version != PLUGIN_ARMADITO_VERSION) AND $current_version != '0') {
+if (($current_version != PLUGIN_ARMADITO_VERSION) && $current_version != '0') {
     $mess = "Update needed.";
 } else if ($current_version == PLUGIN_ARMADITO_VERSION) {
     $mess = "No migration needed.";
