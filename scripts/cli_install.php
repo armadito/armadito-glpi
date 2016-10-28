@@ -120,11 +120,11 @@ if (($current_version != PLUGIN_ARMADITO_VERSION) && $current_version != '0') {
 
 $migration->displayWarning($mess);
 
-if ($args['--force-upgrade']) {
+if (isset($args['--force-upgrade'])) {
     define('FORCE_UPGRADE', TRUE);
 }
 
-if (!is_null($args['--as-user'])) {
+if (isset($args['--as-user'])) {
     $user = new User();
     $user->getFromDBbyName($args['--as-user']);
     $auth                = new Auth();
@@ -145,7 +145,7 @@ $plugin->load("armadito");
 print("Load Done...\n");
 
 
-if ($args['--optimize']) {
+if (isset($args['--optimize'])) {
 
     $migration->displayTitle(__('Optimizing tables'));
 
