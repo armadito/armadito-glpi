@@ -32,12 +32,12 @@ class AgentTest extends RestoreDatabase_TestCase
         $agent = new PluginArmaditoAgent();
         $json  = '{
   "task": {"obj":"{}",
-		   "name":"Enrollment",
-		   "antivirus": {
-						 "name":"Armadito",
-						 "version":"0.10.2"
-						}
-		  },
+           "name":"Enrollment",
+           "antivirus": {
+                         "name":"Armadito",
+                         "version":"0.10.2"
+                        }
+          },
   "agent_version":"2.3.18",
   "agent_id":1,
   "uuid":"4C4C4544-0033-4A10-8051-C7C04F503732"}';
@@ -64,12 +64,12 @@ class AgentTest extends RestoreDatabase_TestCase
         $agent = new PluginArmaditoAgent();
         $json  = '{
   "task": {"obj":"{}",
-		   "name":"Enrollment",
-		   "antivirus": {
-						 "name":"Armadito",
-						 "version":"0.10.2"
-						}
-		  },
+           "name":"Enrollment",
+           "antivirus": {
+                         "name":"Armadito",
+                         "version":"0.10.2"
+                        }
+          },
   "agent_version":"2.3.18",
   "agent_id":1,
   "uuid":"4C4C4544-0033-4A10-8051-C7C04F503732"}';
