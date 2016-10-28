@@ -11,12 +11,12 @@ include_once(GLPI_CONFIG_DIR . "/config_db.php");
  * Helper class to restore database from some SQL restore point file
  */
 
-abstract class RestoreDatabase_TestCase extends Common_TestCase
+abstract class RestoreDatabaseTestCase extends CommonTestCase
 {
 
     public static function setUpBeforeClass()
     {
-        self::restore_database();
+        restore_database();
     }
 }
 ?>

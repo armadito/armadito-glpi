@@ -23,7 +23,7 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 
 require_once("0_Install/ArmaditoDB.php");
 
-class ArmaditoInstallTest extends Common_TestCase
+class ArmaditoInstallTest extends CommonTestCase
 {
     public function testInstall()
     {

@@ -21,7 +21,7 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 
 **/
 
-class AgentTest extends RestoreDatabase_TestCase
+class AgentTest extends RestoreDatabaseTestCase
 {
 
     /**
