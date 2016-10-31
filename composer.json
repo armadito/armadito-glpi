@@ -1,0 +1,6 @@
+{
+    "require": {
+        "novus/nvd3": "^1.8",
+        "mbostock/d3": "^3.5"
+    }
+}

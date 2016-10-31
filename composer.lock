@@ -1,0 +1,105 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "57bf18692e5e74977ba79eedac7bcb5c",
+    "content-hash": "85920d81ea319fe20ff3218a87f68f11",
+    "packages": [
+        {
+            "name": "mbostock/d3",
+            "version": "v3.5.17",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mbostock/d3.git",
+                "reference": "9cc9a875e636a1dcf36cc1e07bdf77e1ad6e2c74"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mbostock/d3/zipball/9cc9a875e636a1dcf36cc1e07bdf77e1ad6e2c74",
+                "reference": "9cc9a875e636a1dcf36cc1e07bdf77e1ad6e2c74",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Mike Bostock",
+                    "homepage": "http://bost.ocks.org/mike"
+                }
+            ],
+            "description": "A JavaScript visualization library for HTML and SVG.",
+            "homepage": "http://d3js.org/",
+            "keywords": [
+                "W3C",
+                "animation",
+                "canvas",
+                "dom",
+                "svg",
+                "visualization"
+            ],
+            "time": "2016-05-05 00:29:22"
+        },
+        {
+            "name": "novus/nvd3",
+            "version": "v1.8.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/novus/nvd3.git",
+                "reference": "011ac4a3b874cc674e2014999e6c931dc055caee"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/novus/nvd3/zipball/011ac4a3b874cc674e2014999e6c931dc055caee",
+                "reference": "011ac4a3b874cc674e2014999e6c931dc055caee",
+                "shasum": ""
+            },
+            "require": {
+                "mbostock/d3": "@stable"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Bob Monteverde"
+                },
+                {
+                    "name": "Tyler Wolf"
+                },
+                {
+                    "name": "Robin Hu"
+                },
+                {
+                    "name": "Frank Shao"
+                },
+                {
+                    "name": "liquidpele"
+                }
+            ],
+            "description": "A reusable charting library written in d3.js",
+            "homepage": "https://github.com/novus/nvd3",
+            "keywords": [
+                "chart",
+                "d3",
+                "graph",
+                "nvd3"
+            ],
+            "time": "2016-07-04 00:12:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
