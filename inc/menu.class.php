@@ -29,7 +29,7 @@ if (!defined('GLPI_ROOT')) {
 class PluginArmaditoMenu extends CommonGLPI
 {
 
-    static function getTypeName($nb = 0)
+    static function getTypeName()
     {
         return 'Armadito';
     }
@@ -68,8 +68,8 @@ class PluginArmaditoMenu extends CommonGLPI
 
         $options = array();
 
-        $options['menu']['title'] = getTypeName();
-        $options['menu']['page']  = getSearchURL(false);
+        $options['menu']['title'] = PluginArmaditoMenu::getTypeName();
+        $options['menu']['page']  = PluginArmaditoMenu::getSearchURL(false);
 
         if (Session::haveRight('plugin_armadito_configuration', READ)) {
             $options['menu']['links']['config'] = PluginArmaditoConfig::getFormURL(false);
