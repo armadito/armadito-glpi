@@ -83,12 +83,12 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard
 
         $dataComputer   = array();
         $dataComputer[] = array(
-            'key' => __('Armadito', 'armadito') . ' : ' . $armaditoComputers,
+            'key' => __('Armadito', 'armadito'),
             'value' => $armaditoComputers,
             'color' => '#3dff7d'
         );
         $dataComputer[] = array(
-            'key' => __('Others', 'armadito') . ' : ' . ($allComputers - $armaditoComputers),
+            'key' => __('Others', 'armadito'),
             'value' => ($allComputers - $armaditoComputers),
             'color' => "#dedede"
         );
