@@ -27,17 +27,25 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginArmaditoChartBar extends PluginArmaditoChart
 {
+    protected $palette;
 
     function __construct()
     {
     }
 
+    function setPalette($palette)
+    {
+        $this->palette = $palette;
+    }
+
     function showChart()
     {
         parent::showBackground();
-        echo "<script>
-         A6ostatBar('" . $this->name . "', '" . json_encode($this->data) . "', '" . $this->title . "', '" . ($this->width - 30) . "');
-</script>";
+        echo "<script>A6ostatBar('" . $this->name . "',
+                    '" . json_encode($this->data) . "',
+                    '" . $this->title . "',
+                    '" . ($this->width - 30) . "',
+                    '" . json_encode($this->palette). "')</script>";
     }
 }
 ?>

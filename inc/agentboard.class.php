@@ -50,10 +50,14 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard
     function addLastContactsChart($restrict_entity)
     {
         // Number of agent connections in last hour, 6 hours, 24 hours
-        $data = PluginArmaditoLastContactStat::getLastHours();
+        $data = PluginArmaditoLastContactStat::getLastHours(12);
+
+        $colortbox = new PluginArmaditoColorToolbox();
+        $palette   = $colortbox->getPalette(12);
 
         $bchart = new PluginArmaditoChartBar();
         $bchart->init('agentconnections', __('Agent connections of last hours', 'armadito'), $data);
+        $bchart->setPalette($palette);
 
         echo "<td width='400'>";
         $bchart->showChart();
@@ -81,16 +85,19 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard
 
         $allComputers = countElementsInTableForMyEntities('glpi_computers', "`is_deleted`='0' AND `is_template`='0'");
 
+        $colortbox = new PluginArmaditoColorToolbox();
+        $palette   = $colortbox->getPalette(2);
+
         $dataComputer   = array();
         $dataComputer[] = array(
             'key' => __('Armadito', 'armadito'),
             'value' => $armaditoComputers,
-            'color' => '#3dff7d'
+            'color' => $palette[0]
         );
         $dataComputer[] = array(
             'key' => __('Others', 'armadito'),
             'value' => ($allComputers - $armaditoComputers),
-            'color' => "#dedede"
+            'color' => $palette[1]
         );
 
         $hchart = new PluginArmaditoChartHalfDonut();

@@ -27,18 +27,10 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginArmaditoLastContactStat extends CommonDBTM
 {
-
-    /**
-     * Get name of this type
-     *
-     * @return text name of this type by language of the user connected
-     *
-     **/
     static function getTypeName($nb = 0)
     {
         return "LastContactStat";
     }
-
 
     static function init()
     {
@@ -60,22 +52,22 @@ class PluginArmaditoLastContactStat extends CommonDBTM
         $DB->query($query);
     }
 
-    static function getLastHours($nb = 11)
+    static function getLastHours($nbhours = 12)
     {
         global $DB;
 
         $a_counters        = array();
         $a_counters['key'] = 'test';
-
         $timestamp = date('U');
-        for ($i = $nb; $i >= 0; $i--) {
+
+        for ($i = $nbhours-1; $i >= 0; $i--) {
             $timestampSearch        = $timestamp - ($i * 3600);
             $query                  = "SELECT * FROM `glpi_plugin_armadito_lastcontactstats` " . "WHERE `day`='" . date('z', $timestampSearch) . "' " . "   AND `hour`='" . date('G', $timestampSearch) . "' " . "LIMIT 1";
             $result                 = $DB->query($query);
             $data                   = $DB->fetch_assoc($result);
             $a_counters['values'][] = array(
                 'label' => date('G', $timestampSearch) . "" . __('h'),
-                'value' => (int) $data['counter']
+                'value' => (int) $data['counter'],
             );
         }
         return $a_counters;

@@ -16,7 +16,7 @@ function A6ostatHalfDonut(svgname, jsondata, title) {
           .donut(true);
 
       chart.legend.margin({top: 20});
-      chart.pie.donutLabelsOutside(true).donut(true);
+      chart.pie.labelsOutside(true).donut(true);
 
       d3.select('#' + svgname)
           .datum(JSON.parse(jsondata))
@@ -38,7 +38,7 @@ function A6ostatHalfDonut(svgname, jsondata, title) {
 }
 
 
-function A6ostatBar(svgname, jsondata, title, width) {
+function A6ostatBar(svgname, jsondata, title, width, jsonpalette) {
 
    nv.addGraph(function() {
 
@@ -50,6 +50,7 @@ function A6ostatBar(svgname, jsondata, title, width) {
           .width(width)
           .height(height)
           .staggerLabels(true)
+          .color(JSON.parse(jsonpalette))
           .showValues(false);
 
       d3.select('#' + svgname)
