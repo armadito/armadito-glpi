@@ -56,6 +56,7 @@ class PluginArmaditoExampleBoard extends PluginArmaditoBoard
         echo "<table align='center'>";
         echo "<tr height='420'>";
         $this->addDonutChart();
+        $this->addStatBarChart();
         echo "</tr>";
         echo "</table>";
     }
@@ -64,10 +65,42 @@ class PluginArmaditoExampleBoard extends PluginArmaditoBoard
     {
         $data = $this->getDonutChartData();
         $hchart = new PluginArmaditoChartHalfDonut();
-        $hchart->init('donut_chart_example', __('Preview', 'armadito'), $data, 370);
+        $hchart->init('donut_chart_example', __('Donut Chart Preview', 'armadito'), $data, 370);
         echo "<td width='380'>";
         $hchart->showChart();
         echo "</td>";
+    }
+
+    function addStatBarChart()
+    {
+        $data = $this->getStatBarChartData();
+        $colortbox = new PluginArmaditoColorToolbox();
+        $palette   = $colortbox->getPalette(12);
+
+        $bchart = new PluginArmaditoChartBar();
+        $bchart->init('statbar_chart_example', __('StatBar Chart Preview', 'armadito'), $data);
+        $bchart->setPalette($palette);
+
+        echo "<td width='400'>";
+        $bchart->showChart();
+        echo "</td>";
+    }
+
+    function getStatBarChartData()
+    {
+        $data        = array();
+        $data['key'] = 'test';
+
+        $fibonacci = array("0", "1", "1", "2", "3", "5", "8",
+                           "13", "21", "34", "55", "89");
+
+        for ($i = 11; $i >= 0; $i--) {
+            $data['values'][] = array(
+                'label' => 12-$i.'h',
+                'value' => $fibonacci[$i]
+            );
+        }
+        return $data;
     }
 
     function getDonutChartData()
