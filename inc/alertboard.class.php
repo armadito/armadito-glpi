@@ -100,7 +100,7 @@ class PluginArmaditoAlertBoard extends PluginArmaditoBoard
             $n_AVs  = $this->countAlertsForAV($id);
             if($n_AVs > 0){
                 $data[] = array(
-                    'key' => __($name, 'armadito') . ' : ' . $n_AVs,
+                    'key' => __($name, 'armadito'),
                     'value' => $n_AVs,
                     'color' => $palette[$i]
                 );
