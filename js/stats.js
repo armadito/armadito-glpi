@@ -7,9 +7,9 @@ function A6ostatHalfDonut(svgname, jsondata, title) {
 
       var chart = nv.models.pieChart()
           .x(function(d) { return d.key })
-          .values(function(d) { return d.value })
+          .y(function(d) { return d.value })
           .showLabels(false)
-          .color(function(d) {return d.data.color})
+          .color(d3.scale.category20().range().slice(8))
           .width(width)
           .height(height)
           .donut(true);
@@ -52,7 +52,6 @@ function A6ostatBar(svgname, jsondata, title, width) {
           .width(width)
           .height(height)
           .staggerLabels(true)
-          .tooltips(false)
           .showValues(false);
 
       d3.select('#' + svgname)
