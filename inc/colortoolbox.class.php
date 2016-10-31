@@ -123,19 +123,6 @@ class PluginArmaditoColorToolbox
 
         return str_repeat('0', 6 - strlen($color)) . $color;
     }
-
-    static function getGoldenColors()
-    {
-        return array(
-            "violet" => "#C879F2",
-            "blue" => "#7994F2",
-            "green1" => "#79F2A5",
-            "green2" => "#B8F279",
-            "red" => "#F28179",
-            "orange" => "#F2B881",
-            "yellow" => "#F2F281"
-        );
-    }
 }
 
 ?>
