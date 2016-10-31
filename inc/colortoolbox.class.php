@@ -27,17 +27,32 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginArmaditoColorToolbox
 {
-    protected $h;
-    protected $s;
-    protected $v;
+    protected $hue;
+    protected $saturation;
+    protected $value;
 
     function __construct()
     {
         $paConfig = new PluginArmaditoConfig();
 
-        $this->h = $paConfig->getValue('colorpalette_h');
-        $this->s = $paConfig->getValue('colorpalette_s');
-        $this->v = $paConfig->getValue('colorpalette_v');
+        $this->hue = $paConfig->getValue('colorpalette_h');
+        $this->saturation = $paConfig->getValue('colorpalette_s');
+        $this->value = $paConfig->getValue('colorpalette_v');
+    }
+
+    function setHue($h)
+    {
+        $this->hue = $h;
+    }
+
+    function setSaturation($s)
+    {
+        $this->saturation = $s;
+    }
+
+    function setValue($v)
+    {
+        $this->value = $v;
     }
 
     /**
@@ -56,9 +71,9 @@ class PluginArmaditoColorToolbox
     function getGoldenColor()
     {
         $golden_ratio_conjugate = 0.618033988749895;
-        $this->h                = $this->h + $golden_ratio_conjugate;
-        $this->h                = fmod($this->h, 1);
-        return "#" . $this->HSVtoHexa($this->h, $this->s, $this->v);
+        $this->hue              = $this->hue + $golden_ratio_conjugate;
+        $this->hue              = fmod($this->hue, 1);
+        return "#" . $this->HSVtoHexa($this->hue, $this->saturation, $this->value);
     }
 
     function HSVtoHexa($h, $s, $v)
