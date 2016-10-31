@@ -43,15 +43,14 @@ class PluginArmaditoScanConfig extends CommonDBTM
 
     function initFromForm($POST)
     {
-        if (!PluginArmaditoToolbox::isValidUnixPath($POST["scan_path"])) {
-            return "Invalid UNIX scan_path.";
+        if(isset($POST["id"])) {
+            $this->id           = $POST["id"];
         }
 
         $this->antivirus_id = $POST["antivirus_id"];
         $this->scan_name    = $POST["scan_name"];
         $this->scan_path    = $POST["scan_path"];
         $this->scan_options = $POST["scan_options"];
-        return "";
     }
 
     function initFromDB($id)
@@ -67,6 +66,13 @@ class PluginArmaditoScanConfig extends CommonDBTM
         return false;
     }
 
+    function validate()
+    {
+        if (!PluginArmaditoToolbox::isValidUnixPath($this->scan_path)) {
+            throw new InvalidArgumentException("Invalid UNIX Scan path");
+        }
+    }
+
     function toJson()
     {
         return '{
@@ -77,7 +83,7 @@ class PluginArmaditoScanConfig extends CommonDBTM
                }';
     }
 
-    function insertInDB()
+    function insertScanConfigInDB()
     {
         $error     = new PluginArmaditoError();
         $dbmanager = new PluginArmaditoDbManager();
@@ -106,6 +112,40 @@ class PluginArmaditoScanConfig extends CommonDBTM
 
         $dbmanager->closeQuery($query_name);
         $error->setMessage(0, 'New scanconfig successfully inserted.');
+        return $error;
+    }
+
+    function updateScanConfigInDB()
+    {
+        $error     = new PluginArmaditoError();
+        $dbmanager = new PluginArmaditoDbManager();
+        $dbmanager->init();
+
+        $params["scan_name"]["type"]                      = "s";
+        $params["scan_path"]["type"]                      = "s";
+        $params["scan_options"]["type"]                   = "s";
+        $params["plugin_armadito_antiviruses_id"]["type"] = "i";
+        $params["id"]["type"]                             = "i";
+
+        $query_name = "UpdateScanConfig";
+        $dbmanager->addQuery($query_name, "UPDATE", $this->getTable(), $params, "id");
+
+        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
+            return $dbmanager->getLastError();
+        }
+
+        $dbmanager->setQueryValue($query_name, "scan_name", $this->scan_name);
+        $dbmanager->setQueryValue($query_name, "scan_path", $this->scan_path);
+        $dbmanager->setQueryValue($query_name, "scan_options", $this->scan_options);
+        $dbmanager->setQueryValue($query_name, "plugin_armadito_antiviruses_id", $this->antivirus_id);
+        $dbmanager->setQueryValue($query_name, "id", $this->id);
+
+        if (!$dbmanager->executeQuery($query_name)) {
+            return $dbmanager->getLastError();
+        }
+
+        $dbmanager->closeQuery($query_name);
+        $error->setMessage(0, 'New scanconfig successfully updated.');
         return $error;
     }
 
@@ -216,6 +256,8 @@ class PluginArmaditoScanConfig extends CommonDBTM
 
         $this->initForm($id, $options);
         $this->showFormHeader($options);
+
+        echo "<input type='hidden' name='id' value='" . htmlspecialchars($this->fields["id"]) . "'/>";
 
         echo "<tr class='tab_bg_1'>";
         echo "<td>" . __('Scan name', 'armadito') . " :</td>";

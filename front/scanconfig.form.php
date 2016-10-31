@@ -23,6 +23,15 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 
 include("../../../inc/includes.php");
 
+function getFormdata()
+{
+    $data = $_POST;
+    unset($data['add']);
+    unset($data['_glpi_csrf_token']);
+
+    return $data;
+}
+
 Session::checkRight('plugin_armadito_scanconfigs', READ);
 
 Html::header(__('Features', 'armadito'), $_SERVER["PHP_SELF"], "plugins", "pluginarmaditomenu", "scanconfig");
@@ -32,23 +41,35 @@ PluginArmaditoMenu::displayMenu("mini");
 
 $scanConfig = new PluginArmaditoScanConfig();
 
-if (isset($_POST['add'])) {
-    $data = $_POST;
-    unset($data['add']);
-    unset($data['id']);
-    unset($data['_glpi_csrf_token']);
-    $res = $scanConfig->initFromForm($data);
-    if ($res == "") {
-        $error = $scanConfig->insertInDB();
-        if ($error->getCode() == 0) {
-            echo "<span style=\"color:green\"> Successfully inserted in database. </span><br>";
-        } else {
-            echo "<span style=\"color:red\"> Error during insertion in database. </span><br>";
-        }
-    } else {
-        echo "<span style=\"color:red\"> $res </span><br>";
+if (isset($_POST['add']))
+{
+    try {
+        $data = getFormdata();
+        $scanConfig->initFromForm($data);
+        $scanConfig->validate();
+        $scanConfig->insertScanConfigInDB();
     }
+    catch (Exception $e) {
+        echo "<span style=\"color:red\"> ". htmlspecialchars($e->getMessage()) ."</span><br>";
+    }
+
     Html::redirect(Toolbox::getItemTypeSearchURL('PluginArmaditoScanConfig'));
+}
+else if (isset ($_POST["update"]))
+{
+    Session::checkRight('plugin_armadito_scanconfigs', UPDATE);
+
+    try {
+        $data = getFormdata();
+        $scanConfig->initFromForm($data);
+        $scanConfig->validate();
+        $scanConfig->updateScanConfigInDB();
+    }
+    catch (Exception $e) {
+        echo "<span style=\"color:red\"> ". htmlspecialchars($e->getMessage()) ."</span><br>";
+    }
+
+    Html::back();
 }
 
 if (isset($_GET["id"])) {
