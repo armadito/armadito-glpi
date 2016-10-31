@@ -29,7 +29,7 @@ if (!defined('GLPI_ROOT')) {
 class PluginArmaditoMenu extends CommonGLPI
 {
 
-    static function getTypeName()
+    static function getTypeName($nb = 0)
     {
         return 'Armadito';
     }
