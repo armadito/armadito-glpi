@@ -44,10 +44,11 @@ class PluginArmaditoConfig extends CommonDBTM
 
          $array_ret = array();
          $array_ret[0] = __('General setup');
-         $array_ret[1] = __('States', 'armadito');
-         $array_ret[2] = __('Alerts', 'armadito');
-         $array_ret[3] = __('Scans', 'armadito');
-         $array_ret[4] = __('Jobs', 'armadito');
+         $array_ret[1] = __('Boards', 'armadito');
+         $array_ret[2] = __('States', 'armadito');
+         $array_ret[3] = __('Alerts', 'armadito');
+         $array_ret[4] = __('Scans', 'armadito');
+         $array_ret[5] = __('Jobs', 'armadito');
 
          return $array_ret;
       }
@@ -61,15 +62,18 @@ class PluginArmaditoConfig extends CommonDBTM
              $item->showForm();
              break;
           case 1:
-             $item->showStatesForm();
+             $item->showBoardsForm();
              break;
           case 2:
-             $item->showAlertsForm();
+             $item->showStatesForm();
              break;
           case 3:
-             $item->showScansForm();
+             $item->showAlertsForm();
              break;
           case 4:
+             $item->showScansForm();
+             break;
+          case 5:
              $item->showJobsForm();
              break;
           default:
@@ -129,31 +133,52 @@ class PluginArmaditoConfig extends CommonDBTM
         $this->showFormButtons($options);
     }
 
+    function showBoardExample ($h, $s, $v)
+    {
+        $board = new PluginArmaditoExampleBoard();
+        $board->setHue($h);
+        $board->setSaturation($s);
+        $board->setValue($v);
+        $board->displayBoard();
+    }
+
     function showForm($options = array())
     {
         $paConfig = $this->initConfigForm($options, __('Global configuration', 'armadito'));
+        $paConfig->showFormFooter();
+        return TRUE;
+    }
+
+    function showBoardsForm($options = array())
+    {
+        $paConfig = $this->initConfigForm($options, __('Boards', 'armadito'));
+
+        $h = htmlspecialchars($this->getValue('colorpalette_h'));
+        $s = htmlspecialchars($this->getValue('colorpalette_s'));
+        $v = htmlspecialchars($this->getValue('colorpalette_v'));
 
         echo "<tr class='tab_bg_1'>";
         echo "<td>".__('Color Palette Hue', 'armadito')."&nbsp;:</td>";
         echo "<td width='20%'>";
-        echo "<input type='text' name='colorpalette_h' value='" . htmlspecialchars($this->getValue('colorpalette_h')) . "'/>";
+        echo "<input type='text' name='colorpalette_h' value='" . $h . "'/>";
         echo "</td>";
         echo "</tr>";
 
         echo "<tr class='tab_bg_1'>";
         echo "<td>".__('Color Palette Saturation', 'armadito')."&nbsp;:</td>";
         echo "<td width='20%'>";
-        echo "<input type='text' name='colorpalette_s' value='" . htmlspecialchars($this->getValue('colorpalette_s')) . "'/>";
+        echo "<input type='text' name='colorpalette_s' value='" . $s . "'/>";
         echo "</td>";
         echo "</tr>";
 
         echo "<tr class='tab_bg_1'>";
         echo "<td>".__('Color Palette Value', 'armadito')."&nbsp;:</td>";
         echo "<td width='20%'>";
-        echo "<input type='text' name='colorpalette_v' value='" . htmlspecialchars($this->getValue('colorpalette_v')) . "'/>";
+        echo "<input type='text' name='colorpalette_v' value='" . $v . "'/>";
         echo "</td>";
         echo "</tr>";
 
+        $paConfig->showBoardExample($h, $s, $v);
         $paConfig->showFormFooter();
         return TRUE;
     }

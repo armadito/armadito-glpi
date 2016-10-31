@@ -63,7 +63,7 @@ function plugin_init_armadito()
         $PLUGIN_HOOKS['add_javascript']['armadito'] = array();
         $PLUGIN_HOOKS['add_css']['armadito']        = array();
 
-        if (script_endswith_("menu.php") || script_endswith_("board.php"))
+        if (script_endswith_("menu.php") || script_endswith_("board.php") || script_endswith_("config.form.php"))
         {
             $PLUGIN_HOOKS['add_javascript']['armadito'][] = "js/stats" . ($debug_mode ? "" : ".min") . ".js";
             array_push($PLUGIN_HOOKS['add_javascript']['armadito'],

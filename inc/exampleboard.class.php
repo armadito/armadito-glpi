@@ -50,7 +50,7 @@ class PluginArmaditoExampleBoard extends PluginArmaditoBoard
     {
         $this->value = $v;
     }
-    
+
     function displayBoard()
     {
         echo "<table align='center'>";
@@ -82,7 +82,7 @@ class PluginArmaditoExampleBoard extends PluginArmaditoBoard
         for ($i = 0; $i < 7; $i++) {
             $data[] = array(
                 'key'   => "KEY_".$i,
-                'value' => $i,
+                'value' => 6-$i,
                 'color' => $palette[$i]
             );
         }
