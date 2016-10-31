@@ -41,6 +41,8 @@ function plugin_init_armadito()
 
     if ($Plugin->isActivated('armadito')) {
 
+        require_once("vendor/autoload.php");
+
         $types = array(
             'Central',
             'Preference',
@@ -55,16 +57,18 @@ function plugin_init_armadito()
         Plugin::registerClass('PluginArmaditoState');
         Plugin::registerClass('PluginArmaditoStatedetails');
 
+
         $PLUGIN_HOOKS['use_massive_action']['armadito'] = 1;
 
         $PLUGIN_HOOKS['add_javascript']['armadito'] = array();
         $PLUGIN_HOOKS['add_css']['armadito']        = array();
-        if (strpos($_SERVER['SCRIPT_FILENAME'], "plugins/armadito")) {
-            array_push($PLUGIN_HOOKS['add_javascript']['armadito'], "lib/d3-3.4.3/d3" . ($debug_mode ? "" : ".min") . ".js", "lib/nvd3/nv.d3" . ($debug_mode ? "" : ".min") . ".js");
-        }
 
-        if (script_endswith_("menu.php") || script_endswith_("board.php")) {
+        if (script_endswith_("menu.php") || script_endswith_("board.php"))
+        {
             $PLUGIN_HOOKS['add_javascript']['armadito'][] = "js/stats" . ($debug_mode ? "" : ".min") . ".js";
+            array_push($PLUGIN_HOOKS['add_javascript']['armadito'],
+                       "vendor/mbostock/d3/d3" . ($debug_mode ? "" : ".min") . ".js",
+                       "vendor/novus/nvd3/build/nv.d3" . ($debug_mode ? "" : ".min") . ".js");
         }
 
         if (Session::haveRight('plugin_armadito_configuration', READ) || Session::haveRight('profile', UPDATE)) {
