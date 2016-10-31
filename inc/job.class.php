@@ -188,14 +188,15 @@ class PluginArmaditoJob extends CommonDBTM
 
     static function getAvailableStatuses()
     {
-        $gcolors = PluginArmaditoColorToolbox::getGoldenColors();
+        $colortbox = new PluginArmaditoColorToolbox();
+        $palette   = $colortbox->getPalette(5);
 
         return array(
-            "queued" => "#dedede",
-            "downloaded" => $gcolors["blue"],
-            "successful" => $gcolors["green1"],
-            "failed" => $gcolors["red"],
-            "cancelled" => $gcolors["orange"]
+            "successful" => $palette[0],
+            "failed" => $palette[1],
+            "queued" => $palette[2],
+            "downloaded" => $palette[3],
+            "cancelled" => $palette[4]
         );
     }
 

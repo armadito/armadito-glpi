@@ -68,13 +68,14 @@ class PluginArmaditoState extends CommonDBTM
 
     static function getAvailableStatuses()
     {
-        $gcolors = PluginArmaditoColorToolbox::getGoldenColors();
+        $colortbox = new PluginArmaditoColorToolbox();
+        $palette   = $colortbox->getPalette(5);
 
         return array(
-            "non-available" => "#dedede",
-            "up-to-date" => $gcolors["green1"],
-            "critical" => $gcolors["red"],
-            "late" => $gcolors["orange"]
+            "up-to-date" => $palette[0],
+            "critical" => $palette[1],
+            "late" => $palette[2],
+            "non-available" => $palette[3]
         );
     }
 
