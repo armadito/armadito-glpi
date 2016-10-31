@@ -94,6 +94,9 @@ class PluginArmaditoConfig extends CommonDBTM
         $input['version']    = PLUGIN_ARMADITO_VERSION;
         $input['extradebug'] = '1';
         $input['getjobs_limit'] = 10;
+        $input['colorpalette_h'] = 0.8;
+        $input['colorpalette_s'] = 0.3;
+        $input['colorpalette_v'] = 0.99;
 
         if ($getOnly) {
             return $input;
@@ -102,52 +105,77 @@ class PluginArmaditoConfig extends CommonDBTM
         $this->addValues($input);
     }
 
-    function showForm($options = array())
-    {
-        $this->showFormHeader($options);
-        $options['candel'] = FALSE;
-        $this->showFormButtons($options);
-        return TRUE;
-    }
-
     function initConfigForm($options, $title)
     {
         $paConfig = new PluginArmaditoConfig();
         $paConfig->fields['id'] = 1;
+        $options['colspan'] = 4;
         $paConfig->showFormHeader($options);
 
-        echo "<tr>";
-        echo "<th colspan='4'>";
+        echo "<tr class='headerRow'>";
+        echo "<th colspan='".$options['colspan']."'>";
         echo $title;
         echo "</th>";
+        echo "<th colspan='".$options['colspan']."'></th>";
         echo "</tr>";
 
         return $paConfig;
     }
 
+    function showFormFooter($options = array())
+    {
+        $options['candel'] = FALSE;
+        $options['colspan'] = 4;
+        $this->showFormButtons($options);
+    }
+
+    function showForm($options = array())
+    {
+        $paConfig = $this->initConfigForm($options, __('Global configuration', 'armadito'));
+
+        echo "<tr class='tab_bg_1'>";
+        echo "<td>".__('Color Palette Hue', 'armadito')."&nbsp;:</td>";
+        echo "<td width='20%'>";
+        echo "<input type='text' name='colorpalette_h' value='" . htmlspecialchars($this->getValue('colorpalette_h')) . "'/>";
+        echo "</td>";
+        echo "</tr>";
+
+        echo "<tr class='tab_bg_1'>";
+        echo "<td>".__('Color Palette Saturation', 'armadito')."&nbsp;:</td>";
+        echo "<td width='20%'>";
+        echo "<input type='text' name='colorpalette_s' value='" . htmlspecialchars($this->getValue('colorpalette_s')) . "'/>";
+        echo "</td>";
+        echo "</tr>";
+
+        echo "<tr class='tab_bg_1'>";
+        echo "<td>".__('Color Palette Value', 'armadito')."&nbsp;:</td>";
+        echo "<td width='20%'>";
+        echo "<input type='text' name='colorpalette_v' value='" . htmlspecialchars($this->getValue('colorpalette_v')) . "'/>";
+        echo "</td>";
+        echo "</tr>";
+
+        $paConfig->showFormFooter();
+        return TRUE;
+    }
+
     function showStatesForm($options = array())
     {
         $paConfig = $this->initConfigForm($options, __('States configuration', 'armadito'));
-        $options['candel'] = FALSE;
-        $paConfig->showFormButtons($options);
+        $paConfig->showFormFooter();
         return TRUE;
     }
 
     function showAlertsForm($options = array())
     {
         $paConfig = $this->initConfigForm($options, __('Alerts configuration', 'armadito'));
-
-        $options['candel'] = FALSE;
-        $paConfig->showFormButtons($options);
+        $paConfig->showFormFooter();
         return TRUE;
     }
 
     function showScansForm($options = array())
     {
         $paConfig = $this->initConfigForm($options, __('Scans configuration', 'armadito'));
-
-        $options['candel'] = FALSE;
-        $paConfig->showFormButtons($options);
+        $paConfig->showFormFooter();
         return TRUE;
     }
 
@@ -166,8 +194,7 @@ class PluginArmaditoConfig extends CommonDBTM
         echo "</td>";
         echo "</tr>";
 
-        $options['candel'] = FALSE;
-        $paConfig->showFormButtons($options);
+        $paConfig->showFormFooter();
         return TRUE;
     }
 

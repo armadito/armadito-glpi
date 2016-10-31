@@ -28,10 +28,16 @@ if (!defined('GLPI_ROOT')) {
 class PluginArmaditoColorToolbox
 {
     protected $h;
+    protected $s;
+    protected $v;
 
     function __construct()
     {
-        $this->h = -1;
+        $paConfig = new PluginArmaditoConfig();
+
+        $this->h = $paConfig->getValue('colorpalette_h');
+        $this->s = $paConfig->getValue('colorpalette_s');
+        $this->v = $paConfig->getValue('colorpalette_v');
     }
 
     /**
@@ -53,7 +59,7 @@ class PluginArmaditoColorToolbox
         $golden_ratio_conjugate = 0.618033988749895;
         $this->h                = $this->h + $golden_ratio_conjugate;
         $this->h                = fmod($this->h, 1);
-        return "#" . $this->HSVtoHexa($this->h, 0.5, 0.95);
+        return "#" . $this->HSVtoHexa($this->h, $this->s, $this->v);
     }
 
     function HSVtoHexa($h, $s, $v)
