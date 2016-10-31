@@ -28,7 +28,7 @@ addons:
       name: "armadito/armadito-glpi"
       description: "Build submitted via Travis-CI"
     notification_email: vhamon@teclib.com
-    build_command_prepend: "/home/travis/build/armadito/glpi/plugins/armadito/tools/prepend_coverity.sh && cd /home/travis/build/armadito/glpi/plugins/armadito"
+    build_command_prepend: "cd /home/travis/build/armadito/glpi/plugins/armadito"
     build_command:   "--no-command --fs-capture-search /home/travis/build/armadito/glpi/plugins/armadito"
     branch_pattern: coverity_scan
   sonarqube: true
@@ -66,5 +66,5 @@ before_script:
   - php -S localhost:8088 -t glpi > /dev/null 2>&1 &
 
 script:
-- /home/travis/build/armadito/glpi/plugins/armadito/tools/travis_build.sh
+- ant -Dclearsavepoint='true' -Dbasedir=/home/travis/build/armadito -f ./phpunit/build.xml phpunit.all
 - sonar-scanner -e -X -Dsonar.host.url=https://sonarqube.com -Dsonar.login=$SONAR_TOKEN
