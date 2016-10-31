@@ -70,8 +70,8 @@ class PluginArmaditoScanBoard extends PluginArmaditoBoard
         foreach ($statuses as $name => $color) {
             $n_status = $this->countScanStatus($name);
             $data[]   = array(
-                'key' => __($name, 'armadito') . ' : ' . $n_status,
-                'y' => $n_status,
+                'key' => __($name, 'armadito'),
+                'value' => $n_status,
                 'color' => $color
             );
         }

@@ -101,7 +101,7 @@ class PluginArmaditoAlertBoard extends PluginArmaditoBoard
             if($n_AVs > 0){
                 $data[] = array(
                     'key' => __($name, 'armadito') . ' : ' . $n_AVs,
-                    'y' => $n_AVs,
+                    'value' => $n_AVs,
                     'color' => $palette[$i]
                 );
                 $i++;
@@ -122,8 +122,8 @@ class PluginArmaditoAlertBoard extends PluginArmaditoBoard
         foreach ($VirusNames as $name => $counter) {
             if($counter > 0){
                 $data[] = array(
-                    'key' => __($name, 'armadito') . ' : ' . $counter,
-                    'y' => $counter,
+                    'key' => __($name, 'armadito'),
+                    'value' => $counter,
                     'color' => $palette[$i]
                 );
                 $i++;
