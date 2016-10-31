@@ -92,7 +92,7 @@ class PluginArmaditoAlertBoard extends PluginArmaditoBoard
     {
         $AVs       = PluginArmaditoAntivirus::getAntivirusList();
         $colortbox = new PluginArmaditoColorToolbox();
-        $palette   = $colortbox->getPalette(sizeof($AVs), 0.157079632679);
+        $palette   = $colortbox->getPalette(sizeof($AVs));
 
         $data = array();
         $i    = 0;
@@ -115,7 +115,7 @@ class PluginArmaditoAlertBoard extends PluginArmaditoBoard
     {
         $VirusNames = PluginArmaditoAlert::getVirusNamesList(5);
         $colortbox  = new PluginArmaditoColorToolbox();
-        $palette    = $colortbox->getPalette(sizeof($VirusNames), 0.157079632679);
+        $palette    = $colortbox->getPalette(sizeof($VirusNames));
 
         $data = array();
         $i    = 0;
