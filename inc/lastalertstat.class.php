@@ -63,7 +63,7 @@ class PluginArmaditoLastAlertStat extends CommonDBTM
         $DB->query($query);
     }
 
-    static function getLastHours($nb = 11)
+    static function getLastHours($nb = 12)
     {
         global $DB;
 
@@ -71,7 +71,7 @@ class PluginArmaditoLastAlertStat extends CommonDBTM
         $a_counters['key'] = 'test';
 
         $timestamp = date('U');
-        for ($i = $nb; $i >= 0; $i--) {
+        for ($i = $nb-1; $i >= 0; $i--) {
             $timestampSearch        = $timestamp - ($i * 3600);
             $query                  = "SELECT * FROM `glpi_plugin_armadito_lastalertstats` " . "WHERE `day`='" . date('z', $timestampSearch) . "' " . "   AND `hour`='" . date('G', $timestampSearch) . "' " . "LIMIT 1";
             $result                 = $DB->query($query);
