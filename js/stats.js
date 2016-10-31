@@ -9,16 +9,14 @@ function A6ostatHalfDonut(svgname, jsondata, title) {
           .x(function(d) { return d.key })
           .y(function(d) { return d.value })
           .showLabels(false)
-          .color(d3.scale.category20().range().slice(8))
           .width(width)
           .height(height)
+          .padAngle(.08)
+          .cornerRadius(5)
           .donut(true);
 
-      chart.pie
-          .startAngle(function(d) { return d.startAngle/2 -Math.PI/2 })
-          .endAngle(function(d) { return d.endAngle/2 -Math.PI/2 });
-
       chart.legend.margin({top: 20});
+      chart.pie.donutLabelsOutside(true).donut(true);
 
       d3.select('#' + svgname)
           .datum(JSON.parse(jsondata))

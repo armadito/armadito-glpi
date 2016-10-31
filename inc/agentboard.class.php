@@ -83,13 +83,13 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard
 
         $dataComputer   = array();
         $dataComputer[] = array(
-            'key' => __('Armadito computers', 'armadito') . ' : ' . $armaditoComputers,
-            'y' => $armaditoComputers,
+            'key' => __('Armadito', 'armadito') . ' : ' . $armaditoComputers,
+            'value' => $armaditoComputers,
             'color' => '#3dff7d'
         );
         $dataComputer[] = array(
-            'key' => __('Other computers', 'armadito') . ' : ' . ($allComputers - $armaditoComputers),
-            'y' => ($allComputers - $armaditoComputers),
+            'key' => __('Others', 'armadito') . ' : ' . ($allComputers - $armaditoComputers),
+            'value' => ($allComputers - $armaditoComputers),
             'color' => "#dedede"
         );
 
@@ -130,8 +130,8 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard
             $n_AVs  = $this->countAgentsForAV($id);
             if($n_AVs > 0){
                 $data[] = array(
-                    'key' => __($name, 'armadito') . ' : ' . $n_AVs,
-                    'y' => $n_AVs,
+                    'key' => __($name, 'armadito'),
+                    'value' => $n_AVs,
                     'color' => $palette[$i]
                 );
                 $i++;
