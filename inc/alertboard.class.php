@@ -49,10 +49,13 @@ class PluginArmaditoAlertBoard extends PluginArmaditoBoard
 
     function addLastAlertsChart($restrict_entity)
     {
-        $data = PluginArmaditoLastAlertStat::getLastHours();
+        $data = PluginArmaditoLastAlertStat::getLastHours(12);
+        $colortbox = new PluginArmaditoColorToolbox();
+        $palette   = $colortbox->getPalette(12);
 
         $bchart = new PluginArmaditoChartBar();
         $bchart->init('lastalerts', __('Alerts of last hours', 'armadito'), $data);
+        $bchart->setPalette($palette);
 
         echo "<td width='400'>";
         $bchart->showChart();
