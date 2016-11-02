@@ -85,3 +85,7 @@ function checkPluginInstallation()
     }
 }
 
+function isValidPOSTRequest($rawdata)
+{
+    return !empty($rawdata);
+}

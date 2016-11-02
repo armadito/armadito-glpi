@@ -49,7 +49,7 @@ if (isset($_GET['agent_id']))
 
     session_destroy();
 }
-else if (!empty($rawdata))
+else if (isValidPOSTRequest($rawdata))
 {
     PluginArmaditoToolbox::checkPluginInstallation();
     initGLPISession();
