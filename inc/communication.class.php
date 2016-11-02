@@ -103,5 +103,11 @@ class PluginArmaditoCommunication
         $this->status_code = $status;
         $this->message     = $message;
     }
+
+    function setJsonErrorMessage($message, $status = 200)
+    {
+        $this->status_code = $status;
+        $this->message     = '{ "error" : "'.$message.'" }';
+    }
 }
 ?>

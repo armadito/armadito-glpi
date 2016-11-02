@@ -43,7 +43,7 @@ if (isset($_GET['agent_id']))
     }
     catch(Exception $e)
     {
-        $communication->setMessage($e->getMessage(), 500);
+        $communication->setJsonErrorMessage($e->getMessage(), 500);
         PluginArmaditoToolbox::logE($e->getMessage());
     }
 
@@ -69,12 +69,12 @@ else if (!empty($rawdata))
     }
     catch(PluginArmaditoJsonException $e)
     {
-        $communication->setMessage($e->getMessage(), 400);
+        $communication->setJsonErrorMessage($e->getMessage(), 400);
         PluginArmaditoToolbox::logE($e->getMessage());
     }
     catch(Exception $e)
     {
-        $communication->setMessage($e->getMessage(), 500);
+        $communication->setJsonErrorMessage($e->getMessage(), 500);
         PluginArmaditoToolbox::logE($e->getMessage());
 
         $job->updateStatus("failed");
