@@ -161,12 +161,7 @@ definitions:
   PluginArmaditoError:
     type: object
     properties:
-      code:
-        type: integer
-        format: int32
-      message:
-        type: string
-      plugin_version:
+      error:
         type: string
   Antivirus:
     type: object
