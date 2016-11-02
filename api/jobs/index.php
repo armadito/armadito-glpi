@@ -29,8 +29,7 @@ $rawdata = file_get_contents("php://input");
 if (isset($_GET['agent_id']))
 {
     PluginArmaditoToolbox::checkPluginInstallation();
-    $communication = new PluginArmaditoCommunication();
-    $communication->init();
+    initGLPISession();
 
     PluginArmaditoLastContactStat::increment();
 
@@ -52,10 +51,8 @@ if (isset($_GET['agent_id']))
 }
 else if (!empty($rawdata))
 {
-
     PluginArmaditoToolbox::checkPluginInstallation();
-    $communication = new PluginArmaditoCommunication();
-    $communication->init();
+    initGLPISession();
 
     PluginArmaditoLastContactStat::increment();
 

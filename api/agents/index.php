@@ -28,8 +28,7 @@ $rawdata = file_get_contents("php://input");
 if (!empty($rawdata))
 {
     PluginArmaditoToolbox::checkPluginInstallation();
-    $communication = new PluginArmaditoCommunication();
-    $communication->init();
+    initGLPISession();
 
     PluginArmaditoLastContactStat::increment();
 
