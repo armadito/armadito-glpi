@@ -34,7 +34,7 @@ if (!empty($rawdata))
 
     try
     {
-        PluginArmaditoToolbox::parseJSON($rawdata);
+        $jobj = PluginArmaditoToolbox::parseJSON($rawdata);
         $Agent = new PluginArmaditoAgent();
         $Agent->initFromJson($jobj);
         $Agent->run();

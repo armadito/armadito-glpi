@@ -34,7 +34,7 @@ if (!empty($rawdata))
 
     try
     {
-        PluginArmaditoToolbox::parseJSON($rawdata);
+        $jobj = PluginArmaditoToolbox::parseJSON($rawdata);
         $alert = new PluginArmaditoAlert();
         $alert->initFromJson($jobj);
         $alert->insertAlert();

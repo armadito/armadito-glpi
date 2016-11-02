@@ -61,7 +61,7 @@ else if (!empty($rawdata))
 
     try
     {
-        PluginArmaditoToolbox::parseJSON($rawdata);
+        $jobj = PluginArmaditoToolbox::parseJSON($rawdata);
         $job = new PluginArmaditoJob();
         $job->initFromJson($jobj);
         $job->updateStatus("successful");

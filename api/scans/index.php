@@ -34,7 +34,7 @@ if (!empty($rawdata))
 
     try
     {
-        PluginArmaditoToolbox::parseJSON($rawdata);
+        $jobj = PluginArmaditoToolbox::parseJSON($rawdata);
         $scan = new PluginArmaditoScan();
         $scan->initFromJson($jobj);
         $scan->updateScanInDB();
