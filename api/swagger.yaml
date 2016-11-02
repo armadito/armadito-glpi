@@ -29,7 +29,7 @@ paths:
               $ref: "#/definitions/PluginArmaditoError"
     post:
       description: |
-        Update `PluginArmaditoJob` status with the given `PluginArmaditoJobStatus`.  
+        Update `PluginArmaditoJob` status with the given `PluginArmaditoJobStatus`.
       parameters:
           - in: body
             name: Enrollment
@@ -48,14 +48,14 @@ paths:
         500:
             description: Internal Server Error
             schema:
-              $ref: '#/definitions/PluginArmaditoError'      
+              $ref: '#/definitions/PluginArmaditoError'
   /glpi/plugins/armadito/api/agents:
     post:
       consumes:
         - application/json
       produces:
         - application/json
-      description: 
+      description:
         Add or Update `PluginArmaditoAgent` in database and return **agent_id**.
       parameters:
           - in: body
