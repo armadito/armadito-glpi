@@ -26,23 +26,11 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginArmaditoDbManager
 {
-
     protected $statements = array();
     protected $queries = array();
-    protected $error;
 
     function __construct()
     {
-    }
-
-    function init()
-    {
-        $this->error = new PluginArmaditoError();
-    }
-
-    function getLastError()
-    {
-        return $this->error;
     }
 
     function setQueryValue($name, $property_name, $property_value)
@@ -131,11 +119,18 @@ class PluginArmaditoDbManager
         global $DB;
         $this->statements[$name] = $DB->prepare($this->queries[$name]["query"]);
         if (!$this->statements[$name]) {
-            $this->error->setMessage(1, 'prepareQuery ' . $name . ' failed.');
-            $this->error->log();
-            return 0;
+            throw new PluginArmaditoDbException('prepareQuery ' . $name . ' failed.');
         }
-        return 1;
+    }
+
+    function bindQuery($name)
+    {
+        $ref    = new ReflectionClass('mysqli_stmt');
+        $method = $ref->getMethod("bind_param");
+        if (!$method->invokeArgs($this->statements[$name], $this->getbindQueryArgs($name))) {
+            $this->closeQuery($name);
+            throw new PluginArmaditoDbException('bindQuery ' . $name . ' failed.');
+        }
     }
 
     function getbindQueryArgs($name)
@@ -148,28 +143,15 @@ class PluginArmaditoDbManager
         return $bindargs;
     }
 
-    function bindQuery($name)
-    {
-        $ref    = new ReflectionClass('mysqli_stmt');
-        $method = $ref->getMethod("bind_param");
-        if (!$method->invokeArgs($this->statements[$name], $this->getbindQueryArgs($name))) {
-            $this->error->setMessage(1, 'bindQuery ' . $name . ' failed.');
-            $this->error->log();
-            $this->statements[$name]->close();
-            return 0;
-        }
-        return 1;
-    }
-
     function executeQuery($name)
     {
         if (!$this->statements[$name]->execute()) {
-            $this->error->setMessage(1, 'executeQuery ' . $name . ' failed. ' . $this->statements[$name]->error);
-            $this->error->log();
-            $this->statements[$name]->close();
-            return 0;
+            $lasterror = $this->statements[$name]->error;
+            $this->closeQuery($name);
+            throw new PluginArmaditoDbException('executeQuery ' . $name . ' failed. ' . $lasterror);
         }
-        return 1;
+
+        $this->closeQuery($name);
     }
 
     function closeQuery($name)
