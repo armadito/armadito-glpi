@@ -28,7 +28,6 @@ if (!empty($rawdata)) {
 
     PluginArmaditoToolbox::checkPluginInstallation();
 
-    // init GLPI stuff
     $error         = new PluginArmaditoError();
     $communication = new PluginArmaditoCommunication();
     $communication->init();
@@ -45,19 +44,20 @@ if (!empty($rawdata)) {
         exit();
     }
 
-    $state = new PluginArmaditoState();
-    $state->initFromJson($jobj);
-    $error = $state->run();
-
-    if ($error->getCode() == 0) {
-        $communication->setMessage($state->toJson(), 200);
-    } else {
-        $communication->setMessage($error->toJson(), 500);
-        $error->log();
+    try
+    {
+        $state = new PluginArmaditoState();
+        $state->initFromJson($jobj);
+        $state->run();
+        $communication->setMessage("Succesful State obj update.", 200);
+    }
+    catch(Exception $e)
+    {
+        $communication->setMessage($e->getMessage(), 500);
+        PluginArmaditoToolbox::logE($e->getMessage());
     }
 
     $communication->sendMessage();
-
     session_destroy();
 } else {
     http_response_code(400);

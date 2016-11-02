@@ -35,25 +35,25 @@ if (isset($_GET['agent_id'])) {
 
     PluginArmaditoLastContactStat::increment();
 
-    $jobmanager = new PluginArmaditoJobmanager();
-    $jobmanager->init($_GET['agent_id']);
-    $error = $jobmanager->getJobs("queued");
-
-    if ($error->getCode() == 0) { // success
-        $communication->setMessage($jobmanager->toJson(), 200);
+    try
+    {
+        $jobmanager = new PluginArmaditoJobmanager();
+        $jobmanager->init($_GET['agent_id']);
+        $error = $jobmanager->getJobs("queued");
         $jobmanager->updateJobStatuses("downloaded");
-    } else {
-        $communication->setMessage($error->toJson(), 500);
+    }
+    catch(Exception $e)
+    {
+        $communication->setMessage($e->getMessage(), 500);
+        PluginArmaditoToolbox::logE($e->getMessage());
     }
 
-    $error->log();
     $communication->sendMessage();
     session_destroy();
 } else if (!empty($rawdata)) {
 
     PluginArmaditoToolbox::checkPluginInstallation();
 
-    $error         = new PluginArmaditoError();
     $communication = new PluginArmaditoCommunication();
     $communication->init();
 
@@ -69,17 +69,22 @@ if (isset($_GET['agent_id'])) {
         exit();
     }
 
-    $job = new PluginArmaditoJob();
-    $job->initFromJson($jobj);
-    if ($jobj->task->obj->code == 0) {
+    try
+    {
+        $job = new PluginArmaditoJob();
+        $job->initFromJson($jobj);
         $job->updateStatus("successful");
-        $error->setMessage(0, "Updated JobStatus successfully.");
-    } else {
+        $communication->setMessage("Successful Job obj update.", 200);
+    }
+    catch(Exception $e)
+    {
+        $communication->setMessage($e->getMessage(), 500);
+        PluginArmaditoToolbox::logE($e->getMessage());
+
         $job->updateStatus("failed");
-        $error = $job->updateJobErrorInDB($jobj->task->obj->code, $jobj->task->obj->message);
+        $job->updateJobErrorInDB($jobj->task->obj->code, $jobj->task->obj->message);
     }
 
-    $communication->setMessage($error->toJson(), 200);
     $communication->sendMessage();
     session_destroy();
 } else {

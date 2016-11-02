@@ -28,14 +28,12 @@ if (!empty($rawdata)) {
 
     PluginArmaditoToolbox::checkPluginInstallation();
 
-    // init GLPI stuff
     $error         = new PluginArmaditoError();
     $communication = new PluginArmaditoCommunication();
     $communication->init();
 
     PluginArmaditoLastContactStat::increment();
 
-    // Parse json obj
     $jobj = PluginArmaditoToolbox::parseJSON($rawdata);
 
     if (!$jobj) {
@@ -47,19 +45,20 @@ if (!empty($rawdata)) {
         exit();
     }
 
-    $scan = new PluginArmaditoScan();
-    $scan->initFromJson($jobj);
-    $error = $scan->updateScanInDB();
-
-    if ($error->getCode() == 0) {
-        $communication->setMessage($error->toJson(), 200);
-    } else {
-        $communication->setMessage($error->toJson(), 500);
-        $error->log();
+    try
+    {
+        $scan = new PluginArmaditoScan();
+        $scan->initFromJson($jobj);
+        $scan->updateScanInDB();
+        $communication->setMessage("Succesful Scan obj update.", 200);
+    }
+    catch(Exception $e)
+    {
+        $communication->setMessage($e->getMessage(), 500);
+        PluginArmaditoToolbox::logE($e->getMessage());
     }
 
     $communication->sendMessage();
-
     session_destroy();
 } else {
     http_response_code(400);
