@@ -58,11 +58,6 @@ class PluginArmaditoAlert extends CommonDBTM
         return $this->agentid;
     }
 
-    function toJson()
-    {
-        return '{}';
-    }
-
     static function canDelete()
     {
         return true;
