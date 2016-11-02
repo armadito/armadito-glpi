@@ -35,10 +35,6 @@ function initGLPISession()
         session_start();
     }
 
-    if (!defined('GLPI_ROOT')) {
-        include_once("../../../inc/includes.php");
-    }
-
     $_SESSION['glpi_use_mode'] = Session::NORMAL_MODE;
     if (!isset($_SESSION['glpilanguage'])) {
         $_SESSION['glpilanguage'] = 'fr_FR';
