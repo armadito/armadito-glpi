@@ -27,7 +27,7 @@ include_once("../../api/common.php");
 $rawdata = file_get_contents("php://input");
 if (!empty($rawdata))
 {
-    PluginArmaditoToolbox::checkPluginInstallation();
+    checkPluginInstallation();
     initGLPISession();
 
     PluginArmaditoLastContactStat::increment();

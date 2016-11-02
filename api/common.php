@@ -80,3 +80,12 @@ function writeHttpOKResponse($response_content)
     echo $response_content;
 }
 
+function checkPluginInstallation()
+{
+    if (!class_exists("PluginArmaditoAgent")) {
+        writeHttpErrorResponse("Plugin Armadito is not installed.");
+        session_destroy();
+        exit();
+    }
+}
+

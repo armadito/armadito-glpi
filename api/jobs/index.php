@@ -28,7 +28,7 @@ $rawdata = file_get_contents("php://input");
 
 if (isset($_GET['agent_id']))
 {
-    PluginArmaditoToolbox::checkPluginInstallation();
+    checkPluginInstallation();
     initGLPISession();
 
     PluginArmaditoLastContactStat::increment();
