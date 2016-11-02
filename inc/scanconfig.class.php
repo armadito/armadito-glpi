@@ -85,9 +85,7 @@ class PluginArmaditoScanConfig extends CommonDBTM
 
     function insertScanConfigInDB()
     {
-        $error     = new PluginArmaditoError();
         $dbmanager = new PluginArmaditoDbManager();
-        $dbmanager->init();
 
         $params["scan_name"]["type"]                      = "s";
         $params["scan_path"]["type"]                      = "s";
@@ -96,30 +94,15 @@ class PluginArmaditoScanConfig extends CommonDBTM
 
         $query_name = "NewScanConfig";
         $dbmanager->addQuery($query_name, "INSERT", $this->getTable(), $params);
+        $dbmanager->prepareAndBindQuery($query_name);
 
-        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        $dbmanager->setQueryValue($query_name, "scan_name", $this->scan_name);
-        $dbmanager->setQueryValue($query_name, "scan_path", $this->scan_path);
-        $dbmanager->setQueryValue($query_name, "scan_options", $this->scan_options);
-        $dbmanager->setQueryValue($query_name, "plugin_armadito_antiviruses_id", $this->antivirus_id);
-
-        if (!$dbmanager->executeQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        $dbmanager->closeQuery($query_name);
-        $error->setMessage(0, 'New scanconfig successfully inserted.');
-        return $error;
+        $this->setCommonQueryValues($dbmanager, $query_name);
+        $dbmanager->executeQuery($query_name);
     }
 
     function updateScanConfigInDB()
     {
-        $error     = new PluginArmaditoError();
         $dbmanager = new PluginArmaditoDbManager();
-        $dbmanager->init();
 
         $params["scan_name"]["type"]                      = "s";
         $params["scan_path"]["type"]                      = "s";
@@ -129,24 +112,20 @@ class PluginArmaditoScanConfig extends CommonDBTM
 
         $query_name = "UpdateScanConfig";
         $dbmanager->addQuery($query_name, "UPDATE", $this->getTable(), $params, "id");
+        $dbmanager->prepareAndBindQuery($query_name);
 
-        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
+        $dbmanager = $this->setCommonQueryValues($dbmanager, $query_name);
+        $dbmanager->setQueryValue($query_name, "id", $this->id);
+        $dbmanager->executeQuery($query_name);
+    }
 
+    function setCommonQueryValues( $dbmanager, $query_name )
+    {
         $dbmanager->setQueryValue($query_name, "scan_name", $this->scan_name);
         $dbmanager->setQueryValue($query_name, "scan_path", $this->scan_path);
         $dbmanager->setQueryValue($query_name, "scan_options", $this->scan_options);
         $dbmanager->setQueryValue($query_name, "plugin_armadito_antiviruses_id", $this->antivirus_id);
-        $dbmanager->setQueryValue($query_name, "id", $this->id);
-
-        if (!$dbmanager->executeQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        $dbmanager->closeQuery($query_name);
-        $error->setMessage(0, 'New scanconfig successfully updated.');
-        return $error;
+        return $dbmanager;
     }
 
     static function canDelete()
