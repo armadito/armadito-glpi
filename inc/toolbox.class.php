@@ -43,6 +43,11 @@ class PluginArmaditoToolbox
         return error_log(date("Y-m-d H:i:s") . " " . $text . "\n", 3, GLPI_LOG_DIR . "/pluginArmadito.log");
     }
 
+    static function logD($text)
+    {
+        return error_log(date("Y-m-d H:i:s") . " " . $text . "\n", 3, GLPI_LOG_DIR . "/pluginArmadito.log");
+    }
+
     static function ExecQuery($query)
     {
         global $DB;

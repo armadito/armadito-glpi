@@ -109,8 +109,7 @@ class PluginArmaditoDbManager
             $i++;
         }
 
-        PluginArmaditoToolbox::logE($query);
-
+        PluginArmaditoToolbox::logD($query);
         return $query;
     }
 
