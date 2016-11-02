@@ -193,7 +193,7 @@ class PluginArmaditoStateModule extends CommonDBTM
             "plugin_armadito_agents_id",
             "module_name"
         ));
-        $dbmanager->prepareQuery($query); 
+        $dbmanager->prepareQuery($query);
         $dbmanager->bindQuery($query);
 
         $dbmanager = $this->setCommonQueryValues($dbmanager, $query);

@@ -236,7 +236,7 @@ class PluginArmaditoState extends CommonDBTM
         $this->antivirus = $this->agent->getAntivirus();
         $dbmanager = $this->setCommonQueryValues($dbmanager, $query);
         $dbmanager->executeQuery($query);
-    
+
         $this->id = PluginArmaditoDbToolbox::getLastInsertedId();
         PluginArmaditoToolbox::validateInt($this->id);
     }
