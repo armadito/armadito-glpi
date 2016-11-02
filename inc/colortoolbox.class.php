@@ -27,6 +27,8 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginArmaditoColorToolbox
 {
+    const GOLDEN_RATIO = 0.618033988749895;
+
     protected $hue;
     protected $saturation;
     protected $value;
@@ -70,8 +72,7 @@ class PluginArmaditoColorToolbox
 
     function getGoldenColor()
     {
-        $golden_ratio_conjugate = 0.618033988749895;
-        $this->hue              = $this->hue + $golden_ratio_conjugate;
+        $this->hue              = $this->hue + GOLDEN_RATIO;
         $this->hue              = fmod($this->hue, 1);
         return "#" . $this->HSVtoHexa($this->hue, $this->saturation, $this->value);
     }
