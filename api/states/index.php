@@ -38,7 +38,7 @@ if (!empty($rawdata))
         $state = new PluginArmaditoState();
         $state->initFromJson($jobj);
         $state->run();
-        $communication->setMessage("Succesful State obj update.", 200);
+        $communication->setMessage("", 200);
     }
     catch(PluginArmaditoJsonException $e)
     {

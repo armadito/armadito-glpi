@@ -65,7 +65,7 @@ else if (!empty($rawdata))
         $job = new PluginArmaditoJob();
         $job->initFromJson($jobj);
         $job->updateStatus("successful");
-        $communication->setMessage("Successful Job obj update.", 200);
+        $communication->setMessage("", 200);
     }
     catch(PluginArmaditoJsonException $e)
     {

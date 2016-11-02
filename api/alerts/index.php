@@ -41,7 +41,7 @@ if (!empty($rawdata))
         $alert->updateAlertStat();
         $agent = new PluginArmaditoAgent();
         $agent->updateLastAlert($alert);
-        $communication->setMessage("Succesful Alert obj insertion.", 200);
+        $communication->setMessage("", 200);
     }
     catch(PluginArmaditoJsonException $e)
     {

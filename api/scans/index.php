@@ -38,7 +38,7 @@ if (!empty($rawdata))
         $scan = new PluginArmaditoScan();
         $scan->initFromJson($jobj);
         $scan->updateScanInDB();
-        $communication->setMessage("Succesful Scan obj update.", 200);
+        $communication->setMessage("", 200);
     }
     catch(PluginArmaditoJsonException $e)
     {
