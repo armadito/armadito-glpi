@@ -42,7 +42,7 @@ if (!empty($rawdata))
     }
     catch(PluginArmaditoJsonException $e)
     {
-        $communication->setMessage($e->getMessage(), 405);
+        $communication->setMessage($e->getMessage(), 400);
         PluginArmaditoToolbox::logE($e->getMessage());
     }
     catch(Exception $e)
