@@ -32,6 +32,8 @@ class PluginArmaditoState extends CommonDBTM
     protected $agentid;
     protected $agent;
     protected $jobj;
+    protected $antivirus;
+    protected $statedetails_id;
 
     static function getTypeName($nb = 0)
     {
@@ -162,15 +164,13 @@ class PluginArmaditoState extends CommonDBTM
             $this->insertOrUpdateStateModules();
         }
 
-        $statedetails_id = $this->getTableIdForAgentId("glpi_plugin_armadito_statedetails");
+        $this->statedetails_id = $this->getTableIdForAgentId("glpi_plugin_armadito_statedetails");
 
         if ($this->isStateinDB()) {
-            $error = $this->updateState($statedetails_id);
+            $this->updateState();
         } else {
-            $error = $this->insertState($statedetails_id);
+            $this->insertState();
         }
-
-        return $error;
     }
 
     function insertOrUpdateStateModules()
@@ -178,10 +178,7 @@ class PluginArmaditoState extends CommonDBTM
         foreach ($this->jobj->task->obj->modules as $jobj_module) {
             $module = new PluginArmaditoStateModule();
             $module->init($this->agentid, $this->jobj, $jobj_module);
-            $error = $module->run();
-            if ($error->getCode() != 0) {
-                return $error;
-            }
+            $module->run();
         }
     }
 
@@ -226,59 +223,41 @@ class PluginArmaditoState extends CommonDBTM
         return $id;
     }
 
-    function insertState($stateid)
+    function insertState()
     {
-        $error     = new PluginArmaditoError();
         $dbmanager = new PluginArmaditoDbManager();
-        $dbmanager->init();
+        $params = $this->setCommonQueryParams();
+        $query = "NewState";
 
-        $params["plugin_armadito_agents_id"]["type"]       = "i";
-        $params["plugin_armadito_antiviruses_id"]["type"]  = "i";
-        $params["plugin_armadito_statedetails_id"]["type"] = "i";
-        $params["update_status"]["type"]                   = "s";
-        $params["last_update"]["type"]                     = "s";
-        $params["realtime_status"]["type"]                 = "s";
-        $params["service_status"]["type"]                  = "s";
+        $dbmanager->addQuery($query, "INSERT", $this->getTable(), $params);
+        $dbmanager->prepareQuery($query);
+        $dbmanager->bindQuery($query);
 
-        $query_name = "NewState";
-        $dbmanager->addQuery($query_name, "INSERT", $this->getTable(), $params);
-
-        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        $antivirus = $this->agent->getAntivirus();
-
-        $dbmanager->setQueryValue($query_name, "plugin_armadito_agents_id", $this->agentid);
-        $dbmanager->setQueryValue($query_name, "plugin_armadito_statedetails_id", $stateid);
-        $dbmanager->setQueryValue($query_name, "plugin_armadito_antiviruses_id", $antivirus->getId());
-        $dbmanager->setQueryValue($query_name, "update_status", $this->jobj->task->obj->global_status);
-        $dbmanager->setQueryValue($query_name, "last_update", date("Y-m-d H:i:s", $this->jobj->task->obj->global_update_timestamp));
-        $dbmanager->setQueryValue($query_name, "realtime_status", "unknown");
-        $dbmanager->setQueryValue($query_name, "service_status", "unknown");
-
-        if (!$dbmanager->executeQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        $dbmanager->closeQuery($query_name);
-
+        $this->antivirus = $this->agent->getAntivirus();
+        $dbmanager = $this->setCommonQueryValues($dbmanager, $query);
+        $dbmanager->executeQuery($query);
+    
         $this->id = PluginArmaditoDbToolbox::getLastInsertedId();
-        if ($this->id > 0) {
-            PluginArmaditoToolbox::validateInt($this->id);
-            $error->setMessage(0, 'New State successfully added in database.');
-        } else {
-            $error->setMessage(1, 'Unable to get new State Id');
-        }
-        return $error;
+        PluginArmaditoToolbox::validateInt($this->id);
     }
 
-    function updateState($stateid)
+    function updateState()
     {
-        $error     = new PluginArmaditoError();
         $dbmanager = new PluginArmaditoDbManager();
-        $dbmanager->init();
+        $params = $this->setCommonQueryParams();
+        $query = "UpdateState";
 
+        $dbmanager->addQuery($query, "UPDATE", $this->getTable(), $params, "plugin_armadito_agents_id");
+        $dbmanager->prepareQuery($query);
+        $dbmanager->bindQuery($query);
+
+        $this->antivirus = $this->agent->getAntivirus();
+        $dbmanager = $this->setCommonQueryValues($dbmanager, $query);
+        $dbmanager->executeQuery($query);
+    }
+
+    function setCommonQueryParams()
+    {
         $params["plugin_armadito_agents_id"]["type"]       = "i";
         $params["plugin_armadito_antiviruses_id"]["type"]  = "i";
         $params["plugin_armadito_statedetails_id"]["type"] = "i";
@@ -286,32 +265,19 @@ class PluginArmaditoState extends CommonDBTM
         $params["last_update"]["type"]                     = "s";
         $params["realtime_status"]["type"]                 = "s";
         $params["service_status"]["type"]                  = "s";
+        return $params;
+    }
 
-        $query_name = "UpdateState";
-        $dbmanager->addQuery($query_name, "UPDATE", $this->getTable(), $params, "plugin_armadito_agents_id");
-
-        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        $antivirus = $this->agent->getAntivirus();
-        PluginArmaditoToolbox::logE("Set AV_id = " . $antivirus->getId());
-
-        $dbmanager->setQueryValue($query_name, "plugin_armadito_statedetails_id", $stateid);
-        $dbmanager->setQueryValue($query_name, "plugin_armadito_antiviruses_id", $antivirus->getId());
-        $dbmanager->setQueryValue($query_name, "update_status", $this->jobj->task->obj->global_status);
-        $dbmanager->setQueryValue($query_name, "last_update", date("Y-m-d H:i:s", $this->jobj->task->obj->global_update_timestamp));
-        $dbmanager->setQueryValue($query_name, "realtime_status", "unknown");
-        $dbmanager->setQueryValue($query_name, "service_status", "unknown");
-        $dbmanager->setQueryValue($query_name, "plugin_armadito_agents_id", $this->agentid); # WHERE
-
-        if (!$dbmanager->executeQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        $dbmanager->closeQuery($query_name);
-        $error->setMessage(0, 'State successfully updated in database.');
-        return $error;
+    function setCommonQueryValues($dbmanager, $query)
+    {
+        $dbmanager->setQueryValue($query, "plugin_armadito_statedetails_id", $this->statedetails_id);
+        $dbmanager->setQueryValue($query, "plugin_armadito_antiviruses_id", $this->antivirus->getId());
+        $dbmanager->setQueryValue($query, "update_status", $this->jobj->task->obj->global_status);
+        $dbmanager->setQueryValue($query, "last_update", date("Y-m-d H:i:s", $this->jobj->task->obj->global_update_timestamp));
+        $dbmanager->setQueryValue($query, "realtime_status", "unknown");
+        $dbmanager->setQueryValue($query, "service_status", "unknown");
+        $dbmanager->setQueryValue($query, "plugin_armadito_agents_id", $this->agentid);
+        return $dbmanager;
     }
 }
 ?>

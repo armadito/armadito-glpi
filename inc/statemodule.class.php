@@ -169,76 +169,55 @@ class PluginArmaditoStateModule extends CommonDBTM
 
     function insertStateModule()
     {
-        $error     = new PluginArmaditoError();
         $dbmanager = new PluginArmaditoDbManager();
-        $dbmanager->init();
-
-        $params["plugin_armadito_agents_id"]["type"] = "i";
-        $params["module_name"]["type"]               = "s";
-        $params["module_version"]["type"]            = "s";
-        $params["module_update_status"]["type"]      = "s";
-        $params["module_last_update"]["type"]        = "s";
+        $params = $this->setCommonQueryParams();
         $params["itemlink"]["type"]                  = "s";
 
-        $query_name = "NewStateModule";
-        $dbmanager->addQuery($query_name, "INSERT", "glpi_plugin_armadito_statedetails", $params);
+        $query = "NewStateModule";
+        $dbmanager->addQuery($query, "INSERT", "glpi_plugin_armadito_statedetails", $params);
+        $dbmanager->prepareQuery($query);
+        $dbmanager->bindQuery($query);
 
-        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        $dbmanager->setQueryValue($query_name, "plugin_armadito_agents_id", $this->agentid);
-        $dbmanager->setQueryValue($query_name, "module_name", $this->jobj->name);
-        $dbmanager->setQueryValue($query_name, "module_version", "unknown");
-        $dbmanager->setQueryValue($query_name, "module_update_status", $this->jobj->mod_status);
-        $dbmanager->setQueryValue($query_name, "module_last_update", date("Y-m-d H:i:s", $this->jobj->mod_update_timestamp));
-        $dbmanager->setQueryValue($query_name, "itemlink", "ShowAll");
-
-        if (!$dbmanager->executeQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        $dbmanager->closeQuery($query_name);
-        $error->setMessage(0, 'New StateModule successfully added in database.');
-        return $error;
+        $dbmanager = $this->setCommonQueryValues($dbmanager, $query);
+        $dbmanager->setQueryValue($query, "itemlink", "ShowAll");
+        $dbmanager->executeQuery($query);
     }
 
     function updateStateModule()
     {
-        $error     = new PluginArmaditoError();
         $dbmanager = new PluginArmaditoDbManager();
-        $dbmanager->init();
+        $params = $this->setCommonQueryParams();
+        $query = "UpdateStateModule";
 
-        $params["module_version"]["type"]            = "s";
-        $params["module_update_status"]["type"]      = "s";
-        $params["module_last_update"]["type"]        = "s";
-        $params["plugin_armadito_agents_id"]["type"] = "i";
-        $params["module_name"]["type"]               = "s";
-
-
-        $query_name = "UpdateStateModule";
-        $dbmanager->addQuery($query_name, "UPDATE", "glpi_plugin_armadito_statedetails", $params, array(
+        $dbmanager->addQuery($query, "UPDATE", "glpi_plugin_armadito_statedetails", $params, array(
             "plugin_armadito_agents_id",
             "module_name"
         ));
+        $dbmanager->prepareQuery($query); 
+        $dbmanager->bindQuery($query);
 
-        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
+        $dbmanager = $this->setCommonQueryValues($dbmanager, $query);
+        $dbmanager->executeQuery($query);
+    }
 
-        $dbmanager->setQueryValue($query_name, "plugin_armadito_agents_id", $this->agentid);
-        $dbmanager->setQueryValue($query_name, "module_name", $this->jobj->name);
-        $dbmanager->setQueryValue($query_name, "module_version", "unknown");
-        $dbmanager->setQueryValue($query_name, "module_update_status", $this->jobj->mod_status);
-        $dbmanager->setQueryValue($query_name, "module_last_update", date("Y-m-d H:i:s", $this->jobj->mod_update_timestamp));
+    function setCommonQueryParams()
+    {
+        $params["plugin_armadito_agents_id"]["type"] = "i";
+        $params["module_name"]["type"]               = "s";
+        $params["module_version"]["type"]            = "s";
+        $params["module_update_status"]["type"]      = "s";
+        $params["module_last_update"]["type"]        = "s";
+        return $params;
+    }
 
-        if (!$dbmanager->executeQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        $dbmanager->closeQuery($query_name);
-        $error->setMessage(0, 'Antivirus successfully updated in database.');
-        return $error;
+    function setCommonQueryValues($dbmanager, $query)
+    {
+        $dbmanager->setQueryValue($query, "plugin_armadito_agents_id", $this->agentid);
+        $dbmanager->setQueryValue($query, "module_name", $this->jobj->name);
+        $dbmanager->setQueryValue($query, "module_version", "unknown");
+        $dbmanager->setQueryValue($query, "module_update_status", $this->jobj->mod_status);
+        $dbmanager->setQueryValue($query, "module_last_update", date("Y-m-d H:i:s", $this->jobj->mod_update_timestamp));
+        return $dbmanager;
     }
 }
 ?>

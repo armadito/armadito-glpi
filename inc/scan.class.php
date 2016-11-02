@@ -236,49 +236,33 @@ class PluginArmaditoScan extends CommonDBTM
 
     function insertScanInDB($job_id_, $agent)
     {
-        $error     = new PluginArmaditoError();
         $dbmanager = new PluginArmaditoDbManager();
-        $dbmanager->init();
 
         $params["plugin_armadito_jobs_id"]["type"]        = "i";
         $params["plugin_armadito_agents_id"]["type"]      = "i";
         $params["plugin_armadito_scanconfigs_id"]["type"] = "i";
         $params["plugin_armadito_antiviruses_id"]["type"] = "i";
 
-        $query_name = "NewScan";
-        $dbmanager->addQuery($query_name, "INSERT", $this->getTable(), $params);
+        $query = "NewScan";
+        $dbmanager->addQuery($query, "INSERT", $this->getTable(), $params);
+        $dbmanager->prepareQuery($query);
+        $dbmanager->bindQuery($query);
 
-        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
+        $dbmanager->setQueryValue($query, "plugin_armadito_jobs_id", $job_id_);
+        $dbmanager->setQueryValue($query, "plugin_armadito_agents_id", $this->agentid);
+        $dbmanager->setQueryValue($query, "plugin_armadito_scanconfigs_id", $this->scanconfigid);
+        $dbmanager->setQueryValue($query, "plugin_armadito_antiviruses_id", $agent->getAntivirusId());
 
-        $dbmanager->setQueryValue($query_name, "plugin_armadito_jobs_id", $job_id_);
-        $dbmanager->setQueryValue($query_name, "plugin_armadito_agents_id", $this->agentid);
-        $dbmanager->setQueryValue($query_name, "plugin_armadito_scanconfigs_id", $this->scanconfigid);
-        $dbmanager->setQueryValue($query_name, "plugin_armadito_antiviruses_id", $agent->getAntivirusId());
-
-        if (!$dbmanager->executeQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        $dbmanager->closeQuery($query_name);
+        $dbmanager->executeQuery($query);
 
         $this->id = PluginArmaditoDbToolbox::getLastInsertedId();
-        if ($this->id > 0) {
-            PluginArmaditoToolbox::validateInt($this->id);
-            $error->setMessage(0, 'New Scan successfully added in database.');
-        } else {
-            $error->setMessage(1, 'Unable to get new Scan Id');
-        }
-        return $error;
+        PluginArmaditoToolbox::validateInt($this->id);
     }
 
 
     function updateScanInDB()
     {
-        $error     = new PluginArmaditoError();
         $dbmanager = new PluginArmaditoDbManager();
-        $dbmanager->init();
 
         $params["start_time"]["type"]              = "s";
         $params["duration"]["type"]                = "s";
@@ -288,31 +272,23 @@ class PluginArmaditoScan extends CommonDBTM
         $params["progress"]["type"]                = "i";
         $params["plugin_armadito_jobs_id"]["type"] = "i";
 
-        $query_name = "UpdateScan";
-        $dbmanager->addQuery($query_name, "UPDATE", $this->getTable(), $params, "plugin_armadito_jobs_id");
-
-        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
+        $query = "UpdateScan";
+        $dbmanager->addQuery($query, "UPDATE", $this->getTable(), $params, "plugin_armadito_jobs_id");
+        $dbmanager->prepareQuery($query);
+        $dbmanager->bindQuery($query);
 
         $duration = PluginArmaditoToolbox::FormatISO8601DateInterval($this->jobj->task->obj->duration);
         $start_time = date("Y-m-d H:i:s", strtotime($this->jobj->task->obj->start_time));
 
-        $dbmanager->setQueryValue($query_name, "duration", $duration);
-        $dbmanager->setQueryValue($query_name, "start_time", $start_time);
-        $dbmanager->setQueryValue($query_name, "malware_count", $this->jobj->task->obj->malware_count);
-        $dbmanager->setQueryValue($query_name, "suspicious_count", $this->jobj->task->obj->suspicious_count);
-        $dbmanager->setQueryValue($query_name, "scanned_count", $this->jobj->task->obj->scanned_count);
-        $dbmanager->setQueryValue($query_name, "progress", $this->jobj->task->obj->progress);
-        $dbmanager->setQueryValue($query_name, "plugin_armadito_jobs_id", $this->jobj->task->obj->job_id); # WHERE
+        $dbmanager->setQueryValue($query, "duration", $duration);
+        $dbmanager->setQueryValue($query, "start_time", $start_time);
+        $dbmanager->setQueryValue($query, "malware_count", $this->jobj->task->obj->malware_count);
+        $dbmanager->setQueryValue($query, "suspicious_count", $this->jobj->task->obj->suspicious_count);
+        $dbmanager->setQueryValue($query, "scanned_count", $this->jobj->task->obj->scanned_count);
+        $dbmanager->setQueryValue($query, "progress", $this->jobj->task->obj->progress);
+        $dbmanager->setQueryValue($query, "plugin_armadito_jobs_id", $this->jobj->task->obj->job_id); # WHERE
 
-        if (!$dbmanager->executeQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        $dbmanager->closeQuery($query_name);
-        $error->setMessage(0, 'Scan successfully updated in database.');
-        return $error;
+        $dbmanager->executeQuery($query);
     }
 
     function defineTabs($options = array())

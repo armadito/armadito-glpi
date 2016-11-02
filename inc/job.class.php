@@ -217,32 +217,22 @@ class PluginArmaditoJob extends CommonDBTM
 
     function updateJobErrorInDB($err_code, $err_msg)
     {
-        $error     = new PluginArmaditoError();
         $dbmanager = new PluginArmaditoDbManager();
-        $dbmanager->init();
 
         $params["job_error_code"]["type"] = "i";
         $params["job_error_msg"]["type"]  = "s";
         $params["id"]["type"]             = "i";
 
-        $query_name = "UpdateJobError";
-        $dbmanager->addQuery($query_name, "UPDATE", $this->getTable(), $params, "id");
+        $query = "UpdateJobError";
+        $dbmanager->addQuery($query, "UPDATE", $this->getTable(), $params, "id");
+        $dbmanager->prepareQuery($query);
+        $dbmanager->bindQuery($query);
 
-        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
+        $dbmanager->setQueryValue($query, "job_error_code", $err_code);
+        $dbmanager->setQueryValue($query, "job_error_msg", $err_msg);
+        $dbmanager->setQueryValue($query, "id", $this->id); # WHERE
 
-        $dbmanager->setQueryValue($query_name, "job_error_code", $err_code);
-        $dbmanager->setQueryValue($query_name, "job_error_msg", $err_msg);
-        $dbmanager->setQueryValue($query_name, "id", $this->id); # WHERE
-
-        if (!$dbmanager->executeQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        $dbmanager->closeQuery($query_name);
-        $error->setMessage(0, 'JobError successfully updated in database.');
-        return $error;
+        $dbmanager->executeQuery($query);
     }
 
     function getSearchOptions()
@@ -320,9 +310,7 @@ class PluginArmaditoJob extends CommonDBTM
 
     function insertInJobs()
     {
-        $error     = new PluginArmaditoError();
         $dbmanager = new PluginArmaditoDbManager();
-        $dbmanager->init();
 
         $params["plugin_armadito_agents_id"]["type"]      = "i";
         $params["plugin_armadito_antiviruses_id"]["type"] = "i";
@@ -330,50 +318,28 @@ class PluginArmaditoJob extends CommonDBTM
         $params["job_priority"]["type"]                   = "s";
         $params["job_status"]["type"]                     = "s";
 
-        $query_name = "NewJob";
-        $dbmanager->addQuery($query_name, "INSERT", $this->getTable(), $params);
+        $query = "NewJob";
+        $dbmanager->addQuery($query, "INSERT", $this->getTable(), $params);
 
-        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
+        $dbmanager->prepareQuery($query);
+        $dbmanager->bindQuery($query);
 
-        $dbmanager->setQueryValue($query_name, "plugin_armadito_agents_id", $this->agentid);
-        $dbmanager->setQueryValue($query_name, "plugin_armadito_antiviruses_id", $this->agent->getAntivirusId());
-        $dbmanager->setQueryValue($query_name, "job_type", $this->type);
-        $dbmanager->setQueryValue($query_name, "job_priority", $this->priority);
-        $dbmanager->setQueryValue($query_name, "job_status", "queued");
+        $dbmanager->setQueryValue($query, "plugin_armadito_agents_id", $this->agentid);
+        $dbmanager->setQueryValue($query, "plugin_armadito_antiviruses_id", $this->agent->getAntivirusId());
+        $dbmanager->setQueryValue($query, "job_type", $this->type);
+        $dbmanager->setQueryValue($query, "job_priority", $this->priority);
+        $dbmanager->setQueryValue($query, "job_status", "queued");
 
-        if (!$dbmanager->executeQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        $dbmanager->closeQuery($query_name);
+        $dbmanager->executeQuery($query);
 
         $this->id = PluginArmaditoDbToolbox::getLastInsertedId();
-        if ($this->id > 0) {
-            PluginArmaditoToolbox::validateInt($this->id);
-            $error->setMessage(0, 'New Job successfully added in database.');
-        } else {
-            $error->setMessage(1, 'Unable to get new Job Id');
-        }
-        return $error;
+        PluginArmaditoToolbox::validateInt($this->id);
     }
 
     function addJob()
     {
-        $error = new PluginArmaditoError();
-        $error = $this->insertInJobs();
-        if ($error->getCode() != 0) {
-            $error->log();
-            return false;
-        }
-
-        $error = $this->obj->addObj($this->id, $this->agent);
-        if ($error->getCode() != 0) {
-            $error->log();
-            return false;
-        }
-        return true;
+        $this->insertInJobs();
+        $this->obj->addObj($this->id, $this->agent);
     }
 
     function cancelJob()

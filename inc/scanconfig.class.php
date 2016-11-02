@@ -92,12 +92,12 @@ class PluginArmaditoScanConfig extends CommonDBTM
         $params["scan_options"]["type"]                   = "s";
         $params["plugin_armadito_antiviruses_id"]["type"] = "i";
 
-        $query_name = "NewScanConfig";
-        $dbmanager->addQuery($query_name, "INSERT", $this->getTable(), $params);
-        $dbmanager->prepareAndBindQuery($query_name);
+        $query = "NewScanConfig";
+        $dbmanager->addQuery($query, "INSERT", $this->getTable(), $params);
+        $dbmanager->prepareAndBindQuery($query);
 
-        $this->setCommonQueryValues($dbmanager, $query_name);
-        $dbmanager->executeQuery($query_name);
+        $this->setCommonQueryValues($dbmanager, $query);
+        $dbmanager->executeQuery($query);
     }
 
     function updateScanConfigInDB()
@@ -110,21 +110,21 @@ class PluginArmaditoScanConfig extends CommonDBTM
         $params["plugin_armadito_antiviruses_id"]["type"] = "i";
         $params["id"]["type"]                             = "i";
 
-        $query_name = "UpdateScanConfig";
-        $dbmanager->addQuery($query_name, "UPDATE", $this->getTable(), $params, "id");
-        $dbmanager->prepareAndBindQuery($query_name);
+        $query = "UpdateScanConfig";
+        $dbmanager->addQuery($query, "UPDATE", $this->getTable(), $params, "id");
+        $dbmanager->prepareAndBindQuery($query);
 
-        $dbmanager = $this->setCommonQueryValues($dbmanager, $query_name);
-        $dbmanager->setQueryValue($query_name, "id", $this->id);
-        $dbmanager->executeQuery($query_name);
+        $dbmanager = $this->setCommonQueryValues($dbmanager, $query);
+        $dbmanager->setQueryValue($query, "id", $this->id);
+        $dbmanager->executeQuery($query);
     }
 
-    function setCommonQueryValues( $dbmanager, $query_name )
+    function setCommonQueryValues( $dbmanager, $query )
     {
-        $dbmanager->setQueryValue($query_name, "scan_name", $this->scan_name);
-        $dbmanager->setQueryValue($query_name, "scan_path", $this->scan_path);
-        $dbmanager->setQueryValue($query_name, "scan_options", $this->scan_options);
-        $dbmanager->setQueryValue($query_name, "plugin_armadito_antiviruses_id", $this->antivirus_id);
+        $dbmanager->setQueryValue($query, "scan_name", $this->scan_name);
+        $dbmanager->setQueryValue($query, "scan_path", $this->scan_path);
+        $dbmanager->setQueryValue($query, "scan_options", $this->scan_options);
+        $dbmanager->setQueryValue($query, "plugin_armadito_antiviruses_id", $this->antivirus_id);
         return $dbmanager;
     }
 

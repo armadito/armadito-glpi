@@ -28,7 +28,7 @@ if (!defined('GLPI_ROOT')) {
 
 /*
  * Class used to manage multiple PluginArmaditoJob
- **/
+ */
 class PluginArmaditoJobmanager extends CommonDBTM
 {
     protected $jobs;
@@ -58,9 +58,7 @@ class PluginArmaditoJobmanager extends CommonDBTM
     function getJobs($status)
     {
         global $DB;
-        $error = new PluginArmaditoError();
         $paConfig = new PluginArmaditoConfig();
-
         $getjobs_limit = PluginArmaditoToolbox::validateInt($paConfig->getValue('getjobs_limit'));
 
         $query = "SELECT * FROM `glpi_plugin_armadito_jobs`
@@ -72,24 +70,20 @@ class PluginArmaditoJobmanager extends CommonDBTM
             throw new InvalidArgumentException(sprintf('Error getJobs : %s', $DB->error()));
         }
 
-        if ($DB->numrows($ret) > 0) {
-            $i = 0;
-            while ($data = $DB->fetch_assoc($ret)) {
-                $job   = new PluginArmaditoJob();
-                $error = new PluginArmaditoError();
-                $error = $job->initFromDB($data);
-                if ($error->getCode() == 0) {
-                    array_push($this->jobs, $job);
-                    $i++;
-                }
+        if ($DB->numrows($ret) > 0)
+        {
+            while ($data = $DB->fetch_assoc($ret))
+            {
+                $this->addJob($data);
             }
-
-            $error->setMessage(0, 'Got ' . $i . ' jobs for this agent.');
-            return $error;
         }
+    }
 
-        $error->setMessage(0, 'No jobs queued for this agent.');
-        return $error;
+    function addJob($data)
+    {
+        $job   = new PluginArmaditoJob();
+        $job->initFromDB($data);
+        array_push($this->jobs, $job);
     }
 
     function updateJobStatuses($status)

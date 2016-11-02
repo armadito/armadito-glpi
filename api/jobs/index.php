@@ -39,8 +39,9 @@ if (isset($_GET['agent_id'])) {
     {
         $jobmanager = new PluginArmaditoJobmanager();
         $jobmanager->init($_GET['agent_id']);
-        $error = $jobmanager->getJobs("queued");
+        $jobmanager->getJobs("queued");
         $jobmanager->updateJobStatuses("downloaded");
+        $communication->setMessage($jobmanager->toJson(), 200);
     }
     catch(Exception $e)
     {
