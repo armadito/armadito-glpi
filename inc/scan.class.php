@@ -84,7 +84,6 @@ class PluginArmaditoScan extends CommonDBTM
     function initFromDB($job_id)
     {
         global $DB;
-        $error = new PluginArmaditoError();
         $query = "SELECT * FROM `glpi_plugin_armadito_scans`
               WHERE `plugin_armadito_jobs_id`='" . $job_id . "'";
 
@@ -100,17 +99,8 @@ class PluginArmaditoScan extends CommonDBTM
             $this->scanconfigid = $data["plugin_armadito_scanconfigs_id"];
 
             $this->scanconfigobj = new PluginArmaditoScanConfig();
-            if (!$this->scanconfigobj->initFromDB($this->scanconfigid)) {
-                $error->setMessage(1, 'Init scanconfig from DB failed.');
-                return $error;
-            }
-
-            $error->setMessage(0, 'Successfully scan init from DB.');
-            return $error;
+            $this->scanconfigobj->initFromDB($this->scanconfigid);
         }
-
-        $error->setMessage(1, 'No scans found for job_id ' . $job_id);
-        return $error;
     }
 
     function toJson()

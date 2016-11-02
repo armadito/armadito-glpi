@@ -44,7 +44,7 @@ class PluginArmaditoScanConfig extends CommonDBTM
     function initFromForm($POST)
     {
         if(isset($POST["id"])) {
-            $this->id           = $POST["id"];
+            $this->id = $POST["id"];
         }
 
         $this->antivirus_id = $POST["antivirus_id"];
@@ -55,15 +55,15 @@ class PluginArmaditoScanConfig extends CommonDBTM
 
     function initFromDB($id)
     {
-        $this->id = $id;
-        if ($this->getFromDB($id)) {
-            $this->scan_name    = $this->fields["scan_name"];
-            $this->scan_path    = $this->fields["scan_path"];
-            $this->scan_options = $this->fields["scan_options"];
-            $this->antivirus_id = $this->fields["plugin_armadito_antiviruses_id"];
-            return true;
+        if (!$this->getFromDB($id)) {
+            throw new PluginArmaditoDbException('Scanconfig initFromDB failed.');
         }
-        return false;
+
+        $this->id = $id;
+        $this->scan_name    = $this->fields["scan_name"];
+        $this->scan_path    = $this->fields["scan_path"];
+        $this->scan_options = $this->fields["scan_options"];
+        $this->antivirus_id = $this->fields["plugin_armadito_antiviruses_id"];
     }
 
     function validate()
