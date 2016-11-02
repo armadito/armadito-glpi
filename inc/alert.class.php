@@ -32,6 +32,7 @@ class PluginArmaditoAlert extends CommonDBTM
     protected $agentid;
     protected $agent;
     protected $detection_time;
+    protected $antivirus;
 
     static $rightname = 'plugin_armadito_alerts';
 
@@ -150,22 +151,28 @@ class PluginArmaditoAlert extends CommonDBTM
         return $tab;
     }
 
-    function run()
-    {
-        $error = new PluginArmaditoError();
-
-        $error = $this->insertAlert();
-
-        $error->setMessage(0, 'Alerts successfully inserted.');
-        return $error;
-    }
-
     function insertAlert()
     {
-        $error     = new PluginArmaditoError();
         $dbmanager = new PluginArmaditoDbManager();
-        $dbmanager->init();
+        $params = $this->setCommonQueryParams();
+        $query = "NewAlert";
 
+        $dbmanager->addQuery($query, "INSERT", $this->getTable(), $params);
+        $dbmanager->prepareQuery($query);
+        $dbmanager->bindQuery($query);
+
+        $this->antivirus = $this->agent->getAntivirus();
+        $this->detection_time = PluginArmaditoToolbox::ISO8601DateTime_to_MySQLDateTime($this->jobj->task->obj->alert->detection_time->value);
+        $dbmanager = $this->setCommonQueryValues($dbmanager, $query);
+
+        $dbmanager->executeQuery($query);
+
+        $this->id = PluginArmaditoDbToolbox::getLastInsertedId();
+        PluginArmaditoToolbox::validateInt($this->id);
+    }
+
+    function setCommonQueryParams()
+    {
         $params["plugin_armadito_agents_id"]["type"]       = "i";
         $params["plugin_armadito_antiviruses_id"]["type"]  = "i";
         $params["name"]["type"]                            = "s";
@@ -173,41 +180,19 @@ class PluginArmaditoAlert extends CommonDBTM
         $params["filepath"]["type"]                        = "s";
         $params["impact_severity"]["type"]                 = "s";
         $params["detection_time"]["type"]                  = "s";
+        return $params;
+    }
 
-        $query_name = "NewAlert";
-        $dbmanager->addQuery($query_name, "INSERT", $this->getTable(), $params);
-
-        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        $antivirus = $this->agent->getAntivirus();
-
-        $this->detection_time = PluginArmaditoToolbox::ISO8601DateTime_to_MySQLDateTime($this->jobj->task->obj->alert->detection_time->value);
-
-        $dbmanager->setQueryValue($query_name, "plugin_armadito_agents_id", $this->agentid);
-        $dbmanager->setQueryValue($query_name, "plugin_armadito_antiviruses_id", $antivirus->getId());
-        $dbmanager->setQueryValue($query_name, "name", $this->jobj->task->obj->alert->module_specific->value);
-        $dbmanager->setQueryValue($query_name, "filepath", $this->jobj->task->obj->alert->uri->value);
-        $dbmanager->setQueryValue($query_name, "module_name", $this->jobj->task->obj->alert->module->value);
-        $dbmanager->setQueryValue($query_name, "detection_time", $this->detection_time);
-        $dbmanager->setQueryValue($query_name, "impact_severity", $this->jobj->task->obj->alert->level->value);
-
-        if (!$dbmanager->executeQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        $dbmanager->closeQuery($query_name);
-
-        $this->id = PluginArmaditoDbToolbox::getLastInsertedId();
-        if ($this->id > 0) {
-            PluginArmaditoToolbox::validateInt($this->id);
-
-            $error->setMessage(0, 'New Alert successfully added in database.');
-        } else {
-            $error->setMessage(1, 'Unable to get new State Id');
-        }
-        return $error;
+    function setCommonQueryValues( $dbmanager, $query )
+    {
+        $dbmanager->setQueryValue($query, "plugin_armadito_agents_id", $this->agentid);
+        $dbmanager->setQueryValue($query, "plugin_armadito_antiviruses_id", $this->antivirus->getId());
+        $dbmanager->setQueryValue($query, "name", $this->jobj->task->obj->alert->module_specific->value);
+        $dbmanager->setQueryValue($query, "filepath", $this->jobj->task->obj->alert->uri->value);
+        $dbmanager->setQueryValue($query, "module_name", $this->jobj->task->obj->alert->module->value);
+        $dbmanager->setQueryValue($query, "detection_time", $this->detection_time);
+        $dbmanager->setQueryValue($query, "impact_severity", $this->jobj->task->obj->alert->level->value);
+        return $dbmanager;
     }
 
     function updateAlertStat ()

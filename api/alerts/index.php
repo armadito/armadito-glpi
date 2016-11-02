@@ -45,22 +45,23 @@ if (!empty($rawdata)) {
         exit();
     }
 
-    $alert = new PluginArmaditoAlert();
-    $alert->initFromJson($jobj);
-    $error = $alert->run();
-
-    if ($error->getCode() == 0) {
-        $communication->setMessage($alert->toJson(), 200);
+    try
+    {
+        $alert = new PluginArmaditoAlert();
+        $alert->initFromJson($jobj);
+        $alert->insertAlert();
         $alert->updateAlertStat();
         $agent = new PluginArmaditoAgent();
         $agent->updateLastAlert($alert);
-    } else {
-        $communication->setMessage($error->toJson(), 500);
-        $error->log();
+        $communication->setMessage($alert->toJson(), 200);
+    }
+    catch(Exception $e)
+    {
+        $communication->setMessage($e->getMessage(), 500);
+        PluginArmaditoToolbox::logE($e->getMessage());
     }
 
     $communication->sendMessage();
-
     session_destroy();
 } else {
     http_response_code(400);
