@@ -43,14 +43,9 @@ class AgentTest extends RestoreDatabaseTestCase
   "uuid":"4C4C4544-0033-4A10-8051-C7C04F503732"}';
 
         $jobj = PluginArmaditoToolbox::parseJSON($json);
-        $this->assertNotEquals(0, $jobj, json_last_error_msg());
-
         $agent->initFromJson($jobj);
-        $error = $agent->getAntivirus()->run();
-        $this->assertEquals(0, $error->getCode(), $error->getMessage());
-
-        $error = $agent->insertAgentInDB();
-        $this->assertEquals(0, $error->getCode(), $error->getMessage());
+        $agent->getAntivirus()->run();
+        $agent->insertAgentInDB();
 
         return $agent;
     }
@@ -75,9 +70,8 @@ class AgentTest extends RestoreDatabaseTestCase
   "uuid":"4C4C4544-0033-4A10-8051-C7C04F503732"}';
 
         $jobj = PluginArmaditoToolbox::parseJSON($json);
-        $this->assertNotEquals(0, $jobj, json_last_error_msg());
-
         $agent->initFromJson($jobj);
+
         $this->assertEquals(true, $agent->isAgentInDB(), "isAgentInDB not working.");
     }
 }
