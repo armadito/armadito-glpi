@@ -45,15 +45,17 @@ if (!empty($rawdata)) {
         exit();
     }
 
-    $Agent = new PluginArmaditoAgent();
-    $Agent->initFromJson($jobj);
-    $error = $Agent->run();
-
-    if ($error->getCode() == 0) {
+    try
+    {
+        $Agent = new PluginArmaditoAgent();
+        $Agent->initFromJson($jobj);
+        $Agent->run();
         $communication->setMessage($Agent->toJson(), 200);
-    } else {
-        $communication->setMessage($error->toJson(), 500);
-        $error->log();
+    }
+    catch(Exception $e)
+    {
+        $communication->setMessage($e->getMessage(), 500);
+        PluginArmaditoToolbox::logE($e->getMessage());
     }
 
     $communication->sendMessage();

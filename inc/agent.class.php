@@ -181,18 +181,13 @@ class PluginArmaditoAgent extends CommonDBTM
 
     function run()
     {
-        $error = $this->antivirus->run();
-        if ($error->getCode() != 0) {
-            return $error;
-        }
+        $this->antivirus->run();
 
         if ($this->isAgentInDB()) {
-            $error = $this->updateAgentInDB();
+            $this->updateAgentInDB();
         } else {
-            $error = $this->insertAgentInDB();
+            $this->insertAgentInDB();
         }
-
-        return $error;
     }
 
     function isAgentInDB()
@@ -220,91 +215,64 @@ class PluginArmaditoAgent extends CommonDBTM
 
     function updateAgentInDB()
     {
-        $error     = new PluginArmaditoError();
         $dbmanager = new PluginArmaditoDbManager();
-        $dbmanager->init();
 
-        $params["entities_id"]["type"]                      = "i";
-        $params["computers_id"]["type"]                     = "i";
-        $params["agent_version"]["type"]                    = "s";
-        $params["plugin_armadito_antiviruses_id"]["type"]   = "i";
-        $params["last_contact"]["type"]                     = "s";
-        $params["last_alert"]["type"]                       = "s";
-        $params["id"]["type"]                               = "i";
+        $params = $this->setCommonQueryParams();
+        $params["id"]["type"] = "i";
 
-        $query_name = "UpdateAgent";
-        $dbmanager->addQuery($query_name, "UPDATE", $this->getTable(), $params, "id");
+        $query = "UpdateAgent";
+        $dbmanager->addQuery($query, "UPDATE", $this->getTable(), $params, "id");
+        $dbmanager->prepareQuery($query);
+        $dbmanager->bindQuery($query);
 
-        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
+        $dbmanager = $this->setCommonQueryValues($dbmanager, $query);
+        $dbmanager->setQueryValue($query, "id", $this->id);
+        $dbmanager->executeQuery($query);
 
-        $dbmanager->setQueryValue($query_name, "entities_id", 0);
-        $dbmanager->setQueryValue($query_name, "computers_id", $this->computerid);
-        $dbmanager->setQueryValue($query_name, "agent_version", $this->jobj->agent_version);
-        $dbmanager->setQueryValue($query_name, "plugin_armadito_antiviruses_id", $this->antivirus->getId());
-        $dbmanager->setQueryValue($query_name, "last_contact", date("Y-m-d H:i:s", time()));
-        $dbmanager->setQueryValue($query_name, "last_alert", '1970-01-01 00:00:00');
-        $dbmanager->setQueryValue($query_name, "id", $this->id);
-
-        if (!$dbmanager->executeQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        $dbmanager->closeQuery($query_name);
         PluginArmaditoToolbox::logIfExtradebug('pluginArmadito-Agent', 'ReEnroll Device with id ' . $this->id);
-
-        $error->setMessage(0, 'New device successfully re-enrolled.');
-        return $error;
-
-
     }
 
     function insertAgentInDB()
     {
-        $error     = new PluginArmaditoError();
         $dbmanager = new PluginArmaditoDbManager();
-        $dbmanager->init();
 
+        $params = $this->setCommonQueryParams();
+        $params["last_alert"]["type"] = "s";
+        $params["uuid"]["type"]       = "s";
+
+        $query = "NewAgent";
+        $dbmanager->addQuery($query, "INSERT", $this->getTable(), $params);
+        $dbmanager->prepareQuery($query);
+        $dbmanager->bindQuery($query);
+
+        $dbmanager = $this->setCommonQueryValues($dbmanager, $query);
+        $dbmanager->setQueryValue($query, "last_alert", '1970-01-01 00:00:00');
+        $dbmanager->setQueryValue($query, "uuid", $this->jobj->uuid);
+        $dbmanager->executeQuery($query);
+
+        $this->id = PluginArmaditoDbToolbox::getLastInsertedId();
+        PluginArmaditoToolbox::validateInt($this->id);
+    }
+
+    function setCommonQueryParams()
+    {
         $params["entities_id"]["type"]                      = "i";
         $params["computers_id"]["type"]                     = "i";
         $params["agent_version"]["type"]                    = "s";
         $params["plugin_armadito_antiviruses_id"]["type"]   = "i";
         $params["last_contact"]["type"]                     = "s";
-        $params["last_alert"]["type"]                       = "s";
-        $params["uuid"]["type"]                      = "s";
-
-        $query_name = "NewAgent";
-        $dbmanager->addQuery($query_name, "INSERT", $this->getTable(), $params);
-
-        if (!$dbmanager->prepareQuery($query_name) || !$dbmanager->bindQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        $dbmanager->setQueryValue($query_name, "entities_id", 0);
-        $dbmanager->setQueryValue($query_name, "computers_id", $this->computerid);
-        $dbmanager->setQueryValue($query_name, "agent_version", $this->jobj->agent_version);
-        $dbmanager->setQueryValue($query_name, "plugin_armadito_antiviruses_id", $this->antivirus->getId());
-        $dbmanager->setQueryValue($query_name, "last_contact", date("Y-m-d H:i:s", time()));
-        $dbmanager->setQueryValue($query_name, "last_alert", '1970-01-01 00:00:00');
-        $dbmanager->setQueryValue($query_name, "uuid", $this->jobj->uuid);
-
-        if (!$dbmanager->executeQuery($query_name)) {
-            return $dbmanager->getLastError();
-        }
-
-        $dbmanager->closeQuery($query_name);
-
-        $this->id = PluginArmaditoDbToolbox::getLastInsertedId();
-        if ($this->id > 0) {
-            PluginArmaditoToolbox::validateInt($this->id);
-            $error->setMessage(0, 'New Agent successfully added in database.');
-        } else {
-            $error->setMessage(1, 'Unable to get new Antivirus Id');
-        }
-        return $error;
+        return $params;
     }
 
+    function setCommonQueryValues($dbmanager, $query)
+    {
+        $dbmanager->setQueryValue($query, "entities_id", 0);
+        $dbmanager->setQueryValue($query, "computers_id", $this->computerid);
+        $dbmanager->setQueryValue($query, "agent_version", $this->jobj->agent_version);
+        $dbmanager->setQueryValue($query, "plugin_armadito_antiviruses_id", $this->antivirus->getId());
+        $dbmanager->setQueryValue($query, "last_contact", date("Y-m-d H:i:s", time()));
+        return $dbmanager;
+    }
 
     static function getTypeName($nb = 0)
     {
