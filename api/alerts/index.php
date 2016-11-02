@@ -24,29 +24,17 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 include_once("../../../../inc/includes.php");
 
 $rawdata = file_get_contents("php://input");
-if (!empty($rawdata)) {
-
+if (!empty($rawdata))
+{
     PluginArmaditoToolbox::checkPluginInstallation();
-
-    $error         = new PluginArmaditoError();
     $communication = new PluginArmaditoCommunication();
     $communication->init();
 
     PluginArmaditoLastContactStat::increment();
 
-    $jobj = PluginArmaditoToolbox::parseJSON($rawdata);
-
-    if (!$jobj) {
-        $error->setMessage(1, "Fail parsing incoming json : " . json_last_error_msg());
-        $error->log();
-        $communication->setMessage($error->toJson(), 405);
-        $communication->sendMessage();
-        session_destroy();
-        exit();
-    }
-
     try
     {
+        PluginArmaditoToolbox::parseJSON($rawdata);
         $alert = new PluginArmaditoAlert();
         $alert->initFromJson($jobj);
         $alert->insertAlert();
@@ -54,6 +42,11 @@ if (!empty($rawdata)) {
         $agent = new PluginArmaditoAgent();
         $agent->updateLastAlert($alert);
         $communication->setMessage("Succesful Alert obj insertion.", 200);
+    }
+    catch(PluginArmaditoJsonException $e)
+    {
+        $communication->setMessage($e->getMessage(), 405);
+        PluginArmaditoToolbox::logE($e->getMessage());
     }
     catch(Exception $e)
     {
@@ -63,7 +56,9 @@ if (!empty($rawdata)) {
 
     $communication->sendMessage();
     session_destroy();
-} else {
+}
+else
+{
     http_response_code(400);
     header("Content-Type: application/json");
     header("X-ArmaditoPlugin-Version: " . PLUGIN_ARMADITO_VERSION);

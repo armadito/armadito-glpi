@@ -25,11 +25,9 @@ include_once("../../../../inc/includes.php");
 
 $rawdata = file_get_contents("php://input");
 
-if (isset($_GET['agent_id'])) {
-
+if (isset($_GET['agent_id']))
+{
     PluginArmaditoToolbox::checkPluginInstallation();
-
-    $error         = new PluginArmaditoError();
     $communication = new PluginArmaditoCommunication();
     $communication->init();
 
@@ -51,31 +49,28 @@ if (isset($_GET['agent_id'])) {
 
     $communication->sendMessage();
     session_destroy();
-} else if (!empty($rawdata)) {
+}
+else if (!empty($rawdata))
+{
 
     PluginArmaditoToolbox::checkPluginInstallation();
-
     $communication = new PluginArmaditoCommunication();
     $communication->init();
 
     PluginArmaditoLastContactStat::increment();
 
-    $jobj = PluginArmaditoToolbox::parseJSON($rawdata);
-    if (!$jobj) {
-        $error->setMessage(1, "Fail parsing incoming json : " . json_last_error_msg());
-        $error->log();
-        $communication->setMessage($error->toJson(), 405);
-        $communication->sendMessage();
-        session_destroy();
-        exit();
-    }
-
     try
     {
+        PluginArmaditoToolbox::parseJSON($rawdata);
         $job = new PluginArmaditoJob();
         $job->initFromJson($jobj);
         $job->updateStatus("successful");
         $communication->setMessage("Successful Job obj update.", 200);
+    }
+    catch(PluginArmaditoJsonException $e)
+    {
+        $communication->setMessage($e->getMessage(), 405);
+        PluginArmaditoToolbox::logE($e->getMessage());
     }
     catch(Exception $e)
     {
@@ -88,7 +83,9 @@ if (isset($_GET['agent_id'])) {
 
     $communication->sendMessage();
     session_destroy();
-} else {
+}
+else
+{
     http_response_code(400);
     header("Content-Type: application/json");
     header("X-ArmaditoPlugin-Version: " . PLUGIN_ARMADITO_VERSION);
