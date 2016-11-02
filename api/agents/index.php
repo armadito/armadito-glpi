@@ -22,6 +22,7 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 **/
 
 include_once("../../../../inc/includes.php");
+include_once("../../api/common.php");
 
 $rawdata = file_get_contents("php://input");
 if (!empty($rawdata))
@@ -38,27 +39,22 @@ if (!empty($rawdata))
         $Agent = new PluginArmaditoAgent();
         $Agent->initFromJson($jobj);
         $Agent->run();
-        $communication->setMessage($Agent->toJson(), 200);
+
+        writeHttpOKResponse($Agent->toJson());
     }
     catch(PluginArmaditoJsonException $e)
     {
-        $communication->setJsonErrorMessage($e->getMessage(), 400);
-        PluginArmaditoToolbox::logE($e->getMessage());
+        writeHttpErrorResponse($e->getMessage(), 400);
     }
     catch(Exception $e)
     {
-        $communication->setJsonErrorMessage($e->getMessage(), 500);
-        PluginArmaditoToolbox::logE($e->getMessage());
+        writeHttpErrorResponse($e->getMessage(), 500);
     }
 
-    $communication->sendMessage();
     session_destroy();
 }
 else
 {
-    http_response_code(400);
-    header("Content-Type: application/json");
-    header("X-ArmaditoPlugin-Version: " . PLUGIN_ARMADITO_VERSION);
-    echo '{"code": 1, "message": "Invalid request sent to plugin index."}';
+    writeHttpErrorResponse("Invalid request sent to plugin index", 400);
 }
 ?>
