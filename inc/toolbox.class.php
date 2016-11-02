@@ -129,7 +129,7 @@ class PluginArmaditoToolbox
         if (json_last_error() == JSON_ERROR_NONE) {
             return $jobj;
         } else {
-            throw new PluginArmaditoJsonException(sprintf("Json parsing error :", json_last_error_msg()));
+            throw new PluginArmaditoJsonException(sprintf("Json parsing error : %s", json_last_error_msg()));
         }
     }
 
