@@ -162,47 +162,19 @@ class PluginArmaditoScanConfig extends CommonDBTM
         $tab           = array();
         $tab['common'] = __('ScanConfig', 'armadito');
 
+        $items['Scan Config Id'] = new PluginArmaditoSearchitemlink('id', $this->getTable(), 'PluginArmaditoScanConfig');
+        $items['Scan Name']      = new PluginArmaditoSearchtext('scan_name', $this->getTable());
+        $items['Scan Path']      = new PluginArmaditoSearchtext('scan_path', $this->getTable());
+        $items['Scan Options']   = new PluginArmaditoSearchtext('scan_options', $this->getTable());
+        $items['Antivirus']      = new PluginArmaditoSearchitemlink('fullname', 'glpi_plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
+
         $i = 1;
-
-        $tab[$i]['table']         = $this->getTable();
-        $tab[$i]['field']         = 'id';
-        $tab[$i]['name']          = __('Scan Config Id', 'armadito');
-        $tab[$i]['datatype']      = 'itemlink';
-        $tab[$i]['itemlink_type'] = 'PluginArmaditoScanConfig';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = $this->getTable();
-        $tab[$i]['field']         = 'scan_name';
-        $tab[$i]['name']          = __('Scan Name', 'armadito');
-        $tab[$i]['datatype']      = 'text';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = $this->getTable();
-        $tab[$i]['field']         = 'scan_path';
-        $tab[$i]['name']          = __('Scan Path', 'armadito');
-        $tab[$i]['datatype']      = 'text';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = $this->getTable();
-        $tab[$i]['field']         = 'scan_options';
-        $tab[$i]['name']          = __('Scan Options', 'armadito');
-        $tab[$i]['datatype']      = 'text';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = 'glpi_plugin_armadito_antiviruses';
-        $tab[$i]['field']         = 'fullname';
-        $tab[$i]['name']          = __('Antivirus', 'armadito');
-        $tab[$i]['datatype']      = 'itemlink';
-        $tab[$i]['itemlink_type'] = 'PluginArmaditoAntivirus';
-        $tab[$i]['massiveaction'] = FALSE;
+        foreach ($items as $key => $item)
+        {
+            $item->setName($key);
+            $tab = $item->getOptions($tab, $i);
+            $i++;
+        }
 
         return $tab;
     }
