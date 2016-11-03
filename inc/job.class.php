@@ -244,61 +244,16 @@ class PluginArmaditoJob extends CommonDBTM
 
     function getSearchOptions()
     {
-        $tab           = array();
-        $tab['common'] = __('Scan', 'armadito');
+        $search_options = new PluginArmaditoSearchoptions('Job');
 
-        $i = 1;
+        $items['Job Id']         = new PluginArmaditoSearchitemlink('id', $this->getTable(), 'PluginArmaditoJob');
+        $items['Agent Id']       = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_agents', 'PluginArmaditoAgent');
+        $items['Job Type']       = new PluginArmaditoSearchtext('job_type', $this->getTable());
+        $items['Job Priority']   = new PluginArmaditoSearchtext('job_priority', $this->getTable());
+        $items['Job Status']     = new PluginArmaditoSearchtext('job_status', $this->getTable());
+        $items['Antivirus']      = new PluginArmaditoSearchitemlink('fullname', 'glpi_plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
 
-        $tab[$i]['table']         = $this->getTable();
-        $tab[$i]['field']         = 'id';
-        $tab[$i]['name']          = __('Job Id', 'armadito');
-        $tab[$i]['datatype']      = 'itemlink';
-        $tab[$i]['itemlink_type'] = 'PluginArmaditoJob';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = 'glpi_plugin_armadito_agents';
-        $tab[$i]['field']         = 'id';
-        $tab[$i]['name']          = __('Agent Id', 'armadito');
-        $tab[$i]['datatype']      = 'itemlink';
-        $tab[$i]['itemlink_type'] = 'PluginArmaditoAgent';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = $this->getTable();
-        $tab[$i]['field']         = 'job_type';
-        $tab[$i]['name']          = __('Job Type', 'armadito');
-        $tab[$i]['datatype']      = 'text';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = $this->getTable();
-        $tab[$i]['field']         = 'job_priority';
-        $tab[$i]['name']          = __('Job Priority', 'armadito');
-        $tab[$i]['datatype']      = 'text';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = $this->getTable();
-        $tab[$i]['field']         = 'job_status';
-        $tab[$i]['name']          = __('Job Status', 'armadito');
-        $tab[$i]['datatype']      = 'text';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = 'glpi_plugin_armadito_antiviruses';
-        $tab[$i]['field']         = 'fullname';
-        $tab[$i]['name']          = __('Antivirus', 'armadito');
-        $tab[$i]['datatype']      = 'itemlink';
-        $tab[$i]['itemlink_type'] = 'PluginArmaditoAntivirus';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        return $tab;
+        return $search_options->get($items);
     }
 
     function toJson()
