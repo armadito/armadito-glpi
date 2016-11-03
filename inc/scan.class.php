@@ -110,94 +110,20 @@ class PluginArmaditoScan extends CommonDBTM
 
     function getSearchOptions()
     {
-        $tab           = array();
-        $tab['common'] = __('Scan', 'armadito');
+        $search_options = new PluginArmaditoSearchoptions('Scan');
 
-        $i = 1;
+        $items['Scan Id']        = new PluginArmaditoSearchitemlink('id', $this->getTable(), 'PluginArmaditoScan');
+        $items['Agent Id']       = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_agents', 'PluginArmaditoAgent');
+        $items['Job Status']     = new PluginArmaditoSearchitemlink('job_status', 'glpi_plugin_armadito_jobs', 'PluginArmaditoJob');
+        $items['Configuration']  = new PluginArmaditoSearchitemlink('scan_name', 'glpi_plugin_armadito_scanconfigs', 'PluginArmaditoScanConfig');
+        $items['Progress']       = new PluginArmaditoSearchtext('progress', $this->getTable());
+        $items['Suspicious']     = new PluginArmaditoSearchtext('suspicious_count', $this->getTable());
+        $items['Malware']        = new PluginArmaditoSearchtext('malware_count', $this->getTable());
+        $items['Scanned']        = new PluginArmaditoSearchtext('scanned_count', $this->getTable());
+        $items['Duration']       = new PluginArmaditoSearchtext('duration', $this->getTable());
+        $items['Antivirus']      = new PluginArmaditoSearchitemlink('fullname', 'glpi_plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
 
-        $tab[$i]['table']         = $this->getTable();
-        $tab[$i]['field']         = 'id';
-        $tab[$i]['name']          = __('Scan Id', 'armadito');
-        $tab[$i]['datatype']      = 'itemlink';
-        $tab[$i]['itemlink_type'] = 'PluginArmaditoScan';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = 'glpi_plugin_armadito_agents';
-        $tab[$i]['field']         = 'id';
-        $tab[$i]['name']          = __('Agent Id', 'armadito');
-        $tab[$i]['datatype']      = 'itemlink';
-        $tab[$i]['itemlink_type'] = 'PluginArmaditoAgent';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = 'glpi_plugin_armadito_jobs';
-        $tab[$i]['field']         = 'job_status';
-        $tab[$i]['name']          = __('Job', 'armadito');
-        $tab[$i]['datatype']      = 'itemlink';
-        $tab[$i]['itemlink_type'] = 'PluginArmaditoJob';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = 'glpi_plugin_armadito_scanconfigs';
-        $tab[$i]['field']         = 'scan_name';
-        $tab[$i]['name']          = __('Configuration', 'armadito');
-        $tab[$i]['datatype']      = 'itemlink';
-        $tab[$i]['itemlink_type'] = 'PluginArmaditoScanConfig';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = $this->getTable();
-        $tab[$i]['field']         = 'progress';
-        $tab[$i]['name']          = __('Progress', 'armadito');
-        $tab[$i]['datatype']      = 'text';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = $this->getTable();
-        $tab[$i]['field']         = 'suspicious_count';
-        $tab[$i]['name']          = __('Suspicious', 'armadito');
-        $tab[$i]['datatype']      = 'text';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = $this->getTable();
-        $tab[$i]['field']         = 'malware_count';
-        $tab[$i]['name']          = __('Malware', 'armadito');
-        $tab[$i]['datatype']      = 'text';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = $this->getTable();
-        $tab[$i]['field']         = 'scanned_count';
-        $tab[$i]['name']          = __('Scanned', 'armadito');
-        $tab[$i]['datatype']      = 'text';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = $this->getTable();
-        $tab[$i]['field']         = 'duration';
-        $tab[$i]['name']          = __('Duration', 'armadito');
-        $tab[$i]['datatype']      = 'text';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = 'glpi_plugin_armadito_antiviruses';
-        $tab[$i]['field']         = 'fullname';
-        $tab[$i]['name']          = __('Antivirus', 'armadito');
-        $tab[$i]['datatype']      = 'itemlink';
-        $tab[$i]['itemlink_type'] = 'PluginArmaditoAntivirus';
-        $tab[$i]['massiveaction'] = FALSE;
-        return $tab;
+        return $search_options->get($items);
     }
 
     function isScaninDB()
