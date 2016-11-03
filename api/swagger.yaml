@@ -6,7 +6,7 @@ info:
     Armadito Plugin for GLPI is accessible to agents by its RESTful API only.
     Thus, all communications between armadito agents and GLPI are described in this document.
     Note that there cannot be any connection initiated by server-side to directly access agents. Also, agents do not need to open any tcp ports of any kind.
-    To execute orders, agents simply check for available jobs periodically by sending a GET request to '''/api/jobs'''.
+    To execute orders, agents simply check for available jobs periodically by sending a GET request to **/api/jobs**.
 
 host: armadito-glpi
 paths:
