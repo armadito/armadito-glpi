@@ -193,19 +193,33 @@ class PluginArmaditoJob extends CommonDBTM
         );
     }
 
-    function updateStatus($status)
+    function updateJobStatus()
     {
-        if ($this->getFromDB($this->getId())) {
-            $input               = array();
-            $input['id']         = $this->getId();
-            $input['job_status'] = $status;
-            if (!$this->update($input)) {
-                PluginArmaditoToolbox::logE("Error when updating job n°" . $this->getId() . " status in DB.");
-                return false;
-            }
-            return true;
+        $error_code = $this->jobj->task->obj->code;
+        $error_msg = $jobj->task->obj->message;
+
+        if ( $error_code == 0) {
+            $this->updateStatus("successful");
         }
-        return false;
+        else {
+            $this->updateStatus("failed");
+            $this->updateJobErrorInDB($error_code, $error_msg);
+        }
+    }
+
+    function updateStatus($newstatus)
+    {
+        if (!$this->getFromDB($this->getId())) {
+            throw new PluginArmaditoDbException("Unable to get job from database.");
+        }
+
+        $input               = array();
+        $input['id']         = $this->getId();
+        $input['job_status'] = $newstatus;
+
+        if (!$this->update($input)) {
+            throw new PluginArmaditoDbException("Error when updating job status in DB.");
+        }
     }
 
     function updateJobErrorInDB($err_code, $err_msg)

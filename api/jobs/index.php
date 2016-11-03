@@ -61,7 +61,7 @@ else if (isValidPOSTRequest($rawdata))
         $jobj = PluginArmaditoToolbox::parseJSON($rawdata);
         $job = new PluginArmaditoJob();
         $job->initFromJson($jobj);
-        $job->updateStatus("successful");
+        $job->updateJobStatus();
 
         writeHttpOKResponse("");
     }
@@ -71,9 +71,6 @@ else if (isValidPOSTRequest($rawdata))
     }
     catch(Exception $e)
     {
-        $job->updateStatus("failed");
-        $job->updateJobErrorInDB($jobj->task->obj->code, $jobj->task->obj->message);
-
         writeHttpErrorResponse($e->getMessage(), 500);
     }
 
