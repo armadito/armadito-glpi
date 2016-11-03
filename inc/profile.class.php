@@ -32,111 +32,26 @@ class PluginArmaditoProfile extends Profile
 
     function getRightsGeneral()
     {
-        return array(
-            array(
-                'rights' => array(
-                    READ => __('Read'),
-                    UPDATE => __('Update')
-                ),
-                'itemtype' => 'PluginArmaditoMenu',
-                'label' => __('Menu', 'armadito'),
-                'field' => 'plugin_armadito_menu'
-            ),
+        $rights_general = array();
 
-            array(
-                'rights' => array(
-                    READ => __('Read'),
-                    UPDATE => __('Update'),
-                    PURGE => __('Purge')
-                ),
-                'itemtype' => 'PluginArmaditoJob',
-                'label' => __('Jobs', 'armadito'),
-                'field' => 'plugin_armadito_jobs'
-            ),
+        $rights['Menu']          = new PluginArmaditoProfileRights('plugin_armadito_menu', 'PluginArmaditoMenu');
+        $rights['Jobs']          = new PluginArmaditoProfileRights('plugin_armadito_jobs', 'PluginArmaditoJob');
+        $rights['States']        = new PluginArmaditoProfileRights('plugin_armadito_states', 'PluginArmaditoState');
+        $rights['Statedetails']  = new PluginArmaditoProfileRights('plugin_armadito_statedetail', 'PluginArmaditoStateDetail');
+        $rights['Alerts']        = new PluginArmaditoProfileRights('plugin_armadito_alerts', 'PluginArmaditoAlert');
+        $rights['Scans']         = new PluginArmaditoProfileRights('plugin_armadito_scans', 'PluginArmaditoScan');
+        $rights['Antiviruses']   = new PluginArmaditoProfileRights('plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
+        $rights['ScanConfigs']   = new PluginArmaditoProfileRights('plugin_armadito_scanconfigs', 'PluginArmaditoScanConfig');
+        $rights['Configuration'] = new PluginArmaditoProfileRights('plugin_armadito_configuration', 'PluginArmaditoConfig');
+        $rights['Agents']        = new PluginArmaditoProfileRights('plugin_armadito_agents', 'PluginArmaditoAgent');
 
-            array(
-                'rights' => array(
-                    READ => __('Read'),
-                    UPDATE => __('Update')
-                ),
-                'itemtype' => 'PluginArmaditoState',
-                'label' => __('States', 'armadito'),
-                'field' => 'plugin_armadito_states'
-            ),
+        foreach( $rights as $label => $profilerights )
+        {
+            $profilerights->setLabel($label);
+            array_push($rights_general, $profilerights->getRights());
+        }
 
-            array(
-                'rights' => array(
-                    READ => __('Read'),
-                    UPDATE => __('Update')
-                ),
-                'itemtype' => 'PluginArmaditoStateDetail',
-                'label' => __('Statedetails', 'armadito'),
-                'field' => 'plugin_armadito_statedetail'
-            ),
-
-            array(
-                'rights' => array(
-                    READ => __('Read'),
-                    UPDATE => __('Update'),
-                    PURGE => __('Purge')
-                ),
-                'itemtype' => 'PluginArmaditoAlert',
-                'label' => __('Alerts', 'armadito'),
-                'field' => 'plugin_armadito_alerts'
-            ),
-
-            array(
-                'rights' => array(
-                    READ => __('Read'),
-                    UPDATE => __('Update'),
-                    PURGE => __('Purge')
-                ),
-                'itemtype' => 'PluginArmaditoScan',
-                'label' => __('Scans', 'armadito'),
-                'field' => 'plugin_armadito_scans'
-            ),
-
-            array(
-                'rights' => array(
-                    READ => __('Read'),
-                    UPDATE => __('Update')
-                ),
-                'itemtype' => 'PluginArmaditoAntivirus',
-                'label' => __('Antiviruses', 'armadito'),
-                'field' => 'plugin_armadito_antiviruses'
-            ),
-
-            array(
-                'rights' => array(
-                    READ => __('Read'),
-                    UPDATE => __('Update'),
-                    PURGE => __('Purge')
-                ),
-                'itemtype' => 'PluginArmaditoScanConfig',
-                'label' => __('Scan configuration', 'armadito'),
-                'field' => 'plugin_armadito_scanconfigs'
-            ),
-
-            array(
-                'rights' => array(
-                    READ => __('Read'),
-                    UPDATE => __('Update')
-                ),
-                'itemtype' => 'PluginArmaditoConfig',
-                'label' => __('Configuration', 'armadito'),
-                'field' => 'plugin_armadito_configuration'
-            ),
-
-            array(
-                'rights' => array(
-                    READ => __('Read'),
-                    UPDATE => __('Update')
-                ),
-                'itemtype' => 'PluginArmaditoAgent',
-                'label' => __('Agents', 'armadito'),
-                'field' => 'plugin_armadito_agents'
-            )
-        );
+        return $rights_general;
     }
 
     function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
