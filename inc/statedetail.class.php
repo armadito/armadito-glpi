@@ -58,50 +58,15 @@ class PluginArmaditoStatedetail extends CommonDBTM
 
     function getSearchOptions()
     {
-        $tab           = array();
-        $tab['common'] = __('StateDetail', 'armadito');
+        $search_options = new PluginArmaditoSearchoptions('StateDetails');
 
-        $i = 1;
+        $items['Agent Id']             = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_agents', 'PluginArmaditoAgent');
+        $items['Module Name']          = new PluginArmaditoSearchtext('module_name', $this->getTable());
+        $items['Module Version']       = new PluginArmaditoSearchtext('module_version', $this->getTable());
+        $items['Module Update Status'] = new PluginArmaditoSearchtext('module_update_status', $this->getTable());
+        $items['Module Last Update']   = new PluginArmaditoSearchtext('module_last_update', $this->getTable());
 
-        $tab[$i]['table']         = $this->getTable();
-        $tab[$i]['field']         = 'plugin_armadito_agents_id';
-        $tab[$i]['name']          = __('Agent Id', 'armadito');
-        $tab[$i]['datatype']      = 'text';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = $this->getTable();
-        $tab[$i]['field']         = 'module_name';
-        $tab[$i]['name']          = __('Module Name', 'armadito');
-        $tab[$i]['datatype']      = 'text';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = $this->getTable();
-        $tab[$i]['field']         = 'module_version';
-        $tab[$i]['name']          = __('Module Version', 'armadito');
-        $tab[$i]['datatype']      = 'text';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = $this->getTable();
-        $tab[$i]['field']         = 'module_update_status';
-        $tab[$i]['name']          = __('Module Update Status', 'armadito');
-        $tab[$i]['datatype']      = 'text';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = $this->getTable();
-        $tab[$i]['field']         = 'module_last_update';
-        $tab[$i]['name']          = __('Module Last Update', 'armadito');
-        $tab[$i]['datatype']      = 'text';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        return $tab;
+        return $search_options->get($items);
     }
 
     function defineTabs($options = array())
