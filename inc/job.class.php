@@ -424,54 +424,18 @@ class PluginArmaditoJob extends CommonDBTM
         $this->initForm($table_id, $options);
         $this->showFormHeader($options);
 
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>" . __('Agent Id', 'armadito') . "&nbsp;:</td>";
-        echo "<td align='left'>";
-        echo "<b>" . htmlspecialchars($this->fields["plugin_armadito_agents_id"]) . "</b>";
-        echo "</td>";
-        echo "</tr>";
+        $rows[] = new PluginArmaditoFormRow('Agent Id', $this->fields["plugin_armadito_agents_id"]);
+        $rows[] = new PluginArmaditoFormRow('Job Id', $this->fields["id"]);
+        $rows[] = new PluginArmaditoFormRow('Job Type', $this->fields["job_type"]);
+        $rows[] = new PluginArmaditoFormRow('Job Priority', $this->fields["job_priority"]);
+        $rows[] = new PluginArmaditoFormRow('Job Status', $this->fields["job_status"]);
+        $rows[] = new PluginArmaditoFormRow('Job Error Code', $this->fields["job_error_code"]);
+        $rows[] = new PluginArmaditoFormRow('Job Error Message', base64_decode($this->fields["job_error_msg"]));
 
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>" . __('Job Id', 'armadito') . "&nbsp;:</td>";
-        echo "<td align='left'>";
-        echo "<b>" . htmlspecialchars($this->fields["id"]) . "</b>";
-        echo "</td>";
-        echo "</tr>";
-
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>" . __('Job Type', 'armadito') . "&nbsp;:</td>";
-        echo "<td align='left'>";
-        echo "<b>" . htmlspecialchars($this->fields["job_type"]) . "</b>";
-        echo "</td>";
-        echo "</tr>";
-
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>" . __('Job Priority', 'armadito') . "&nbsp;:</td>";
-        echo "<td align='left'>";
-        echo htmlspecialchars($this->fields["job_priority"]);
-        echo "</td>";
-        echo "</tr>";
-
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>" . __('Job Status', 'armadito') . "&nbsp;:</td>";
-        echo "<td align='left'>";
-        echo htmlspecialchars($this->fields["job_status"]);
-        echo "</td>";
-        echo "</tr>";
-
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>" . __('Job Error Code', 'armadito') . "&nbsp;:</td>";
-        echo "<td align='left'>";
-        echo htmlspecialchars($this->fields["job_error_code"]);
-        echo "</td>";
-        echo "</tr>";
-
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>" . __('Job Error Message', 'armadito') . "&nbsp;:</td>";
-        echo "<td align='left'>";
-        echo htmlspecialchars(base64_decode($this->fields["job_error_msg"]));
-        echo "</td>";
-        echo "</tr>";
+        foreach( $rows as $row )
+        {
+            $row->write();
+        }
     }
 }
 ?>
