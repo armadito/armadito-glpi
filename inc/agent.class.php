@@ -327,69 +327,17 @@ class PluginArmaditoAgent extends CommonDBTM
 
     function getSearchOptions()
     {
-        $tab           = array();
-        $tab['common'] = __('Agent', 'armadito');
+        $search_options = new PluginArmaditoSearchoptions('Agent');
 
-        $i = 1;
+        $items['Agent Id']         = new PluginArmaditoSearchitemlink('id', $this->getTable(), 'PluginArmaditoAgent');
+        $items['Agent Version']    = new PluginArmaditoSearchtext('agent_version', $this->getTable(), 'PluginArmaditoAgent');
+        $items['Computer']         = new PluginArmaditoSearchitemlink('name', 'glpi_computers', 'Computer');
+        $items['UUID']             = new PluginArmaditoSearchtext('uuid', $this->getTable());
+        $items['Antivirus']        = new PluginArmaditoSearchitemlink('fullname', 'glpi_plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
+        $items['Last Contact']     = new PluginArmaditoSearchtext('last_contact', $this->getTable());
+        $items['Last Alert']       = new PluginArmaditoSearchtext('last_alert', $this->getTable());
 
-        $tab[$i]['table']         = $this->getTable();
-        $tab[$i]['field']         = 'id';
-        $tab[$i]['name']          = __('Agent Id', 'armadito');
-        $tab[$i]['datatype']      = 'itemlink';
-        $tab[$i]['itemlink_type'] = 'PluginArmaditoAgent';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = $this->getTable();
-        $tab[$i]['field']         = 'agent_version';
-        $tab[$i]['name']          = __('Agent Version', 'armadito');
-        $tab[$i]['datatype']      = 'text';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = 'glpi_computers';
-        $tab[$i]['field']         = 'name';
-        $tab[$i]['name']          = __('Computer', 'armadito');
-        $tab[$i]['datatype']      = 'itemlink';
-        $tab[$i]['itemlink_type'] = 'Computer';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = $this->getTable();
-        $tab[$i]['field']         = 'uuid';
-        $tab[$i]['name']          = __('UUID', 'armadito');
-        $tab[$i]['datatype']      = 'text';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = 'glpi_plugin_armadito_antiviruses';
-        $tab[$i]['field']         = 'fullname';
-        $tab[$i]['name']          = __('Antivirus', 'armadito');
-        $tab[$i]['datatype']      = 'itemlink';
-        $tab[$i]['itemlink_type'] = 'PluginArmaditoAntivirus';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = $this->getTable();
-        $tab[$i]['field']         = 'last_contact';
-        $tab[$i]['name']          = __('Last Contact', 'armadito');
-        $tab[$i]['datatype']      = 'text';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = $this->getTable();
-        $tab[$i]['field']         = 'last_alert';
-        $tab[$i]['name']          = __('Last Alert', 'armadito');
-        $tab[$i]['datatype']      = 'text';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        return $tab;
+        return $search_options->get($items);
     }
 
     function getSpecificMassiveActions($checkitem = NULL)
