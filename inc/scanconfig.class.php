@@ -159,8 +159,7 @@ class PluginArmaditoScanConfig extends CommonDBTM
 
     function getSearchOptions()
     {
-        $tab           = array();
-        $tab['common'] = __('ScanConfig', 'armadito');
+        $search_options = new PluginArmaditoSearchoptions('ScanConfig');
 
         $items['Scan Config Id'] = new PluginArmaditoSearchitemlink('id', $this->getTable(), 'PluginArmaditoScanConfig');
         $items['Scan Name']      = new PluginArmaditoSearchtext('scan_name', $this->getTable());
@@ -168,15 +167,7 @@ class PluginArmaditoScanConfig extends CommonDBTM
         $items['Scan Options']   = new PluginArmaditoSearchtext('scan_options', $this->getTable());
         $items['Antivirus']      = new PluginArmaditoSearchitemlink('fullname', 'glpi_plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
 
-        $i = 1;
-        foreach ($items as $key => $item)
-        {
-            $item->setName($key);
-            $tab = $item->getOptions($tab, $i);
-            $i++;
-        }
-
-        return $tab;
+        return $search_options->get($items);
     }
 
     static function getScanConfigsList()
