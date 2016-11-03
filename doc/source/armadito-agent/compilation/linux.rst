@@ -9,9 +9,9 @@ Prerequisites
 * C compiler
 * Perl > 5.8
 
-Ubuntu 
+Ubuntu
 ~~~~~~
-:: 
+::
 
    $ sudo apt-get install libmodule-install-perl
 

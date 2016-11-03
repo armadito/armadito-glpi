@@ -10,10 +10,10 @@ Prerequisites
 
 Modules
 ~~~~~~~
-::   
+::
 
    cpan install inc::Module::Install
-   cpan install -f Authen::Simple 
+   cpan install -f Authen::Simple
 
 .. note:: You might have to **force** Authen::Simple installation due to a known issue  : https://rt.cpan.org/Public/Bug/Display.html?id=100750
 
