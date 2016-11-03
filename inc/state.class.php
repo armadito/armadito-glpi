@@ -93,69 +93,17 @@ class PluginArmaditoState extends CommonDBTM
 
     function getSearchOptions()
     {
-        $tab           = array();
-        $tab['common'] = __('State', 'armadito');
+        $search_options = new PluginArmaditoSearchoptions('State');
 
-        $i = 1;
+        $items['Agent Id']            = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_agents', 'PluginArmaditoAgent');
+        $items['Update Status']       = new PluginArmaditoSearchtext('update_status', $this->getTable());
+        $items['Last Update']         = new PluginArmaditoSearchtext('last_update', $this->getTable());
+        $items['Antivirus']           = new PluginArmaditoSearchitemlink('fullname', 'glpi_plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
+        $items['Antivirus On-access'] = new PluginArmaditoSearchtext('realtime_status', $this->getTable());
+        $items['Antivirus On-demand'] = new PluginArmaditoSearchtext('service_status', $this->getTable());
+        $items['Details']             = new PluginArmaditoSearchitemlink('itemlink', 'glpi_plugin_armadito_statedetails', 'PluginArmaditoStatedetail');
 
-        $tab[$i]['table']         = 'glpi_plugin_armadito_agents';
-        $tab[$i]['field']         = 'id';
-        $tab[$i]['name']          = __('Agent Id', 'armadito');
-        $tab[$i]['datatype']      = 'itemlink';
-        $tab[$i]['itemlink_type'] = 'PluginArmaditoAgent';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = $this->getTable();
-        $tab[$i]['field']         = 'update_status';
-        $tab[$i]['name']          = __('Update Status', 'armadito');
-        $tab[$i]['datatype']      = 'text';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = $this->getTable();
-        $tab[$i]['field']         = 'last_update';
-        $tab[$i]['name']          = __('Last Update', 'armadito');
-        $tab[$i]['datatype']      = 'text';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = 'glpi_plugin_armadito_antiviruses';
-        $tab[$i]['field']         = 'fullname';
-        $tab[$i]['name']          = __('Antivirus', 'armadito');
-        $tab[$i]['datatype']      = 'itemlink';
-        $tab[$i]['itemlink_type'] = 'PluginArmaditoAntivirus';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = $this->getTable();
-        $tab[$i]['field']         = 'realtime_status';
-        $tab[$i]['name']          = __('Antivirus On-access', 'armadito');
-        $tab[$i]['datatype']      = 'text';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = $this->getTable();
-        $tab[$i]['field']         = 'service_status';
-        $tab[$i]['name']          = __('Antivirus Service', 'armadito');
-        $tab[$i]['datatype']      = 'text';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        $i++;
-
-        $tab[$i]['table']         = 'glpi_plugin_armadito_statedetails';
-        $tab[$i]['field']         = 'itemlink';
-        $tab[$i]['name']          = __('Details', 'armadito');
-        $tab[$i]['datatype']      = 'itemlink';
-        $tab[$i]['itemlink_type'] = 'PluginArmaditoStatedetail';
-        $tab[$i]['massiveaction'] = FALSE;
-
-        return $tab;
+        return $search_options->get($items);
     }
 
     function run()
