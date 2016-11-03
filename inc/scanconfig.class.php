@@ -94,7 +94,8 @@ class PluginArmaditoScanConfig extends CommonDBTM
 
         $query = "NewScanConfig";
         $dbmanager->addQuery($query, "INSERT", $this->getTable(), $params);
-        $dbmanager->prepareAndBindQuery($query);
+        $dbmanager->prepareQuery($query);
+        $dbmanager->bindQuery($query);
 
         $this->setCommonQueryValues($dbmanager, $query);
         $dbmanager->executeQuery($query);
@@ -112,7 +113,8 @@ class PluginArmaditoScanConfig extends CommonDBTM
 
         $query = "UpdateScanConfig";
         $dbmanager->addQuery($query, "UPDATE", $this->getTable(), $params, "id");
-        $dbmanager->prepareAndBindQuery($query);
+        $dbmanager->prepareQuery($query);
+        $dbmanager->bindQuery($query);
 
         $dbmanager = $this->setCommonQueryValues($dbmanager, $query);
         $dbmanager->setQueryValue($query, "id", $this->id);
