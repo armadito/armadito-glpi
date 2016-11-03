@@ -51,7 +51,7 @@ if (isset($_GET['agent_id']))
 }
 else if (isValidPOSTRequest($rawdata))
 {
-    PluginArmaditoToolbox::checkPluginInstallation();
+    checkPluginInstallation();
     initGLPISession();
 
     PluginArmaditoLastContactStat::increment();
