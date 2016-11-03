@@ -330,7 +330,7 @@ class PluginArmaditoAgent extends CommonDBTM
         $search_options = new PluginArmaditoSearchoptions('Agent');
 
         $items['Agent Id']         = new PluginArmaditoSearchitemlink('id', $this->getTable(), 'PluginArmaditoAgent');
-        $items['Agent Version']    = new PluginArmaditoSearchtext('agent_version', $this->getTable(), 'PluginArmaditoAgent');
+        $items['Agent Version']    = new PluginArmaditoSearchtext('agent_version', $this->getTable());
         $items['Computer']         = new PluginArmaditoSearchitemlink('name', 'glpi_computers', 'Computer');
         $items['UUID']             = new PluginArmaditoSearchtext('uuid', $this->getTable());
         $items['Antivirus']        = new PluginArmaditoSearchitemlink('fullname', 'glpi_plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
