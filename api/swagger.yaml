@@ -8,25 +8,25 @@ info:
     Note that there cannot be any connection initiated by server-side to directly access agents. Also, agents do not need to open any TCP ports of any kind.
 
     ## POST /api/agents
-    
+
     Agents' enrollments are done by contacting this API. Server then send back to agents their dedicated identifier.
 
-    ## GET /api/jobs    
+    ## GET /api/jobs
 
     To execute orders, agents simply check for available jobs periodically by sending a GET request to **/api/jobs**.
-    
+
     ## POST /api/jobs
 
     After job execution, an agent send job's results to plugin in a POST request.
 
     ## POST /api/scans
 
-    Agents send antivirus scan results by connecting to this API endpoint. 
-    
+    Agents send antivirus scan results by connecting to this API endpoint.
+
     ## POST /api/states
 
     Agents send antiviruses states to this API endpoint. For example, it includes databases updates status for each antivirus.
-    
+
     ## POST /api/alerts
 
     Virus alerts raised by managed antiviruses are send to this API endpoint.
