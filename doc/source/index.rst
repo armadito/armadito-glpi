@@ -23,7 +23,8 @@ This solution can be divided into two subprojects :
    :maxdepth: 2
 
    intro/index.rst
-   compilation/index.rst
+   armadito-agent/index.rst
+   armadito-glpi/index.rst
    api/index.rst
    licensing/index.rst
    screenshots/index.rst
