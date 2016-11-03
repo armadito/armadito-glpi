@@ -24,6 +24,7 @@ This solution can be divided into two subprojects :
 
    intro/index.rst
    compilation/index.rst
+   api/index.rst
    licensing/index.rst
    screenshots/index.rst
 ..   faq/index.rst
