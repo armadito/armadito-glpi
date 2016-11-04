@@ -188,28 +188,14 @@ class PluginArmaditoAntivirus extends PluginArmaditoCommonDBTM
         $this->initForm($table_id, $options);
         $this->showFormHeader($options);
 
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>" . __('Id', 'armadito') . "&nbsp;:</td>";
-        echo "<td align='center'>";
-        echo "<b>" . htmlspecialchars($this->fields["id"]) . "</b>";
-        echo "</td>";
-        echo "<td></td>";
-        echo "</tr>";
+        $rows[] = new PluginArmaditoFormRow('Id', $this->fields["id"]);
+        $rows[] = new PluginArmaditoFormRow('Name', $this->fields["name"]);
+        $rows[] = new PluginArmaditoFormRow('Version', $this->fields["version"]);
 
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>" . __('Name', 'armadito') . "&nbsp;:</td>";
-        echo "<td align='center'>";
-        echo htmlspecialchars($this->fields["name"]);
-        echo "</td>";
-        echo "</tr>";
-
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>" . __('Version', 'armadito') . "&nbsp;:</td>";
-        echo "<td align='center'>";
-        echo htmlspecialchars($this->fields["version"]);
-        echo "</td>";
-        echo "<td></td>";
-        echo "</tr>";
+        foreach( $rows as $row )
+        {
+            $row->write();
+        }
     }
 }
 ?>
