@@ -120,7 +120,6 @@ class PluginArmaditoMenu extends CommonGLPI
         echo "<td align='center'>";
         echo "<table>";
         echo "<tr>";
-        echo "<td>";
     }
 
     static function displayMenuFooter()

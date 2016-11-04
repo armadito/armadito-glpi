@@ -74,7 +74,6 @@ class PluginArmaditoSubMenu
 
     function displayHeader()
     {
-        echo "</td>";
         echo "<td valign='top'>";
         echo "<table class='tab_cadre' style='position: relative; z-index: 30;'
          onMouseOver='document.getElementById(\"menu" . $this->name . "\").style.display=\"block\"'
