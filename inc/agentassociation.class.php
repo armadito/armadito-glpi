@@ -25,70 +25,63 @@ include_once("toolbox.class.php");
 
 class PluginArmaditoAgentAssociation
 {
-    static function getAgentIdForComputerId($computers_id)
+    protected $uuid;
+    protected $computerid;
+    protected $agentid;
+
+    function __construct($uuid = "")
     {
-        global $DB;
-
-        PluginArmaditoToolbox::validateInt($computers_id);
-
-        $query = "SELECT id FROM `glpi_plugin_armadito_agents`
-                WHERE `computers_id`='" . $computers_id . "'";
-        $ret   = $DB->query($query);
-
-        if (!$ret) {
-            throw new InvalidArgumentException(sprintf('Error getAgentIdForComputerId : %s', $DB->error()));
-        }
-
-        if ($DB->numrows($ret) > 0) {
-            $data     = $DB->fetch_assoc($ret);
-            return PluginArmaditoToolbox::validateInt($data["id"]);
-        }
-
-        return -1;
+        $this->uuid = PluginArmaditoToolbox::validateInt($uuid);
+        $this->agentid = -1;
+        $this->computerid = -1;
     }
 
-    static function getAgentIdForUUID($uuid)
+    function setComputerId($computerid)
     {
-        global $DB;
-
-        PluginArmaditoToolbox::validateUUID($uuid);
-
-        $query = "SELECT id FROM `glpi_plugin_armadito_agents`
-                WHERE `uuid`='" . $uuid . "'";
-        $ret   = $DB->query($query);
-
-        if (!$ret) {
-            throw new InvalidArgumentException(sprintf('Error getAgentIdForUUID : %s', $DB->error()));
-        }
-
-        if ($DB->numrows($ret) > 0) {
-            $data     = $DB->fetch_assoc($ret);
-            return PluginArmaditoToolbox::validateInt($data["id"]);
-        }
-
-        return -1;
+        $this->computerid = PluginArmaditoToolbox::validateInt($computerid);
     }
 
-    static function getComputerIdForUUID($uuid)
+    function setAgentId($agentid)
+    {
+        $this->agentid = PluginArmaditoToolbox::validateInt($agentid);
+    }
+
+    function getAgentIdFromDB()
+    {
+        $table = "glpi_plugin_armadito_agents";
+
+        if ($this->computerid > 0)
+        {
+            return $this->getTableId($table, "computers_id", $this->computerid);
+        }
+
+        return $this->getTableId($table, "uuid", $this->uuid);
+    }
+
+    function getComputerIdFromDB()
+    {
+        $table = "glpi_computers";
+
+        return $this->getTableId($table, "uuid", $this->uuid);
+    }
+
+    protected function getTableId( $table, $where_label, $where_value )
     {
         global $DB;
 
-        PluginArmaditoToolbox::validateUUID($uuid);
-
-        $query = "SELECT id FROM `glpi_computers`
-                WHERE `uuid`='". $uuid . "'";
+        $query = "SELECT id FROM `".$table."`
+                WHERE `". $where_label ."`='". $where_value ."'";
         $ret   = $DB->query($query);
 
         if (!$ret) {
-            throw new InvalidArgumentException(sprintf('Error getComputerIdForUUID : %s', $DB->error()));
+            throw new InvalidArgumentException(sprintf('Error getTableId : %s', $DB->error()));
         }
 
         if ($DB->numrows($ret) > 0) {
             $data     = $DB->fetch_assoc($ret);
-            return PluginArmaditoToolbox::validateInt($data["id"]);
+            return $data["id"];
         }
-
-        return -1;
+        return -1; 
     }
 
     static function FusionInventoryHook($params = array())
@@ -98,28 +91,31 @@ class PluginArmaditoAgentAssociation
          && !empty($params['inventory_data'])) {
 
              $uuid = $params['inventory_data']['Computer']['uuid'];
-             $agent_id = PluginArmaditoAgentAssociation::getAgentIdForUUID($uuid);
 
-             if($agent_id > 0)
+             $association = new PluginArmaditoAgentAssociation($uuid);
+             $agent_id = $association->getAgentIdFromDB();
+
+             if ($agent_id > 0)
              {
-                $computers_id = PluginArmaditoToolbox::validateInt($params['computers_id']);
-                PluginArmaditoAgentAssociation::withComputer($agent_id, $computers_id);
+                $association->setAgentId($agent_id);
+                $association->setComputerId($params['computers_id']);
+                $association->run();
              }
         }
     }
 
-    static function withComputer( $agent_id, $computers_id )
+    function run()
     {
-            $pfAgent = new PluginArmaditoAgent();
+        $paAgent = new PluginArmaditoAgent();
 
-            if ($pfAgent->getFromDB($agent_id))
-            {
-                $input                = array();
-                $input['id']          = $agent_id;
-                $input['computers_id'] = $computers_id;
+        if ($paAgent->getFromDB($this->agentid))
+        {
+            $input                 = array();
+            $input['id']           = $this->agentid;
+            $input['computers_id'] = $this->computerid;
 
-                return $pfAgent->update($input);
-            }
+            return $paAgent->update($input);
+        }
     }
 }
 

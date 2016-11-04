@@ -36,7 +36,9 @@ class PluginArmaditoAgent extends PluginArmaditoCommonDBTM
         $this->jobj      = $jobj;
         $this->antivirus = new PluginArmaditoAntivirus();
         $this->antivirus->initFromJson($jobj);
-        $this->computerid = PluginArmaditoAgentAssociation::getComputerIdForUUID($this->jobj->uuid);
+
+        $association = new PluginArmaditoAgentAssociation($this->jobj->uuid);
+        $this->computerid = $association->getComputerId();
     }
 
     function initFromDB($agent_id)
@@ -245,7 +247,9 @@ class PluginArmaditoAgent extends PluginArmaditoCommonDBTM
         try
         {
             if($item->getType() == "Computer") {
-                $agent_id = PluginArmaditoAgent::getAgentIdForComputerId($key);
+                $association = new PluginArmaditoAgentAssociation();
+                $association->setComputerId($key);
+                $agent_id = $association->getAgentId();
             }
 
             $job = new PluginArmaditoJob();
