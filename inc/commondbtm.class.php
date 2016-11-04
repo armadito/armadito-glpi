@@ -39,7 +39,7 @@ class PluginArmaditoCommonDBTM extends CommonDBTM
 
     static function canCreate()
     {
-        if(self::getProfileRights() == 'w')
+        if(static::getProfileRights() == 'w')
         {
             return true;
         }
@@ -49,7 +49,7 @@ class PluginArmaditoCommonDBTM extends CommonDBTM
 
     static function canView()
     {
-        if(self::getProfileRights() == 'w' || self::getProfileRights() == 'r')
+        if(static::getProfileRights() == 'w' || static::getProfileRights() == 'r')
         {
             return true;
         }
