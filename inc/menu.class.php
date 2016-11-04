@@ -134,9 +134,9 @@ class PluginArmaditoMenu extends CommonGLPI
         echo "</div><br/><br/><br/>";
     }
 
-    static function displayGeneralMenu($type = "big")
+    static function displayGeneralMenu()
     {
-        $submenu = new PluginArmaditoSubMenu('General', $type, $width_status);
+        $submenu = new PluginArmaditoSubMenu('General', $width_status);
 
         if (Session::haveRight('plugin_armadito_agents', READ))
         {
@@ -154,9 +154,9 @@ class PluginArmaditoMenu extends CommonGLPI
         $submenu->display();
     }
 
-    static function displayStateMenu($type = "big")
+    static function displayStateMenu()
     {
-        $submenu = new PluginArmaditoSubMenu('State', $type, $width_status);
+        $submenu = new PluginArmaditoSubMenu('State', $width_status);
 
         if (Session::haveRight('plugin_armadito_states', READ))
         {
@@ -168,9 +168,9 @@ class PluginArmaditoMenu extends CommonGLPI
         $submenu->display();
     }
 
-    static function displayAlertsMenu($type = "big")
+    static function displayAlertsMenu()
     {
-        $submenu = new PluginArmaditoSubMenu('Alerts', $type, $width_status);
+        $submenu = new PluginArmaditoSubMenu('Alerts', $width_status);
 
         if (Session::haveRight('plugin_armadito_alerts', READ))
         {
@@ -182,9 +182,9 @@ class PluginArmaditoMenu extends CommonGLPI
         $submenu->display();
     }
 
-    static function displayScansMenu($type = "big")
+    static function displayScansMenu()
     {
-        $submenu = new PluginArmaditoSubMenu('Scans', $type, $width_status);
+        $submenu = new PluginArmaditoSubMenu('Scans', $width_status);
 
         if (Session::haveRight('plugin_armadito_scans', READ))
         {
@@ -201,9 +201,9 @@ class PluginArmaditoMenu extends CommonGLPI
         $submenu->display();
     }
 
-    static function displayJobsMenu($type = "big")
+    static function displayJobsMenu()
     {
-        $submenu = new PluginArmaditoSubMenu('Jobs', $type, $width_status);
+        $submenu = new PluginArmaditoSubMenu('Jobs', $width_status);
 
         if (Session::haveRight('plugin_armadito_jobs', READ))
         {
@@ -216,7 +216,7 @@ class PluginArmaditoMenu extends CommonGLPI
     }
 
 
-    static function displayMenu($type = "big")
+    static function displayMenu()
     {
         self::displayMenuHeader();
         self::displayGeneralMenu();
@@ -227,7 +227,7 @@ class PluginArmaditoMenu extends CommonGLPI
         self::displayMenuFooter();
     }
 
-    static function htmlMenu($menu_name, $a_menu = array(), $type = "big", $width_status = '300')
+    static function htmlMenu($menu_name, $a_menu = array(), $width_status = '300')
     {
         global $CFG_GLPI;
 

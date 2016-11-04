@@ -29,14 +29,12 @@ if (!defined('GLPI_ROOT')) {
 class PluginArmaditoSubMenu
 {
     protected $name;
-    protected $type;
     protected $width_status;
     protected $entries;
 
-    function __construct($name, $type, $width_status)
+    function __construct($name, $width_status)
     {
         $this->name = $name;
-        $this->type = $type;
         $this->width_status = $width_status;
         $this->entries = array();
     }
@@ -57,7 +55,7 @@ class PluginArmaditoSubMenu
     function display()
     {
         if (!empty($this->entries)) {
-            $width_status = PluginArmaditoMenu::htmlMenu(__($this->name, 'armadito'), $this->entries, $this->type, $this->width_status);
+            $width_status = PluginArmaditoMenu::htmlMenu(__($this->name, 'armadito'), $this->entries, $this->width_status);
         }
     }
 }
