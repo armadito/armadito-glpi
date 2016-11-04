@@ -218,54 +218,13 @@ class PluginArmaditoMenu extends CommonGLPI
 
     static function displayMenu()
     {
-        self::displayMenuHeader();
-        self::displayGeneralMenu();
-        self::displayStateMenu();
-        self::displayAlertsMenu();
-        self::displayScansMenu();
-        self::displayJobsMenu();
-        self::displayMenuFooter();
-    }
-
-    static function htmlMenu($menu_name, $a_menu = array())
-    {
-        global $CFG_GLPI;
-
-        $width = 180;
-
-        echo "</td>";
-        echo "<td valign='top'>";
-        echo "<table class='tab_cadre' style='position: relative; z-index: 30;'
-         onMouseOver='document.getElementById(\"menu" . $menu_name . "\").style.display=\"block\"'
-         onMouseOut='document.getElementById(\"menu" . $menu_name . "\").style.display=\"none\"'>";
-
-        echo "<tr>";
-        echo "<th colspan='" . count($a_menu) . "' nowrap width='" . $width . "'>
-         <img src='" . $CFG_GLPI["root_doc"] . "/pics/deplier_down.png' />
-         &nbsp;" . str_replace("Armadito ", "", $menu_name) . "&nbsp;
-         <img src='" . $CFG_GLPI["root_doc"] . "/pics/deplier_down.png' />
-      </th>";
-        echo "</tr>";
-
-        echo "<tr class='tab_bg_1' id='menu" . $menu_name . "' style='display:none; position: relative; z-index: 30;'>";
-        echo "<td>";
-        echo "<table>";
-        foreach ($a_menu as $menu_id) {
-            echo "<tr>";
-            $menu_id['pic'] = str_replace("/menu_", "/menu_mini_", $menu_id['pic']);
-            echo "<th>";
-            if (!empty($menu_id['pic'])) {
-                echo "<img src='" . $menu_id['pic'] . "' width='16' height='16'/>";
-            }
-            echo "</th>";
-            echo "<th colspan='" . (count($a_menu) - 1) . "' width='" . ($width - 40) . "' style='text-align: left'>
-                  <a href='" . $menu_id['link'] . "'>" . $menu_id['name'] . "</a></th>";
-            echo "</tr>";
-        }
-        echo "</table>";
-        echo "</td>";
-        echo "</tr>";
-        echo "</table>";
+        static::displayMenuHeader();
+        static::displayGeneralMenu();
+        static::displayStateMenu();
+        static::displayAlertsMenu();
+        static::displayScansMenu();
+        static::displayJobsMenu();
+        static::displayMenuFooter();
     }
 }
 
