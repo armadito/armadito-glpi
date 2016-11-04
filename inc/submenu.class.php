@@ -46,7 +46,7 @@ class PluginArmaditoSubMenu
         foreach( $menu_entries as $entry )
         {
             $this->addEntry($entry);
-        }   
+        }
     }
 
     function addEntry($menu_entry)
