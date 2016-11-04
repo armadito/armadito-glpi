@@ -49,27 +49,38 @@ class PluginArmaditoSubMenu
 
     function addEntry($menu_entry)
     {
-        array_push($this->entries, $menu_entry->get());
+        array_push($this->entries, $menu_entry);
     }
 
     function display()
     {
         if (!empty($this->entries)) {
-            $this->htmlMenu();
+            $this->displayHeader();
+            $this->displayEntries();
+            $this->displayFooter();
         }
     }
 
-    function htmlMenu()
+    function displayEntries()
+    {
+        $colspan = count($this->entries) - 1;
+        $width = ($this->width - 40);
+
+        foreach ($this->entries as $entry)
+        {
+            $entry->display($colspan, $width);
+        }
+    }
+
+    function displayHeader()
     {
         global $CFG_GLPI;
-        $width = 180;
 
         echo "</td>";
         echo "<td valign='top'>";
         echo "<table class='tab_cadre' style='position: relative; z-index: 30;'
          onMouseOver='document.getElementById(\"menu" . $this->name . "\").style.display=\"block\"'
          onMouseOut='document.getElementById(\"menu" . $this->name . "\").style.display=\"none\"'>";
-
         echo "<tr>";
         echo "<th colspan='" . count($this->entries) . "' nowrap width='" . $this->width . "'>
          <img src='" . $CFG_GLPI["root_doc"] . "/pics/deplier_down.png' />
@@ -81,24 +92,13 @@ class PluginArmaditoSubMenu
         echo "<tr class='tab_bg_1' id='menu" . $this->name . "' style='display:none; position: relative; z-index: 30;'>";
         echo "<td>";
         echo "<table>";
+    }
 
-        foreach ($this->entries as $menu_id) {
-            echo "<tr>";
-            $menu_id['pic'] = str_replace("/menu_", "/menu_mini_", $menu_id['pic']);
-            echo "<th>";
-            if (!empty($menu_id['pic'])) {
-                echo "<img src='" . $menu_id['pic'] . "' width='16' height='16'/>";
-            }
-            echo "</th>";
-            echo "<th colspan='" . (count($this->entries) - 1) . "' width='" . ($this->width - 40) . "' style='text-align: left'>
-                  <a href='" . $menu_id['link'] . "'>" . $menu_id['name'] . "</a></th>";
-            echo "</tr>";
-        }
-
+    function displayFooter()
+    {
         echo "</table>";
         echo "</td>";
         echo "</tr>";
         echo "</table>";
     }
-
 }

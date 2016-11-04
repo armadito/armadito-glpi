@@ -34,23 +34,25 @@ class PluginArmaditoMenuEntry extends CommonGLPI
 
     function __construct($name, $pic, $link)
     {
-        $this->name = $name;
-        $this->pic = $pic;
-        $this->link = $link;
-    }
-
-    function get()
-    {
-        return array(
-                'name' => __($this->name, 'armadito'),
-                'pic'  => $this->getPluginPath() . "/pics/" . $this->pic,
-                'link' => $this->getPluginPath() . "/front/". $this->link
-            );
+        $this->name = __($name, 'armadito');
+        $this->pic = $this->getPluginPath() . "/pics/" . $pic;
+        $this->link = $this->getPluginPath() . "/front/". $link;
     }
 
     function getPluginPath()
     {
         global $CFG_GLPI;
         return $CFG_GLPI['root_doc'] . "/plugins/armadito";
+    }
+
+    function display ($colspan, $width)
+    {
+        echo "<tr>";
+        echo "<th>";
+        echo "<img src='". $this->pic ."' width='16' height='16'/>";
+        echo "</th>";
+        echo "<th colspan='". $colspan ."' width='". $width ."' style='text-align: left'>";
+        echo "<a href='".  $this->link ."'>". $this->name ."</a></th>";
+        echo "</tr>";
     }
 }
