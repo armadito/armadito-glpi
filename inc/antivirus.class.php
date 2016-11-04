@@ -38,14 +38,9 @@ class PluginArmaditoAntivirus extends PluginArmaditoCommonDBTM
         return $this->id;
     }
 
-    function getAVName()
+    function getFullName()
     {
-        return $this->name;
-    }
-
-    function getAVVersion()
-    {
-        return $this->version;
+        return $this->fullname;
     }
 
     function initFromJson($jobj_)
