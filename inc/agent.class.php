@@ -418,8 +418,8 @@ class PluginArmaditoAgent extends PluginArmaditoCommonDBTM
         $this->initForm($table_id, $options);
         $this->showFormHeader($options);
 
-        $rows[] = new PluginArmaditoFormRow('Agent Id', $this->fields["id"]);
-        $rows[] = new PluginArmaditoFormRow('Agent Version', $this->fields["agent_version"]);
+        $rows[] = new PluginArmaditoFormRow('Id', $this->fields["id"]);
+        $rows[] = new PluginArmaditoFormRow('Version', $this->fields["agent_version"]);
         $rows[] = new PluginArmaditoFormRow('UUID', $this->fields["uuid"]);
         $rows[] = new PluginArmaditoFormRow('Last Contact', $this->fields["last_contact"]);
         $rows[] = new PluginArmaditoFormRow('Last Alert', $this->fields["last_alert"]);
