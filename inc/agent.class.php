@@ -36,7 +36,7 @@ class PluginArmaditoAgent extends PluginArmaditoCommonDBTM
         $this->jobj      = $jobj;
         $this->antivirus = new PluginArmaditoAntivirus();
         $this->antivirus->initFromJson($jobj);
-        $this->computerid = PluginArmaditoAgent::getComputerIdForUUID($this->jobj->uuid);
+        $this->computerid = PluginArmaditoAgentAssociation::getComputerIdForUUID($this->jobj->uuid);
     }
 
     function initFromDB($agent_id)
@@ -76,103 +76,6 @@ class PluginArmaditoAgent extends PluginArmaditoCommonDBTM
     function toJson()
     {
         return '{"agent_id": ' . $this->id . '}';
-    }
-
-    static function getAgentIdForComputerId($computers_id)
-    {
-        global $DB;
-
-        PluginArmaditoToolbox::validateInt($computers_id);
-
-        $query = "SELECT id FROM `glpi_plugin_armadito_agents`
-                WHERE `computers_id`='" . $computers_id . "'";
-        $ret   = $DB->query($query);
-
-        if (!$ret) {
-            throw new InvalidArgumentException(sprintf('Error getAgentIdForComputerId : %s', $DB->error()));
-        }
-
-        if ($DB->numrows($ret) > 0) {
-            $data     = $DB->fetch_assoc($ret);
-            return PluginArmaditoToolbox::validateInt($data["id"]);
-        }
-
-        return -1;
-    }
-
-    static function getAgentIdForUUID($uuid)
-    {
-        global $DB;
-
-        PluginArmaditoToolbox::validateUUID($uuid);
-
-        $query = "SELECT id FROM `glpi_plugin_armadito_agents`
-                WHERE `uuid`='" . $uuid . "'";
-        $ret   = $DB->query($query);
-
-        if (!$ret) {
-            throw new InvalidArgumentException(sprintf('Error getAgentIdForUUID : %s', $DB->error()));
-        }
-
-        if ($DB->numrows($ret) > 0) {
-            $data     = $DB->fetch_assoc($ret);
-            return PluginArmaditoToolbox::validateInt($data["id"]);
-        }
-
-        return -1;
-    }
-
-    static function getComputerIdForUUID($uuid)
-    {
-        global $DB;
-
-        PluginArmaditoToolbox::validateUUID($uuid);
-
-        $query = "SELECT id FROM `glpi_computers`
-                WHERE `uuid`='". $uuid . "'";
-        $ret   = $DB->query($query);
-
-        if (!$ret) {
-            throw new InvalidArgumentException(sprintf('Error getComputerIdForUUID : %s', $DB->error()));
-        }
-
-        if ($DB->numrows($ret) > 0) {
-            $data     = $DB->fetch_assoc($ret);
-            return PluginArmaditoToolbox::validateInt($data["id"]);
-        }
-
-        return -1;
-    }
-
-    static function FusionInventoryHook($params = array())
-    {
-        if (!empty($params)
-         && isset($params['inventory_data'])
-         && !empty($params['inventory_data'])) {
-
-             $uuid = $params['inventory_data']['Computer']['uuid'];
-             $agent_id = PluginArmaditoAgent::getAgentIdForUUID($uuid);
-
-             if($agent_id > 0)
-             {
-                $computers_id = PluginArmaditoToolbox::validateInt($params['computers_id']);
-                PluginArmaditoAgent::associateAgentWithComputer($agent_id, $computers_id);
-             }
-        }
-    }
-
-    static function associateAgentWithComputer( $agent_id, $computers_id )
-    {
-            $pfAgent = new PluginArmaditoAgent();
-
-            if ($pfAgent->getFromDB($agent_id))
-            {
-                $input                = array();
-                $input['id']          = $agent_id;
-                $input['computers_id'] = $computers_id;
-
-                return $pfAgent->update($input);
-            }
     }
 
     function run()

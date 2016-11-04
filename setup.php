@@ -82,7 +82,7 @@ function plugin_init_armadito()
         }
 
         $PLUGIN_HOOKS['fusioninventory_inventory']['armadito']
-         = array('PluginArmaditoAgent', 'FusionInventoryHook');
+         = array('PluginArmaditoAgentAssociation', 'FusionInventoryHook');
     }
 }
 
