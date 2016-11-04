@@ -59,7 +59,6 @@ class PluginArmaditoStatedetail extends PluginArmaditoCommonDBTM
 
     function showForm($table_id, $options = array())
     {
-
         PluginArmaditoToolbox::validateInt($table_id);
 
         $this->initForm($table_id, $options);
@@ -73,40 +72,16 @@ class PluginArmaditoStatedetail extends PluginArmaditoCommonDBTM
         $agent     = $state->getAgent();
         $antivirus = $agent->getAntivirus();
 
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>" . __('Id') . " :</td>";
-        echo "<td align='center'>";
-        echo "<b>" . htmlspecialchars($this->fields["id"]) . "</b>";
-        echo "</td>";
-        echo "<td>" . __('Agent Id', 'armadito') . "&nbsp;:</td>";
-        echo "<td align='center'>";
-        echo "<b>" . htmlspecialchars($this->fields["plugin_armadito_agents_id"]) . "</b>";
-        echo "</td>";
-        echo "</tr>";
+        $rows[] = new PluginArmaditoFormRow('Id', $this->fields["id"]);
+        $rows[] = new PluginArmaditoFormRow('Agent Id', $this->fields["plugin_armadito_agents_id"]);
+        $rows[] = new PluginArmaditoFormRow('Antivirus', $antivirus->getFullName());
+        $rows[] = new PluginArmaditoFormRow('Antivirus On-access', $state->fields["realtime_status"]);
+        $rows[] = new PluginArmaditoFormRow('Antivirus Service', $state->fields["service_status"]);
 
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>" . __('Antivirus Name', 'armadito') . " :</td>";
-        echo "<td align='center'>";
-        echo "<b>" . htmlspecialchars($antivirus->getAVName()) . "</b>";
-        echo "</td>";
-
-        echo "<td>" . __('Antivirus Version', 'armadito') . "&nbsp;:</td>";
-        echo "<td align='center'>";
-        echo "" . htmlspecialchars($antivirus->getAVVersion()) . "";
-        echo "</td>";
-        echo "</tr>";
-
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>" . __('Antivirus On-access', 'armadito') . " :</td>";
-        echo "<td align='center'>";
-        echo "" . htmlspecialchars($state->fields["realtime_status"]) . "";
-        echo "</td>";
-
-        echo "<td>" . __('Antivirus Service', 'armadito') . "&nbsp;:</td>";
-        echo "<td align='center'>";
-        echo "" . htmlspecialchars($state->fields["service_status"]) . "";
-        echo "</td>";
-        echo "</tr>";
+        foreach( $rows as $row )
+        {
+            $row->write();
+        }
     }
 }
 ?>
