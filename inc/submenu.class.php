@@ -74,22 +74,21 @@ class PluginArmaditoSubMenu
 
     function displayHeader()
     {
-        global $CFG_GLPI;
-
         echo "</td>";
         echo "<td valign='top'>";
         echo "<table class='tab_cadre' style='position: relative; z-index: 30;'
          onMouseOver='document.getElementById(\"menu" . $this->name . "\").style.display=\"block\"'
          onMouseOut='document.getElementById(\"menu" . $this->name . "\").style.display=\"none\"'>";
+
         echo "<tr>";
-        echo "<th colspan='" . count($this->entries) . "' nowrap width='" . $this->width . "'>
-         <img src='" . $CFG_GLPI["root_doc"] . "/pics/deplier_down.png' />
-         &nbsp;" . str_replace("Armadito ", "", $this->name) . "&nbsp;
-         <img src='" . $CFG_GLPI["root_doc"] . "/pics/deplier_down.png' />
-      </th>";
+        echo "<th colspan='" . count($this->entries) . "' nowrap width='" . $this->width . "'>";
+        $this->displayDeplierDown();
+        echo "&nbsp;". $this->name ."&nbsp;";
+        $this->displayDeplierDown();
+        echo "</th>";
         echo "</tr>";
 
-        echo "<tr class='tab_bg_1' id='menu" . $this->name . "' style='display:none; position: relative; z-index: 30;'>";
+        echo "<tr class='tab_bg_1' id='menu". $this->name ."' style='display:none; position: relative; z-index: 30;'>";
         echo "<td>";
         echo "<table>";
     }
@@ -100,5 +99,11 @@ class PluginArmaditoSubMenu
         echo "</td>";
         echo "</tr>";
         echo "</table>";
+    }
+
+    function displayDeplierDown()
+    {
+        global $CFG_GLPI;
+        echo "<img src='" . $CFG_GLPI["root_doc"] . "/pics/deplier_down.png' />";
     }
 }

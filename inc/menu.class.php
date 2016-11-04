@@ -131,7 +131,8 @@ class PluginArmaditoMenu extends CommonGLPI
         echo "</td>";
         echo "</tr>";
         echo "</table>";
-        echo "</div><br/><br/><br/>";
+        echo "</div>";
+        echo "<br/><br/><br/>";
     }
 
     static function displayGeneralMenu()
@@ -161,7 +162,7 @@ class PluginArmaditoMenu extends CommonGLPI
         if (Session::haveRight('plugin_armadito_states', READ))
         {
             $menu_entries[] = new PluginArmaditoMenuEntry('Board', 'menu_mini_stats.png', 'stateboard.php');
-            $menu_entries[] = new PluginArmaditoMenuEntry('States', 'menu_mini_isting.png', 'state.php');
+            $menu_entries[] = new PluginArmaditoMenuEntry('States', 'menu_mini_listing.png', 'state.php');
         }
 
         $submenu->addEntries($menu_entries);

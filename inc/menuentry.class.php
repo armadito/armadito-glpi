@@ -45,14 +45,15 @@ class PluginArmaditoMenuEntry extends CommonGLPI
         return $CFG_GLPI['root_doc'] . "/plugins/armadito";
     }
 
-    function display ($colspan, $width)
+    function display ($colspan, $submenu_width)
     {
         echo "<tr>";
         echo "<th>";
         echo "<img src='". $this->pic ."' width='16' height='16'/>";
         echo "</th>";
-        echo "<th colspan='". $colspan ."' width='". $width ."' style='text-align: left'>";
-        echo "<a href='".  $this->link ."'>". $this->name ."</a></th>";
+        echo "<th colspan='". $colspan ."' width='". $submenu_width ."' style='text-align: left'>";
+        echo "<a href='".  $this->link ."'>". $this->name ."</a>";
+        echo "</th>";
         echo "</tr>";
     }
 }
