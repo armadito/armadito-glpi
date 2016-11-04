@@ -26,7 +26,7 @@ if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
-class PluginArmaditoState extends CommonDBTM
+class PluginArmaditoState extends PluginArmaditoCommonDBTM
 {
     protected $id;
     protected $agentid;
@@ -38,10 +38,6 @@ class PluginArmaditoState extends CommonDBTM
     static function getTypeName($nb = 0)
     {
         return __('State', 'armadito');
-    }
-
-    function __construct()
-    {
     }
 
     function initFromJson($jobj)

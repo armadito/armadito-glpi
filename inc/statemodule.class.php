@@ -26,15 +26,11 @@ if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
-class PluginArmaditoStateModule extends CommonDBTM
+class PluginArmaditoStateModule extends PluginArmaditoCommonDBTM
 {
     protected $jobj;
     protected $state_jobj;
     protected $agentid;
-
-    function __construct()
-    {
-    }
 
     function init($agent_id, $state_jobj, $jobj)
     {

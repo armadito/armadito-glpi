@@ -26,7 +26,7 @@ if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
-class PluginArmaditoJob extends CommonDBTM
+class PluginArmaditoJob extends PluginArmaditoCommonDBTM
 {
     protected $id;
     protected $obj;
@@ -37,15 +37,6 @@ class PluginArmaditoJob extends CommonDBTM
     protected $agent;
 
     static $rightname = 'plugin_armadito_jobs';
-
-    function __construct()
-    {
-        $this->type     = -1;
-        $this->priority = -1;
-        $this->id       = -1;
-        $this->obj      = "";
-        $this->agentid  = -1;
-    }
 
     function initFromForm($key, $type, $POST)
     {
@@ -96,27 +87,6 @@ class PluginArmaditoJob extends CommonDBTM
     static function getTypeName($nb = 0)
     {
         return __('Job', 'armadito');
-    }
-
-    static function canDelete()
-    {
-        return true;
-    }
-
-    static function canCreate()
-    {
-        if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
-            return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w');
-        }
-        return false;
-    }
-
-    static function canView()
-    {
-        if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
-            return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w' || $_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'r');
-        }
-        return false;
     }
 
     function initObjFromForm($key, $type, $POST)
@@ -363,7 +333,6 @@ class PluginArmaditoJob extends CommonDBTM
             'name' => 'massiveaction'
         ));
     }
-
 
     function defineTabs($options = array())
     {

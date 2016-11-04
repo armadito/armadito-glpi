@@ -26,34 +26,11 @@ if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
-class PluginArmaditoStatedetail extends CommonDBTM
+class PluginArmaditoStatedetail extends PluginArmaditoCommonDBTM
 {
-
-    function __construct()
-    {
-    }
-
     static function getTypeName($nb = 0)
     {
         return __('Antivirus State', 'armadito');
-    }
-
-    static function canCreate()
-    {
-
-        if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
-            return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w');
-        }
-        return false;
-    }
-
-    static function canView()
-    {
-
-        if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
-            return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w' || $_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'r');
-        }
-        return false;
     }
 
     function getSearchOptions()

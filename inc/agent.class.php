@@ -23,16 +23,12 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 
 include_once("toolbox.class.php");
 
-class PluginArmaditoAgent extends CommonDBTM
+class PluginArmaditoAgent extends PluginArmaditoCommonDBTM
 {
     protected $id;
     protected $jobj;
     protected $antivirus;
     protected $computerid;
-
-    function __construct()
-    {
-    }
 
     function initFromJson($jobj)
     {
@@ -279,22 +275,6 @@ class PluginArmaditoAgent extends CommonDBTM
         return __('Agent', 'armadito');
     }
 
-    static function canCreate()
-    {
-        if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
-            return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w');
-        }
-        return false;
-    }
-
-    static function canView()
-    {
-        if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
-            return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w' || $_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'r');
-        }
-        return false;
-    }
-
     static function getMenuName()
     {
         return __('Armadito');
@@ -359,16 +339,20 @@ class PluginArmaditoAgent extends CommonDBTM
     {
         $agent_id = $key;
 
-        if($item->getType() == "Computer") {
-            $agent_id = PluginArmaditoAgent::getAgentIdForComputerId($key);
-        }
+        try
+        {
+            if($item->getType() == "Computer") {
+                $agent_id = PluginArmaditoAgent::getAgentIdForComputerId($key);
+            }
 
-        $job = new PluginArmaditoJob();
-        $job->initFromForm($agent_id, "Scan", $_POST);
-
-        if ($job->addJob()) {
+            $job = new PluginArmaditoJob();
+            $job->initFromForm($agent_id, "Scan", $_POST);
+            $job->addJob();
             $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_OK);
-        } else {
+        }
+        catch(Exception $e)
+        {
+            PluginArmaditoToolbox::logE($e->getMessage());
             $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_KO);
         }
     }

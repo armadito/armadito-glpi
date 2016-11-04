@@ -26,7 +26,7 @@ if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
-class PluginArmaditoScanConfig extends CommonDBTM
+class PluginArmaditoScanConfig extends PluginArmaditoCommonDBTM
 {
 
     protected $id;
@@ -36,10 +36,6 @@ class PluginArmaditoScanConfig extends CommonDBTM
     protected $antivirus_id;
 
     static $rightname = 'plugin_armadito_scanconfigs';
-
-    function __construct()
-    {
-    }
 
     function initFromForm($POST)
     {
@@ -128,27 +124,6 @@ class PluginArmaditoScanConfig extends CommonDBTM
         $dbmanager->setQueryValue($query, "scan_options", $this->scan_options);
         $dbmanager->setQueryValue($query, "plugin_armadito_antiviruses_id", $this->antivirus_id);
         return $dbmanager;
-    }
-
-    static function canDelete()
-    {
-        return true;
-    }
-
-    static function canCreate()
-    {
-        if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
-            return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w');
-        }
-        return false;
-    }
-
-    static function canView()
-    {
-        if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
-            return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w' || $_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'r');
-        }
-        return false;
     }
 
     static function getTypeName($nb = 0)
