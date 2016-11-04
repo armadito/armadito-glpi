@@ -136,7 +136,7 @@ class PluginArmaditoMenu extends CommonGLPI
 
     static function displayGeneralMenu()
     {
-        $submenu = new PluginArmaditoSubMenu('General', $width_status);
+        $submenu = new PluginArmaditoSubMenu('General');
 
         if (Session::haveRight('plugin_armadito_agents', READ))
         {
@@ -156,7 +156,7 @@ class PluginArmaditoMenu extends CommonGLPI
 
     static function displayStateMenu()
     {
-        $submenu = new PluginArmaditoSubMenu('State', $width_status);
+        $submenu = new PluginArmaditoSubMenu('State');
 
         if (Session::haveRight('plugin_armadito_states', READ))
         {
@@ -170,7 +170,7 @@ class PluginArmaditoMenu extends CommonGLPI
 
     static function displayAlertsMenu()
     {
-        $submenu = new PluginArmaditoSubMenu('Alerts', $width_status);
+        $submenu = new PluginArmaditoSubMenu('Alerts');
 
         if (Session::haveRight('plugin_armadito_alerts', READ))
         {
@@ -184,7 +184,7 @@ class PluginArmaditoMenu extends CommonGLPI
 
     static function displayScansMenu()
     {
-        $submenu = new PluginArmaditoSubMenu('Scans', $width_status);
+        $submenu = new PluginArmaditoSubMenu('Scans');
 
         if (Session::haveRight('plugin_armadito_scans', READ))
         {
@@ -203,7 +203,7 @@ class PluginArmaditoMenu extends CommonGLPI
 
     static function displayJobsMenu()
     {
-        $submenu = new PluginArmaditoSubMenu('Jobs', $width_status);
+        $submenu = new PluginArmaditoSubMenu('Jobs');
 
         if (Session::haveRight('plugin_armadito_jobs', READ))
         {
@@ -227,27 +227,14 @@ class PluginArmaditoMenu extends CommonGLPI
         self::displayMenuFooter();
     }
 
-    static function htmlMenu($menu_name, $a_menu = array(), $width_status = '300')
+    static function htmlMenu($menu_name, $a_menu = array())
     {
         global $CFG_GLPI;
 
-        $width_max = 1250;
         $width = 180;
 
-        if (($width + $width_status) > $width_max) {
-            $width_status = 0;
-            echo "</td>";
-            echo "</tr>";
-            echo "</table>";
-            echo "<table>";
-            echo "<tr>";
-            echo "<td valign='top'>";
-        } else {
-            echo "</td>";
-            echo "<td valign='top'>";
-        }
-        $width_status = ($width + $width_status);
-
+        echo "</td>";
+        echo "<td valign='top'>";
         echo "<table class='tab_cadre' style='position: relative; z-index: 30;'
          onMouseOver='document.getElementById(\"menu" . $menu_name . "\").style.display=\"block\"'
          onMouseOut='document.getElementById(\"menu" . $menu_name . "\").style.display=\"none\"'>";
@@ -276,12 +263,9 @@ class PluginArmaditoMenu extends CommonGLPI
             echo "</tr>";
         }
         echo "</table>";
-
         echo "</td>";
         echo "</tr>";
         echo "</table>";
-
-        return $width_status;
     }
 }
 
