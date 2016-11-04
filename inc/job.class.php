@@ -196,7 +196,7 @@ class PluginArmaditoJob extends CommonDBTM
     function updateJobStatus()
     {
         $error_code = $this->jobj->task->obj->code;
-        $error_msg = $jobj->task->obj->message;
+        $error_msg = $this->jobj->task->obj->message;
 
         if ( $error_code == 0) {
             $this->updateStatus("successful");
