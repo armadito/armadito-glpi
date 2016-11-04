@@ -57,7 +57,7 @@ class PluginArmaditoSubMenu
     function display()
     {
         if (!empty($this->entries)) {
-            $width_status = PluginArmaditoMenu::htmlMenu(__('General', 'armadito'), $this->entries, $this->type, $this->width_status);
+            $width_status = PluginArmaditoMenu::htmlMenu(__($this->name, 'armadito'), $this->entries, $this->type, $this->width_status);
         }
     }
 }

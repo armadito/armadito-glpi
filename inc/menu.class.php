@@ -154,107 +154,76 @@ class PluginArmaditoMenu extends CommonGLPI
         $submenu->display();
     }
 
+    static function displayStateMenu($type = "big")
+    {
+        $submenu = new PluginArmaditoSubMenu('State', $type, $width_status);
+
+        if (Session::haveRight('plugin_armadito_states', READ))
+        {
+            $menu_entries[] = new PluginArmaditoMenuEntry('Board', 'menu_stats.png', 'stateboard.php');
+            $menu_entries[] = new PluginArmaditoMenuEntry('States', 'menu_listing.png', 'state.php');
+        }
+
+        $submenu->addEntries($menu_entries);
+        $submenu->display();
+    }
+
+    static function displayAlertsMenu($type = "big")
+    {
+        $submenu = new PluginArmaditoSubMenu('Alerts', $type, $width_status);
+
+        if (Session::haveRight('plugin_armadito_alerts', READ))
+        {
+            $menu_entries[] = new PluginArmaditoMenuEntry('Board', 'menu_stats.png', 'alertboard.php');
+            $menu_entries[] = new PluginArmaditoMenuEntry('Alerts', 'menu_listing.png', 'alert.php');
+        }
+
+        $submenu->addEntries($menu_entries);
+        $submenu->display();
+    }
+
+    static function displayScansMenu($type = "big")
+    {
+        $submenu = new PluginArmaditoSubMenu('Scans', $type, $width_status);
+
+        if (Session::haveRight('plugin_armadito_scans', READ))
+        {
+            $menu_entries[] = new PluginArmaditoMenuEntry('Board', 'menu_stats.png', 'scanboard.php');
+            $menu_entries[] = new PluginArmaditoMenuEntry('Scans', 'menu_listing.png', 'scan.php');
+        }
+
+        if (Session::haveRight('plugin_armadito_scanconfigs', UPDATE))
+        {
+            $menu_entries[] = new PluginArmaditoMenuEntry('Scan Configurations', 'menu_listing.png', 'scanconfig.php');
+        }
+
+        $submenu->addEntries($menu_entries);
+        $submenu->display();
+    }
+
+    static function displayJobsMenu($type = "big")
+    {
+        $submenu = new PluginArmaditoSubMenu('Jobs', $type, $width_status);
+
+        if (Session::haveRight('plugin_armadito_jobs', READ))
+        {
+            $menu_entries[] = new PluginArmaditoMenuEntry('Board', 'menu_stats.png', 'jobboard.php');
+            $menu_entries[] = new PluginArmaditoMenuEntry('Jobs', 'menu_listing.png', 'job.php');
+        }
+
+        $submenu->addEntries($menu_entries);
+        $submenu->display();
+    }
+
+
     static function displayMenu($type = "big")
     {
-        global $CFG_GLPI;
-        $width_status = 0;
-
         self::displayMenuHeader();
         self::displayGeneralMenu();
-
-        /*
-         * States
-         */
-        $a_menu = array();
-
-        if (Session::haveRight('plugin_armadito_states', READ)) {
-
-            $a_menu[] = array(
-                'name' => __('Board', 'armadito'),
-                'pic' => $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_stats.png",
-                'link' => $CFG_GLPI['root_doc'] . "/plugins/armadito/front/stateboard.php"
-            );
-
-            $a_menu[1]['name'] = __('States', 'armadito');
-            $a_menu[1]['pic']  = $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_listing.png";
-            $a_menu[1]['link'] = $CFG_GLPI['root_doc'] . "/plugins/armadito/front/state.php";
-        }
-
-        if (!empty($a_menu)) {
-            $width_status = PluginArmaditoMenu::htmlMenu(__('State', 'armadito'), $a_menu, $type, $width_status);
-        }
-
-        /*
-         * Alerts
-         */
-        $a_menu = array();
-
-        if (Session::haveRight('plugin_armadito_alerts', READ)) {
-
-            $a_menu[] = array(
-                'name' => __('Board', 'armadito'),
-                'pic' => $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_stats.png",
-                'link' => $CFG_GLPI['root_doc'] . "/plugins/armadito/front/alertboard.php"
-            );
-
-            $a_menu[1]['name'] = __('Alerts', 'armadito');
-            $a_menu[1]['pic']  = $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_listing.png";
-            $a_menu[1]['link'] = $CFG_GLPI['root_doc'] . "/plugins/armadito/front/alert.php";
-        }
-
-        if (!empty($a_menu)) {
-            $width_status = PluginArmaditoMenu::htmlMenu(__('Alerts', 'armadito'), $a_menu, $type, $width_status);
-        }
-
-        /*
-         * Scans
-         */
-        $a_menu = array();
-
-        if (Session::haveRight('plugin_armadito_scans', READ)) {
-
-            $a_menu[] = array(
-                'name' => __('Board', 'armadito'),
-                'pic' => $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_stats.png",
-                'link' => $CFG_GLPI['root_doc'] . "/plugins/armadito/front/scanboard.php"
-            );
-
-            $a_menu[1]['name'] = __('Scans', 'armadito');
-            $a_menu[1]['pic']  = $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_listing.png";
-            $a_menu[1]['link'] = $CFG_GLPI['root_doc'] . "/plugins/armadito/front/scan.php";
-        }
-
-        if (Session::haveRight('plugin_armadito_scanconfigs', UPDATE)) {
-            $a_menu[3]['name'] = __('Scan Configurations', 'armadito');
-            $a_menu[3]['pic']  = $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_listing.png";
-            $a_menu[3]['link'] = $CFG_GLPI['root_doc'] . "/plugins/armadito/front/scanconfig.php";
-        }
-
-        if (!empty($a_menu)) {
-            $width_status = PluginArmaditoMenu::htmlMenu(__('Scans', 'armadito'), $a_menu, $type, $width_status);
-        }
-
-        /*
-         * Jobs
-         */
-        $a_menu = array();
-
-        if (Session::haveRight('plugin_armadito_jobs', READ)) {
-            $a_menu[] = array(
-                'name' => __('Board', 'armadito'),
-                'pic' => $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_stats.png",
-                'link' => $CFG_GLPI['root_doc'] . "/plugins/armadito/front/jobboard.php"
-            );
-
-            $a_menu[1]['name'] = __('Jobs', 'armadito');
-            $a_menu[1]['pic']  = $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/menu_listing.png";
-            $a_menu[1]['link'] = $CFG_GLPI['root_doc'] . "/plugins/armadito/front/job.php";
-        }
-
-        if (!empty($a_menu)) {
-            $width_status = PluginArmaditoMenu::htmlMenu(__('Jobs', 'armadito'), $a_menu, $type, $width_status);
-        }
-
+        self::displayStateMenu();
+        self::displayAlertsMenu();
+        self::displayScansMenu();
+        self::displayJobsMenu();
         self::displayMenuFooter();
     }
 
