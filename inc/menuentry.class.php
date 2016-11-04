@@ -26,7 +26,7 @@ if (!defined('GLPI_ROOT')) {
 }
 
 
-class PluginArmaditoMenuEntry extends CommonGLPI
+class PluginArmaditoMenuEntry
 {
     protected $name;
     protected $pic;
