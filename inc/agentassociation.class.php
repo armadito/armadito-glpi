@@ -81,7 +81,7 @@ class PluginArmaditoAgentAssociation
             $data     = $DB->fetch_assoc($ret);
             return $data["id"];
         }
-        return -1; 
+        return -1;
     }
 
     static function FusionInventoryHook($params = array())
