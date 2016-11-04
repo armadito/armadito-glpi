@@ -134,12 +134,9 @@ class PluginArmaditoMenu extends CommonGLPI
         echo "</div><br/><br/><br/>";
     }
 
-    static function displayMenu($type = "big")
+    static function displayGeneralMenu($type = "big")
     {
-        global $CFG_GLPI;
-        $width_status = 0;
-
-        self::displayMenuHeader();
+        $submenu = new PluginArmaditoSubMenu('General', $type, $width_status);
 
         if (Session::haveRight('plugin_armadito_agents', READ))
         {
@@ -147,14 +144,23 @@ class PluginArmaditoMenu extends CommonGLPI
             $menu_entries[] = new PluginArmaditoMenuEntry('Agents', 'menu_listing.png', 'agent.php');
         }
 
-        if (Session::haveRight('config', UPDATE) || Session::haveRight('plugin_armadito_configuration', UPDATE))
+        if (Session::haveRight('config', UPDATE)
+         || Session::haveRight('plugin_armadito_configuration', UPDATE))
         {
             $menu_entries[] = new PluginArmaditoMenuEntry('Configuration', 'menu_settings.png', 'config.form.php');
         }
 
-        $submenu = new PluginArmaditoSubMenu('General', $type, $width_status);
         $submenu->addEntries($menu_entries);
         $submenu->display();
+    }
+
+    static function displayMenu($type = "big")
+    {
+        global $CFG_GLPI;
+        $width_status = 0;
+
+        self::displayMenuHeader();
+        self::displayGeneralMenu();
 
         /*
          * States
