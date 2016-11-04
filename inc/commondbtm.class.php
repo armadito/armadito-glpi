@@ -39,19 +39,27 @@ class PluginArmaditoCommonDBTM extends CommonDBTM
 
     static function canCreate()
     {
-        if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
-            return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w');
+        if(self::getProfileRights() == 'w')
+        {
+            return true;
         }
+
         return false;
     }
 
     static function canView()
     {
-
-        if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
-            return ($_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'w' || $_SESSION["glpi_plugin_armadito_profile"]['armadito'] == 'r');
+        if(self::getProfileRights() == 'w' || self::getProfileRights() == 'r')
+        {
+            return true;
         }
+
         return false;
+    }
+
+    static function getProfileRights()
+    {
+        return $_SESSION["glpi_plugin_armadito_profile"]['armadito'];
     }
 }
 ?>
