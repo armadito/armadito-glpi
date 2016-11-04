@@ -111,22 +111,35 @@ class PluginArmaditoMenu extends CommonGLPI
         echo "</a>";
     }
 
-    static function displayMenu($type = "big")
+    static function displayMenuHeader()
     {
-        global $CFG_GLPI;
-
-        $width_status = 0;
-
         echo "<div align='center' style='height: 35px; display: inline-block; width: 100%; margin: 0 auto;'>";
         echo "<br \>";
         echo "<table width='100%'>";
-
         echo "<tr>";
         echo "<td align='center'>";
-
         echo "<table>";
         echo "<tr>";
         echo "<td>";
+    }
+
+    static function displayMenuFooter()
+    {
+        echo "</td>";
+        echo "</tr>";
+        echo "</table>";
+        echo "</td>";
+        echo "</tr>";
+        echo "</table>";
+        echo "</div><br/><br/><br/>";
+    }
+
+    static function displayMenu($type = "big")
+    {
+        global $CFG_GLPI;
+        $width_status = 0;
+
+        self::displayMenuHeader();
 
         if (Session::haveRight('plugin_armadito_agents', READ))
         {
@@ -236,14 +249,7 @@ class PluginArmaditoMenu extends CommonGLPI
             $width_status = PluginArmaditoMenu::htmlMenu(__('Jobs', 'armadito'), $a_menu, $type, $width_status);
         }
 
-        echo "</td>";
-        echo "</tr>";
-        echo "</table>";
-
-        echo "</td>";
-        echo "</tr>";
-        echo "</table>";
-        echo "</div><br/><br/><br/>";
+        self::displayMenuFooter();
     }
 
     static function htmlMenu($menu_name, $a_menu = array(), $type = "big", $width_status = '300')
