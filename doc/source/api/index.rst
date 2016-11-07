@@ -2,7 +2,7 @@ RESTful API
 ===========
 
 All connections between agents and server-side (i.e. plugin for GLPI) are done within the RESTful API.
-This API is provided by our plugin to all agents managed.
+This API is provided by the plugin to all agents managed.
 
 For further details :
 
