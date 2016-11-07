@@ -5,12 +5,12 @@ Introduction
 Note that this agent is not dedicated to only manage Armadito Antivirus.
 This agent basically provides a set of tasks that can be executed at any time :
 
-* **Enrollment** : new agent ID assignation or re-assignation. -- POST **/api/agents**
-* **GetJobs** : get available jobs for this agent. -- GET **/api/jobs**
-* **RunJobs** : run jobs with a given priority and post results to GLPI. -- POST **/api/jobs**
-* **State** : get antivirus status and send it to GLPI. -- POST **/api/states**
-* **Scan** : on-demand scan and send results to GLPI. -- POST **/api/scans**
-* **Alerts** : check for virus alerts and send it to GLPI. -- POST **/api/alerts**
+* **Enrollment** : new agent ID assignation or re-assignation.
+* **GetJobs** : get available jobs for this agent.
+* **RunJobs** : run jobs with a given priority and post results to GLPI.
+* **State** : get antivirus status and send it to GLPI.
+* **Scan** : on-demand scan and send results to GLPI.
+* **Alerts** : check for virus alerts and send it to GLPI.
 
 
 Provided Tasks
@@ -22,20 +22,32 @@ Thus, in this section, all tasks will be described in details.
 Enrollment
 **********
 
+-- POST **/api/agents**
+
 Getjobs
 *******
+
+-- GET **/api/jobs**
 
 Runjobs
 *******
 
+-- POST **/api/jobs**
+
 State
 *****
+
+-- POST **/api/states**
 
 Scan
 ****
 
+-- POST **/api/scans**
+
 Alerts
 ******
+
+-- POST **/api/alerts**
 
 Tasks Scheduling
 ----------------
@@ -48,6 +60,12 @@ Also, frequencies and planification of these tasks are an administrator's choice
 Crontab
 *******
 
+Everything can be done by adding some linux's crontab lines.
+
 Armadito Scheduler
 ******************
+
+**Armadito Scheduler** is an experimental task scheduler for equitable time repartition of tasks over time.
+
+
 
