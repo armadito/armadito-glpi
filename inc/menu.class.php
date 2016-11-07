@@ -105,12 +105,7 @@ class PluginArmaditoMenu extends CommonGLPI
 
     static function displayHeader()
     {
-        global $CFG_GLPI;
-
         echo "<center>";
-        echo "<a href='http://github.com/armadito'>";
-        echo "<img src='" . $CFG_GLPI['root_doc'] . "/plugins/armadito/pics/armadito_header_logo.png' height='96' />";
-        echo "</a>";
     }
 
     static function displayMenuHeader()
@@ -142,8 +137,8 @@ class PluginArmaditoMenu extends CommonGLPI
 
         if (Session::haveRight('plugin_armadito_agents', READ))
         {
-            $menu_entries[] = new PluginArmaditoMenuEntry('Board', BOARD_PNG, 'menu.php');
-            $menu_entries[] = new PluginArmaditoMenuEntry('Agents', LISTING_PNG, 'agent.php');
+            $menu_entries[] = new PluginArmaditoMenuEntry('Board', self::BOARD_PNG, 'menu.php');
+            $menu_entries[] = new PluginArmaditoMenuEntry('Agents', self::LISTING_PNG, 'agent.php');
         }
 
         if (Session::haveRight('config', UPDATE)
@@ -162,8 +157,8 @@ class PluginArmaditoMenu extends CommonGLPI
 
         if (Session::haveRight('plugin_armadito_states', READ))
         {
-            $menu_entries[] = new PluginArmaditoMenuEntry('Board', BOARD_PNG, 'stateboard.php');
-            $menu_entries[] = new PluginArmaditoMenuEntry('States', LISTING_PNG, 'state.php');
+            $menu_entries[] = new PluginArmaditoMenuEntry('Board', self::BOARD_PNG, 'stateboard.php');
+            $menu_entries[] = new PluginArmaditoMenuEntry('States', self::LISTING_PNG, 'state.php');
         }
 
         $submenu->addEntries($menu_entries);
@@ -176,8 +171,8 @@ class PluginArmaditoMenu extends CommonGLPI
 
         if (Session::haveRight('plugin_armadito_alerts', READ))
         {
-            $menu_entries[] = new PluginArmaditoMenuEntry('Board', BOARD_PNG, 'alertboard.php');
-            $menu_entries[] = new PluginArmaditoMenuEntry('Alerts', LISTING_PNG, 'alert.php');
+            $menu_entries[] = new PluginArmaditoMenuEntry('Board', self::BOARD_PNG, 'alertboard.php');
+            $menu_entries[] = new PluginArmaditoMenuEntry('Alerts', self::LISTING_PNG, 'alert.php');
         }
 
         $submenu->addEntries($menu_entries);
@@ -190,13 +185,13 @@ class PluginArmaditoMenu extends CommonGLPI
 
         if (Session::haveRight('plugin_armadito_scans', READ))
         {
-            $menu_entries[] = new PluginArmaditoMenuEntry('Board', BOARD_PNG, 'scanboard.php');
-            $menu_entries[] = new PluginArmaditoMenuEntry('Scans', LISTING_PNG, 'scan.php');
+            $menu_entries[] = new PluginArmaditoMenuEntry('Board', self::BOARD_PNG, 'scanboard.php');
+            $menu_entries[] = new PluginArmaditoMenuEntry('Scans', self::LISTING_PNG, 'scan.php');
         }
 
         if (Session::haveRight('plugin_armadito_scanconfigs', UPDATE))
         {
-            $menu_entries[] = new PluginArmaditoMenuEntry('Scan Configurations', LISTING_PNG, 'scanconfig.php');
+            $menu_entries[] = new PluginArmaditoMenuEntry('Scan Configurations', self::LISTING_PNG, 'scanconfig.php');
         }
 
         $submenu->addEntries($menu_entries);
@@ -209,8 +204,8 @@ class PluginArmaditoMenu extends CommonGLPI
 
         if (Session::haveRight('plugin_armadito_jobs', READ))
         {
-            $menu_entries[] = new PluginArmaditoMenuEntry('Board', BOARD_PNG, 'jobboard.php');
-            $menu_entries[] = new PluginArmaditoMenuEntry('Jobs', LISTING_PNG, 'job.php');
+            $menu_entries[] = new PluginArmaditoMenuEntry('Board', self::BOARD_PNG, 'jobboard.php');
+            $menu_entries[] = new PluginArmaditoMenuEntry('Jobs', self::LISTING_PNG, 'job.php');
         }
 
         $submenu->addEntries($menu_entries);
