@@ -8,7 +8,7 @@ Plugin Armadito for GLPI
        src="https://scan.coverity.com/projects/10495/badge.svg"/>
 </a>
 [![Quality Gate](http://sonarqube.com/api/badges/gate?key=armadito:glpi)](http://sonarqube.com/dashboard/index/armadito:glpi)
-[![SonarQube Tech Debt](https://img.shields.io/sonar/http/sonar.qatools.ru/ru.yandex.qatools.allure:allure-core/tech_debt.svg)]()
+[![SonarQube Tech Debt](https://img.shields.io/sonar/http/sonarqube.com/armadito:glpi/tech_debt.svg)]()
 
 Armadito is an open-source antivirus.
 
