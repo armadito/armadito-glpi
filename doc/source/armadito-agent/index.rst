@@ -6,6 +6,6 @@ Armadito Agent
 .. toctree::
    :maxdepth: 2
 
-   description/index.rst
+   introduction/index.rst
    compilation/index.rst
    installation/index.rst
