@@ -1,5 +1,5 @@
-Armadito GLPI
-=============
+Armadito for GLPI
+=================
 
 * **armadito-glpi**  : server-side part developed as a plugin for GLPI.
 
