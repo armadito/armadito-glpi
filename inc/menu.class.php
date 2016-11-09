@@ -29,7 +29,7 @@ if (!defined('GLPI_ROOT')) {
 class PluginArmaditoMenu extends CommonGLPI
 {
     const BOARD_PNG = 'menu_mini_stats.png';
-    const LISTING_PNG = 'menu_mini_listings.png';
+    const LISTING_PNG = 'menu_mini_listing.png';
 
     static function getTypeName($nb = 0)
     {
