@@ -58,8 +58,7 @@ CREATE TABLE `glpi_plugin_armadito_statedetails` (
    `module_name` varchar(255) NOT NULL,
    `module_version` varchar(255) NOT NULL,
    `module_update_status` varchar(255) NOT NULL,
-   `module_last_update` datetime NOT NULL,
-   `itemlink` varchar(255) NOT NULL,
+   `module_last_update` datetime NOT NULL
    PRIMARY KEY (`id`),
    UNIQUE KEY `couple module_agent_id` (`module_name`,`plugin_armadito_agents_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;

@@ -169,15 +169,13 @@ class PluginArmaditoStateModule extends PluginArmaditoCommonDBTM
     {
         $dbmanager = new PluginArmaditoDbManager();
         $params = $this->setCommonQueryParams();
-        $params["itemlink"]["type"]                  = "s";
-
         $query = "NewStateModule";
+
         $dbmanager->addQuery($query, "INSERT", "glpi_plugin_armadito_statedetails", $params);
         $dbmanager->prepareQuery($query);
         $dbmanager->bindQuery($query);
 
         $dbmanager = $this->setCommonQueryValues($dbmanager, $query);
-        $dbmanager->setQueryValue($query, "itemlink", "ShowAll");
         $dbmanager->executeQuery($query);
     }
 
