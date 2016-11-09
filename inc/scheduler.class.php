@@ -48,7 +48,7 @@ class PluginArmaditoScheduler extends PluginArmaditoCommonDBTM
         $dbmanager->prepareQuery($query);
         $dbmanager->bindQuery($query);
 
-        $dbmanager = $this->setCommonQueryValues($dbmanager, $query); 
+        $dbmanager = $this->setCommonQueryValues($dbmanager, $query);
         $dbmanager->executeQuery($query);
 
         $this->id = PluginArmaditoDbToolbox::getLastInsertedId();
@@ -124,7 +124,7 @@ class PluginArmaditoScheduler extends PluginArmaditoCommonDBTM
         if($this->isAgentInDB())
         {
             $this->updateSchedulerInDb();
-        }     
+        }
         else
         {
             $unused_id = $this->getFirstUnusedId();
@@ -164,7 +164,7 @@ class PluginArmaditoScheduler extends PluginArmaditoCommonDBTM
     {
         global $DB;
 
-        $query = "SELECT min(id) FROM `".$this->getTable()."` 
+        $query = "SELECT min(id) FROM `".$this->getTable()."`
                   WHERE `is_used` = '0'";
         $ret   = $DB->query($query);
 
