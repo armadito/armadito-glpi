@@ -91,13 +91,13 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
     {
         $search_options = new PluginArmaditoSearchoptions('State');
 
+        $items['Details']             = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_statedetails', 'PluginArmaditoStatedetail');
         $items['Agent Id']            = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_agents', 'PluginArmaditoAgent');
         $items['Update Status']       = new PluginArmaditoSearchtext('update_status', $this->getTable());
         $items['Last Update']         = new PluginArmaditoSearchtext('last_update', $this->getTable());
         $items['Antivirus']           = new PluginArmaditoSearchitemlink('fullname', 'glpi_plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
         $items['Antivirus On-access'] = new PluginArmaditoSearchtext('realtime_status', $this->getTable());
         $items['Antivirus On-demand'] = new PluginArmaditoSearchtext('service_status', $this->getTable());
-        $items['Details']             = new PluginArmaditoSearchitemlink('itemlink', 'glpi_plugin_armadito_statedetails', 'PluginArmaditoStatedetail');
 
         return $search_options->get($items);
     }
