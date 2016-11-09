@@ -90,7 +90,7 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard
 
         $dataComputer   = array();
         $dataComputer[] = array(
-            'key' => __('Armadito', 'armadito'),
+            'key' => __('Armadito agents', 'armadito'),
             'value' => $armaditoComputers,
             'color' => $palette[0]
         );
