@@ -84,7 +84,7 @@ class PluginArmaditoAgentAssociation
         return -1;
     }
 
-    static function FusionInventoryHook($params = array())
+    static function fusionInventoryHook($params = array())
     {
         if (!empty($params)
          && isset($params['inventory_data'])

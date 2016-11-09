@@ -39,6 +39,11 @@ if (isValidPOSTRequest($rawdata))
         $Agent->initFromJson($jobj);
         $Agent->run();
 
+        $Scheduler = new PluginArmaditoScheduler();
+        $Scheduler->init($Agent->getId());
+        $Scheduler->insertOrUpdateInDb();
+        $Agent->updateSchedulerId($Scheduler->getId());
+
         writeHttpOKResponse($Agent->toJson());
     }
     catch(PluginArmaditoJsonException $e)

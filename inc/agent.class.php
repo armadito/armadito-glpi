@@ -54,15 +54,26 @@ class PluginArmaditoAgent extends PluginArmaditoCommonDBTM
 
     function updateLastAlert($alert)
     {
-        $paAgent = new self();
-
         $input                = array();
         $input['id']          = $alert->getAgentId();
         $input['last_alert']  = $alert->getDetectionTime();
-        if ($paAgent->update($input)) {
+        if ($this->update($input)) {
             return true;
         }
         return false;
+    }
+
+    function updateSchedulerId($scheduler_id)
+    {
+        PluginArmaditoToolbox::logE("Update Scheduler ID  (".$scheduler_id.") for agent ".$this->id);
+        $paAgent = new self();
+
+        $input                                   = array();
+        $input['id']                             = $this->id;
+        $input['plugin_armadito_schedulers_id']  = $scheduler_id;
+        if (!$paAgent->update($input)) {
+            throw new InvalidArgumentException(sprintf('Error updateSchedulerId'));
+        }
     }
 
     function getAntivirusId()
@@ -73,6 +84,11 @@ class PluginArmaditoAgent extends PluginArmaditoCommonDBTM
     function getAntivirus()
     {
         return $this->antivirus;
+    }
+
+    function getId()
+    {
+        return $this->id;
     }
 
     function toJson()
@@ -138,6 +154,7 @@ class PluginArmaditoAgent extends PluginArmaditoCommonDBTM
         $dbmanager = new PluginArmaditoDbManager();
 
         $params = $this->setCommonQueryParams();
+        $params["plugin_armadito_schedulers_id"]["type"] = "i";
         $params["last_alert"]["type"] = "s";
         $params["uuid"]["type"]       = "s";
 
@@ -147,6 +164,7 @@ class PluginArmaditoAgent extends PluginArmaditoCommonDBTM
         $dbmanager->bindQuery($query);
 
         $dbmanager = $this->setCommonQueryValues($dbmanager, $query);
+        $dbmanager->setQueryValue($query, "plugin_armadito_schedulers_id", 0);
         $dbmanager->setQueryValue($query, "last_alert", '1970-01-01 00:00:00');
         $dbmanager->setQueryValue($query, "uuid", $this->jobj->uuid);
         $dbmanager->executeQuery($query);
@@ -173,6 +191,19 @@ class PluginArmaditoAgent extends PluginArmaditoCommonDBTM
         $dbmanager->setQueryValue($query, "plugin_armadito_antiviruses_id", $this->antivirus->getId());
         $dbmanager->setQueryValue($query, "last_contact", date("Y-m-d H:i:s", time()));
         return $dbmanager;
+    }
+
+    static function purgeHook($agent)
+    {
+        try {
+            $Scheduler = new PluginArmaditoScheduler();
+            $Scheduler->init($agent->fields["id"]);
+            $Scheduler->setUnused();
+        }
+        catch(Exception $e)
+        {
+            PluginArmaditoToolbox::logE();
+        }
     }
 
     static function getTypeName($nb = 0)
@@ -215,6 +246,7 @@ class PluginArmaditoAgent extends PluginArmaditoCommonDBTM
         $search_options = new PluginArmaditoSearchoptions('Agent');
 
         $items['Agent Id']         = new PluginArmaditoSearchitemlink('id', $this->getTable(), 'PluginArmaditoAgent');
+        $items['Scheduler Id']     = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_schedulers', 'PluginArmaditoScheduler');
         $items['Agent Version']    = new PluginArmaditoSearchtext('agent_version', $this->getTable());
         $items['Computer']         = new PluginArmaditoSearchitemlink('name', 'glpi_computers', 'Computer');
         $items['UUID']             = new PluginArmaditoSearchtext('uuid', $this->getTable());
