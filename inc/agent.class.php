@@ -29,6 +29,7 @@ class PluginArmaditoAgent extends PluginArmaditoCommonDBTM
     protected $jobj;
     protected $antivirus;
     protected $computerid;
+    protected $schedulerid;
 
     function initFromJson($jobj)
     {
@@ -39,6 +40,7 @@ class PluginArmaditoAgent extends PluginArmaditoCommonDBTM
 
         $association = new PluginArmaditoAgentAssociation($this->jobj->uuid);
         $this->computerid = $association->getComputerIdFromDB();
+        $this->schedulerid = 0;
     }
 
     function initFromDB($agent_id)
@@ -47,6 +49,7 @@ class PluginArmaditoAgent extends PluginArmaditoCommonDBTM
             $this->id        = $this->fields["id"];
             $this->antivirus = new PluginArmaditoAntivirus();
             $this->antivirus->initFromDB($this->fields["plugin_armadito_antiviruses_id"]);
+            $this->schedulerid = $this->fields["plugin_armadito_schedulers_id"];
         } else {
             PluginArmaditoToolbox::logE("Unable to get Agent DB fields");
         }
@@ -65,15 +68,14 @@ class PluginArmaditoAgent extends PluginArmaditoCommonDBTM
 
     function updateSchedulerId($scheduler_id)
     {
-        PluginArmaditoToolbox::logE("Update Scheduler ID  (".$scheduler_id.") for agent ".$this->id);
-        $paAgent = new self();
-
         $input                                   = array();
         $input['id']                             = $this->id;
         $input['plugin_armadito_schedulers_id']  = $scheduler_id;
-        if (!$paAgent->update($input)) {
+        if (!$this->update($input)) {
             throw new InvalidArgumentException(sprintf('Error updateSchedulerId'));
         }
+
+        $this->schedulerid = $scheduler_id;
     }
 
     function getAntivirusId()
@@ -93,7 +95,7 @@ class PluginArmaditoAgent extends PluginArmaditoCommonDBTM
 
     function toJson()
     {
-        return '{"agent_id": ' . $this->id . '}';
+        return '{"agent_id": ' . $this->id . ',"scheduler_id": '. $this->schedulerid .'}';
     }
 
     function run()
