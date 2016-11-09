@@ -37,6 +37,11 @@ class PluginArmaditoCommonDBTM extends CommonDBTM
         return true;
     }
 
+    static function canPurge()
+    {
+        return true;
+    }
+
     static function canCreate()
     {
         if(static::getProfileRights() == 'w')
