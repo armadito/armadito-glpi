@@ -111,7 +111,8 @@ class ArmaditoDB extends PHPUnit_Framework_Assert
 
     protected function parseTableName($line)
     {
-        preg_match("/`(.*)`/", $line,  array());
+        $matches = array();
+        preg_match("/`(.*)`/", $line, $matches);
         return $matches[1];
     }
 
