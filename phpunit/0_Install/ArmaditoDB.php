@@ -109,7 +109,7 @@ class ArmaditoDB extends PHPUnit_Framework_Assert
                 }
                 else if (preg_match("/^`/", trim($line)))
                 {
-                    $this->parseFileField($line, $table_name);
+                    $this->parseDatabaseField($line, $table_name);
                 }
             }
         }
@@ -132,7 +132,7 @@ class ArmaditoDB extends PHPUnit_Framework_Assert
         $this->file_sql_tables[$table_name][$field_name] = $field_type;
     }
 
-    protected function parseDatabaseField($line)
+    protected function parseDatabaseField($line, $table_name)
     {
         $s_line    = explode("`", $line);
 
@@ -143,7 +143,7 @@ class ArmaditoDB extends PHPUnit_Framework_Assert
             $field_type .= ' DEFAULT NULL';
         }
 
-        $this->db_sql_tables[$current_table][$field_name] = $field_type;
+        $this->db_sql_tables[$table_name][$field_name] = $field_type;
     }
 
     protected function parseFieldType($line)
