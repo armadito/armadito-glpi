@@ -44,6 +44,7 @@ class PluginArmaditoProfile extends Profile
         $rights['ScanConfigs']   = new PluginArmaditoProfileRights('plugin_armadito_scanconfigs', 'PluginArmaditoScanConfig');
         $rights['Configuration'] = new PluginArmaditoProfileRights('plugin_armadito_configuration', 'PluginArmaditoConfig');
         $rights['Agents']        = new PluginArmaditoProfileRights('plugin_armadito_agents', 'PluginArmaditoAgent');
+        $rights['Schedulers']    = new PluginArmaditoProfileRights('plugin_armadito_schedulers', 'PluginArmaditoScheduler');
 
         foreach( $rights as $label => $profilerights )
         {
