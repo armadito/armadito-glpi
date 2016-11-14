@@ -96,7 +96,7 @@ class PluginArmaditoConfig extends CommonDBTM
 
         $input               = array();
         $input['version']    = PLUGIN_ARMADITO_VERSION;
-        $input['debug_minlevel'] = '1';
+        $input['debug_minlevel'] = 1;
         $input['getjobs_limit'] = 10;
         $input['colorpalette_h'] = 0.8;
         $input['colorpalette_s'] = 0.3;
@@ -150,8 +150,14 @@ class PluginArmaditoConfig extends CommonDBTM
         echo "<tr class='tab_bg_1'>";
         echo "<td>".__('Debug level (minimum)', 'armadito')."&nbsp;:</td>";
         echo "<td width='20%'>";
+
         $array    = array();
-        Dropdown::showFromArray("debuglevel", $array);
+        $array[0] = "Verbose";
+        $array[1] = "Debug";
+        $array[2] = "Info";
+        $array[3] = "Warning";
+        $array[4] = "Error";
+        Dropdown::showFromArray("debug_minlevel", $array,  array('value' =>  $this->getValue('debug_minlevel')));
         echo "</td>";
         echo "</tr>";
 

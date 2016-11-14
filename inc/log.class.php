@@ -27,11 +27,11 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginArmaditoLog {
 
-    const ERROR_LEVEL = 5;
-    const WARNING_LEVEL = 4;
-    const INFO_LEVEL = 3;
-    const DEBUG_LEVEL = 2;
-    const VERBOSE_LEVEL = 1;
+    const ERROR_LEVEL = 4;
+    const WARNING_LEVEL = 3;
+    const INFO_LEVEL = 2;
+    const DEBUG_LEVEL = 1;
+    const VERBOSE_LEVEL = 0;
 
     static function writeToLogFile( $label, $level, $text )
     {
