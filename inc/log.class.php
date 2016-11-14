@@ -39,7 +39,7 @@ class PluginArmaditoLog {
         $minlevel = $paConfig->getValue("debug_minlevel");
 
         if($level >= $minlevel ){
-            return error_log(date("Y-m-d H:i:s") . "[". $label ."] " . $text . "\n", 3, GLPI_LOG_DIR . "/pluginArmadito.log");
+            return error_log(date("Y-m-d H:i:s") . " [". $label ."] " . $text . "\n", 3, GLPI_LOG_DIR . "/pluginArmadito.log");
         }
 
         return true;
