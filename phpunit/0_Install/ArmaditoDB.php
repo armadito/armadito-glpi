@@ -23,152 +23,179 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 
 class ArmaditoDB extends PHPUnit_Framework_Assert
 {
+    protected $file_sql_tables;
+    protected $db_sql_tables;
 
-    protected function getTablesFromFile( $filePath )
+    public function checkInstall($pluginname = '', $when = '')
     {
-        $a_tables_ref  = array();
+        $this->file_sql_tables  = array();
+        $this->db_sql_tables  = array();
+
+        $this->getTablesFromFile("plugin_" . $pluginname . "-empty.sql");
+        $this->getTablesFromDatabase();
+
+        $this->checkForMissingTables();
+        $this->checkForUnexpectedTables();
+
+        foreach ($this->db_sql_tables as $table => $fields)
+        {
+            $this->checkForMissingFields($fields);
+            $this->checkForUnexpectedFields($fields);
+        }
+    }
+
+    protected function getTablesFromFile( $file_name )
+    {
         $current_table = '';
 
-        $file_content  = file_get_contents(GLPI_ROOT . "/plugins/" . $pluginname . "/install/mysql/" . $filePath);
+        $file_path = GLPI_ROOT . "/plugins/" . $pluginname . "/install/mysql/" . $file_name;
+        $file_content  = file_get_contents($file_path);
         $a_lines       = explode("\n", $file_content);
 
         foreach ($a_lines as $line)
         {
             if (strstr($line, "CREATE TABLE ") || strstr($line, "CREATE VIEW"))
             {
-                preg_match("/`(.*)`/", $line,  array());
-                $current_table = $matches[1];
+                $table_name = $this->parseFileTableName($line);
             }
-            else
+            else if (preg_match("/^`/", trim($line)))
             {
-                if (preg_match("/^`/", trim($line))){
-                    $s_line                                   = explode("`", $line);
-                    $s_type                                   = explode("COMMENT", $s_line[2]);
-                    $s_type[0]                                = trim($s_type[0]);
-                    $s_type[0]                                = str_replace(" COLLATE utf8_unicode_ci", "", $s_type[0]);
-                    $s_type[0]                                = str_replace(" CHARACTER SET utf8", "", $s_type[0]);
-
-                    $a_tables_ref[$current_table][$s_line[1]] = str_replace(",", "", $s_type[0]);
-                }
+                $this->parseFileField($line, $table_name);
             }
         }
-
-        return $a_tables_ref;
     }
 
-    // See http://joefreeman.co.uk/blog/2009/07/php-script-to-compare-mysql-database-schemas/
-    public function checkInstall($pluginname = '', $when = '')
+    protected function getTablesFromDatabase($filePath)
     {
         global $DB;
 
-        $a_tables_ref = $this->getTablesFromFile("plugin_" . $pluginname . "-empty.sql");
-
-        // * Get tables from MySQL
-        $a_tables_db = array();
         $a_tables    = array();
         $query       = "SHOW TABLES";
         $result      = $DB->query($query);
+
         while ($data = $DB->fetch_array($result)) {
             if (strstr($data[0], 'armadito')) {
                 $data[0]    = str_replace(" COLLATE utf8_unicode_ci", "", $data[0]);
                 $data[0]    = str_replace("( ", "(", $data[0]);
                 $data[0]    = str_replace(" )", ")", $data[0]);
-                $a_tables[] = $data[0];
+
+                $this->getTableFromDatabase($data[0]);
             }
         }
 
-        foreach ($a_tables as $table) {
-            $query  = "SHOW CREATE TABLE " . $table;
-            $result = $DB->query($query);
-            while ($data = $DB->fetch_array($result)) {
-                $a_lines = explode("\n", $data['Create Table']);
+        return $a_tables;
+    }
 
-                foreach ($a_lines as $line) {
-                    if (strstr($line, "CREATE TABLE ") || strstr($line, "CREATE VIEW")) {
-                        $matches = array();
-                        preg_match("/`(.*)`/", $line, $matches);
-                        $current_table = $matches[1];
-                    } else {
-                        if (preg_match("/^`/", trim($line))) {
-                            $s_line    = explode("`", $line);
-                            $s_type    = explode("COMMENT", $s_line[2]);
-                            $s_type[0] = trim($s_type[0]);
-                            $s_type[0] = str_replace(" COLLATE utf8_unicode_ci", "", $s_type[0]);
-                            $s_type[0] = str_replace(" CHARACTER SET utf8", "", $s_type[0]);
-                            $s_type[0] = str_replace(",", "", $s_type[0]);
-                            if (trim($s_type[0]) == 'text' || trim($s_type[0]) == 'longtext') {
-                                $s_type[0] .= ' DEFAULT NULL';
-                            }
-                            $a_tables_db[$current_table][$s_line[1]] = $s_type[0];
-                        }
-                    }
+    protected function getTableFromDatabase($table)
+    {
+        global $DB;
+
+        $query  = "SHOW CREATE TABLE " . $table;
+        $result = $DB->query($query);
+        while ($data = $DB->fetch_array($result))
+        {
+            $a_lines = explode("\n", $data['Create Table']);
+            foreach ($a_lines as $line)
+            {
+                if (strstr($line, "CREATE TABLE ") || strstr($line, "CREATE VIEW"))
+                {
+                    $table_name = $this->parseFileTableName($line);
+                }
+                else if (preg_match("/^`/", trim($line)))
+                {
+                    $this->parseFileField($line, $table_name);
                 }
             }
         }
+    }
 
-        $a_tables_ref_tableonly = array();
-        foreach ($a_tables_ref as $table => $data) {
-            $a_tables_ref_tableonly[] = $table;
+    protected function parseTableName($line)
+    {
+        preg_match("/`(.*)`/", $line,  array());
+        return $matches[1];
+    }
+
+    protected function parseFileField($line, $table_name)
+    {
+        $s_line    = explode("`", $line);
+
+        $field_name = $s_line[1];
+        $field_type = $this->parseFieldType($line);
+
+        $this->file_sql_tables[$table_name][$field_name] = $field_type;
+    }
+
+    protected function parseDatabaseField($line)
+    {
+        $s_line    = explode("`", $line);
+
+        $field_name = $s_line[1];
+        $field_type = $this->parseFieldType($line);
+
+        if (trim($field_type) == 'text' || trim($field_type) == 'longtext') {
+            $field_type .= ' DEFAULT NULL';
         }
-        $a_tables_db_tableonly = array();
-        foreach ($a_tables_db as $table => $data) {
-            $a_tables_db_tableonly[] = $table;
-        }
 
-        // Compare
-        $tables_toremove = array_diff($a_tables_db_tableonly, $a_tables_ref_tableonly);
-        $tables_toadd    = array_diff($a_tables_ref_tableonly, $a_tables_db_tableonly);
+        $this->db_sql_tables[$current_table][$field_name] = $field_type;
+    }
 
-        // See tables missing or to delete
+    protected function parseFieldType($line)
+    {
+        $s_type    = explode("COMMENT", $line);
+        $s_type[0] = trim($s_type[0]);
+        $s_type[0] = str_replace(" COLLATE utf8_unicode_ci", "", $s_type[0]);
+        $s_type[0] = str_replace(" CHARACTER SET utf8", "", $s_type[0]);
+        $s_type[0] = str_replace(",", "", $s_type[0]);
+
+        return $s_type[0];
+    }
+
+    protected function checkForMissingTables()
+    {
+        $tables_toadd    = array_diff($this->file_sql_tables, $$this->db_sql_tables);
+
         $this->assertEquals(count($tables_toadd), 0, 'Tables missing ' . $when . ' ' . print_r($tables_toadd, TRUE));
-        $this->assertEquals(count($tables_toremove), 0, 'Tables to delete ' . $when . ' ' . print_r($tables_toremove, TRUE));
+    }
 
-        // See if fields are same
-        foreach ($a_tables_db as $table => $data) {
-            if (isset($a_tables_ref[$table])) {
-                $fields_toremove = array_diff_assoc($data, $a_tables_ref[$table]);
-                $fields_toadd    = array_diff_assoc($a_tables_ref[$table], $data);
-                $diff            = "======= DB ============== Ref =======> " . $table . "\n";
-                $diff .= print_r($data, TRUE);
-                $diff .= print_r($a_tables_ref[$table], TRUE);
+    protected function checkForUnexpectedTables()
+    {
+        $tables_toremove = array_diff($this->db_sql_tables, $this->file_sql_tables);
 
-                // See tables missing or to delete
-                $this->assertEquals(count($fields_toadd), 0, 'Fields missing/not good in ' . $when . ' ' . $table . ' ' . print_r($fields_toadd, TRUE) . " into " . $diff);
-                $this->assertEquals(count($fields_toremove), 0, 'Fields to delete in ' . $when . ' ' . $table . ' ' . print_r($fields_toremove, TRUE) . " into " . $diff);
+        $this->assertEquals(count($tables_toremove), 0, 'Tables unexpected ' . $when . ' ' . print_r($tables_toremove, TRUE));
+    }
 
-            }
+    protected function checkForMissingFields($dbfields)
+    {
+        if (isset($this->file_sql_tables[$table]))
+        {
+            $missing_fields    = array_diff_assoc($this->file_sql_tables[$table], $dbfields);
+
+            $diff = $this->getFieldsDiff($table, $dbfields, $this->file_sql_tables[$table]);
+            $assert_message = 'Fields missing/not good in ' . $when . ' ' . $table . ' ' . print_r($missing_fields, TRUE) . " into " . $diff;
+
+            $this->assertEquals(count($missing_fields), 0, $assert_message);
         }
+    }
 
-        /*
-         * Verify config fields added
-         */
-        $plugin     = new Plugin();
-        $data       = $plugin->find("directory='armadito'");
-        $plugins_id = 0;
-        if (count($data)) {
-            $fields     = current($data);
-            $plugins_id = $fields['id'];
+    protected function checkForUnexpectedFields($dbfields)
+    {
+        if (isset($this->file_sql_tables[$table]))
+        {
+            $unexpected_fields = array_diff_assoc($dbfields, $this->file_sql_tables[$table]);
+
+            $diff = $this->getFieldsDiff($table, $dbfields, $this->file_sql_tables[$table]);
+            $assert_message = 'Unexpected fields in ' . $when . ' ' . $table . ' ' . print_r($unexpected_fields, TRUE) . " into " . $diff;
+
+            $this->assertEquals(count($unexpected_fields), 0, $assert_message);
         }
+    }
 
-        $query  = "SELECT `id` FROM `glpi_plugin_armadito_configs`
-         WHERE `type`='debug_minlevel'";
-        $result = $DB->query($query);
-        $this->assertEquals($DB->numrows($result), 1, "type 'debug_minlevel' not added in config");
-
-        $query  = "SELECT * FROM `glpi_plugin_armadito_configs`
-         WHERE `type`='version'";
-        $result = $DB->query($query);
-        $this->assertEquals($DB->numrows($result), 1, "type 'version' not added in config");
-        $data = $DB->fetch_assoc($result);
-        $this->assertEquals($data['value'], '9.1+0.2', "Field 'version' not with right version");
-
-        /*
-         * Verify table `glpi_plugin_armadito_lastcontactstats` filled with data
-         */
-        $query  = "SELECT `id` FROM `glpi_plugin_armadito_lastcontactstats`";
-        $result = $DB->query($query);
-        $this->assertEquals($DB->numrows($result), 8760, "Must have table `glpi_plugin_armadito_lastcontactstats` not empty");
+    protected function getFieldsDiff($table, $dbfields, $filefields)
+    {
+            $diff  = "======= DB ============== Ref =======> " . $table . "\n";
+            $diff .= print_r($dbfields, TRUE);
+            $diff .= print_r($this->file_sql_tables[$table], TRUE);
+            return $diff;
     }
 }
-
 ?>
