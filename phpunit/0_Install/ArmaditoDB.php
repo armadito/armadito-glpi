@@ -28,6 +28,10 @@ class ArmaditoDB extends PHPUnit_Framework_Assert
 
     public function checkInstall($pluginname = '', $when = '')
     {
+        if ($pluginname == '') {
+            return;
+        }
+
         $this->file_sql_tables  = array();
         $this->db_sql_tables  = array();
 
