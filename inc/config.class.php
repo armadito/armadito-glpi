@@ -101,6 +101,7 @@ class PluginArmaditoConfig extends CommonDBTM
         $input['colorpalette_h'] = 0.8;
         $input['colorpalette_s'] = 0.3;
         $input['colorpalette_v'] = 0.99;
+        $input['armaditoscheduler'] = '0';
 
         if ($getOnly) {
             return $input;
@@ -145,6 +146,14 @@ class PluginArmaditoConfig extends CommonDBTM
     function showForm($options = array())
     {
         $paConfig = $this->initConfigForm($options, __('Global configuration', 'armadito'));
+
+        echo "<tr class='tab_bg_1'>";
+        echo "<td>".__('Use Armadito Scheduler (experimental)', 'armadito')."&nbsp;:</td>";
+        echo "<td width='20%'>";
+        Dropdown::showYesNo("armaditoscheduler", $this->getValue('armaditoscheduler'));
+        echo "</td>";
+        echo "</tr>";
+
         $paConfig->showFormFooter();
         return TRUE;
     }
