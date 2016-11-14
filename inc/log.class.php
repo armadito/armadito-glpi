@@ -47,27 +47,27 @@ class PluginArmaditoLog {
 
     static function Error($text)
     {
-        return writeToLogFile("Error", self::ERROR_LEVEL, $text);
+        return static::writeToLogFile("Error", self::ERROR_LEVEL, $text);
     }
 
     static function Warning($text)
     {
-        return writeToLogFile("Warning", self::WARNING_LEVEL, $text);
+        return static::writeToLogFile("Warning", self::WARNING_LEVEL, $text);
     }
 
     static function Info($text)
     {
-        return writeToLogFile("Info", self::INFO_LEVEL, $text);
+        return static::writeToLogFile("Info", self::INFO_LEVEL, $text);
     }
 
     static function Debug($text)
     {
-        return writeToLogFile("Debug", self::DEBUG_LEVEL, $text);
+        return static::writeToLogFile("Debug", self::DEBUG_LEVEL, $text);
     }
 
     static function Verbose($text)
     {
-        return writeToLogFile("Verbose", self::VERBOSE_LEVEL, $text);
+        return static::writeToLogFile("Verbose", self::VERBOSE_LEVEL, $text);
     }
 }
 ?>
