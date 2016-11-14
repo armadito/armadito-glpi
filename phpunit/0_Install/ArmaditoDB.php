@@ -35,7 +35,10 @@ class ArmaditoDB extends PHPUnit_Framework_Assert
         $this->file_sql_tables  = array();
         $this->db_sql_tables  = array();
 
-        $this->getTablesFromFile("plugin_" . $pluginname . "-empty.sql");
+        $file_name = "plugin_" . $pluginname . "-empty.sql";
+        $file_path = GLPI_ROOT . "/plugins/" . $pluginname . "/install/mysql/" . $file_name;
+
+        $this->getTablesFromFile($file_path);
         $this->getTablesFromDatabase();
 
         $this->checkForMissingTables();
@@ -48,11 +51,8 @@ class ArmaditoDB extends PHPUnit_Framework_Assert
         }
     }
 
-    protected function getTablesFromFile( $file_name )
+    protected function getTablesFromFile($file_path)
     {
-        $current_table = '';
-
-        $file_path = GLPI_ROOT . "/plugins/" . $pluginname . "/install/mysql/" . $file_name;
         $file_content  = file_get_contents($file_path);
         $a_lines       = explode("\n", $file_content);
 
