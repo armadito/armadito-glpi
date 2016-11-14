@@ -96,7 +96,7 @@ class PluginArmaditoConfig extends CommonDBTM
 
         $input               = array();
         $input['version']    = PLUGIN_ARMADITO_VERSION;
-        $input['extradebug'] = '1';
+        $input['debug_minlevel'] = '1';
         $input['getjobs_limit'] = 10;
         $input['colorpalette_h'] = 0.8;
         $input['colorpalette_s'] = 0.3;
@@ -146,6 +146,14 @@ class PluginArmaditoConfig extends CommonDBTM
     function showForm($options = array())
     {
         $paConfig = $this->initConfigForm($options, __('Global configuration', 'armadito'));
+
+        echo "<tr class='tab_bg_1'>";
+        echo "<td>".__('Debug level (minimum)', 'armadito')."&nbsp;:</td>";
+        echo "<td width='20%'>";
+        $array    = array();
+        Dropdown::showFromArray("debuglevel", $array);
+        echo "</td>";
+        echo "</tr>";
 
         echo "<tr class='tab_bg_1'>";
         echo "<td>".__('Use Armadito Scheduler (experimental)', 'armadito')."&nbsp;:</td>";

@@ -51,7 +51,7 @@ class PluginArmaditoAgent extends PluginArmaditoCommonDBTM
             $this->antivirus->initFromDB($this->fields["plugin_armadito_antiviruses_id"]);
             $this->schedulerid = $this->fields["plugin_armadito_schedulers_id"];
         } else {
-            PluginArmaditoToolbox::logE("Unable to get Agent DB fields");
+            PluginArmaditoLog::Error("Unable to get Agent DB fields");
         }
     }
 
@@ -204,7 +204,7 @@ class PluginArmaditoAgent extends PluginArmaditoCommonDBTM
         }
         catch(Exception $e)
         {
-            PluginArmaditoToolbox::logE();
+            PluginArmaditoLog::Error($e->getMessage());
         }
     }
 
@@ -298,7 +298,7 @@ class PluginArmaditoAgent extends PluginArmaditoCommonDBTM
         }
         catch(Exception $e)
         {
-            PluginArmaditoToolbox::logE($e->getMessage());
+            PluginArmaditoLog::Error($e->getMessage());
             $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_KO);
         }
     }

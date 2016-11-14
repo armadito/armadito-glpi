@@ -63,7 +63,7 @@ function writeHttpHeader()
 
 function writeHttpErrorResponse($error_message, $code)
 {
-    PluginArmaditoToolbox::logE($error_message);
+    PluginArmaditoLog::Error($error_message);
 
     http_response_code($code);
     writeHttpHeader();

@@ -282,7 +282,7 @@ class PluginArmaditoJob extends PluginArmaditoCommonDBTM
             } else if ($this->fields["job_status"] == "cancelled") {
                 return true;
             } else {
-                PluginArmaditoToolbox::logE("You cannot cancel a job already downloaded.");
+                PluginArmaditoLog::Warning("You cannot cancel a job already downloaded.");
             }
         }
         return false;

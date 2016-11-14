@@ -55,7 +55,7 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
             $this->agent = new PluginArmaditoAgent();
             $this->agent->initFromDB($this->fields["plugin_armadito_agents_id"]);
         } else {
-            PluginArmaditoToolbox::logE("Unable to get State DB fields");
+            PluginArmaditoLog::Error("Unable to get State DB fields");
         }
     }
 

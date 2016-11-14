@@ -49,7 +49,6 @@ class PluginArmaditoJobmanager extends CommonDBTM
     {
         $json = '{ "jobs": [';
         foreach ($this->jobs as $job) {
-            PluginArmaditoToolbox::logE("ToJson Job " . $job->getId());
             $json .= $job->toJson() . ",";
         }
         return rtrim($json, ",") . "]}";

@@ -76,8 +76,7 @@ class PluginArmaditoDbManager
         $query = rtrim($query, ",");
         $query .= ")";
 
-        PluginArmaditoToolbox::logE($query);
-
+        PluginArmaditoLog::Debug($query);
         return $query;
     }
 
@@ -109,7 +108,7 @@ class PluginArmaditoDbManager
             $i++;
         }
 
-        PluginArmaditoToolbox::logD($query);
+        PluginArmaditoLog::Debug($query);
         return $query;
     }
 

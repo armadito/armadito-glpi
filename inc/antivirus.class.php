@@ -58,7 +58,7 @@ class PluginArmaditoAntivirus extends PluginArmaditoCommonDBTM
             $this->version  = $this->fields["version"];
             $this->fullname = $this->fields["fullname"];
         } else {
-            PluginArmaditoToolbox::logE("Unable to get Antivirus DB fields");
+            PluginArmaditoLog::Error("Unable to get Antivirus DB fields");
         }
     }
 

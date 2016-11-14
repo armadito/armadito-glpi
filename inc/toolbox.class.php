@@ -38,16 +38,6 @@ class PluginArmaditoToolbox
         }
     }
 
-    static function logE($text)
-    {
-        return error_log(date("Y-m-d H:i:s") . " " . $text . "\n", 3, GLPI_LOG_DIR . "/pluginArmadito.log");
-    }
-
-    static function logD($text)
-    {
-        return error_log(date("Y-m-d H:i:s") . " " . $text . "\n", 3, GLPI_LOG_DIR . "/pluginArmadito.log");
-    }
-
     static function ExecQuery($query)
     {
         global $DB;
@@ -55,7 +45,7 @@ class PluginArmaditoToolbox
         if ($DB->query($query)) {
             return true;
         } else {
-            PluginArmaditoToolbox::logE("Error $query :" . $DB->error());
+            PluginArmaditoLog::Error($query ." :". $DB->error());
             return false;
         }
     }
