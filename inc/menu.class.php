@@ -212,6 +212,21 @@ class PluginArmaditoMenu extends CommonGLPI
         $submenu->display();
     }
 
+    static function displaySchedulersMenu()
+    {
+        $submenu = new PluginArmaditoSubMenu('Schedulers');
+        $paConfig = new PluginArmaditoConfig();
+
+        if ($paConfig->getValue('armaditoscheduler') && Session::haveRight('plugin_armadito_jobs', READ))
+        {
+            $menu_entries[] = new PluginArmaditoMenuEntry('Board', self::BOARD_PNG, 'schedulerboard.php');
+            $menu_entries[] = new PluginArmaditoMenuEntry('Schedulers', self::LISTING_PNG, 'scheduler.php');
+        }
+
+        $submenu->addEntries($menu_entries);
+        $submenu->display();
+    }
+
 
     static function displayMenu()
     {
@@ -221,6 +236,7 @@ class PluginArmaditoMenu extends CommonGLPI
         static::displayAlertsMenu();
         static::displayScansMenu();
         static::displayJobsMenu();
+        static::displaySchedulersMenu();
         static::displayMenuFooter();
     }
 }

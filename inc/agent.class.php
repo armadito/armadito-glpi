@@ -246,9 +246,14 @@ class PluginArmaditoAgent extends PluginArmaditoCommonDBTM
     function getSearchOptions()
     {
         $search_options = new PluginArmaditoSearchoptions('Agent');
+        $paConfig = new PluginArmaditoConfig();
 
         $items['Agent Id']         = new PluginArmaditoSearchitemlink('id', $this->getTable(), 'PluginArmaditoAgent');
-        $items['Scheduler Id']     = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_schedulers', 'PluginArmaditoScheduler');
+
+        if ($paConfig->getValue('armaditoscheduler')) {
+            $items['Scheduler Id']     = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_schedulers', 'PluginArmaditoScheduler');
+        }
+
         $items['Agent Version']    = new PluginArmaditoSearchtext('agent_version', $this->getTable());
         $items['Computer']         = new PluginArmaditoSearchitemlink('name', 'glpi_computers', 'Computer');
         $items['UUID']             = new PluginArmaditoSearchtext('uuid', $this->getTable());
