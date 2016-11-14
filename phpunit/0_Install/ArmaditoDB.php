@@ -69,7 +69,7 @@ class ArmaditoDB extends PHPUnit_Framework_Assert
         }
     }
 
-    protected function getTablesFromDatabase($filePath)
+    protected function getTablesFromDatabase()
     {
         global $DB;
 
