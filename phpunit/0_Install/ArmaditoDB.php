@@ -25,6 +25,7 @@ class ArmaditoDB extends PHPUnit_Framework_Assert
 {
     protected $file_sql_tables;
     protected $db_sql_tables;
+    protected $when;
 
     public function checkInstall($pluginname = '', $when = '')
     {
@@ -32,6 +33,7 @@ class ArmaditoDB extends PHPUnit_Framework_Assert
             return;
         }
 
+        $this->when = $when;
         $this->file_sql_tables  = array();
         $this->db_sql_tables  = array();
 
@@ -46,8 +48,8 @@ class ArmaditoDB extends PHPUnit_Framework_Assert
 
         foreach ($this->db_sql_tables as $table => $fields)
         {
-            $this->checkForMissingFields($fields);
-            $this->checkForUnexpectedFields($fields);
+            $this->checkForMissingFields($table, $fields);
+            $this->checkForUnexpectedFields($table, $fields);
         }
     }
 
@@ -157,39 +159,39 @@ class ArmaditoDB extends PHPUnit_Framework_Assert
 
     protected function checkForMissingTables()
     {
-        $tables_toadd    = array_diff($this->file_sql_tables, $$this->db_sql_tables);
+        $tables_toadd    = array_diff($this->file_sql_tables, $this->db_sql_tables);
 
-        $this->assertEquals(count($tables_toadd), 0, 'Tables missing ' . $when . ' ' . print_r($tables_toadd, TRUE));
+        $this->assertEquals(count($tables_toadd), 0, 'Tables missing ' . $this->when . ' ' . print_r($tables_toadd, TRUE));
     }
 
     protected function checkForUnexpectedTables()
     {
         $tables_toremove = array_diff($this->db_sql_tables, $this->file_sql_tables);
 
-        $this->assertEquals(count($tables_toremove), 0, 'Tables unexpected ' . $when . ' ' . print_r($tables_toremove, TRUE));
+        $this->assertEquals(count($tables_toremove), 0, 'Tables unexpected ' . $this->when . ' ' . print_r($tables_toremove, TRUE));
     }
 
-    protected function checkForMissingFields($dbfields)
+    protected function checkForMissingFields($table, $dbfields)
     {
         if (isset($this->file_sql_tables[$table]))
         {
             $missing_fields    = array_diff_assoc($this->file_sql_tables[$table], $dbfields);
 
             $diff = $this->getFieldsDiff($table, $dbfields, $this->file_sql_tables[$table]);
-            $assert_message = 'Fields missing/not good in ' . $when . ' ' . $table . ' ' . print_r($missing_fields, TRUE) . " into " . $diff;
+            $assert_message = 'Fields missing/not good in ' . $this->when . ' ' . $table . ' ' . print_r($missing_fields, TRUE) . " into " . $diff;
 
             $this->assertEquals(count($missing_fields), 0, $assert_message);
         }
     }
 
-    protected function checkForUnexpectedFields($dbfields)
+    protected function checkForUnexpectedFields($table, $dbfields)
     {
         if (isset($this->file_sql_tables[$table]))
         {
             $unexpected_fields = array_diff_assoc($dbfields, $this->file_sql_tables[$table]);
 
             $diff = $this->getFieldsDiff($table, $dbfields, $this->file_sql_tables[$table]);
-            $assert_message = 'Unexpected fields in ' . $when . ' ' . $table . ' ' . print_r($unexpected_fields, TRUE) . " into " . $diff;
+            $assert_message = 'Unexpected fields in ' . $this->when . ' ' . $table . ' ' . print_r($unexpected_fields, TRUE) . " into " . $diff;
 
             $this->assertEquals(count($unexpected_fields), 0, $assert_message);
         }
