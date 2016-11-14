@@ -24,38 +24,44 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 class ArmaditoDB extends PHPUnit_Framework_Assert
 {
 
-    public function checkInstall($pluginname = '', $when = '')
+    protected function getTablesFromFile( $filePath )
     {
-        global $DB;
-
-        if ($pluginname == '') {
-            return;
-        }
-
-        $comparaisonSQLFile = "plugin_" . $pluginname . "-empty.sql";
-        // See http://joefreeman.co.uk/blog/2009/07/php-script-to-compare-mysql-database-schemas/
-
-        $file_content = file_get_contents(GLPI_ROOT . "/plugins/" . $pluginname . "/install/mysql/" . $comparaisonSQLFile);
-        $a_lines      = explode("\n", $file_content);
-
         $a_tables_ref  = array();
         $current_table = '';
-        foreach ($a_lines as $line) {
-            if (strstr($line, "CREATE TABLE ") || strstr($line, "CREATE VIEW")) {
-                $matches = array();
-                preg_match("/`(.*)`/", $line, $matches);
+
+        $file_content  = file_get_contents(GLPI_ROOT . "/plugins/" . $pluginname . "/install/mysql/" . $filePath);
+        $a_lines       = explode("\n", $file_content);
+
+        foreach ($a_lines as $line)
+        {
+            if (strstr($line, "CREATE TABLE ") || strstr($line, "CREATE VIEW"))
+            {
+                preg_match("/`(.*)`/", $line,  array());
                 $current_table = $matches[1];
-            } else {
-                if (preg_match("/^`/", trim($line))) {
+            }
+            else
+            {
+                if (preg_match("/^`/", trim($line))){
                     $s_line                                   = explode("`", $line);
                     $s_type                                   = explode("COMMENT", $s_line[2]);
                     $s_type[0]                                = trim($s_type[0]);
                     $s_type[0]                                = str_replace(" COLLATE utf8_unicode_ci", "", $s_type[0]);
                     $s_type[0]                                = str_replace(" CHARACTER SET utf8", "", $s_type[0]);
+
                     $a_tables_ref[$current_table][$s_line[1]] = str_replace(",", "", $s_type[0]);
                 }
             }
         }
+
+        return $a_tables_ref;
+    }
+
+    // See http://joefreeman.co.uk/blog/2009/07/php-script-to-compare-mysql-database-schemas/
+    public function checkInstall($pluginname = '', $when = '')
+    {
+        global $DB;
+
+        $a_tables_ref = $this->getTablesFromFile("plugin_" . $pluginname . "-empty.sql");
 
         // * Get tables from MySQL
         $a_tables_db = array();
