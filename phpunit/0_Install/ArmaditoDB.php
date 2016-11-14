@@ -56,7 +56,7 @@ class ArmaditoDB extends PHPUnit_Framework_Assert
         {
             if (strstr($line, "CREATE TABLE ") || strstr($line, "CREATE VIEW"))
             {
-                $table_name = $this->parseFileTableName($line);
+                $table_name = $this->parseTableName($line);
             }
             else if (preg_match("/^`/", trim($line)))
             {
@@ -99,7 +99,7 @@ class ArmaditoDB extends PHPUnit_Framework_Assert
             {
                 if (strstr($line, "CREATE TABLE ") || strstr($line, "CREATE VIEW"))
                 {
-                    $table_name = $this->parseFileTableName($line);
+                    $table_name = $this->parseTableName($line);
                 }
                 else if (preg_match("/^`/", trim($line)))
                 {
