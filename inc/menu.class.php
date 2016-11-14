@@ -134,6 +134,7 @@ class PluginArmaditoMenu extends CommonGLPI
     static function displayGeneralMenu()
     {
         $submenu = new PluginArmaditoSubMenu('General');
+        $menu_entries = array();
 
         if (Session::haveRight('plugin_armadito_agents', READ))
         {
@@ -154,6 +155,7 @@ class PluginArmaditoMenu extends CommonGLPI
     static function displayStateMenu()
     {
         $submenu = new PluginArmaditoSubMenu('State');
+        $menu_entries = array();
 
         if (Session::haveRight('plugin_armadito_states', READ))
         {
@@ -168,6 +170,7 @@ class PluginArmaditoMenu extends CommonGLPI
     static function displayAlertsMenu()
     {
         $submenu = new PluginArmaditoSubMenu('Alerts');
+        $menu_entries = array();
 
         if (Session::haveRight('plugin_armadito_alerts', READ))
         {
@@ -182,6 +185,7 @@ class PluginArmaditoMenu extends CommonGLPI
     static function displayScansMenu()
     {
         $submenu = new PluginArmaditoSubMenu('Scans');
+        $menu_entries = array();
 
         if (Session::haveRight('plugin_armadito_scans', READ))
         {
@@ -201,6 +205,7 @@ class PluginArmaditoMenu extends CommonGLPI
     static function displayJobsMenu()
     {
         $submenu = new PluginArmaditoSubMenu('Jobs');
+        $menu_entries = array();
 
         if (Session::haveRight('plugin_armadito_jobs', READ))
         {
@@ -216,6 +221,7 @@ class PluginArmaditoMenu extends CommonGLPI
     {
         $submenu = new PluginArmaditoSubMenu('Schedulers');
         $paConfig = new PluginArmaditoConfig();
+        $menu_entries = array();
 
         if ($paConfig->getValue('armaditoscheduler') && Session::haveRight('plugin_armadito_schedulers', READ))
         {
