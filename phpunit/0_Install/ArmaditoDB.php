@@ -145,9 +145,9 @@ class ArmaditoDB extends PHPUnit_Framework_Assert
         }
 
         $query  = "SELECT `id` FROM `glpi_plugin_armadito_configs`
-         WHERE `type`='extradebug'";
+         WHERE `type`='debug_minlevel'";
         $result = $DB->query($query);
-        $this->assertEquals($DB->numrows($result), 1, "type 'extradebug' not added in config");
+        $this->assertEquals($DB->numrows($result), 1, "type 'debug_minlevel' not added in config");
 
         $query  = "SELECT * FROM `glpi_plugin_armadito_configs`
          WHERE `type`='version'";
