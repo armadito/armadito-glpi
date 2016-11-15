@@ -55,7 +55,6 @@ before_install:
  - ant -Dclearsavepoint='true' -Dbasedir=. -f ./glpi/plugins/armadito/phpunit/build.xml composer
  - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
  - cd glpi/plugins/armadito
- - export SONARQUBE_SKIPPED=false
 
 install:
  - composer require satooshi/php-coveralls
@@ -65,6 +64,7 @@ before_script:
   - phpenv version-name | grep ^5.[34] && echo "extension=apc.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; true
   - phpenv version-name | grep ^5.[34] && echo "apc.enable_cli=1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; true
   - php -S localhost:8088 -t glpi > /dev/null 2>&1 &
+  - export SONARQUBE_SKIPPED=false
 
 script:
 - ant -Dclearsavepoint='true' -Dbasedir=/home/travis/build/armadito -f ./phpunit/build.xml phpunit.all
