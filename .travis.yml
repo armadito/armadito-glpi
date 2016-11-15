@@ -1,5 +1,6 @@
 sudo: required
 language: php
+branch: DEV
 php:
 #  - 5.4
 #  - 5.5
