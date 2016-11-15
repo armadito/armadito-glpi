@@ -64,11 +64,11 @@ class PluginArmaditoSubMenu
     function displayEntries()
     {
         $colspan = count($this->entries) - 1;
-        $width = ($this->width - 40);
+        $submenu_width = ($this->width - 40);
 
         foreach ($this->entries as $entry)
         {
-            $entry->display($colspan, $width);
+            $entry->display($colspan, $submenu_width);
         }
     }
 

@@ -149,7 +149,7 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
     {
         global $DB;
 
-        $id    = 0;
+        $tableid    = 0;
         $query = "SELECT id FROM `" . $table . "`
                  WHERE `plugin_armadito_agents_id`='" . $this->agentid . "'";
 
@@ -161,10 +161,10 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
 
         if ($DB->numrows($ret) > 0) {
             $data = $DB->fetch_assoc($ret);
-            $id   = $data["id"];
+            $tableid   = $data["id"];
         }
 
-        return $id;
+        return $tableid;
     }
 
     function insertState()

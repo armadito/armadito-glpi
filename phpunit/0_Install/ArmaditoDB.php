@@ -171,20 +171,20 @@ class ArmaditoDB extends PHPUnit_Framework_Assert
 
     protected function checkForMissingTables()
     {
-        $file_sql_tables = $this->formatArrayForDiff($this->file_sql_tables);
-        $db_sql_tables = $this->formatArrayForDiff($this->db_sql_tables);
+        $formatted_file_tables = $this->formatArrayForDiff($this->file_sql_tables);
+        $formatted_db_tables = $this->formatArrayForDiff($this->db_sql_tables);
 
-        $tables_toadd    = array_diff($file_sql_tables, $db_sql_tables);
+        $tables_toadd    = array_diff($formatted_file_tables, $formatted_db_tables);
 
         $this->assertEquals(count($tables_toadd), 0, 'Tables missing ' . $this->when . ' ' . print_r($tables_toadd, TRUE));
     }
 
     protected function checkForUnexpectedTables()
     {
-        $file_sql_tables = $this->formatArrayForDiff($this->file_sql_tables);
-        $db_sql_tables = $this->formatArrayForDiff($this->db_sql_tables);
+        $formatted_file_tables = $this->formatArrayForDiff($this->file_sql_tables);
+        $formatted_db_tables = $this->formatArrayForDiff($this->db_sql_tables);
 
-        $tables_toremove = array_diff($db_sql_tables, $file_sql_tables);
+        $tables_toremove = array_diff($formatted_db_tables, $formatted_file_tables);
 
         $this->assertEquals(count($tables_toremove), 0, 'Tables unexpected ' . $this->when . ' ' . print_r($tables_toremove, TRUE));
     }
@@ -217,10 +217,9 @@ class ArmaditoDB extends PHPUnit_Framework_Assert
 
     protected function getFieldsDiff($table, $dbfields, $filefields)
     {
-            $diff  = "======= DB ============== Ref =======> " . $table . "\n";
-            $diff .= print_r($dbfields, TRUE);
-            $diff .= print_r($this->file_sql_tables[$table], TRUE);
-            return $diff;
+            return "======= DB ============== Ref =======> " . $table . "\n" .
+                    print_r($dbfields, TRUE) .
+                    print_r($this->file_sql_tables[$table], TRUE);
     }
 }
 ?>
