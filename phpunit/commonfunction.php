@@ -2,7 +2,6 @@
 
 function load_mysql_file($dbuser = '', $dbhost = '', $dbdefault = '', $dbpassword = '', $file = NULL)
 {
-
     if (!file_exists($file)) {
         return array(
             'returncode' => 1,
@@ -19,7 +18,6 @@ function load_mysql_file($dbuser = '', $dbhost = '', $dbdefault = '', $dbpasswor
     }
 
     $cmd = $result . " " . $dbdefault . " < " . $file . " 2>&1";
-
 
     $returncode = 0;
     $output     = array();
@@ -105,12 +103,10 @@ function construct_mysql_options($dbuser = '', $dbhost = '', $dbpassword = '', $
     }
 
     return implode(' ', $cmd);
-
 }
 
 function drop_database($dbuser = '', $dbhost = '', $dbdefault = '', $dbpassword = '')
 {
-
     $cmd = construct_mysql_options($dbuser, $dbhost, $dbpassword, 'mysql');
 
     if (is_array($cmd)) {
@@ -118,7 +114,6 @@ function drop_database($dbuser = '', $dbhost = '', $dbdefault = '', $dbpassword 
     }
 
     $cmd = 'echo "DROP DATABASE IF EXISTS ' . $dbdefault . '; CREATE DATABASE ' . $dbdefault . '" | ' . $cmd . " 2>&1";
-
 
     $returncode = 0;
     $output     = array();
@@ -128,7 +123,6 @@ function drop_database($dbuser = '', $dbhost = '', $dbdefault = '', $dbpassword 
         'returncode' => $returncode,
         'output' => $output
     );
-
 }
 
 ?>
