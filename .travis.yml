@@ -6,6 +6,10 @@ php:
 #  - 5.6
   - 7.0
 
+branches:
+  only:
+    - DEV
+
 env:
   global:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
