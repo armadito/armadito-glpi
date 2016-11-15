@@ -61,10 +61,10 @@ install:
  - composer require corneltek/getoptionkit
 
 before_script:
+  - unset SONARQUBE_SKIPPED
   - phpenv version-name | grep ^5.[34] && echo "extension=apc.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; true
   - phpenv version-name | grep ^5.[34] && echo "apc.enable_cli=1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; true
   - php -S localhost:8088 -t glpi > /dev/null 2>&1 &
-  - export SONARQUBE_SKIPPED=false
 
 script:
 - ant -Dclearsavepoint='true' -Dbasedir=/home/travis/build/armadito -f ./phpunit/build.xml phpunit.all
