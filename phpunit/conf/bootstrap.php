@@ -1,9 +1,10 @@
 <?php
 
 if (!defined('GLPI_ROOT')) {
-    define('GLPI_ROOT', realpath('./glpi'));
+    define('GLPI_ROOT', realpath('../../../'));
     define('ARMADITO_ROOT', GLPI_ROOT . DIRECTORY_SEPARATOR . '/plugins/armadito');
-    set_include_path(get_include_path() . PATH_SEPARATOR . GLPI_ROOT . PATH_SEPARATOR . GLPI_ROOT . "/plugins/armadito/phpunit/");
+    define('TESTS_ROOT', GLPI_ROOT . "/plugins/armadito/phpunit/");
+    set_include_path(get_include_path() . PATH_SEPARATOR . GLPI_ROOT . PATH_SEPARATOR . TESTS_ROOT);
 }
 
 require_once(GLPI_ROOT . "/inc/autoload.function.php");

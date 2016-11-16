@@ -53,3 +53,4 @@ before_script:
 script:
 - ant -Dclearsavepoint='true' -f ./phpunit/build.xml phpunit.all
 - sonar-scanner -X -Dsonar.host.url=https://sonarqube.com -Dsonar.login=$SONAR_TOKEN
+

@@ -1,5 +1,5 @@
 <?php
-include_once('bootstrap.php');
+include_once('./conf/bootstrap.php');
 include_once('commonfunction.php');
 
 include_once(GLPI_ROOT . "/config/based_config.php");

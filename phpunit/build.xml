@@ -42,7 +42,7 @@
    </macrodef>
 
    <target name="phpunit.update" depends="prepare" description="Run update tests with PHPUnit">
-      <phpunit.run type="update" configuration="testsuites_update.xml" />
+      <phpunit.run type="update" configuration="./conf/testsuites_update.xml" />
       <format.testlog />
       <fail>
          <condition>
@@ -51,7 +51,7 @@
       </fail>
    </target>
    <target name="phpunit.install" depends="prepare" description="Run installation tests with PHPUnit">
-      <phpunit.run type="install" configuration="testsuites_install.xml" />
+      <phpunit.run type="install" configuration="./conf/testsuites_install.xml" />
       <format.testlog />
       <fail>
          <condition>
@@ -60,7 +60,7 @@
       </fail>
    </target>
    <target name="phpunit.unit" depends="prepare" description="Run unit tests with PHPUnit">
-      <phpunit.run type="unit" configuration="testsuites_unit.xml" />
+      <phpunit.run type="unit" configuration="./conf/testsuites_unit.xml" />
       <format.testlog />
       <fail>
          <condition>
@@ -69,7 +69,7 @@
       </fail>
    </target>
    <target name="phpunit.integration" depends="prepare" description="Run integration tests with PHPUnit">
-      <phpunit.run type="integration" configuration="testsuites_integration.xml" />
+      <phpunit.run type="integration" configuration="./conf/testsuites_integration.xml" />
       <format.testlog />
       <fail>
          <condition>
@@ -79,8 +79,8 @@
    </target>
    <target name="phpunit.all" depends="prepare" description="Run every unit tests with PHPUnit">
       <sequential if:true="${clear.savepoint}">
-         <phpunit.run type="update" configuration="testsuites_update.xml" />
-         <phpunit.run type="install" configuration="testsuites_install.xml" />
+         <phpunit.run type="update" configuration="./conf/testsuites_update.xml" />
+         <phpunit.run type="install" configuration="./conf/testsuites_install.xml" />
          <format.testlog />
          <fail>
             <condition>
@@ -89,8 +89,8 @@
          </fail>
       </sequential>
       <sequential>
-         <phpunit.run type="unit" configuration="testsuites_unit.xml" />
-         <phpunit.run type="integration" configuration="testsuites_integration.xml" />
+         <phpunit.run type="unit" configuration="./conf/testsuites_unit.xml" />
+         <phpunit.run type="integration" configuration="./conf/testsuites_integration.xml" />
          <format.testlog />
          <fail>
             <condition>
