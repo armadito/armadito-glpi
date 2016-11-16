@@ -15,7 +15,6 @@
 
    <target name="composer" description="Ensure composer is installed">
       <copy overwrite="true" verbose="true" file="${armadito.directory}/phpunit/composer.json" tofile="${basedir}/composer.json" />
-      <exec failonerror="true" dir="${basedir}" executable="${armadito.directory}/phpunit/tools/get_composer.sh" />
       <exec failonerror="true" dir="${basedir}" executable="composer">
          <arg value="update" />
          <arg value="--prefer-source" />

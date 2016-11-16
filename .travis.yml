@@ -19,7 +19,6 @@ addons:
   apt:
     packages:
     - ant
-    - xsltproc
   sonarqube:
     branches :
     - DEV
