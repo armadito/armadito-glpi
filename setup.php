@@ -41,8 +41,6 @@ function plugin_init_armadito()
 
     if ($Plugin->isActivated('armadito')) {
 
-        require_once("vendor/autoload.php");
-
         $types = array(
             'Central',
             'Preference',
