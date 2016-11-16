@@ -42,8 +42,8 @@ before_install:
  - echo '<?php class DB extends DBmysql {var $dbhost = "localhost";var $dbuser = "travis";var $dbpassword= "travis";var $dbdefault = "glpi";}' > glpi/config/config_db.php
 
 install:
- - ant -Dclearsavepoint='true' -Dbasedir=. -f ./glpi/plugins/armadito/phpunit/build.xml composer
- - cd glpi/plugins/armadito
+ - ant -Dclearsavepoint='true' -Dbasedir=. -f ./plugins/armadito/phpunit/build.xml composer
+ - cd plugins/armadito
 
 before_script:
   - phpenv version-name | grep ^5.[34] && echo "extension=apc.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; true
