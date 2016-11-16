@@ -29,7 +29,6 @@ before_install:
  - yes | sudo apt-add-repository ppa:webupd8team/java
  - sudo apt-get update
  - sudo apt-get install oracle-java8-installer
- - java -version
  - JAVA_HOME="/usr/lib/jvm/java-8-oracle"
  - cd ..
  - git clone git://github.com/glpi-project/glpi.git glpi
@@ -41,15 +40,10 @@ before_install:
  - mysql -u root -e "GRANT ALL PRIVILEGES ON glpi.* TO 'travis'@'localhost';"
  - mysql -u root -e "FLUSH PRIVILEGES;"
  - echo '<?php class DB extends DBmysql {var $dbhost = "localhost";var $dbuser = "travis";var $dbpassword= "travis";var $dbdefault = "glpi";}' > glpi/config/config_db.php
- - mv -f armadito-glpi glpi/plugins/armadito
- - composer self-update
- - ant -Dclearsavepoint='true' -Dbasedir=. -f ./glpi/plugins/armadito/phpunit/build.xml composer
- - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
- - cd glpi/plugins/armadito
 
 install:
- - composer require satooshi/php-coveralls
- - composer require corneltek/getoptionkit
+ - ant -Dclearsavepoint='true' -Dbasedir=. -f ./glpi/plugins/armadito/phpunit/build.xml composer
+ - cd glpi/plugins/armadito
 
 before_script:
   - phpenv version-name | grep ^5.[34] && echo "extension=apc.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; true
