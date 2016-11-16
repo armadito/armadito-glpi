@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<ruleset name="glpi">
+  <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace" />
+  <rule ref="Squiz.ControlStructures.ElseIfDeclaration" />
+  <rule ref="Generic.WhiteSpace.DisallowTabIndent" />
+  <rule ref="Generic.WhiteSpace.ScopeIndent">
+    <properties>
+      <property name="indent" value="3"/>
+    </properties>
+  </rule>
+  <rule ref="Zend.Files.ClosingTag" />
+</ruleset>

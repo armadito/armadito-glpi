@@ -65,18 +65,18 @@
          <arg value="--jdepend-xml=${basedir}/build/logs/jdepend.xml" />
          <arg value="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg" />
          <arg value="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg" />
-         <arg path="${basedir}/glpi/plugins" />
+         <arg path="${basedir}/glpi/plugins/armadito" />
       </exec>
    </target>
    <target name="phpmd" description="Perform project mess detection using PHPMD and print human readable output. Intended for usage on the command line before committing.">
       <exec dir="${basedir}/glpi/plugins/armadito/phpunit/" executable="./vendor/bin/phpmd">
-         <arg path="${basedir}/glpi/plugins" />
+         <arg path="${basedir}/glpi/plugins/armadito" />
          <arg value="text" />
       </exec>
    </target>
    <target name="phpmd-ci" description="Perform project mess detection using PHPMD creating a log file for the continuous integration server">
       <exec dir="${basedir}" executable="./vendor/bin/phpmd">
-         <arg path="${basedir}/glpi/plugins" />
+         <arg path="${basedir}/glpi/plugins/armadito" />
          <arg value="xml" />
          <arg value="codesize,unusedcode,naming" />
          <arg value="--reportfile" />
@@ -86,16 +86,15 @@
       </exec>
    </target>
    <target name="phpcs-ci" description="Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server">
-      <exec dir="${basedir}" executable="./vendor/bin/phpcs" output="/dev/null">
-         <arg path="${basedir}/glpi/plugins" />
+      <exec dir="${basedir}" executable="./vendor/bin/phpcs">
+         <arg path="${basedir}/glpi/plugins/armadito" />
          <arg value="--report=checkstyle" />
          <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
-         <arg value="--standard=Armadito" />
+         <arg value="--standard=${basedir}/glpi/plugins/armadito/phpunit/phpcs-rules.xml" />
          <arg value="--extensions=php" />
-         <arg path="${basedir}/glpi/plugins" />
+         <arg path="${basedir}/glpi/plugins/armadito" />
       </exec>
    </target>
-   <!-- TODO: move vendor to ${basedir} root -->
    <target name="phpcpd" description="Find duplicate code using PHPCPD">
       <exec dir="${basedir}" executable="./vendor/bin/phpcpd">
          <arg line="--exclude=&quot;vendor&quot;" />
