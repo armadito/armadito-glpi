@@ -15,5 +15,8 @@
 
     "config": {
         "cache-dir": "./composer.cache"
+    },
+    "require": {
+        "corneltek/getoptionkit": "^2.5"
     }
 }
