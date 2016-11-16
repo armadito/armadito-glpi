@@ -12,7 +12,7 @@
    </target>
 
    <target name="composer" description="Ensure composer is installed">
-      <exec failonerror="true" dir="${basedir}" executable="composer">
+      <exec failonerror="true" executable="composer">
          <arg value="update" />
          <arg value="--prefer-source" />
       </exec>
