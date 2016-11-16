@@ -1,146 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:if="ant:if" xmlns:unless="ant:unless" name="plugin-armadito" default="build">
    <property name="armadito.directory" value="${basedir}/glpi/plugins/armadito" />
-   <target name="build" depends="prepare,lint,phploc,pdepend,phpmd-ci,phpcs-ci,phpcpd,phpdox" />
-   <target name="build-parallel" depends="tools-parallel" />
-   <target name="tools-parallel" depends="prepare, lint" description="Run tools in parallel">
-      <parallel threadCount="2">
-         <sequential>
-            <antcall target="pdepend" />
-            <antcall target="phpmd-ci" />
-         </sequential>
-         <antcall target="phpcpd" />
-         <antcall target="phpcs-ci" />
-         <antcall target="phploc" />
-         <antcall target="phpdox" />
-         <!--   <antcall target="phpunit.all"/> -->
-      </parallel>
+
+   <target name="build" depends="prepare" />
+   <target name="prepare" depends="clean" description="Prepare for build">
+      <mkdir dir="${basedir}/build/coverage" />
+      <mkdir dir="${basedir}/build/logs" />
    </target>
+
    <target name="clean" description="Cleanup build artifacts">
-      <delete dir="${basedir}/build/api" />
-      <delete dir="${basedir}/build/code-browser" />
       <delete dir="${basedir}/build/coverage" />
       <delete dir="${basedir}/build/logs" />
-      <delete dir="${basedir}/build/pdepend" />
    </target>
+
    <target name="composer" description="Ensure composer is installed">
-      <copy overwrite="true" verbose="true" file="${basedir}/glpi/plugins/armadito/phpunit/composer.json" tofile="${basedir}/composer.json" />
-      <exec failonerror="true" dir="${basedir}" executable="./glpi/plugins/armadito/phpunit/tools/get_composer.sh" />
+      <copy overwrite="true" verbose="true" file="${armadito.directory}/phpunit/composer.json" tofile="${basedir}/composer.json" />
+      <exec failonerror="true" dir="${basedir}" executable="${armadito.directory}/phpunit/tools/get_composer.sh" />
       <exec failonerror="true" dir="${basedir}" executable="composer">
          <arg value="update" />
          <arg value="--prefer-source" />
       </exec>
    </target>
-   <target name="prepare" depends="clean" description="Prepare for build">
-      <mkdir dir="${basedir}/build/api" />
-      <mkdir dir="${basedir}/build/code-browser" />
-      <mkdir dir="${basedir}/build/coverage" />
-      <mkdir dir="${basedir}/build/logs" />
-      <mkdir dir="${basedir}/build/pdepend" />
-      <mkdir dir="${basedir}/build/phpdox" />
-   </target>
-   <target name="lint" description="Perform syntax check of sourcecode files">
-      <apply executable="php" failonerror="true">
-         <arg value="-l" />
-         <fileset dir="${basedir}/glpi/plugins">
-            <include name="**/*.php" />
-            <exclude name="armadito/phpunit/vendor/**/*.php" />
-            <exclude name="armadito/phpunit/tools/composer.src/**/*.*" />
-            <exclude name="armadito/phpunit/tools/composer.cache/**/*.*" />
-            <modified />
-         </fileset>
-      </apply>
-   </target>
-   <target name="phploc" description="Measure project size using PHPLOC">
-      <exec dir="${basedir}" executable="./vendor/bin/phploc">
-         <arg value="--vvv" />
-         <arg value="--log-csv" />
-         <arg value="${basedir}/build/logs/phploc.csv" />
-         <arg line="--exclude=&quot;${basedir}/glpi/plugins/phpunit/vendor&quot;" />
-         <arg path="${basedir}/glpi/plugins/armadito" />
-      </exec>
-   </target>
-   <target name="pdepend" description="Calculate software metrics using PHP_Depend">
-      <exec dir="${basedir}" executable="./vendor/bin/pdepend">
-         <arg value="--jdepend-xml=${basedir}/build/logs/jdepend.xml" />
-         <arg value="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg" />
-         <arg value="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg" />
-         <arg path="${basedir}/glpi/plugins/armadito" />
-      </exec>
-   </target>
-   <target name="phpmd" description="Perform project mess detection using PHPMD and print human readable output. Intended for usage on the command line before committing.">
-      <exec dir="${basedir}/glpi/plugins/armadito/phpunit/" executable="./vendor/bin/phpmd">
-         <arg path="${basedir}/glpi/plugins/armadito" />
-         <arg value="text" />
-      </exec>
-   </target>
-   <target name="phpmd-ci" description="Perform project mess detection using PHPMD creating a log file for the continuous integration server">
-      <exec dir="${basedir}" executable="./vendor/bin/phpmd">
-         <arg path="${basedir}/glpi/plugins/armadito" />
-         <arg value="xml" />
-         <arg value="codesize,unusedcode,naming" />
-         <arg value="--reportfile" />
-         <arg value="${basedir}/build/logs/pmd.xml" />
-         <arg value="--exclude" />
-         <arg value="webservices" />
-      </exec>
-   </target>
-   <target name="phpcs-ci" description="Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server">
-      <exec dir="${basedir}" executable="./vendor/bin/phpcs">
-         <arg path="${basedir}/glpi/plugins/armadito" />
-         <arg value="--report=checkstyle" />
-         <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
-         <arg value="--standard=${basedir}/glpi/plugins/armadito/phpunit/phpcs-rules.xml" />
-         <arg value="--extensions=php" />
-         <arg path="${basedir}/glpi/plugins/armadito" />
-      </exec>
-   </target>
-   <target name="phpcpd" description="Find duplicate code using PHPCPD">
-      <exec dir="${basedir}" executable="./vendor/bin/phpcpd">
-         <arg line="--exclude=&quot;vendor&quot;" />
-         <arg value="--log-pmd" />
-         <arg value="${basedir}/build/logs/pmd-cpd.xml" />
-         <arg path="${basedir}/glpi/plugins" />
-      </exec>
-   </target>
-   <target name="phpdox" description="Generate API documentation using phpDox">
-      <exec dir="${basedir}" executable="./vendor/bin/phpdox" />
-   </target>
-   <!-- check for HTML coverage reporting option -->
-   <condition property="phpunit.arg.coverage.html" value="--coverage-html ${basedir}/build/coverage/" else="">
-      <isset property="with.coverage.html" />
-   </condition>
-   <!-- clear SQL savepoint -->
+
    <condition property="clear.savepoint" value="true" else="false">
       <and>
          <isset property="clearsavepoint" />
          <istrue value="${clearsavepoint}" />
       </and>
    </condition>
+
    <macrodef name="phpunit.run">
       <attribute name="configuration" />
       <attribute name="type" />
       <element name="testfile" optional="true" />
-      <!-- used for debugging only one test -->
+
       <sequential>
          <exec dir="${basedir}" executable="./vendor/bin/phpunit" failonerror="false" resultproperty="phpunit.returncode.@{type}">
             <arg value="--verbose" />
             <arg value="--debug" />
             <arg line="--coverage-clover ${basedir}/build/logs/clover-@{type}.xml" />
-            <arg line="${phpunit.arg.coverage.html}" />
             <arg line="--configuration @{configuration}" />
             <testfile />
          </exec>
       </sequential>
    </macrodef>
-   <macrodef name="format.testlog">
-      <sequential>
-         <exec dir="${basedir}" executable="${armadito.directory}/phpunit/tools/format_phpunitlogs.sh" failonerror="true">
-            <arg path="${basedir}" />
-            <arg value="${ant.project.name}" />
-         </exec>
-      </sequential>
-   </macrodef>
+
    <target name="phpunit.update" depends="prepare" description="Run update tests with PHPUnit">
       <phpunit.run type="update" configuration="${armadito.directory}/phpunit/testsuites_update.xml" />
       <format.testlog />
@@ -181,10 +85,6 @@
       <sequential if:true="${clear.savepoint}">
          <phpunit.run type="update" configuration="${armadito.directory}/phpunit/testsuites_update.xml" />
          <phpunit.run type="install" configuration="${armadito.directory}/phpunit/testsuites_install.xml" />
-
-        <!-- No need to continue only if install fails since we need a good save.sql
-       TODO: This should be only needed by integration tests but not by unit tests. This must be fixed. -->
-
          <format.testlog />
          <fail>
             <condition>
