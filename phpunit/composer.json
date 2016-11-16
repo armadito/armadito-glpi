@@ -4,17 +4,11 @@
     "license" : "AGPL-3.0",
 
     "require-dev": {
-        "phpunit/phpunit": "3.7.*",
-        "phploc/phploc": "*",
-        "pdepend/pdepend" : "1.1.0",
-        "theseer/phpdox" : "*",
-        "phpmd/phpmd" : "*",
-        "squizlabs/php_codesniffer" : "*",
-        "sebastian/phpcpd": "*"
+        "phpunit/phpunit": "3.7.*"
     },
 
     "config": {
-        "cache-dir": "./composer.cache"
+        "cache-dir": "$HOME/.composer/cache"
     },
     "require": {
         "corneltek/getoptionkit": "^2.5"
