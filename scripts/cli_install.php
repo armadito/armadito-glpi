@@ -23,7 +23,7 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 chdir(dirname($_SERVER["SCRIPT_FILENAME"]));
 
 include("../../../inc/includes.php");
-require_once("../vendor/autoload.php");
+require_once("../phpunit/vendor/autoload.php");
 
 use GetOptionKit\OptionCollection;
 use GetOptionKit\OptionParser;
