@@ -39,10 +39,11 @@ before_install:
  - mysql -u root -e "GRANT ALL PRIVILEGES ON glpi.* TO 'travis'@'localhost';"
  - mysql -u root -e "FLUSH PRIVILEGES;"
  - echo '<?php class DB extends DBmysql {var $dbhost = "localhost";var $dbuser = "travis";var $dbpassword= "travis";var $dbdefault = "glpi";}' > glpi/config/config_db.php
+ - mv -f armadito-glpi glpi/plugins/armadito
 
 install:
- - ant -Dclearsavepoint='true' -Dbasedir=. -f ./plugins/armadito/phpunit/build.xml composer
- - cd plugins/armadito
+ - ant -Dclearsavepoint='true' -Dbasedir=. -f ./glpi/plugins/armadito/phpunit/build.xml composer
+ - cd glpi/plugins/armadito
 
 before_script:
   - phpenv version-name | grep ^5.[34] && echo "extension=apc.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; true
