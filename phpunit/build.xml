@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:if="ant:if" xmlns:unless="ant:unless" name="plugin-armadito" default="build">
-   <property name="armadito.directory" value="${basedir}/glpi/plugins/armadito" />
-
    <target name="build" depends="prepare" />
    <target name="prepare" depends="clean" description="Prepare for build">
       <mkdir dir="${basedir}/build/coverage" />
@@ -14,7 +12,6 @@
    </target>
 
    <target name="composer" description="Ensure composer is installed">
-      <copy overwrite="true" verbose="true" file="${armadito.directory}/phpunit/composer.json" tofile="${basedir}/composer.json" />
       <exec failonerror="true" dir="${basedir}" executable="composer">
          <arg value="update" />
          <arg value="--prefer-source" />
@@ -34,7 +31,7 @@
       <element name="testfile" optional="true" />
 
       <sequential>
-         <exec dir="${basedir}" executable="./vendor/bin/phpunit" failonerror="false" resultproperty="phpunit.returncode.@{type}">
+         <exec dir="${basedir}" executable="${basedir}/vendor/bin/phpunit" failonerror="false" resultproperty="phpunit.returncode.@{type}">
             <arg value="--verbose" />
             <arg value="--debug" />
             <arg line="--coverage-clover ${basedir}/build/logs/clover-@{type}.xml" />
@@ -45,7 +42,7 @@
    </macrodef>
 
    <target name="phpunit.update" depends="prepare" description="Run update tests with PHPUnit">
-      <phpunit.run type="update" configuration="${armadito.directory}/phpunit/testsuites_update.xml" />
+      <phpunit.run type="update" configuration="${basedir}/testsuites_update.xml" />
       <format.testlog />
       <fail>
          <condition>
@@ -54,7 +51,7 @@
       </fail>
    </target>
    <target name="phpunit.install" depends="prepare" description="Run installation tests with PHPUnit">
-      <phpunit.run type="install" configuration="${armadito.directory}/phpunit/testsuites_install.xml" />
+      <phpunit.run type="install" configuration="${basedir}/testsuites_install.xml" />
       <format.testlog />
       <fail>
          <condition>
@@ -63,7 +60,7 @@
       </fail>
    </target>
    <target name="phpunit.unit" depends="prepare" description="Run unit tests with PHPUnit">
-      <phpunit.run type="unit" configuration="${armadito.directory}/phpunit/testsuites_unit.xml" />
+      <phpunit.run type="unit" configuration="${basedir}/testsuites_unit.xml" />
       <format.testlog />
       <fail>
          <condition>
@@ -72,7 +69,7 @@
       </fail>
    </target>
    <target name="phpunit.integration" depends="prepare" description="Run integration tests with PHPUnit">
-      <phpunit.run type="integration" configuration="${armadito.directory}/phpunit/testsuites_integration.xml" />
+      <phpunit.run type="integration" configuration="${basedir}/testsuites_integration.xml" />
       <format.testlog />
       <fail>
          <condition>
@@ -82,8 +79,8 @@
    </target>
    <target name="phpunit.all" depends="prepare" description="Run every unit tests with PHPUnit">
       <sequential if:true="${clear.savepoint}">
-         <phpunit.run type="update" configuration="${armadito.directory}/phpunit/testsuites_update.xml" />
-         <phpunit.run type="install" configuration="${armadito.directory}/phpunit/testsuites_install.xml" />
+         <phpunit.run type="update" configuration="${basedir}/testsuites_update.xml" />
+         <phpunit.run type="install" configuration="${basedir}/testsuites_install.xml" />
          <format.testlog />
          <fail>
             <condition>
@@ -92,8 +89,8 @@
          </fail>
       </sequential>
       <sequential>
-         <phpunit.run type="unit" configuration="${armadito.directory}/phpunit/testsuites_unit.xml" />
-         <phpunit.run type="integration" configuration="${armadito.directory}/phpunit/testsuites_integration.xml" />
+         <phpunit.run type="unit" configuration="${basedir}/testsuites_unit.xml" />
+         <phpunit.run type="integration" configuration="${basedir}/testsuites_integration.xml" />
          <format.testlog />
          <fail>
             <condition>
