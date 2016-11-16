@@ -69,4 +69,6 @@ before_script:
 
 script:
 - ant -Dclearsavepoint='true' -Dbasedir=/home/travis/build/armadito -f ./phpunit/build.xml phpunit.all
+- ls -al /home/travis/build/armadito/
+- ls -al /home/travis/build/armadito/build
 - sonar-scanner -X -Dsonar.host.url=https://sonarqube.com -Dsonar.login=$SONAR_TOKEN
