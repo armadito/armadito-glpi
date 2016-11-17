@@ -98,7 +98,7 @@ class PluginArmaditoAgent extends PluginArmaditoCommonDBTM
         return '{"agent_id": ' . $this->id . ',"scheduler_id": '. $this->schedulerid .'}';
     }
 
-    function run()
+    function insertOrUpdateInDB()
     {
         $this->antivirus->run();
 

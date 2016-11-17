@@ -29,6 +29,38 @@ class NewAgentTest extends RestoreDatabaseTestCase
      */
     public function addAgent()
     {
+        $json  = '{
+  "task": {"obj":"{}",
+           "name":"Enrollment",
+           "antivirus": {
+                         "name":"Armadito",
+                         "version":"0.10.2"
+                        }
+          },
+  "agent_version":"2.3.18",
+  "agent_id":1,
+  "uuid":"4C4C4544-0033-4A10-8051-C7C04F503732"}';
+
+        $jobj = PluginArmaditoToolbox::parseJSON($json);
+        $agent = new PluginArmaditoAgent();
+        $agent->initFromJson($jobj);
+        $agent->insertOrUpdateInDB();
+
+        $Scheduler = new PluginArmaditoScheduler();
+        $Scheduler->init($agent->getId());
+        $Scheduler->insertOrUpdateInDB();
+        $Agent->updateSchedulerId($Scheduler->getId());
+
+        writeHttpOKResponse($Agent->toJson());
+
+        return $agent;
+    }
+
+    /**
+     * @test
+     */
+    public function updateAgent()
+    {
         $agent = new PluginArmaditoAgent();
         $json  = '{
   "task": {"obj":"{}",
@@ -49,5 +81,6 @@ class NewAgentTest extends RestoreDatabaseTestCase
 
         return $agent;
     }
+
 }
 

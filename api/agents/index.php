@@ -35,13 +35,13 @@ if (isValidPOSTRequest($rawdata))
     try
     {
         $jobj = PluginArmaditoToolbox::parseJSON($rawdata);
-        $Agent = new PluginArmaditoAgent();
-        $Agent->initFromJson($jobj);
-        $Agent->run();
+        $agent = new PluginArmaditoAgent();
+        $agent->initFromJson($jobj);
+        $agent->insertOrUpdateInDB();
 
         $Scheduler = new PluginArmaditoScheduler();
-        $Scheduler->init($Agent->getId());
-        $Scheduler->insertOrUpdateInDb();
+        $Scheduler->init($agent->getId());
+        $Scheduler->insertOrUpdateInDB();
         $Agent->updateSchedulerId($Scheduler->getId());
 
         writeHttpOKResponse($Agent->toJson());

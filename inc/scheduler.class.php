@@ -38,7 +38,7 @@ class PluginArmaditoScheduler extends PluginArmaditoCommonDBTM
         return __('Scheduler', 'armadito');
     }
 
-    function insertSchedulerInDb()
+    function insertSchedulerInDB()
     {
         $dbmanager = new PluginArmaditoDbManager();
         $params = $this->setCommonQueryParams();
@@ -55,7 +55,7 @@ class PluginArmaditoScheduler extends PluginArmaditoCommonDBTM
         PluginArmaditoToolbox::validateInt($this->id);
     }
 
-    function replaceSchedulerInDb( $scheduler_id )
+    function replaceSchedulerInDB( $scheduler_id )
     {
         $dbmanager = new PluginArmaditoDbManager();
         $params = $this->setCommonQueryParams();
@@ -73,7 +73,7 @@ class PluginArmaditoScheduler extends PluginArmaditoCommonDBTM
         $this->id = $scheduler_id;
     }
 
-    function updateSchedulerInDb()
+    function updateSchedulerInDB()
     {
         $dbmanager = new PluginArmaditoDbManager();
         $params = $this->setCommonQueryParams();
@@ -119,22 +119,22 @@ class PluginArmaditoScheduler extends PluginArmaditoCommonDBTM
         }
     }
 
-    function insertOrUpdateInDb()
+    function insertOrUpdateInDB()
     {
         if($this->isAgentInDB())
         {
-            $this->updateSchedulerInDb();
+            $this->updateSchedulerInDB();
         }
         else
         {
             $unused_id = $this->getFirstUnusedId();
             if($unused_id == NULL)
             {
-                $this->insertSchedulerInDb();
+                $this->insertSchedulerInDB();
             }
             else
             {
-                $this->replaceSchedulerInDb( $unused_id );
+                $this->replaceSchedulerInDB( $unused_id );
             }
         }
     }
