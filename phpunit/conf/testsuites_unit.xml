@@ -4,22 +4,13 @@
   bootstrap="bootstrap.php"
   processIsolation="false"
   backupGlobals="false"
-  strict="false"
-  >
+  strict="false">
   <logging>
     <log type="junit" target="../build/logs/junit_unit.xml" logIncompleteSkipped="true" />
   </logging>
-  <filter>
-    <whitelist>
-      <directory suffix=".php">../*</directory>
-      <exclude>
-        <directory suffix=".php">./*</directory>
-      </exclude>
-    </whitelist>
-  </filter>
   <testsuites>
     <testsuite name="Unit">
-      <directory suffix="Test.php">1_Unit/</directory>
+      <directory suffix="Test.php">../1_Unit/</directory>
     </testsuite>
   </testsuites>
 </phpunit>

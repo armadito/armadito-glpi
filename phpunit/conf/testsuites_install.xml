@@ -5,19 +5,10 @@
   processIsolation="false"
   backupGlobals="false"
   stopOnFailure="true"
-  strict="false"
-  >
+  strict="false">
   <logging>
     <log type="junit" target="../build/logs/junit_install.xml" logIncompleteSkipped="true" />
   </logging>
-  <filter>
-    <whitelist>
-      <directory suffix=".php">../*</directory>
-      <exclude>
-        <directory suffix=".php">./*</directory>
-      </exclude>
-    </whitelist>
-  </filter>
   <testsuites>
     <testsuite name="Install">
       <file>0_Install/GLPIInstallTest.php</file>
