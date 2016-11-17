@@ -23,11 +23,25 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 
 class NewAgentTest extends RestoreDatabaseTestCase
 {
-
     /**
      * @test
      */
-    public function addAgent()
+    public function addMultipleAgents()
+    {
+        // Scheduler id should be from 0 to N without any gaps
+        // Agent id is just an auto_incremented id
+        $this->insertOrUpdateAgent(0, 1, 1, "4C4C4544-0033-4A10-8051-BBBBBBBBBBBB");
+        $this->insertOrUpdateAgent(0, 2, 2, "4C4C4544-0033-4A10-8051-FFFFFFFFFFFF");
+        $this->insertOrUpdateAgent(2, 2, 2, "4C4C4544-0033-4A10-8051-FFFFFFFFFFFF");
+        $this->insertOrUpdateAgent(0, 2, 2, "4C4C4544-0033-4A10-8051-FFFFFFFFFFFF");
+
+        $this->purgeAgent(1);
+
+        $this->insertOrUpdateAgent(0, 3, 1, "4C4C4544-0033-4A10-8051-BBBBBBBBBBBB");
+        $this->insertOrUpdateAgent(0, 4, 3, "4C4C4544-0033-4A10-8051-AAAAAAAAAAAA");
+    }
+
+    protected function insertOrUpdateAgent($current_agentid, $new_agentid, $new_schedulerid, $uuid)
     {
         $json  = '{
   "task": {"obj":"{}",
@@ -38,49 +52,37 @@ class NewAgentTest extends RestoreDatabaseTestCase
                         }
           },
   "agent_version":"2.3.18",
-  "agent_id":1,
-  "uuid":"4C4C4544-0033-4A10-8051-C7C04F503732"}';
+  "agent_id":'.$current_agentid.',
+  "uuid":"'.$uuid.'"}';
 
         $jobj = PluginArmaditoToolbox::parseJSON($json);
         $agent = new PluginArmaditoAgent();
         $agent->initFromJson($jobj);
         $agent->insertOrUpdateInDB();
+        $this->assertEquals($new_agentid, $agent->getId());
 
         $Scheduler = new PluginArmaditoScheduler();
         $Scheduler->init($agent->getId());
         $Scheduler->insertOrUpdateInDB();
-        $Agent->updateSchedulerId($Scheduler->getId());
+        $this->assertEquals($new_schedulerid, $Scheduler->getId());
 
-        writeHttpOKResponse($Agent->toJson());
-
-        return $agent;
-    }
-
-    /**
-     * @test
-     */
-    public function updateAgent()
-    {
-        $agent = new PluginArmaditoAgent();
-        $json  = '{
-  "task": {"obj":"{}",
-           "name":"Enrollment",
-           "antivirus": {
-                         "name":"Armadito",
-                         "version":"0.10.2"
-                        }
-          },
-  "agent_version":"2.3.18",
-  "agent_id":1,
-  "uuid":"4C4C4544-0033-4A10-8051-C7C04F503732"}';
-
+        $agent->updateSchedulerId($Scheduler->getId());
+        $json = $agent->toJson();
         $jobj = PluginArmaditoToolbox::parseJSON($json);
-        $agent->initFromJson($jobj);
-        $agent->getAntivirus()->run();
-        $agent->insertAgentInDB();
-
-        return $agent;
+        $this->assertEquals($new_agentid, $jobj->agent_id);
+        $this->assertEquals($new_schedulerid, $jobj->scheduler_id);
     }
 
+    // Simulate purge from glpi gui
+    protected function purgeAgent($agentid)
+    {
+        global $DB;
+        $query = "DELETE from `glpi_plugin_armadito_agents` WHERE `id` = '".$agentid."'";
+        $DB->query($query);
+
+        $Scheduler = new PluginArmaditoScheduler();
+        $Scheduler->init($agentid);
+        $Scheduler->setUnused();
+    }
 }
 
