@@ -81,7 +81,6 @@
       <sequential if:true="${clear.savepoint}">
          <phpunit.run type="update" configuration="./conf/testsuites_update.xml" />
          <phpunit.run type="install" configuration="./conf/testsuites_install.xml" />
-         <format.testlog />
          <fail>
             <condition>
                <isfailure code="${phpunit.returncode.install}" />
