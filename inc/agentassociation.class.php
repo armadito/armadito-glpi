@@ -70,7 +70,7 @@ class PluginArmaditoAgentAssociation
         global $DB;
 
         $query = "SELECT id FROM `".$table."`
-                WHERE `". $where_label ."`='". $DB->escape($where_value) ."'";
+                WHERE `". $where_label ."`='". $where_value ."'";
         $ret   = $DB->query($query);
 
         if (!$ret) {
