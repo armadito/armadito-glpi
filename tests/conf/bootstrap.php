@@ -12,6 +12,6 @@ require_once(GLPI_ROOT . "/inc/autoload.function.php");
 include_once("src/CommonTestCase.php");
 include_once("src/RestoreDatabaseTestCase.php");
 include_once("src/LogTest.php");
-include_once("src/commonfunction.php");
+include_once("src/mysql.php");
 
 ?>
