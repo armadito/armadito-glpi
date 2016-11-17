@@ -90,7 +90,6 @@
       <sequential>
          <phpunit.run type="unit" configuration="./conf/testsuites_unit.xml" />
          <phpunit.run type="integration" configuration="./conf/testsuites_integration.xml" />
-         <format.testlog />
          <fail>
             <condition>
                <or>
