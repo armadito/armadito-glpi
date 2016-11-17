@@ -43,7 +43,7 @@ before_install:
 
 install:
  - cd glpi/plugins/armadito
- - ant -Dclearsavepoint='true' -f ./phpunit/build.xml composer
+ - ant -Dclearsavepoint='true' -f ./tests/build.xml composer
 
 before_script:
   - phpenv version-name | grep ^5.[34] && echo "extension=apc.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; true
@@ -51,6 +51,6 @@ before_script:
   - php -S localhost:8088 -t glpi > /dev/null 2>&1 &
 
 script:
-- ant -Dclearsavepoint='true' -f ./phpunit/build.xml phpunit.all
+- ant -Dclearsavepoint='true' -f ./tests/build.xml phpunit.all
 - sonar-scanner -X -Dsonar.host.url=https://sonarqube.com -Dsonar.login=$SONAR_TOKEN
 
