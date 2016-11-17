@@ -1,5 +1,5 @@
 <?php
-require_once('src/mysql.php');
+require_once('inc/mysql.php');
 include_once (GLPI_ROOT . "/config/based_config.php");
 include_once (GLPI_ROOT . "/inc/dbmysql.class.php");
 include_once (GLPI_CONFIG_DIR . "/config_db.php");

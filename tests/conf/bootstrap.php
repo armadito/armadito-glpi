@@ -9,9 +9,9 @@ if (!defined('GLPI_ROOT')) {
 
 require_once(GLPI_ROOT . "/inc/autoload.function.php");
 
-include_once("src/CommonTestCase.php");
-include_once("src/RestoreDatabaseTestCase.php");
-include_once("src/LogTest.php");
-include_once("src/mysql.php");
+include_once(TESTS_ROOT . "inc/CommonTestCase.php");
+include_once(TESTS_ROOT . "inc/RestoreDatabaseTestCase.php");
+include_once(TESTS_ROOT . "inc/LogTest.php");
+include_once(TESTS_ROOT . "inc/mysql.php");
 
 ?>
