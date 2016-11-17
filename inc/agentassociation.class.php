@@ -29,9 +29,9 @@ class PluginArmaditoAgentAssociation
     protected $computerid;
     protected $agentid;
 
-    function __construct($uuid = "")
+    function __construct($uuid)
     {
-        $this->uuid = $uuid;
+        $this->uuid = PluginArmaditoToolbox::validateUUID($uuid);
         $this->agentid = -1;
         $this->computerid = -1;
     }
@@ -92,14 +92,20 @@ class PluginArmaditoAgentAssociation
 
              $uuid = $params['inventory_data']['Computer']['uuid'];
 
-             $association = new PluginArmaditoAgentAssociation($uuid);
-             $agent_id = $association->getAgentIdFromDB();
+             try {
+                 $association = new PluginArmaditoAgentAssociation($uuid);
+                 $agent_id = $association->getAgentIdFromDB();
 
-             if ($agent_id > 0)
+                 if ($agent_id > 0)
+                 {
+                    $association->setAgentId($agent_id);
+                    $association->setComputerId($params['computers_id']);
+                    $association->run();
+                 }
+             }
+             catch(Exception $e)
              {
-                $association->setAgentId($agent_id);
-                $association->setComputerId($params['computers_id']);
-                $association->run();
+                PluginArmaditoLog::Error($e->getMessage());
              }
         }
     }
