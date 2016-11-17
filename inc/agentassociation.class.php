@@ -86,27 +86,32 @@ class PluginArmaditoAgentAssociation
 
     static function fusionInventoryHook($params = array())
     {
-        if (!empty($params)
-         && isset($params['inventory_data'])
-         && !empty($params['inventory_data'])) {
+         try
+         {
+             $this->checkHookParams($params);
 
              $uuid = $params['inventory_data']['Computer']['uuid'];
+             $association = new PluginArmaditoAgentAssociation($uuid);
+             $agent_id = $association->getAgentIdFromDB();
 
-             try {
-                 $association = new PluginArmaditoAgentAssociation($uuid);
-                 $agent_id = $association->getAgentIdFromDB();
-
-                 if ($agent_id > 0)
-                 {
-                    $association->setAgentId($agent_id);
-                    $association->setComputerId($params['computers_id']);
-                    $association->run();
-                 }
-             }
-             catch(Exception $e)
+             if ($agent_id > 0)
              {
-                PluginArmaditoLog::Error($e->getMessage());
+                $association->setAgentId($agent_id);
+                $association->setComputerId($params['computers_id']);
+                $association->run();
              }
+         }
+         catch(Exception $e)
+         {
+            PluginArmaditoLog::Error($e->getMessage());
+         }
+    }
+
+    function checkHookParams($params)
+    {
+        if (!isset($params['inventory_data'])
+         || empty($params['inventory_data'])) {
+            throw new InvalidArgumentException('Undefined or empty inventory_data params');
         }
     }
 
