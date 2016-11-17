@@ -52,25 +52,15 @@
    </target>
    <target name="phpunit.install" depends="prepare" description="Run installation tests with PHPUnit">
       <phpunit.run type="install" configuration="./conf/testsuites_install.xml" />
-      <format.testlog />
       <fail>
          <condition>
             <isfailure code="${phpunit.returncode.install}" />
          </condition>
       </fail>
    </target>
-   <target name="phpunit.unit" depends="prepare" description="Run unit tests with PHPUnit">
-      <phpunit.run type="unit" configuration="./conf/testsuites_unit.xml" />
-      <format.testlog />
-      <fail>
-         <condition>
-            <isfailure code="${phpunit.returncode.unit}" />
-         </condition>
-      </fail>
-   </target>
+
    <target name="phpunit.integration" depends="prepare" description="Run integration tests with PHPUnit">
       <phpunit.run type="integration" configuration="./conf/testsuites_integration.xml" />
-      <format.testlog />
       <fail>
          <condition>
             <isfailure code="${phpunit.returncode.integration}" />
@@ -88,14 +78,12 @@
          </fail>
       </sequential>
       <sequential>
-         <phpunit.run type="unit" configuration="./conf/testsuites_unit.xml" />
          <phpunit.run type="integration" configuration="./conf/testsuites_integration.xml" />
          <fail>
             <condition>
                <or>
                   <isfailure code="${phpunit.returncode.update}" />
                   <isfailure code="${phpunit.returncode.install}" />
-                  <isfailure code="${phpunit.returncode.unit}" />
                   <isfailure code="${phpunit.returncode.integration}" />
                </or>
             </condition>
