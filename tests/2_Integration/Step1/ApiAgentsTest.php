@@ -36,8 +36,8 @@ class ApiAgentsTest extends CommonTestCase
 
         $this->purgeAgent(1);
 
-        $this->insertOrUpdateAgent(0, 3, 1, "4C4C4544-0033-4A10-8051-BBBBBBBBBBBB");
-        $this->insertOrUpdateAgent(0, 4, 3, "4C4C4544-0033-4A10-8051-AAAAAAAAAAAA");
+        $this->insertOrUpdateAgent(0, 3, 1, "4C4C4544-0033-4A10-8051-BBBBBBBBBBBB", 1);
+        $this->insertOrUpdateAgent(0, 4, 3, "4C4C4544-0033-4A10-8051-AAAAAAAAAAAA", 1);
     }
 
     protected function insertOrUpdateAgent($current_agentid, $new_agentid, $new_schedulerid, $uuid)
