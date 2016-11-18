@@ -88,7 +88,7 @@ class PluginArmaditoAgentAssociation
     {
          try
          {
-             $this->checkHookParams($params);
+             static::checkHookParams($params);
 
              $uuid = $params['inventory_data']['Computer']['uuid'];
              $association = new PluginArmaditoAgentAssociation($uuid);
