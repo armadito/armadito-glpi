@@ -51,7 +51,7 @@ class PluginArmaditoAgent extends PluginArmaditoCommonDBTM
             $this->antivirus->initFromDB($this->fields["plugin_armadito_antiviruses_id"]);
             $this->schedulerid = $this->fields["plugin_armadito_schedulers_id"];
         } else {
-            PluginArmaditoLog::Error("Unable to get Agent DB fields");
+            throw new InvalidArgumentException(sprintf("Unable to get Agent DB fields for agent %d", $agent_id));
         }
     }
 
