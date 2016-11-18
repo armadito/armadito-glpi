@@ -35,7 +35,7 @@ class NewComputersTest extends CommonTestCase
     protected function addComputer($name, $uuid)
     {
         global $DB;
-        
+
         $query = "INSERT INTO `glpi`.`glpi_computers` (`id`, `entities_id`, `name`, `serial`, `otherserial`, `contact`, `contact_num`, `users_id_tech`, `groups_id_tech`, `comment`, `date_mod`, `operatingsystems_id`, `operatingsystemversions_id`, `operatingsystemservicepacks_id`, `operatingsystemarchitectures_id`, `os_license_number`, `os_licenseid`, `os_kernel_version`, `autoupdatesystems_id`, `locations_id`, `domains_id`, `networks_id`, `computermodels_id`, `computertypes_id`, `is_template`, `template_name`, `manufacturers_id`, `is_deleted`, `is_dynamic`, `users_id`, `groups_id`, `states_id`, `ticket_tco`, `uuid`, `date_creation`, `is_recursive`) VALUES (NULL, '0', '".$name."', NULL, NULL, NULL, NULL, '0', '0', NULL, NULL, '0', '0', '0', '0', NULL, NULL, NULL, '0', '0', '0', '0', '0', '0', '0', NULL, '0', '0', '0', '0', '0', '0', '0.0000', '". $uuid ."', NULL, '0');";
 
         $DB->query($query);

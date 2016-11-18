@@ -30,7 +30,7 @@ class ScanConfigsTest extends CommonTestCase
         $this->NewScanConfig(0, "linux home scan" , 1, "/home", "");
         $this->NewScanConfig(0, "linux full scan" , 1, "/", "--no-archive");
         $this->NewScanConfig(0, "linux fast scan" , 1, "/tmp", "--no-archive");
-        
+
         $this->UpdateScanConfig(3, "linux fast scan" , 1, "/tmp", "");
     }
 
@@ -53,7 +53,7 @@ class ScanConfigsTest extends CommonTestCase
             "scan_name" => $scan_name,
             "antivirus_id" => $antivirusid,
             "scan_path" => $scan_path,
-            "scan_options" => $scan_options 
+            "scan_options" => $scan_options
         );
 
         $scanConfig = new PluginArmaditoScanConfig();
