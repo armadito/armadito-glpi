@@ -29,9 +29,9 @@ class PluginArmaditoAgentAssociation
     protected $computerid;
     protected $agentid;
 
-    function __construct($uuid)
+    function __construct($uuid = 0)
     {
-        $this->uuid = PluginArmaditoToolbox::validateUUID($uuid);
+        $this->uuid = $uuid;
         $this->agentid = -1;
         $this->computerid = -1;
     }
@@ -55,6 +55,7 @@ class PluginArmaditoAgentAssociation
             return $this->getTableId($table, "computers_id", $this->computerid);
         }
 
+        PluginArmaditoToolbox::validateUUID($this->uuid);
         return $this->getTableId($table, "uuid", $this->uuid);
     }
 
@@ -62,6 +63,7 @@ class PluginArmaditoAgentAssociation
     {
         $table = "glpi_computers";
 
+        PluginArmaditoToolbox::validateUUID($this->uuid);
         return $this->getTableId($table, "uuid", $this->uuid);
     }
 
