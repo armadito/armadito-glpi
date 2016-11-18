@@ -20,12 +20,12 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 
 **/
 
-class AgentTest extends RestoreDatabaseTestCase
+class ApiAgentsTest extends CommonTestCase
 {
     /**
      * @test
      */
-    public function addMultipleAgents()
+    public function POSTrequests()
     {
         // Scheduler id should be from 0 to N without any gaps
         // Agent id is just an auto_incremented id

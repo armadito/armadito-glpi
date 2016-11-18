@@ -20,32 +20,36 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 
 **/
 
-class StateTest extends CommonTestCase
+class ApiJobsTest extends CommonTestCase
 {
     /**
      * @test
      */
-    public function addMultipleStates()
+    public function GETrequests()
     {
-        $this->insertOrUpdateState(1);
+        $jobs_a2 = $this->getJobsForAgent(2);
+        $jobs_a3 = $this->getJobsForAgent(3);
     }
 
-    protected function insertOrUpdateState($agentid)
+    /**
+     * @test
+     */
+    public function POSTrequests()
     {
-        $task_obj = '{}';
+       // TODO
+    }
 
-        $json  = '{
-  "task": {"obj": '.$task_obj.',
-           "name":"State",
-           "antivirus": {
-                         "name":"Armadito",
-                         "version":"0.10.2"
-                        }
-          },
-  "agent_version":"2.3.18",
-  "agent_id":'.$agentid.' }';
-
+    protected function getJobsForAgent($agentid)
+    {
         $jobj = PluginArmaditoToolbox::parseJSON($json);
+        $jobmanager = new PluginArmaditoJobmanager();
+        $jobmanager->init($_GET['agent_id']);
+        $jobmanager->getJobs("queued");
+        $jobmanager->updateJobStatuses("downloaded");
+
+        return $jobmanager->toJson();
     }
+
+
 }
 

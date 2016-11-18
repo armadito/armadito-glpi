@@ -20,12 +20,12 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 
 **/
 
-class ScanTest extends CommonTestCase
+class ApiScansTest extends CommonTestCase
 {
     /**
      * @test
      */
-    public function addMultipleScans()
+    public function POSTrequests()
     {
         $this->insertOrUpdateScan(1);
     }

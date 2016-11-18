@@ -20,12 +20,12 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 
 **/
 
-class AlertTest extends CommonTestCase
+class ApiAlertsTest extends CommonTestCase
 {
     /**
      * @test
      */
-    public function addMultipleAlerts()
+    public function POSTrequests()
     {
         $this->insertOrUpdateAlert(2, "2016-11-18T11:39:09", "Pdf.Dropper.Agent-1507034");
         $this->insertOrUpdateAlert(3, "2016-11-18T11:40:09", "Pdf.Dropper.Agent-1507034");
