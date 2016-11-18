@@ -42,6 +42,8 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
         $this->agent   = new PluginArmaditoAgent();
         $this->agent->initFromDB($this->agentid);
         $this->jobj = $jobj;
+        $this->antivirus = $this->agent->getAntivirus();
+        $this->detection_time = PluginArmaditoToolbox::ISO8601DateTime_to_MySQLDateTime($this->jobj->task->obj->alert->detection_time->value);
     }
 
     function getDetectionTime()
@@ -79,10 +81,7 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
         $dbmanager->prepareQuery($query);
         $dbmanager->bindQuery($query);
 
-        $this->antivirus = $this->agent->getAntivirus();
-        $this->detection_time = PluginArmaditoToolbox::ISO8601DateTime_to_MySQLDateTime($this->jobj->task->obj->alert->detection_time->value);
         $dbmanager = $this->setCommonQueryValues($dbmanager, $query);
-
         $dbmanager->executeQuery($query);
 
         $this->id = PluginArmaditoDbToolbox::getLastInsertedId();
