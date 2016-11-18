@@ -12,6 +12,9 @@
     <testsuite name="Integration">
       <file>2_Integration/AgentTest.php</file>
       <file>2_Integration/AlertTest.php</file>
+      <file>2_Integration/JobTest.php</file>
+      <file>2_Integration/ScanTest.php</file>
+      <file>2_Integration/StateTest.php</file>
     </testsuite>
   </testsuites>
 </phpunit>
