@@ -10,11 +10,12 @@
   </logging>
   <testsuites>
     <testsuite name="Integration">
-        <directory suffix="Test.php">../2_Integration/Step1</directory>
-        <directory suffix="Test.php">../2_Integration/Step2</directory>
-        <directory suffix="Test.php">../2_Integration/Step3</directory>
-        <directory suffix="Test.php">../2_Integration/Step4</directory>
-        <directory suffix="Test.php">../2_Integration/Step5</directory>
+        <directory suffix="Test.php">../2_Integration/Step1-Init</directory>
+        <directory suffix="Test.php">../2_Integration/Step2-NewJobs</directory>
+        <directory suffix="Test.php">../2_Integration/Step3-GetJobs</directory>
+        <directory suffix="Test.php">../2_Integration/Step4-RunJobs</directory>
+        <directory suffix="Test.php">../2_Integration/Step5-Results</directory>
+        <directory suffix="Test.php">../2_Integration/Step6-AVStatus</directory>
     </testsuite>
   </testsuites>
 </phpunit>
