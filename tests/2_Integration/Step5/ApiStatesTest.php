@@ -27,7 +27,7 @@ class ApiStatesTest extends CommonTestCase
      */
     public function POSTrequests()
     {
-        $this->insertOrUpdateState(1);
+        $this->insertOrUpdateState(2);
     }
 
     protected function insertOrUpdateState($agentid)
@@ -46,6 +46,10 @@ class ApiStatesTest extends CommonTestCase
   "agent_id":'.$agentid.' }';
 
         $jobj = PluginArmaditoToolbox::parseJSON($json);
+
+        $state = new PluginArmaditoState();
+        $state->initFromJson($jobj);
+        $state->run();
     }
 }
 
