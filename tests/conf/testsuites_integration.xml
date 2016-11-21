@@ -4,7 +4,7 @@
   bootstrap="bootstrap.php"
   processIsolation="false"
   backupGlobals="false"
-  strict="false">
+  strict="false" >
   <logging>
     <log type="junit" target="../build/logs/junit_integration.xml" logIncompleteSkipped="true" />
   </logging>
@@ -16,6 +16,8 @@
         <directory suffix="Test.php">../2_Integration/Step4-RunJobs</directory>
         <directory suffix="Test.php">../2_Integration/Step5-Results</directory>
         <directory suffix="Test.php">../2_Integration/Step6-AVStatus</directory>
+        <directory suffix="Test.php">../2_Integration/Step7-Boards</directory>
+        <directory suffix="Test.php">../2_Integration/Step8-Forms</directory>
     </testsuite>
   </testsuites>
 </phpunit>
