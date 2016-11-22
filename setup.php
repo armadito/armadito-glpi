@@ -28,65 +28,76 @@ define("PLUGIN_ARMADITO_VERSION", "9.1+0.2");
 function plugin_init_armadito()
 {
     global $PLUGIN_HOOKS;
-
     $PLUGIN_HOOKS['csrf_compliant']['armadito'] = TRUE;
+    $debug_mode = getDebugmode();
 
     $Plugin   = new Plugin();
-
-    if (isset($_SESSION['glpi_use_mode'])) {
-        $debug_mode = ($_SESSION['glpi_use_mode'] == Session::DEBUG_MODE);
-    } else {
-        $debug_mode = false;
-    }
-
-    if ($Plugin->isActivated('armadito')) {
-
-        $types = array(
-            'Central',
-            'Preference',
-            'Profile'
-        );
-
-        Plugin::registerClass('PluginArmaditoAgent', array(
-            'addtabon' => $types,
-            'link_types' => true
-        ));
-
-        Plugin::registerClass('PluginArmaditoState');
-        Plugin::registerClass('PluginArmaditoStatedetails');
-
-
-        $PLUGIN_HOOKS['use_massive_action']['armadito'] = 1;
-
-        $PLUGIN_HOOKS['add_javascript']['armadito'] = array();
-        $PLUGIN_HOOKS['add_css']['armadito']        = array();
-
-        if (script_endswith_("menu.php") || script_endswith_("board.php") || script_endswith_("config.form.php"))
-        {
-            $PLUGIN_HOOKS['add_javascript']['armadito'][] = "js/stats" . ($debug_mode ? "" : ".min") . ".js";
-            array_push($PLUGIN_HOOKS['add_javascript']['armadito'],
-                       "vendor/mbostock/d3/d3" . ($debug_mode ? "" : ".min") . ".js",
-                       "vendor/novus/nvd3/build/nv.d3" . ($debug_mode ? "" : ".min") . ".js");
-        }
-
-        if (Session::haveRight('plugin_armadito_configuration', READ) || Session::haveRight('profile', UPDATE)) {
-            $PLUGIN_HOOKS['config_page']['armadito'] = 'front/config.form.php' . '?itemtype=pluginarmaditoconfig&glpi_tab=1';
-        }
-
-        $_SESSION["glpi_plugin_armadito_profile"]['armadito'] = 'w';
-        if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
-
-            $PLUGIN_HOOKS['menu_toadd']['armadito']['plugins'] = 'PluginArmaditoMenu';
-        }
-
-        $PLUGIN_HOOKS['fusioninventory_inventory']['armadito']
-         = array('PluginArmaditoAgentAssociation', 'fusionInventoryHook');
-
-        $PLUGIN_HOOKS['item_purge']['armadito'] = array('PluginArmaditoAgent' => array('PluginArmaditoAgent', 'purgeHook'));
+    if ($Plugin->isActivated('armadito'))
+    {
+        registerClasses();
+        setPluginHooks($debug_mode);  
     }
 }
 
-function script_endswith_($scriptname)
+function getDebugmode()
+{
+    if (!isset($_SESSION['glpi_use_mode'])) {
+        return ($_SESSION['glpi_use_mode'] == Session::DEBUG_MODE);
+    }
+
+    return false;
+}
+
+function registerClasses()
+{
+    $types = array(
+        'Central',
+        'Preference',
+        'Profile'
+    );
+
+    Plugin::registerClass('PluginArmaditoAgent', array(
+        'addtabon' => $types,
+        'link_types' => true
+    ));
+
+    Plugin::registerClass('PluginArmaditoState');
+    Plugin::registerClass('PluginArmaditoStatedetails');
+}
+
+function setPluginHooks()
+{
+    global $PLUGIN_HOOKS;
+
+    $PLUGIN_HOOKS['use_massive_action']['armadito'] = 1;
+    $PLUGIN_HOOKS['add_javascript']['armadito'] = array();
+    $PLUGIN_HOOKS['add_css']['armadito']        = array();
+
+    if (scriptEndsWith("menu.php") || scriptEndsWith("board.php") || scriptEndsWith("config.form.php"))
+    {
+        $PLUGIN_HOOKS['add_javascript']['armadito'][] = "js/stats" . ($debug_mode ? "" : ".min") . ".js";
+        array_push($PLUGIN_HOOKS['add_javascript']['armadito'],
+                   "vendor/mbostock/d3/d3" . ($debug_mode ? "" : ".min") . ".js",
+                   "vendor/novus/nvd3/build/nv.d3" . ($debug_mode ? "" : ".min") . ".js");
+    }
+
+    if (Session::haveRight('plugin_armadito_configuration', READ) || Session::haveRight('profile', UPDATE)) {
+        $PLUGIN_HOOKS['config_page']['armadito'] = 'front/config.form.php' . '?itemtype=pluginarmaditoconfig&glpi_tab=1';
+    }
+
+    $_SESSION["glpi_plugin_armadito_profile"]['armadito'] = 'w';
+    if (isset($_SESSION["glpi_plugin_armadito_profile"])) {
+
+        $PLUGIN_HOOKS['menu_toadd']['armadito']['plugins'] = 'PluginArmaditoMenu';
+    }
+
+    $PLUGIN_HOOKS['fusioninventory_inventory']['armadito']
+     = array('PluginArmaditoAgentAssociation', 'fusionInventoryHook');
+
+    $PLUGIN_HOOKS['item_purge']['armadito'] = array('PluginArmaditoAgent' => array('PluginArmaditoAgent', 'purgeHook'));
+}
+
+function scriptEndsWith($scriptname)
 {
     return substr($_SERVER['SCRIPT_FILENAME'], -strlen($scriptname)) === $scriptname;
 }
