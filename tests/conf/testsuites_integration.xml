@@ -21,6 +21,7 @@
         <directory suffix="Test.php">../2_Integration/07-Boards</directory>
         <directory suffix="Test.php">../2_Integration/08-Forms</directory>
         <directory suffix="Test.php">../2_Integration/09-Menu</directory>
+        <directory suffix="Test.php">../2_Integration/10-Search</directory>
     </testsuite>
   </testsuites>
 </phpunit>
