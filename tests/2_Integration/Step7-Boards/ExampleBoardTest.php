@@ -20,19 +20,20 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 
 **/
 
-class AgentFormTest extends CommonTestCase
+class ExampleBoardTest extends CommonTestCase
 {
     /**
      * @test
      */
-    public function showForms()
+    public function display()
     {
         ob_start();
+        $_SESSION['glpishowallentities'] = true;
+        $_SESSION['glpiparententities']  = '';
+        $_SESSION['glpiactiveentities_string'] = '0';
 
-        $agent = new PluginArmaditoAgent();
-        $agent->showForm(2);
-        $agent->showForm(3);
-
+        $board = new PluginArmaditoExampleBoard();
+        $board->displayBoard();
         ob_end_clean();
     }
 }

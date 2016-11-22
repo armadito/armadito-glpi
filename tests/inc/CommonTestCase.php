@@ -9,36 +9,6 @@ include_once(GLPI_CONFIG_DIR . "/config_db.php");
 
 abstract class CommonTestCase extends PHPUnit_Framework_TestCase
 {
-
-    public function mark_incomplete($description = null)
-    {
-        $this->markTestIncomplete(is_null($description) ? 'This test is not implemented yet' : $description);
-    }
-
-    public static function restore_database()
-    {
-        drop_database();
-        load_mysql_file('./save.sql');
-    }
-
-    public static function load_mysql_file($filename)
-    {
-        assertFileExists($filename, 'File ' . $filename . ' does not exist!');
-
-        $DBvars = get_class_vars('DB');
-        $result = load_mysql_file($DBvars['dbuser'], $DBvars['dbhost'], $DBvars['dbdefault'], $DBvars['dbpassword'], $filename);
-
-        assertEquals(0, $result['returncode'], "Failed to restore database:\n" . implode("\n", $result['output']));
-    }
-
-    public static function drop_database()
-    {
-        $DBvars = get_class_vars('DB');
-        $result = drop_database($DBvars['dbuser'], $DBvars['dbhost'], $DBvars['dbdefault'], $DBvars['dbpassword']);
-
-        assertEquals(0, $result['returncode'], "Failed to drop GLPI database:\n" . implode("\n", $result['output']));
-    }
-
     protected function setUp()
     {
         global $DB, $CFG_GLPI;
@@ -51,6 +21,7 @@ abstract class CommonTestCase extends PHPUnit_Framework_TestCase
             )
         );
         $_SESSION['glpi_plugin_armadito_profile']['unmanaged'] = 'w';
+        $_SESSION["glpi_plugin_armadito_profile"]['armadito'] = 'w';
         $_SESSION['glpiactiveentities'] = array(
             0,
             1

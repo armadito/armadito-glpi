@@ -20,19 +20,20 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 
 **/
 
-class AgentFormTest extends CommonTestCase
+class MenuDisplayTest extends CommonTestCase
 {
     /**
      * @test
      */
-    public function showForms()
+    public function showMenus()
     {
+        $this->assertEquals(true, PluginArmaditoMenu::canView());
+
         ob_start();
 
-        $agent = new PluginArmaditoAgent();
-        $agent->showForm(2);
-        $agent->showForm(3);
-
+        PluginArmaditoMenu::displayHeader();
+        PluginArmaditoMenu::displayMenu();
+    
         ob_end_clean();
     }
 }
