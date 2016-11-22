@@ -33,6 +33,8 @@ class AgentFormTest extends CommonTestCase
         $agent->showForm(2);
         $agent->showForm(3);
 
+        PluginArmaditoAgent::showNewScanForm();
+
         ob_end_clean();
     }
 }
