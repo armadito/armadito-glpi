@@ -30,6 +30,10 @@ class ScanConfigFormTest extends CommonTestCase
         ob_start();
         $scanconfig = new PluginArmaditoScanConfig();
         $scanconfig->showForm(3);
+
+        PluginArmaditoScanConfig::showNoScanConfigForm();
+        PluginArmaditoScanConfig::showNoAntivirusForm();
+
         ob_end_clean();
     }
 }

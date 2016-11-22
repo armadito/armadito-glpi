@@ -11,16 +11,16 @@
   </logging>
   <testsuites>
     <testsuite name="Integration">
-        <directory suffix="Test.php">../2_Integration/Step0-Install</directory>
-        <directory suffix="Test.php">../2_Integration/Step1-Init</directory>
-        <directory suffix="Test.php">../2_Integration/Step2-NewJobs</directory>
-        <directory suffix="Test.php">../2_Integration/Step3-GetJobs</directory>
-        <directory suffix="Test.php">../2_Integration/Step4-RunJobs</directory>
-        <directory suffix="Test.php">../2_Integration/Step5-Results</directory>
-        <directory suffix="Test.php">../2_Integration/Step6-AVStatus</directory>
-        <directory suffix="Test.php">../2_Integration/Step7-Boards</directory>
-        <directory suffix="Test.php">../2_Integration/Step8-Forms</directory>
-        <directory suffix="Test.php">../2_Integration/Step9-Menu</directory>
+        <directory suffix="Test.php">../2_Integration/00-Install</directory>
+        <directory suffix="Test.php">../2_Integration/01-Init</directory>
+        <directory suffix="Test.php">../2_Integration/02-NewJobs</directory>
+        <directory suffix="Test.php">../2_Integration/03-GetJobs</directory>
+        <directory suffix="Test.php">../2_Integration/04-RunJobs</directory>
+        <directory suffix="Test.php">../2_Integration/05-Results</directory>
+        <directory suffix="Test.php">../2_Integration/06-AVStatus</directory>
+        <directory suffix="Test.php">../2_Integration/07-Boards</directory>
+        <directory suffix="Test.php">../2_Integration/08-Forms</directory>
+        <directory suffix="Test.php">../2_Integration/09-Menu</directory>
     </testsuite>
   </testsuites>
 </phpunit>
