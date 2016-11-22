@@ -33,7 +33,7 @@ class MenuDisplayTest extends CommonTestCase
 
         PluginArmaditoMenu::displayHeader();
         PluginArmaditoMenu::displayMenu();
-    
+
         ob_end_clean();
     }
 }

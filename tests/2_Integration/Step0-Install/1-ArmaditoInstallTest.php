@@ -118,7 +118,7 @@ class ArmaditoInstallTest extends CommonTestCase
         }
 
         $migration->displayWarning($mess);
-        
+
         $user = new User();
         $user->getFromDBbyName("glpi");
         $auth                = new Auth();
