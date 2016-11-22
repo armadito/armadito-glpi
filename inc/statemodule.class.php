@@ -37,8 +37,6 @@ class PluginArmaditoStateModule extends PluginArmaditoCommonDBTM
         $this->agentid    = $agent_id;
         $this->state_jobj = $state_jobj;
         $this->jobj       = $jobj;
-
-        PluginArmaditoToolbox::logIfExtradebug('pluginArmadito-statemodule', 'New PluginArmaditoStateModule object.');
     }
 
     static function getTypeName($nb = 0)

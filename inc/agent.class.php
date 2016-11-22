@@ -147,8 +147,6 @@ class PluginArmaditoAgent extends PluginArmaditoCommonDBTM
         $dbmanager = $this->setCommonQueryValues($dbmanager, $query);
         $dbmanager->setQueryValue($query, "id", $this->id);
         $dbmanager->executeQuery($query);
-
-        PluginArmaditoToolbox::logIfExtradebug('pluginArmadito-Agent', 'ReEnroll Device with id ' . $this->id);
     }
 
     function insertAgentInDB()
