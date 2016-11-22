@@ -35,7 +35,7 @@ function plugin_init_armadito()
     if ($Plugin->isActivated('armadito'))
     {
         registerClasses();
-        setPluginHooks($debug_mode);  
+        setPluginHooks($debug_mode);
     }
 }
 
