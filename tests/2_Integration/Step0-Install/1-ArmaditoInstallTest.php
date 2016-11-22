@@ -23,6 +23,7 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 
 require_once(GLPI_ROOT . "/plugins/armadito/install/climigration.class.php");
 include(GLPI_ROOT . "/plugins/armadito/install/update.php");
+include(GLPI_ROOT . "/plugins/armadito/setup.php");
 
 class ArmaditoInstallTest extends CommonTestCase
 {
@@ -136,6 +137,9 @@ class ArmaditoInstallTest extends CommonTestCase
         echo "Plugin state : ".$plugin->fields['state'];
 
         $plugin->load("armadito");
+
+        registerPluginArmaditoClasses();
+        setPluginArmaditoHooks(false);
     }
 }
 ?>

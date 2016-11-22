@@ -34,8 +34,8 @@ function plugin_init_armadito()
     $Plugin   = new Plugin();
     if ($Plugin->isActivated('armadito'))
     {
-        registerClasses();
-        setPluginHooks($debug_mode);
+        registerPluginArmaditoClasses();
+        setPluginArmaditoHooks($debug_mode);
     }
 }
 
@@ -48,7 +48,7 @@ function getDebugmode()
     return false;
 }
 
-function registerClasses()
+function registerPluginArmaditoClasses()
 {
     $types = array(
         'Central',
@@ -65,7 +65,7 @@ function registerClasses()
     Plugin::registerClass('PluginArmaditoStatedetails');
 }
 
-function setPluginHooks()
+function setPluginArmaditoHooks( $debug_mode )
 {
     global $PLUGIN_HOOKS;
 
