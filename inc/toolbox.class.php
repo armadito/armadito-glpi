@@ -92,15 +92,6 @@ class PluginArmaditoToolbox
         ));
     }
 
-    static function isValidBasicString($var)
-    {
-        return filter_var($var, FILTER_VALIDATE_REGEXP, array(
-            "options" => array(
-                "regexp" => '/^[\w-]*$/'
-            )
-        ));
-    }
-
     static function parseJSON($json_content)
     {
         $jobj = json_decode($json_content);
