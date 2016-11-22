@@ -109,7 +109,7 @@ class PluginArmaditoAgentAssociation
          }
     }
 
-    function checkHookParams($params)
+    static function checkHookParams($params)
     {
         if (!isset($params['inventory_data'])
          || empty($params['inventory_data'])) {
