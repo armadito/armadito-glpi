@@ -57,6 +57,7 @@ class PluginArmaditoScan extends PluginArmaditoCommonDBTM
 
     function setObj($obj)
     {
+        $this->obj = null;
         $this->obj->job_id = $obj->job_id;
         $this->obj->duration = $this->setValueOrDefault($obj->duration, "duration");
         $this->obj->start_time = $this->setValueOrDefault($obj->start_time, "date");
