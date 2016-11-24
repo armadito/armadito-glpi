@@ -75,7 +75,7 @@ class PluginArmaditoScanConfig extends PluginArmaditoCommonDBTM
                   "scanconfig_id": ' . $this->id . ',
                   "scan_name": "' . $this->scan_name . '",
                   "scan_path": "' . $this->scan_path . '",
-                  "scan_options": "' . $this->scan_options . '"
+                  "scan_options": "' . base64_encode($this->scan_options) . '"
                }';
     }
 
