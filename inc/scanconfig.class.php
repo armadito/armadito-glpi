@@ -188,7 +188,7 @@ class PluginArmaditoScanConfig extends PluginArmaditoCommonDBTM
         echo "<tr class='tab_bg_1'>";
         echo "<td>" . __('Antivirus', 'armadito') . " :</td>";
         echo "<td>";
-        Dropdown::showFromArray("antivirus_id", $antiviruses);
+        Dropdown::showFromArray("antivirus_id", $antiviruses, array('value' =>  $this->fields["plugin_armadito_antiviruses_id"]));
         echo "</td>";
         echo "</tr>";
 
