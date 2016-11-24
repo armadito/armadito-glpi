@@ -66,5 +66,32 @@ class PluginArmaditoCommonDBTM extends CommonDBTM
     {
         return $_SESSION["glpi_plugin_armadito_profile"]['armadito'];
     }
+
+    function getDefaultValue($type)
+    {
+        $value = null;
+        switch ($type) {
+            case "duration":
+                $value = "0:00:00";
+            case "date":
+                $value = "1970-01-01T00:00:00Z";
+            case "string":
+                $value = "n/a";
+            case "integer":
+                $value = "-1";
+            default:
+                $value = null;
+        }
+
+        return $value;
+    }
+
+    function setValueOrDefault($value, $type)
+    {
+        if(isset($value)) {
+            return $value;
+        }
+        return $this->getDefaultValue($type);
+    }
 }
 ?>
