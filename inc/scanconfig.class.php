@@ -95,6 +95,9 @@ class PluginArmaditoScanConfig extends PluginArmaditoCommonDBTM
 
         $this->setCommonQueryValues($dbmanager, $query);
         $dbmanager->executeQuery($query);
+
+        $this->id = PluginArmaditoDbToolbox::getLastInsertedId();
+        $this->logNewItem();
     }
 
     function updateScanConfigInDB()
@@ -208,6 +211,14 @@ class PluginArmaditoScanConfig extends PluginArmaditoCommonDBTM
 
         $this->showFormButtons($options);
         return true;
+    }
+
+    function defineTabs($options = array())
+    {
+        $ong = array();
+        $this->addDefaultFormTab($ong);
+        $this->addStandardTab('Log', $ong, $options);
+        return $ong;
     }
 
     static function showNoScanConfigForm()

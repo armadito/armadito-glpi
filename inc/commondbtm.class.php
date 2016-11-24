@@ -93,5 +93,12 @@ class PluginArmaditoCommonDBTM extends CommonDBTM
         }
         return $this->getDefaultValue($type);
     }
+
+    function logNewItem()
+    {
+        $changes = array(0,"","");
+        Log::history($this->id, $this->getType(), $changes, 0,
+            Log::HISTORY_CREATE_ITEM);
+    }
 }
 ?>

@@ -183,6 +183,7 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
 
         $this->id = PluginArmaditoDbToolbox::getLastInsertedId();
         PluginArmaditoToolbox::validateInt($this->id);
+        $this->logNewItem();
     }
 
     function updateState()
