@@ -59,14 +59,14 @@ class PluginArmaditoScan extends PluginArmaditoCommonDBTM
     {
         $this->obj = new StdClass;
         $this->obj->job_id = $obj->job_id;
-        $this->obj->duration = $this->setValueOrDefault($obj->duration, "duration");
-        $this->obj->start_time = $this->setValueOrDefault($obj->start_time, "date");
-        $this->obj->end_time = $this->setValueOrDefault($obj->end_time, "date");
-        $this->obj->malware_count = $this->setValueOrDefault($obj->malware_count, "integer");
-        $this->obj->suspicious_count = $this->setValueOrDefault($obj->suspicious_count, "integer");
-        $this->obj->cleaned_count = $this->setValueOrDefault($obj->cleaned_count, "integer");
-        $this->obj->scanned_count = $this->setValueOrDefault($obj->scanned_count, "integer");
-        $this->obj->progress = $this->setValueOrDefault($obj->progress, "integer");
+        $this->obj->duration = $this->setValueOrDefault($obj, "duration", "duration");
+        $this->obj->start_time = $this->setValueOrDefault($obj, "start_time", "date");
+        $this->obj->end_time = $this->setValueOrDefault($obj, "end_time", "date");
+        $this->obj->malware_count = $this->setValueOrDefault($obj, "malware_count", "integer");
+        $this->obj->suspicious_count = $this->setValueOrDefault($obj, "suspicious_count", "integer");
+        $this->obj->cleaned_count = $this->setValueOrDefault($obj, "cleaned_count", "integer");
+        $this->obj->scanned_count = $this->setValueOrDefault($obj, "scanned_count", "integer");
+        $this->obj->progress = $this->setValueOrDefault($obj, "progress", "integer");
 
         $this->obj->duration = PluginArmaditoToolbox::FormatDuration($this->obj->duration);
         $this->obj->start_time = date("Y-m-d H:i:s", strtotime($this->obj->start_time));

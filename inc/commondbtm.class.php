@@ -86,10 +86,10 @@ class PluginArmaditoCommonDBTM extends CommonDBTM
         return $value;
     }
 
-    function setValueOrDefault($value, $type)
+    function setValueOrDefault($obj, $label, $type)
     {
-        if(isset($value)) {
-            return $value;
+        if(isset($obj->{$label})) {
+            return $obj->{$label};
         }
         return $this->getDefaultValue($type);
     }
