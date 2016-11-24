@@ -31,7 +31,7 @@ class PluginArmaditoScan extends PluginArmaditoCommonDBTM
     protected $id;
     protected $agentid;
     protected $agent;
-    protected $jobj;
+    protected $obj;
     protected $job;
     protected $scanconfigid;
     protected $scanconfigobj;
@@ -52,7 +52,23 @@ class PluginArmaditoScan extends PluginArmaditoCommonDBTM
     function initFromJson($jobj)
     {
         $this->agentid = PluginArmaditoToolbox::validateInt($jobj->agent_id);
-        $this->jobj    = $jobj;
+        $this->setObj($jobj->task->obj);
+    }
+
+    function setObj($obj)
+    {
+        $this->obj->job_id = $obj->job_id;
+        $this->obj->duration = $this->setValueOrDefault($obj->duration, "duration");
+        $this->obj->start_time = $this->setValueOrDefault($obj->start_time, "date");
+        $this->obj->end_time = $this->setValueOrDefault($obj->end_time, "date");
+        $this->obj->malware_count = $this->setValueOrDefault($obj->malware_count, "integer");
+        $this->obj->suspicious_count = $this->setValueOrDefault($obj->suspicious_count, "integer");
+        $this->obj->cleaned_count = $this->setValueOrDefault($obj->cleaned_count, "integer");
+        $this->obj->scanned_count = $this->setValueOrDefault($obj->scanned_count, "integer");
+        $this->obj->progress = $this->setValueOrDefault($obj->progress, "integer");
+
+        $this->obj->duration = PluginArmaditoToolbox::FormatDuration($this->obj->duration);
+        $this->obj->start_time = date("Y-m-d H:i:s", strtotime($this->obj->start_time));
     }
 
     function initFromDB($job_id)
@@ -167,16 +183,13 @@ class PluginArmaditoScan extends PluginArmaditoCommonDBTM
         $dbmanager->prepareQuery($query);
         $dbmanager->bindQuery($query);
 
-        $duration = PluginArmaditoToolbox::FormatISO8601DateInterval($this->jobj->task->obj->duration);
-        $start_time = date("Y-m-d H:i:s", strtotime($this->jobj->task->obj->start_time));
-
-        $dbmanager->setQueryValue($query, "duration", $duration);
-        $dbmanager->setQueryValue($query, "start_time", $start_time);
-        $dbmanager->setQueryValue($query, "malware_count", $this->jobj->task->obj->malware_count);
-        $dbmanager->setQueryValue($query, "suspicious_count", $this->jobj->task->obj->suspicious_count);
-        $dbmanager->setQueryValue($query, "scanned_count", $this->jobj->task->obj->scanned_count);
-        $dbmanager->setQueryValue($query, "progress", $this->jobj->task->obj->progress);
-        $dbmanager->setQueryValue($query, "plugin_armadito_jobs_id", $this->jobj->task->obj->job_id); # WHERE
+        $dbmanager->setQueryValue($query, "duration", $this->obj->duration);
+        $dbmanager->setQueryValue($query, "start_time", $this->obj->start_time);
+        $dbmanager->setQueryValue($query, "malware_count", $this->obj->malware_count);
+        $dbmanager->setQueryValue($query, "suspicious_count", $this->obj->suspicious_count);
+        $dbmanager->setQueryValue($query, "scanned_count", $this->obj->scanned_count);
+        $dbmanager->setQueryValue($query, "progress", $this->obj->progress);
+        $dbmanager->setQueryValue($query, "plugin_armadito_jobs_id", $this->obj->job_id); # WHERE
 
         $dbmanager->executeQuery($query);
     }
