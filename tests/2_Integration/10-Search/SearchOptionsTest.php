@@ -27,11 +27,11 @@ class SearchOptionsTest extends CommonTestCase
      */
     public function checkAll()
     {
-        $classes = array('Alert', 
+        $classes = array('Alert',
                          'Agent',
                          'Job',
                          'Scan',
-                         'ScanConfig', 
+                         'ScanConfig',
                          'State');
 
         foreach( $classes as $class )
@@ -39,7 +39,7 @@ class SearchOptionsTest extends CommonTestCase
             $class = 'PluginArmadito'.$class;
             $item = new $class();
             $item->getSearchOptions();
-        } 
+        }
     }
 }
 
