@@ -28,7 +28,7 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
 {
-    protected $jobj;
+    protected $obj;
     protected $agentid;
     protected $agent;
     protected $detection_time;
@@ -41,14 +41,25 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
         $this->agentid = PluginArmaditoToolbox::validateInt($jobj->agent_id);
         $this->agent   = new PluginArmaditoAgent();
         $this->agent->initFromDB($this->agentid);
-        $this->jobj = $jobj;
+        $this->setObj($jobj->task->obj);
         $this->antivirus = $this->agent->getAntivirus();
-        $this->detection_time = PluginArmaditoToolbox::ISO8601DateTime_to_MySQLDateTime($this->jobj->task->obj->alert->detection_time->value);
+    }
+
+    function setObj($obj)
+    {
+        $this->obj = new StdClass;
+        $this->obj->name = $this->setValueOrDefault($obj, "name", "string");
+        $this->obj->filepath = $this->setValueOrDefault($obj, "filepath", "string");
+        $this->obj->module_name = $this->setValueOrDefault($obj, "module_name", "string");
+        $this->obj->impact_severity = $this->setValueOrDefault($obj, "impact_severity", "integer");
+
+        $this->obj->detection_time = $this->setValueOrDefault($obj, "detection_time", "date");
+        $this->obj->detection_time = PluginArmaditoToolbox::FormatDate($this->obj->detection_time);
     }
 
     function getDetectionTime()
     {
-        return $this->detection_time;
+        return $this->obj->detection_time;
     }
 
     function getAgentId()
@@ -105,17 +116,17 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
     {
         $dbmanager->setQueryValue($query, "plugin_armadito_agents_id", $this->agentid);
         $dbmanager->setQueryValue($query, "plugin_armadito_antiviruses_id", $this->antivirus->getId());
-        $dbmanager->setQueryValue($query, "name", $this->jobj->task->obj->alert->module_specific->value);
-        $dbmanager->setQueryValue($query, "filepath", $this->jobj->task->obj->alert->uri->value);
-        $dbmanager->setQueryValue($query, "module_name", $this->jobj->task->obj->alert->module->value);
-        $dbmanager->setQueryValue($query, "detection_time", $this->detection_time);
-        $dbmanager->setQueryValue($query, "impact_severity", $this->jobj->task->obj->alert->level->value);
+        $dbmanager->setQueryValue($query, "name", $this->obj->name);
+        $dbmanager->setQueryValue($query, "filepath", $this->obj->filepath);
+        $dbmanager->setQueryValue($query, "module_name", $this->obj->module_name);
+        $dbmanager->setQueryValue($query, "detection_time", $this->obj->detection_time);
+        $dbmanager->setQueryValue($query, "impact_severity", $this->obj->impact_severity);
         return $dbmanager;
     }
 
     function updateAlertStat ()
     {
-        PluginArmaditoLastAlertStat::increment($this->jobj->task->obj->alert->detection_time->value);
+        PluginArmaditoLastAlertStat::increment($this->obj->detection_time);
     }
 
     static function addVirusName ($VirusNames, $data)

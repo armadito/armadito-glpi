@@ -35,12 +35,23 @@ if (isValidPOSTRequest($rawdata))
     try
     {
         $jobj = PluginArmaditoToolbox::parseJSON($rawdata);
-        $alert = new PluginArmaditoAlert();
-        $alert->initFromJson($jobj);
-        $alert->insertAlert();
-        $alert->updateAlertStat();
-        $agent = new PluginArmaditoAgent();
-        $agent->updateLastAlert($alert);
+
+        foreach( $jobj->task->obj->alerts as $alert_jobj )
+        {
+            $tmp_jobj = $jobj;
+            $tmp_jobj->task->obj = $alert_jobj;
+
+            $alert = new PluginArmaditoAlert();
+            $alert->initFromJson($tmp_jobj);
+            $alert->insertAlert();
+            $alert->updateAlertStat();
+        }
+
+        if($alert)
+        {
+            $agent = new PluginArmaditoAgent();
+            $agent->updateLastAlert($alert);
+        }
 
         writeHttpOKResponse("");
     }

@@ -90,13 +90,28 @@ class PluginArmaditoToolbox
         }
     }
 
-    static function formatDuration( $duration ) {
+    static function formatDuration($duration) {
 
         if(preg_match('/^(\d{1}):(\d{2}):(\d{2})$/i', $duration, $matches)) {
             $duration = 'PT0'.$matches[1].'H'.$matches[2].'M'.$matches[3].'S';
         }
 
         return static::FormatISO8601DateInterval($duration);
+    }
+
+    static function formatDate($date) {
+
+        if(preg_match('/^(\d{10})$/i', $date, $matches)) {
+           return static::Timestamp_to_MySQLDateTime($date);
+        }
+
+        return static::ISO8601DateTime_to_MySQLDateTime($date);
+    }
+
+    static function Timestamp_to_MySQLDateTime($timestamp) {
+        $datetime = new DateTime();
+        $datetime->setTimestamp($timestamp);
+        return $datetime->format("Y-m-d H:i:s");
     }
 
     static function ISO8601DateTime_to_MySQLDateTime($ISO8601_datetime) {
