@@ -85,6 +85,7 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
     {
         $search_options = new PluginArmaditoSearchoptions('Alert');
 
+        $items['Alert Id']         = new PluginArmaditoSearchitemlink('id', $this->getTable(), 'PluginArmaditoAlert');
         $items['Agent Id']         = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_agents', 'PluginArmaditoAgent');
         $items['Threat name']      = new PluginArmaditoSearchtext('name', $this->getTable());
         $items['Filepath']         = new PluginArmaditoSearchtext('filepath', $this->getTable());
