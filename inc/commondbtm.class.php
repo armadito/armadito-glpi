@@ -88,9 +88,15 @@ class PluginArmaditoCommonDBTM extends CommonDBTM
 
     function setValueOrDefault($obj, $label, $type)
     {
-        if(isset($obj->{$label})) {
+        if(isset($obj->{$label}))
+        {
+            if(is_array($obj->{$label})) {
+                return $obj->{$label}[0];
+            }
+
             return $obj->{$label};
         }
+
         return $this->getDefaultValue($type);
     }
 
