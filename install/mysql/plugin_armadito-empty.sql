@@ -99,13 +99,16 @@ DROP TABLE IF EXISTS `glpi_plugin_armadito_alerts`;
 
 CREATE TABLE `glpi_plugin_armadito_alerts` (
    `id` int(11) NOT NULL AUTO_INCREMENT,
+   `plugin_armadito_agents_id` int(11) NOT NULL,
+   `plugin_armadito_antiviruses_id` int(11) NOT NULL,
    `name` varchar(255) DEFAULT NULL,
    `filepath` varchar(255) DEFAULT NULL,
    `module_name` varchar(255) DEFAULT NULL,
-   `plugin_armadito_agents_id` int(11) NOT NULL,
-   `plugin_armadito_antiviruses_id` int(11) NOT NULL,
    `impact_severity` varchar(255) DEFAULT NULL,
+   `info` varchar(255) DEFAULT NULL,
+   `action` varchar(255) DEFAULT NULL,
    `detection_time` datetime DEFAULT NULL,
+   `checksum` varchar(255) DEFAULT NULL,
    `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
    PRIMARY KEY (`id`),
    KEY `is_deleted` (`is_deleted`)
