@@ -38,7 +38,7 @@ class PluginArmaditoFormRow
     function write()
     {
         echo "<tr class='tab_bg_1'>";
-        echo "<td>" . __($this->key, 'armadito') . "&nbsp;:</td>";
+        echo "<td><b>" . __($this->key, 'armadito') . "</b>&nbsp;:</td>";
         echo "<td align='left'>";
         echo htmlspecialchars($this->value);
         echo "</td>";
