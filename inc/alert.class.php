@@ -62,6 +62,8 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
         $this->obj->filepath = $this->setValueOrDefault($obj, "filepath", "string");
         $this->obj->module_name = $this->setValueOrDefault($obj, "module_name", "string");
         $this->obj->impact_severity = $this->setValueOrDefault($obj, "impact_severity", "integer");
+        $this->obj->action = $this->setValueOrDefault($obj, "action", "string");
+        $this->obj->info = $this->setValueOrDefault($obj, "info", "string");
 
         $this->obj->detection_time = $this->setValueOrDefault($obj, "detection_time", "date");
         $this->obj->detection_time = PluginArmaditoToolbox::FormatDate($this->obj->detection_time);
@@ -88,6 +90,8 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
         $items['Filepath']         = new PluginArmaditoSearchtext('filepath', $this->getTable());
         $items['Antivirus']        = new PluginArmaditoSearchitemlink('fullname', 'glpi_plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
         $items['Module']           = new PluginArmaditoSearchtext('module_name', $this->getTable());
+        $items['Action']           = new PluginArmaditoSearchtext('action', $this->getTable());
+        $items['Info']             = new PluginArmaditoSearchtext('info', $this->getTable());
         $items['Severity']         = new PluginArmaditoSearchtext('impact_severity', $this->getTable());
         $items['Detection Time']   = new PluginArmaditoSearchtext('detection_time', $this->getTable());
 
@@ -141,6 +145,8 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
         $params["impact_severity"]["type"]                 = "s";
         $params["detection_time"]["type"]                  = "s";
         $params["checksum"]["type"]                        = "s";
+        $params["action"]["type"]                          = "s";
+        $params["info"]["type"]                            = "s";
         return $params;
     }
 
@@ -154,6 +160,8 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
         $dbmanager->setQueryValue($query, "detection_time", $this->obj->detection_time);
         $dbmanager->setQueryValue($query, "impact_severity", $this->obj->impact_severity);
         $dbmanager->setQueryValue($query, "checksum", $this->obj->checksum);
+        $dbmanager->setQueryValue($query, "action", $this->obj->action);
+        $dbmanager->setQueryValue($query, "info", $this->obj->info);
         return $dbmanager;
     }
 
