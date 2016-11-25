@@ -20,7 +20,7 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 
 **/
 
-class JobFormTest extends CommonTestCase
+class AlertFormTest extends CommonTestCase
 {
     /**
      * @test
