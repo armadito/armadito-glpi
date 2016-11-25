@@ -43,8 +43,11 @@ if (isValidPOSTRequest($rawdata))
 
             $alert = new PluginArmaditoAlert();
             $alert->initFromJson($tmp_jobj);
-            $alert->insertAlert();
-            $alert->updateAlertStat();
+
+            if(!$alert->isAlertInDB()) {
+                $alert->insertAlert();
+                $alert->updateAlertStat();
+            }
         }
 
         if($alert)

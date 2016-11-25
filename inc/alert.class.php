@@ -36,13 +36,23 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
 
     static $rightname = 'plugin_armadito_alerts';
 
+    function getDetectionTime()
+    {
+        return $this->obj->detection_time;
+    }
+
+    function getAgentId()
+    {
+        return $this->agentid;
+    }
+
     function initFromJson($jobj)
     {
         $this->agentid = PluginArmaditoToolbox::validateInt($jobj->agent_id);
         $this->agent   = new PluginArmaditoAgent();
         $this->agent->initFromDB($this->agentid);
-        $this->setObj($jobj->task->obj);
         $this->antivirus = $this->agent->getAntivirus();
+        $this->setObj($jobj->task->obj);
     }
 
     function setObj($obj)
@@ -55,16 +65,18 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
 
         $this->obj->detection_time = $this->setValueOrDefault($obj, "detection_time", "date");
         $this->obj->detection_time = PluginArmaditoToolbox::FormatDate($this->obj->detection_time);
+        $this->obj->checksum = $this->computeChecksum();
     }
 
-    function getDetectionTime()
+    function computeChecksum()
     {
-        return $this->obj->detection_time;
-    }
+         $unique_string  = $this->obj->name.";";
+         $unique_string .= $this->obj->filepath.";";
+         $unique_string .= $this->obj->detection_time.";";
+         $unique_string .= $this->agentid.";";
+         $unique_string .= $this->antivirus->getId().";";
 
-    function getAgentId()
-    {
-        return $this->agentid;
+         return hash("sha256", $unique_string);
     }
 
     function getSearchOptions()
@@ -80,6 +92,25 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
         $items['Detection Time']   = new PluginArmaditoSearchtext('detection_time', $this->getTable());
 
         return $search_options->get($items);
+    }
+
+    function isAlertInDB()
+    {
+        global $DB;
+
+        $query = "SELECT id FROM `glpi_plugin_armadito_alerts`
+                WHERE `checksum`='" . $this->obj->checksum . "'";
+        $ret   = $DB->query($query);
+
+        if (!$ret) {
+            throw new InvalidArgumentException(sprintf('Error isAlertInDB : %s', $DB->error()));
+        }
+
+        if ($DB->numrows($ret) > 0) {
+            return true;
+        }
+
+        return false;
     }
 
     function insertAlert()
@@ -109,6 +140,7 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
         $params["filepath"]["type"]                        = "s";
         $params["impact_severity"]["type"]                 = "s";
         $params["detection_time"]["type"]                  = "s";
+        $params["checksum"]["type"]                        = "s";
         return $params;
     }
 
@@ -121,6 +153,7 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
         $dbmanager->setQueryValue($query, "module_name", $this->obj->module_name);
         $dbmanager->setQueryValue($query, "detection_time", $this->obj->detection_time);
         $dbmanager->setQueryValue($query, "impact_severity", $this->obj->impact_severity);
+        $dbmanager->setQueryValue($query, "checksum", $this->obj->checksum);
         return $dbmanager;
     }
 
