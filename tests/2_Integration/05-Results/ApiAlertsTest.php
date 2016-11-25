@@ -36,7 +36,7 @@ class ApiAlertsTest extends CommonTestCase
     {
         $json_alert = '{"alerts":
             {
-             "name" : "'.$malware_type.'"
+             "name" : "'.$malware_type.'",
              "filepath" : "/home/malwares/X",
              "action" : "cleaned",
              "detection_time" : "'.$detection_time.'"
