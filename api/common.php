@@ -63,7 +63,9 @@ function writeHttpHeader()
 
 function writeHttpErrorResponse($error_message, $code)
 {
-    PluginArmaditoLog::Error($error_message);
+    if(class_exists('PluginArmaditoLog')){
+        PluginArmaditoLog::Error($error_message);
+    }
 
     http_response_code($code);
     writeHttpHeader();
@@ -79,7 +81,7 @@ function writeHttpOKResponse($response_content)
 function checkPluginInstallation()
 {
     if (!class_exists("PluginArmaditoAgent")) {
-        writeHttpErrorResponse("Plugin Armadito is not installed.");
+        writeHttpErrorResponse("Plugin Armadito is not installed.", 500);
         session_destroy();
         exit();
     }
