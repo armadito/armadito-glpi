@@ -34,7 +34,14 @@ class ApiAlertsTest extends CommonTestCase
 
     protected function insertOrUpdateAlert($agentid, $detection_time, $malware_type)
     {
-        $json_alert = '{"alert":{"_z":594,"identification":{"_i":36016721,"_pos":5,"process":{"_z":476,"_i":36016861,"_pos":11,"value":"armadito-scand"},"value":"\n    ","pid":{"value":"7155","_pos":10,"_i":36016841,"_z":438},"_z":496,"hostname":{"value":"lw007","_i":36016764,"_z":372,"_pos":7},"os":{"value":"Linux","_pos":9,"_z":418,"_i":36016822},"user":{"_i":36016742,"_z":341,"_pos":6,"value":"root"},"ip":{"value":"172.28.219.59","_z":399,"_i":36016795,"_pos":8}},"module":{"_pos":12,"_z":522,"_i":36016917,"value":"clamav"},"module_specific":{"_pos":13,"_i":36016943,"_z":585,"value":"Pdf.Dropper.Agent-1507034"},"detection_time":{"_pos":4,"_z":300,"_i":36016666,"value":"'. $detection_time.'"},"_i":36016456,"_pos":1,"uri":{"value":"/home/vhamon/MalwareStore/contagio-malware/pdf/MALWARE_PDF_CVEsorted_173_files/CVE-2011-2462_PDF_25files/CVE-2011-2462_DDE3FD3E45FB8ADAA1243BEC826FEDCD.pdf","type":{"value":"path","_att":1},"_pos":3,"_z":245,"_i":36016485},"value":"\n  ","level":{"_pos":2,"_i":36016466,"_z":64,"value":"2"}},"value":"\n","_pos":0,"_z":0,"_i":0}';
+        $json_alert = '{"alerts":
+            {
+             "name" : "'.$malware_type.'"
+             "filepath" : "/home/malwares/X",
+             "action" : "cleaned",
+             "detection_time" : "'.$detection_time.'"
+            }
+        }';
 
         $json  = '{
   "task": {"obj": '.$json_alert.',
