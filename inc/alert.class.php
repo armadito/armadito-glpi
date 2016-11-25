@@ -58,7 +58,7 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
     function setObj($obj)
     {
         $this->obj = new StdClass;
-        $this->obj->name = $this->setValueOrDefault($obj, "name", "string");
+        $this->obj->threat_name = $this->setValueOrDefault($obj, "name", "string");
         $this->obj->filepath = $this->setValueOrDefault($obj, "filepath", "string");
         $this->obj->module_name = $this->setValueOrDefault($obj, "module_name", "string");
         $this->obj->impact_severity = $this->setValueOrDefault($obj, "impact_severity", "integer");
@@ -72,7 +72,7 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
 
     function computeChecksum()
     {
-         $unique_string  = $this->obj->name.";";
+         $unique_string  = $this->obj->threat_name.";";
          $unique_string .= $this->obj->filepath.";";
          $unique_string .= $this->obj->detection_time.";";
          $unique_string .= $this->agentid.";";
@@ -87,7 +87,7 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
 
         $items['Alert Id']         = new PluginArmaditoSearchitemlink('id', $this->getTable(), 'PluginArmaditoAlert');
         $items['Agent Id']         = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_agents', 'PluginArmaditoAgent');
-        $items['Threat name']      = new PluginArmaditoSearchtext('name', $this->getTable());
+        $items['Threat name']      = new PluginArmaditoSearchtext('threat_name', $this->getTable());
         $items['Filepath']         = new PluginArmaditoSearchtext('filepath', $this->getTable());
         $items['Antivirus']        = new PluginArmaditoSearchitemlink('fullname', 'glpi_plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
         $items['Module']           = new PluginArmaditoSearchtext('module_name', $this->getTable());
@@ -140,7 +140,7 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
     {
         $params["plugin_armadito_agents_id"]["type"]       = "i";
         $params["plugin_armadito_antiviruses_id"]["type"]  = "i";
-        $params["name"]["type"]                            = "s";
+        $params["threat_name"]["type"]                     = "s";
         $params["module_name"]["type"]                     = "s";
         $params["filepath"]["type"]                        = "s";
         $params["impact_severity"]["type"]                 = "s";
@@ -155,7 +155,7 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
     {
         $dbmanager->setQueryValue($query, "plugin_armadito_agents_id", $this->agentid);
         $dbmanager->setQueryValue($query, "plugin_armadito_antiviruses_id", $this->antivirus->getId());
-        $dbmanager->setQueryValue($query, "name", $this->obj->name);
+        $dbmanager->setQueryValue($query, "threat_name", $this->obj->threat_name);
         $dbmanager->setQueryValue($query, "filepath", $this->obj->filepath);
         $dbmanager->setQueryValue($query, "module_name", $this->obj->module_name);
         $dbmanager->setQueryValue($query, "detection_time", $this->obj->detection_time);
@@ -173,11 +173,11 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
 
     static function addVirusName ($VirusNames, $data)
     {
-        if(!isset($VirusNames[$data['name']])) {
-            $VirusNames[$data['name']] = 0;
+        if(!isset($VirusNames[$data['threat_name']])) {
+            $VirusNames[$data['threat_name']] = 0;
         }
 
-        $VirusNames[$data['name']]++;
+        $VirusNames[$data['threat_name']]++;
         return $VirusNames;
     }
 
@@ -186,7 +186,7 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
         global $DB;
 
         $VirusNames   = array();
-        $query = "SELECT name FROM `glpi_plugin_armadito_alerts`";
+        $query = "SELECT threat_name FROM `glpi_plugin_armadito_alerts`";
         $ret   = $DB->query($query);
 
         if (!$ret) {
