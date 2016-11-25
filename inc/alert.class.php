@@ -222,5 +222,25 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
 
         return $VirusNames;
     }
+
+    function showForm($table_id, $options = array())
+    {
+        PluginArmaditoToolbox::validateInt($table_id);
+
+        $this->initForm($table_id, $options);
+        $this->showFormHeader($options);
+
+        $rows[] = new PluginArmaditoFormRow('Id', $this->fields["id"]);
+        $rows[] = new PluginArmaditoFormRow('Threat name', $this->fields["threat_name"]);
+        $rows[] = new PluginArmaditoFormRow('File Path', $this->fields["filepath"]);
+        $rows[] = new PluginArmaditoFormRow('Detection Time', $this->fields["detection_time"]);
+        $rows[] = new PluginArmaditoFormRow('Action', $this->fields["action"]);
+        $rows[] = new PluginArmaditoFormRow('Info', $this->fields["info"]);
+
+        foreach( $rows as $row )
+        {
+            $row->write();
+        }
+    }
 }
 ?>
