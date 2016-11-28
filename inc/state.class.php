@@ -56,7 +56,7 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
         $this->obj->service_status  = $this->setValueOrDefault($obj, "service_status", "string");
         $this->obj->realtime_status = $this->setValueOrDefault($obj, "realtime_status", "string");
         $this->obj->global_status   = $this->setValueOrDefault($obj, "global_status", "string");
-        $this->obj->last_update     = $this->setValueOrDefault($obj, "last_update", "timestamp");
+        $this->obj->last_update     = $this->setValueOrDefault($obj, "global_update_timestamp", "timestamp");
         $this->obj->last_update     = date("Y-m-d H:i:s", $this->obj->last_update);
     }
 
