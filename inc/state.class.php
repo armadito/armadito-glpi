@@ -214,13 +214,13 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
 
     function setCommonQueryParams()
     {
-        $params["plugin_armadito_agents_id"]["type"]       = "i";
         $params["plugin_armadito_antiviruses_id"]["type"]  = "i";
         $params["plugin_armadito_statedetails_id"]["type"] = "i";
         $params["update_status"]["type"]                   = "s";
         $params["last_update"]["type"]                     = "s";
         $params["realtime_status"]["type"]                 = "s";
         $params["service_status"]["type"]                  = "s";
+        $params["plugin_armadito_agents_id"]["type"]       = "i";
         return $params;
     }
 
