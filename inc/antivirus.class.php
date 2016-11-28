@@ -43,6 +43,11 @@ class PluginArmaditoAntivirus extends PluginArmaditoCommonDBTM
         return $this->fullname;
     }
 
+    function getShortName()
+    {
+        return $this->name;
+    }
+
     function initFromJson($jobj_)
     {
         $this->name     = $jobj_->task->antivirus->name;

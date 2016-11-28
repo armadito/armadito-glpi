@@ -73,14 +73,22 @@ class PluginArmaditoCommonDBTM extends CommonDBTM
         switch ($type) {
             case "duration":
                 $value = "0:00:00";
+                break;
             case "date":
                 $value = "1970-01-01T00:00:00Z";
+                break;
+            case "timestamp":
+                $value = 0;
+                break;
             case "string":
-                $value = "n/a";
+                $value = "non-available";
+                break;
             case "integer":
-                $value = "-1";
+                $value = -1;
+                break;
             default:
                 $value = null;
+                break;
         }
 
         return $value;
