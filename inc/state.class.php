@@ -110,14 +110,14 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
         $items['Last Update']         = new PluginArmaditoSearchtext('last_update', $this->getTable());
         $items['Antivirus']           = new PluginArmaditoSearchitemlink('fullname', 'glpi_plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
         $items['Antivirus On-access'] = new PluginArmaditoSearchtext('realtime_status', $this->getTable());
-        $items['Antivirus On-demand'] = new PluginArmaditoSearchtext('service_status', $this->getTable());
+        $items['Antivirus Service']   = new PluginArmaditoSearchtext('service_status', $this->getTable());
 
         return $search_options->get($items);
     }
 
     function run()
     {
-        if ($this->jobj->task->antivirus->name == "Armadito") {
+        if ($this->antivirus->getShortName() == "Armadito") {
             $this->insertOrUpdateStateModules();
         }
 
