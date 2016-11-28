@@ -45,7 +45,19 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
         $this->agentid = PluginArmaditoToolbox::validateInt($jobj->agent_id);
         $this->agent   = new PluginArmaditoAgent();
         $this->agent->initFromDB($this->agentid);
-        $this->jobj = $jobj;
+        $this->antivirus = $this->agent->getAntivirus();
+        $this->setObj($jobj->task->obj);
+
+    }
+
+    function setObj($obj)
+    {
+        $this->obj = new StdClass;
+        $this->obj->service_status  = $this->setValueOrDefault($obj, "service_status", "string");
+        $this->obj->realtime_status = $this->setValueOrDefault($obj, "realtime_status", "string");
+        $this->obj->global_status   = $this->setValueOrDefault($obj, "global_status", "string");
+        $this->obj->last_update     = $this->setValueOrDefault($obj, "last_update", "timestamp");
+        $this->obj->last_update     = date("Y-m-d H:i:s", $this->obj->last_update);
     }
 
     function initFromDB($state_id)
@@ -54,6 +66,7 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
             $this->id    = $state_id;
             $this->agent = new PluginArmaditoAgent();
             $this->agent->initFromDB($this->fields["plugin_armadito_agents_id"]);
+            $this->antivirus = $this->agent->getAntivirus();
         } else {
             PluginArmaditoLog::Error("Unable to get State DB fields");
         }
@@ -177,7 +190,6 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
         $dbmanager->prepareQuery($query);
         $dbmanager->bindQuery($query);
 
-        $this->antivirus = $this->agent->getAntivirus();
         $dbmanager = $this->setCommonQueryValues($dbmanager, $query);
         $dbmanager->executeQuery($query);
 
@@ -196,7 +208,6 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
         $dbmanager->prepareQuery($query);
         $dbmanager->bindQuery($query);
 
-        $this->antivirus = $this->agent->getAntivirus();
         $dbmanager = $this->setCommonQueryValues($dbmanager, $query);
         $dbmanager->executeQuery($query);
     }
@@ -217,10 +228,10 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
     {
         $dbmanager->setQueryValue($query, "plugin_armadito_statedetails_id", $this->statedetails_id);
         $dbmanager->setQueryValue($query, "plugin_armadito_antiviruses_id", $this->antivirus->getId());
-        $dbmanager->setQueryValue($query, "update_status", $this->jobj->task->obj->global_status);
-        $dbmanager->setQueryValue($query, "last_update", date("Y-m-d H:i:s", $this->jobj->task->obj->global_update_timestamp));
-        $dbmanager->setQueryValue($query, "realtime_status", "unknown");
-        $dbmanager->setQueryValue($query, "service_status", "unknown");
+        $dbmanager->setQueryValue($query, "update_status", $this->obj->global_status);
+        $dbmanager->setQueryValue($query, "last_update", $this->obj->last_update);
+        $dbmanager->setQueryValue($query, "realtime_status", $this->obj->realtime_status);
+        $dbmanager->setQueryValue($query, "service_status", $this->obj->service_status);
         $dbmanager->setQueryValue($query, "plugin_armadito_agents_id", $this->agentid);
         return $dbmanager;
     }
