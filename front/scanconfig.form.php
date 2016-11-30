@@ -46,7 +46,6 @@ if (isset($_POST['add']))
     try {
         $data = getFormdata();
         $scanConfig->initFromForm($data);
-        $scanConfig->validate();
         $scanConfig->insertScanConfigInDB();
     }
     catch (Exception $e) {
@@ -62,7 +61,6 @@ else if (isset ($_POST["update"]))
     try {
         $data = getFormdata();
         $scanConfig->initFromForm($data);
-        $scanConfig->validate();
         $scanConfig->updateScanConfigInDB();
     }
     catch (Exception $e) {

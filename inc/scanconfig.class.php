@@ -62,13 +62,6 @@ class PluginArmaditoScanConfig extends PluginArmaditoCommonDBTM
         $this->antivirus_id = $this->fields["plugin_armadito_antiviruses_id"];
     }
 
-    function validate()
-    {
-        if (!PluginArmaditoToolbox::isValidUnixPath($this->scan_path)) {
-            throw new InvalidArgumentException("Invalid UNIX Scan path");
-        }
-    }
-
     function toJson()
     {
         return '{

@@ -61,24 +61,6 @@ class PluginArmaditoToolbox
         return $ret;
     }
 
-    static function isValidWin32Path($var)
-    {
-        return filter_var($var, FILTER_VALIDATE_REGEXP, array(
-            "options" => array(
-                "regexp" => "/^[A-Za-z]:\\[A-Za-z0-9 ]*$/"
-            )
-        ));
-    }
-
-    static function isValidUnixPath($var)
-    {
-        return filter_var($var, FILTER_VALIDATE_REGEXP, array(
-            "options" => array(
-                "regexp" => '/^\/[^\0]*$/'
-            )
-        ));
-    }
-
     static function parseJSON($json_content)
     {
         $jobj = json_decode($json_content);

@@ -47,7 +47,6 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
         $this->agent->initFromDB($this->agentid);
         $this->antivirus = $this->agent->getAntivirus();
         $this->setObj($jobj->task->obj);
-
     }
 
     function setObj($obj)
