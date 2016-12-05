@@ -32,6 +32,7 @@ class PluginArmaditoAntivirus extends PluginArmaditoCommonDBTM
     protected $fullname;
     protected $name;
     protected $version;
+    protected $osname;
 
     function getId()
     {
@@ -52,7 +53,9 @@ class PluginArmaditoAntivirus extends PluginArmaditoCommonDBTM
     {
         $this->name     = $jobj_->task->antivirus->name;
         $this->version  = $jobj_->task->antivirus->version;
-        $this->fullname = $jobj_->task->antivirus->name . "+" . $jobj_->task->antivirus->version;
+        $this->osname   = $jobj_->task->antivirus->os_info->name;
+
+        $this->fullname = $this->name."+".$this->version."+".$this->osname;
     }
 
     function initFromDB($av_id)
@@ -60,6 +63,7 @@ class PluginArmaditoAntivirus extends PluginArmaditoCommonDBTM
         if ($this->getFromDB($av_id)) {
             $this->id       = $this->fields["id"];
             $this->name     = $this->fields["name"];
+            $this->osname   = $this->fields["osname"];
             $this->version  = $this->fields["version"];
             $this->fullname = $this->fields["fullname"];
         } else {
@@ -135,6 +139,7 @@ class PluginArmaditoAntivirus extends PluginArmaditoCommonDBTM
     function setCommonQueryParams()
     {
         $params["name"]["type"]     = "s";
+        $params["osname"]["type"]   = "s";
         $params["version"]["type"]  = "s";
         $params["fullname"]["type"] = "s";
         return $params;
@@ -144,6 +149,7 @@ class PluginArmaditoAntivirus extends PluginArmaditoCommonDBTM
     {
         $dbmanager->setQueryValue($query, "name", $this->name);
         $dbmanager->setQueryValue($query, "version", $this->version);
+        $dbmanager->setQueryValue($query, "osname", $this->osname);
         $dbmanager->setQueryValue($query, "fullname", $this->fullname);
         return $dbmanager;
     }
@@ -192,6 +198,7 @@ class PluginArmaditoAntivirus extends PluginArmaditoCommonDBTM
         $rows[] = new PluginArmaditoFormRow('Id', $this->fields["id"]);
         $rows[] = new PluginArmaditoFormRow('Name', $this->fields["name"]);
         $rows[] = new PluginArmaditoFormRow('Version', $this->fields["version"]);
+        $rows[] = new PluginArmaditoFormRow('OS Name', $this->fields["osname"]);
 
         foreach( $rows as $row )
         {

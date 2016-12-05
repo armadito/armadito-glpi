@@ -41,6 +41,7 @@ DROP TABLE IF EXISTS `glpi_plugin_armadito_antiviruses`;
 CREATE TABLE `glpi_plugin_armadito_antiviruses` (
    `id` int(11) NOT NULL AUTO_INCREMENT,
    `name` varchar(255) DEFAULT NULL,
+   `osname` varchar(255) DEFAULT NULL,
    `fullname` varchar(255) DEFAULT NULL,
    `version` varchar(255) DEFAULT NULL,
    `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
