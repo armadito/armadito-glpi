@@ -86,6 +86,9 @@ class PluginArmaditoCommonDBTM extends CommonDBTM
             case "integer":
                 $value = -1;
                 break;
+            case "array":
+                $value = array();
+                break;
             default:
                 $value = null;
                 break;
@@ -98,7 +101,7 @@ class PluginArmaditoCommonDBTM extends CommonDBTM
     {
         if(isset($obj->{$label}))
         {
-            if(is_array($obj->{$label})) {
+            if(is_array($obj->{$label}) && $type != "array") {
                 return $obj->{$label}[0];
             }
 

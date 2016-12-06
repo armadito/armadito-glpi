@@ -57,6 +57,7 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
         $this->obj->global_status   = $this->setValueOrDefault($obj, "global_status", "string");
         $this->obj->last_update     = $this->setValueOrDefault($obj, "global_update_timestamp", "timestamp");
         $this->obj->last_update     = date("Y-m-d H:i:s", $this->obj->last_update);
+        $this->obj->modules         = $this->setValueOrDefault($obj, "modules", "array");
     }
 
     function initFromDB($state_id)
@@ -103,20 +104,20 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
     {
         $search_options = new PluginArmaditoSearchoptions('State');
 
-        $items['Details']             = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_statedetails', 'PluginArmaditoStatedetail');
         $items['Agent Id']            = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_agents', 'PluginArmaditoAgent');
         $items['Update Status']       = new PluginArmaditoSearchtext('update_status', $this->getTable());
         $items['Last Update']         = new PluginArmaditoSearchtext('last_update', $this->getTable());
         $items['Antivirus']           = new PluginArmaditoSearchitemlink('fullname', 'glpi_plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
         $items['Antivirus On-access'] = new PluginArmaditoSearchtext('realtime_status', $this->getTable());
         $items['Antivirus Service']   = new PluginArmaditoSearchtext('service_status', $this->getTable());
+        $items['Details']             = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_statedetails', 'PluginArmaditoStatedetail');
 
         return $search_options->get($items);
     }
 
     function run()
     {
-        if ($this->antivirus->getShortName() == "Armadito") {
+        if (!empty($this->obj->modules)) {
             $this->insertOrUpdateStateModules();
         }
 
@@ -131,9 +132,9 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
 
     function insertOrUpdateStateModules()
     {
-        foreach ($this->jobj->task->obj->modules as $jobj_module) {
+        foreach ($this->obj->modules as $jobj_module) {
             $module = new PluginArmaditoStateModule();
-            $module->init($this->agentid, $this->jobj, $jobj_module);
+            $module->initFromJson($this->agentid, $this->obj, $jobj_module);
             $module->run();
         }
     }

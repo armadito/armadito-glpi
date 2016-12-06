@@ -28,15 +28,24 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginArmaditoStateModule extends PluginArmaditoCommonDBTM
 {
-    protected $jobj;
-    protected $state_jobj;
+    protected $obj;
+    protected $state_obj;
     protected $agentid;
 
-    function init($agent_id, $state_jobj, $jobj)
+    function initFromJson($agent_id, $state_obj, $jobj)
     {
         $this->agentid    = $agent_id;
-        $this->state_jobj = $state_jobj;
-        $this->jobj       = $jobj;
+        $this->state_obj = $state_obj;
+        $this->setObj($jobj);
+    }
+
+    function setObj($obj)
+    {
+        $this->obj = new StdClass;
+        $this->obj->name = $this->setValueOrDefault($obj, "name", "string");
+        $this->obj->status = $this->setValueOrDefault($obj, "mod_status", "string");
+        $this->obj->last_update = $this->setValueOrDefault($obj, "mod_update_timestamp", "timestamp");
+        $this->obj->last_update = date("Y-m-d H:i:s", $this->obj->last_update);
     }
 
     static function getTypeName($nb = 0)
@@ -140,7 +149,7 @@ class PluginArmaditoStateModule extends PluginArmaditoCommonDBTM
         }
 
         $agent_id    = $this->agentid;
-        $module_name = $this->jobj->name;
+        $module_name = $this->obj->name;
 
         if (!$stmt->execute()) {
             $stmt->close();
@@ -207,10 +216,10 @@ class PluginArmaditoStateModule extends PluginArmaditoCommonDBTM
     function setCommonQueryValues($dbmanager, $query)
     {
         $dbmanager->setQueryValue($query, "plugin_armadito_agents_id", $this->agentid);
-        $dbmanager->setQueryValue($query, "module_name", $this->jobj->name);
+        $dbmanager->setQueryValue($query, "module_name", $this->obj->name);
         $dbmanager->setQueryValue($query, "module_version", "unknown");
-        $dbmanager->setQueryValue($query, "module_update_status", $this->jobj->mod_status);
-        $dbmanager->setQueryValue($query, "module_last_update", date("Y-m-d H:i:s", $this->jobj->mod_update_timestamp));
+        $dbmanager->setQueryValue($query, "module_update_status", $this->obj->status);
+        $dbmanager->setQueryValue($query, "module_last_update", $this->obj->last_update);
         return $dbmanager;
     }
 }
