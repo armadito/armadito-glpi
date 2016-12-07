@@ -31,7 +31,7 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
     protected $id;
     protected $agentid;
     protected $agent;
-    protected $jobj;
+    protected $obj;
     protected $antivirus;
     protected $statedetails_id;
 

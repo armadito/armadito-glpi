@@ -40,11 +40,16 @@ class PluginArmaditoEAVCommonDBTM extends CommonDBTM
     function addValues($values, $update = TRUE)
     {
         foreach ($values as $type => $value) {
-            if ($this->getValue($type) === NULL) {
-                $this->addValue($type, $value);
-            } else if ($update) {
-                $this->updateValue($type, $value);
-            }
+            $this->addOrUpdateValue($type, $value, $update);
+        }
+    }
+
+    function addOrUpdateValue($type, $value, $update = TRUE)
+    {
+        if ($this->getValue($type) === NULL) {
+            $this->addValue($type, $value);
+        } else if ($update) {
+            $this->updateValue($type, $value);
         }
     }
 
