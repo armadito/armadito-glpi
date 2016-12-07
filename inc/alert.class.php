@@ -48,9 +48,7 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
 
     function initFromJson($jobj)
     {
-        $this->agentid = PluginArmaditoToolbox::validateInt($jobj->agent_id);
-        $this->agent   = new PluginArmaditoAgent();
-        $this->agent->initFromDB($this->agentid);
+        $this->setAgentFromJson($jobj);
         $this->antivirus = $this->agent->getAntivirus();
         $this->setObj($jobj->task->obj);
     }

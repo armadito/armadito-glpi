@@ -67,6 +67,18 @@ class PluginArmaditoCommonDBTM extends CommonDBTM
         return $_SESSION["glpi_plugin_armadito_profile"]['armadito'];
     }
 
+    function setAgentFromJson($jobj)
+    {
+        $this->agentid = PluginArmaditoToolbox::validateInt($jobj->agent_id);
+        $this->agent   = new PluginArmaditoAgent();
+
+        if(!$this->agent->isAgentInDB($jobj->uuid)){
+            throw new InvalidArgumentException('UUID not found in database. This agent has to be re-enrolled.');
+        }
+
+        $this->agent->initFromDB($this->agentid);
+    }
+
     function getDefaultValue($type)
     {
         $value = null;

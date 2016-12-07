@@ -102,21 +102,21 @@ class PluginArmaditoAgent extends PluginArmaditoCommonDBTM
     {
         $this->antivirus->run();
 
-        if ($this->isAgentInDB()) {
+        if ($this->isAgentInDB($this->jobj->uuid)) {
             $this->updateAgentInDB();
         } else {
             $this->insertAgentInDB();
         }
     }
 
-    function isAgentInDB()
+    function isAgentInDB($uuid)
     {
         global $DB;
 
-        PluginArmaditoToolbox::validateUUID($this->jobj->uuid);
+        PluginArmaditoToolbox::validateUUID($uuid);
 
         $query = "SELECT id FROM `glpi_plugin_armadito_agents`
-                WHERE `uuid`='" . $this->jobj->uuid . "'";
+                WHERE `uuid`='" . $uuid . "'";
         $ret   = $DB->query($query);
 
         if (!$ret) {
