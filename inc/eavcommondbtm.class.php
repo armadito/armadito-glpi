@@ -53,55 +53,71 @@ class PluginArmaditoEAVCommonDBTM extends CommonDBTM
         }
     }
 
-    function updateValue($name, $value)
+    function updateValue($type, $value)
     {
         global $DB;
-        $config = current($this->find("`type`='" . $DB->escape($name) . "'"));
-        if (isset($config['id'])) {
-            return $this->update(array(
-                'id' => $config['id'],
-                'value' => $value
-            ));
+
+        $query = "`type`='" . $DB->escape($type) . "'";
+        $selected = current($this->find($query));
+
+        if (isset($selected ['id'])) {
+            return $this->updateValueInDB($selected ['id'], $value);
         } else {
-            return $this->add(array(
-                'type' => $name,
-                'value' => $value
-            ));
+            return $this->insertValueInDB($type, $value);
         }
     }
 
-    function addValue($name, $value)
+    function addValue($type, $value)
     {
-        $existing_value = $this->getValue($name);
+        $existing_value = $this->getValue($type);
         if (!is_null($existing_value)) {
             return $existing_value;
         } else {
-            return $this->add(array(
-                'type' => $name,
-                'value' => $value
-            ));
+            return $this->insertValueInDB($type, $value);
         }
     }
 
-    function getValue($name)
+    function insertValueInDB($type, $value)
+    {
+        $row = array(
+            'type' => $type,
+            'value' => $value
+        );
+
+        $this->add($row);
+    }
+
+    function updateValueInDB( $id, $value )
+    {
+        $row = array(
+            'id' => $id,
+            'value' => $value
+        );
+
+        $this->update($row);
+    }
+
+    function getValue($type)
     {
         global $DB, $PF_CONFIG;
 
-        if (isset($PF_CONFIG[$name])) {
-            return $PF_CONFIG[$name];
+        if (isset($PF_CONFIG[$type])) {
+            return $PF_CONFIG[$type];
         }
 
-        $config = current($this->find("`type`='" . $DB->escape($name) . "'"));
-        if (isset($config['value'])) {
-            return $config['value'];
+        $query = "`type`='" . $DB->escape($type) . "'";
+        $selected = current($this->find($query));
+
+        if (isset($selected['value'])) {
+            return $selected['value'];
         }
 
         return NULL;
     }
 
-    function isActive($name)
+    function isActive($type)
     {
-        $value = $this->getValue($name);
+        $value = $this->getValue($type);
         if($value === NULL){
            return FALSE;
         }
