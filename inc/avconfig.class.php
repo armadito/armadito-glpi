@@ -55,8 +55,7 @@ class PluginArmaditoAVConfig extends PluginArmaditoEAVCommonDBTM
     {
         foreach ($this->entries as $entry)
         {
-            PluginArmaditoLog::Debug($entry->{attr}."=".$entry->{value});
-            $this->addOrUpdateValue($entry->{attr}, $entry->{value});
+            $this->addOrUpdateValue($entry->{'attr'}, $entry->{'value'});
         }
     }
 }
