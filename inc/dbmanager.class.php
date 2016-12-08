@@ -136,7 +136,7 @@ class PluginArmaditoDbManager
         $bindargs = array("");
         foreach ($this->queries[$name]["params"] as $property_name => $property_array) {
             $bindargs[0] .= $property_array["type"];
-            $bindargs[] =& $this->queries[$name]["params"][$property_name]["value"];
+            $bindargs[] = &$this->queries[$name]["params"][$property_name]["value"];
         }
         return $bindargs;
     }
