@@ -49,7 +49,7 @@ class ApiAVConfigsTest extends CommonTestCase
           },
   "agent_version":"2.3.18",
   "agent_id":'.$agentid.',
-  "uuid": '.$uuid.' }';
+  "uuid": "'.$uuid.'" }';
 
         $jobj = PluginArmaditoToolbox::parseJSON($json);
 
