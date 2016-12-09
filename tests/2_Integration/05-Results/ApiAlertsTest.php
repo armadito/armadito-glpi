@@ -27,12 +27,12 @@ class ApiAlertsTest extends CommonTestCase
      */
     public function POSTrequests()
     {
-        $this->insertOrUpdateAlert(2, "2016-11-18T11:39:09", "Pdf.Dropper.Agent-1507034");
-        $this->insertOrUpdateAlert(3, "2016-11-18T11:40:09", "Pdf.Dropper.Agent-1507034");
-        $this->insertOrUpdateAlert(3, "2016-11-18T11:40:10", "Win.Trojan.Elpapok-1");
+        $this->insertOrUpdateAlert(2, "2016-11-18T11:39:09", "Pdf.Dropper.Agent-1507034", "4C4C4544-0033-4A10-8051-FFFFFFFFFFFF");
+        $this->insertOrUpdateAlert(3, "2016-11-18T11:40:09", "Pdf.Dropper.Agent-1507034", "4C4C4544-0033-4A10-8051-BBBBBBBBBBBB");
+        $this->insertOrUpdateAlert(3, "2016-11-18T11:40:10", "Win.Trojan.Elpapok-1", "4C4C4544-0033-4A10-8051-BBBBBBBBBBBB");
     }
 
-    protected function insertOrUpdateAlert($agentid, $detection_time, $malware_type)
+    protected function insertOrUpdateAlert($agentid, $detection_time, $malware_type, $uuid)
     {
         $json_alert = '{"alerts":
             {
@@ -52,7 +52,8 @@ class ApiAlertsTest extends CommonTestCase
                         }
           },
   "agent_version":"2.3.18",
-  "agent_id":'.$agentid.' }';
+  "agent_id":'.$agentid.',
+  "uuid": "'.$uuid.'"}';
 
         $jobj = PluginArmaditoToolbox::parseJSON($json);
         $alert = new PluginArmaditoAlert();

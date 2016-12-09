@@ -27,11 +27,11 @@ class ApiScansTest extends CommonTestCase
      */
     public function POSTrequests()
     {
-        $this->OnDemandCompletedEvent(2, 1, 177, 752);
-        $this->OnDemandCompletedEvent(2, 2, 0, 158);
+        $this->OnDemandCompletedEvent(2, 1, 177, 752, "4C4C4544-0033-4A10-8051-FFFFFFFFFFFF");
+        $this->OnDemandCompletedEvent(2, 2, 0, 158, "4C4C4544-0033-4A10-8051-FFFFFFFFFFFF");
     }
 
-    protected function OnDemandCompletedEvent($agentid, $jobid, $malware_count, $scanned_count)
+    protected function OnDemandCompletedEvent($agentid, $jobid, $malware_count, $scanned_count, $uuid)
     {
         $task_obj = '{"suspicious_count":0,"event_type":"OnDemandCompletedEvent","progress":100,
 "malware_count":'.$malware_count.',"start_time":"1970-01-01T00:00:00Z","job_id":"'.$jobid.'","duration":"P0Y0M0DT00H00M01S","scanned_count":'.$scanned_count.'}';
@@ -45,7 +45,8 @@ class ApiScansTest extends CommonTestCase
                         }
           },
   "agent_version":"2.3.18",
-  "agent_id":'.$agentid.' }';
+  "agent_id":'.$agentid.',
+  "uuid":"'.$uuid.'"}';
 
         $jobj = PluginArmaditoToolbox::parseJSON($json);
         $scan = new PluginArmaditoScan();

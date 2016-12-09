@@ -27,10 +27,10 @@ class ApiStatesTest extends CommonTestCase
      */
     public function POSTrequests()
     {
-        $this->insertOrUpdateState(2);
+        $this->insertOrUpdateState(2, "4C4C4544-0033-4A10-8051-FFFFFFFFFFFF");
     }
 
-    protected function insertOrUpdateState($agentid)
+    protected function insertOrUpdateState($agentid, $uuid)
     {
         $task_obj = '{"event_type":"StatusEvent","global_update_timestamp":1479467793,"modules":[{"name":"clamav","mod_update_timestamp":1479467793,"mod_status":"up-to-date","bases":[{"version":"22558","signature_count":890643,"name":"daily.cld","full_path":"/home/vhamon/workspace/armadito-av/build/linux/scripts/../out/install/armadito-av/var/lib/armadito/bases/clamav/daily.cld","base_update_ts":1479467793},{"full_path":"/home/vhamon/workspace/armadito-av/build/linux/scripts/../out/install/armadito-av/var/lib/armadito/bases/clamav/main.cvd","base_update_ts":1458170226,"version":"57","name":"main.cvd","signature_count":4218790},{"name":"bytecode.cld","signature_count":54,"version":"284","base_update_ts":1477591452,"full_path":"/home/vhamon/workspace/armadito-av/build/linux/scripts/../out/install/armadito-av/var/lib/armadito/bases/clamav/bytecode.cld"}]},{"mod_status":"up-to-date","mod_update_timestamp":1409556600,"name":"moduleH1"}],"global_status":"up-to-date"}';
 
@@ -43,7 +43,8 @@ class ApiStatesTest extends CommonTestCase
                         }
           },
   "agent_version":"2.3.18",
-  "agent_id":'.$agentid.' }';
+  "agent_id":'.$agentid.',
+  "uuid":"'.$uuid.'"}';
 
         $jobj = PluginArmaditoToolbox::parseJSON($json);
 
