@@ -58,7 +58,6 @@ class ScanConfigsTest extends CommonTestCase
 
         $scanConfig = new PluginArmaditoScanConfig();
         $scanConfig->initFromForm($data);
-        $scanConfig->validate();
         return $scanConfig;
     }
 }
