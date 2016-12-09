@@ -47,7 +47,8 @@ class ApiAgentsTest extends CommonTestCase
            "name":"Enrollment",
            "antivirus": {
                          "name":"Armadito",
-                         "version":"0.10.2"
+                         "version":"0.10.2",
+                         "os_info": {"name":"linux","libpath":"linux"}
                         }
           },
   "agent_version":"2.3.18",
