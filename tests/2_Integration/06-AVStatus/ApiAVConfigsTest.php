@@ -28,12 +28,12 @@ class ApiAVConfigsTest extends CommonTestCase
     public function POSTrequests()
     {
         $av_config = '[
-            { "attr": "on-access", "value": "enabled" }
-            { "attr": "scan:archive", "value": 1 }
-            { "attr": "scan:jar", "value": 0 }
-            { "attr": "module:h1", "value": "disabled" }
-            { "attr": "module:clamav", "value": "enabled" }
-            { "attr": "module:pdf", "value": "disabled" }
+            { "attr": "on-access", "value": "enabled" },
+            { "attr": "scan:archive", "value": 1 },
+            { "attr": "scan:jar", "value": 0 },
+            { "attr": "module:h1", "value": "disabled" },
+            { "attr": "module:clamav", "value": "enabled" },
+            { "attr": "module:pdf", "value": "disabled" },
             { "attr": "scan:whitelist-dirs", "value": "/home/noscan, /home/nothinghere" }
         ]';
 
