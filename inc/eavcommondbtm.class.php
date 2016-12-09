@@ -55,7 +55,7 @@ class PluginArmaditoEAVCommonDBTM extends CommonDBTM
 
     function updateValue($type, $value)
     {
-        $selected = $this->selectRow($type);
+        $selected = $this->getValueFromDB($type);
 
         if (isset($selected['id'])) {
             return $this->updateValueInDB($type, $value);
@@ -72,6 +72,68 @@ class PluginArmaditoEAVCommonDBTM extends CommonDBTM
         } else {
             return $this->insertValueInDB($type, $value);
         }
+    }
+
+    function isActive($type)
+    {
+        $value = $this->getValue($type);
+        if($value === NULL){
+           return FALSE;
+        }
+
+        return $value;
+    }
+
+    function getValue($type)
+    {
+        global $PF_CONFIG;
+
+        if (isset($PF_CONFIG[$type])) {
+            return $PF_CONFIG[$type];
+        }
+
+        $selected = $this->getValueFromDB($type);
+
+        if (isset($selected['value'])) {
+            return $selected['value'];
+        }
+
+        return NULL;
+    }
+
+    function getValueFromDB($type)
+    {
+        global $DB;
+        return current($this->find("`type`='" . $DB->escape($type) . "'"));
+    }
+
+    function isValueEqualForAgentInDB($type, $agentid = -1, $value)
+    {
+        global $DB;
+
+        $query  = $this->getQueryForAgent($type, $agentid);
+        $query .= " AND `value`='" . $DB->escape($value) . "'";
+
+        return !empty($this->find($query));
+    }
+
+    function isValueForAgentInDB($type, $agentid = -1)
+    {
+        global $DB;
+
+        $query = $this->getQueryForAgent($type, $agentid);
+
+        return !empty($this->find($query));
+    }
+
+    function getQueryForAgent($type, $agentid)
+    {
+        global $DB;
+        $antivirus_id = $this->antivirus->getId();
+
+        return "`type`='". $DB->escape($type)."'".
+               " AND `plugin_armadito_antiviruses_id`='". $DB->escape($antivirus_id)."'".
+               " AND `plugin_armadito_agents_id`='". $DB->escape($agentid)."'";
     }
 
     function insertValueInDB($type, $value)
@@ -98,11 +160,11 @@ class PluginArmaditoEAVCommonDBTM extends CommonDBTM
         $dbmanager = new PluginArmaditoDbManager();
         $params = $this->setCommonQueryParams();
         $where_params = "type";
-        $query = "NewConfigValue";
+        $query = "UpdateConfigValue";
 
         if(isset($this->agentid))
         {
-            $query = "NewValue";
+            $query = "UpdateValue";
             $where_params = array( "plugin_armadito_antiviruses_id",
                                    "plugin_armadito_agents_id");
         }
@@ -133,61 +195,20 @@ class PluginArmaditoEAVCommonDBTM extends CommonDBTM
         $dbmanager->setQueryValue($query, "value", $value);
         $dbmanager->setQueryValue($query, "type", $type);
 
-        if(isset($this->agentid) && isset($this->antivirus)) {
+        if(($query == "UpdateValue") || ($type == "hasAVConfig")) {
             $dbmanager->setQueryValue($query, "plugin_armadito_antiviruses_id", $this->antivirus->getId());
             $dbmanager->setQueryValue($query, "plugin_armadito_agents_id", $this->agentid);
+        }
+        else if($query == "NewValue") {
+            $dbmanager->setQueryValue($query, "plugin_armadito_antiviruses_id", $this->antivirus->getId());
+            $dbmanager->setQueryValue($query, "plugin_armadito_agents_id", 0);
         }
 
         return $dbmanager;
     }
 
-    function getValue($type)
-    {
-        global $PF_CONFIG;
-
-        if (isset($PF_CONFIG[$type])) {
-            return $PF_CONFIG[$type];
-        }
-
-        $selected = $this->selectRow($type);
-
-        if (isset($selected['value'])) {
-            return $selected['value'];
-        }
-
-        return NULL;
-    }
-
-    function selectRow($type)
-    {
-        global $DB;
-
-        $query = "`type`='" . $DB->escape($type) . "'";
-
-        if(isset($this->antivirus)){
-            $antivirus_id = $this->antivirus->getId();
-            $query .= " AND `plugin_armadito_antiviruses_id`=". $DB->escape($antivirus_id);
-        }
-
-        if(isset($this->agentid)){
-            $query .= " AND `plugin_armadito_agents_id`=". $DB->escape($this->agentid);
-        }
-
-        return current($this->find($query));
-    }
-
-    function isActive($type)
-    {
-        $value = $this->getValue($type);
-        if($value === NULL){
-           return FALSE;
-        }
-
-        return $value;
-    }
-
    function setAgentFromJson($jobj)
-    {
+   {
         $this->agentid = PluginArmaditoToolbox::validateInt($jobj->agent_id);
         $this->agent   = new PluginArmaditoAgent();
 
@@ -196,6 +217,6 @@ class PluginArmaditoEAVCommonDBTM extends CommonDBTM
         }
 
         $this->agent->initFromDB($this->agentid);
-    }
+   }
 }
 ?>

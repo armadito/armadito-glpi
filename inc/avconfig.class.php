@@ -55,8 +55,27 @@ class PluginArmaditoAVConfig extends PluginArmaditoEAVCommonDBTM
     {
         foreach ($this->entries as $entry)
         {
-            $this->addOrUpdateValue($entry->{'attr'}, $entry->{'value'});
+            $is_agentrow_indb       = $this->isValueForAgentInDB($entry->{'attr'}, $this->agentid);
+            $is_baserow_indb        = $this->isValueForAgentInDB($entry->{'attr'}, 0);
+
+            if($is_agentrow_indb) {
+                $this->updateValue($entry->{'attr'}, $entry->{'value'}, $this->agentid);
+                continue;
+            }
+
+            $is_baserow_equal  = $this->isValueEqualForAgentInDB($entry->{'attr'}, 0, $entry->{'value'});
+            if($is_baserow_equal) {
+                continue;
+            }
+
+            if ($is_baserow_indb) {
+                $this->addValue($entry->{'attr'}, $entry->{'value'}, $this->agentid);
+            } else {
+                $this->addValue($entry->{'attr'}, $entry->{'value'}, 0);
+            }
         }
+
+        $this->addOrUpdateValue("hasAVConfig", 1);
     }
 }
 ?>
