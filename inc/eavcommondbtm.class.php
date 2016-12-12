@@ -107,43 +107,72 @@ class PluginArmaditoEAVCommonDBTM extends CommonDBTM
         return current($this->find("`type`='" . $DB->escape($type) . "'"));
     }
 
-    function isValueEqualForAgentInDB($type, $agentid = -1, $value)
+    function addOrUpdateValueForAgent($type, $value, $agentid = -1)
     {
-        global $DB;
+        if($this->isValueForAgentInDB($type, $agentid))
+        {
+            $this->updateValueInDB($type, $value, $agentid);
+        }
+        else
+        {
+            $this->insertValueInDB($type, $value, $agentid);
+        }
+    }
 
-        $query  = $this->getQueryForAgent($type, $agentid);
-        $query .= " AND `value`='" . $DB->escape($value) . "'";
+    function isValueEqualForAgentInDB($type, $value, $agentid = -1)
+    {
+        $data = $this->getValueForAgentInDB($type, $agentid);
 
-        return !empty($this->find($query));
+        if(isset($data['value'])) {
+            return ($data['value'] == $value);
+        }
+
+        return false;
     }
 
     function isValueForAgentInDB($type, $agentid = -1)
     {
-        global $DB;
-
-        $query = $this->getQueryForAgent($type, $agentid);
-
-        return !empty($this->find($query));
+        $data = $this->getValueForAgentInDB($type, $agentid);
+        return isset($data['value']);
     }
 
-    function getQueryForAgent($type, $agentid)
+    function getValueForAgentInDB($type, $agentid = -1)
+    {
+        global $DB;
+
+        $query  = "SELECT value FROM `".$this->getTable()."`";
+        $query .= $this->getWhereQueryForAgent($type, $agentid);
+
+        $ret   = $DB->query($query);
+        if (!$ret) {
+            throw new InvalidArgumentException(sprintf('Error isValueForAgentInDB : %s', $DB->error()));
+        }
+
+        if ($DB->numrows($ret) > 0) {
+            $data     = $DB->fetch_assoc($ret);
+            return $data;
+        }
+
+        return "";
+    }
+
+    function getWhereQueryForAgent($type, $agentid)
     {
         global $DB;
         $antivirus_id = $this->antivirus->getId();
 
-        return "`type`='". $DB->escape($type)."'".
+        return " WHERE `type`='". $DB->escape($type)."'".
                " AND `plugin_armadito_antiviruses_id`='". $DB->escape($antivirus_id)."'".
                " AND `plugin_armadito_agents_id`='". $DB->escape($agentid)."'";
     }
 
-    function insertValueInDB($type, $value)
+    function insertValueInDB($type, $value, $agentid = -1)
     {
         $dbmanager = new PluginArmaditoDbManager();
-        $params = $this->setCommonQueryParams();
+        $params = $this->setCommonQueryParams($agentid);
         $query = "NewConfigValue";
 
-        if(isset($this->agentid))
-        {
+        if($agentid >= 0) {
             $query = "NewValue";
         }
 
@@ -151,21 +180,22 @@ class PluginArmaditoEAVCommonDBTM extends CommonDBTM
         $dbmanager->prepareQuery($query);
         $dbmanager->bindQuery($query);
 
-        $dbmanager = $this->setCommonQueryValues($dbmanager, $query, $type, $value);
+        $dbmanager = $this->setCommonQueryValues($dbmanager, $query, $type, $value, $agentid);
         $dbmanager->executeQuery($query);
     }
 
-    function updateValueInDB($type, $value)
+    function updateValueInDB($type, $value, $agentid = -1)
     {
         $dbmanager = new PluginArmaditoDbManager();
-        $params = $this->setCommonQueryParams();
+        $params = $this->setCommonQueryParams($agentid);
         $where_params = "type";
         $query = "UpdateConfigValue";
 
-        if(isset($this->agentid))
+        if($agentid >= 0)
         {
             $query = "UpdateValue";
-            $where_params = array( "plugin_armadito_antiviruses_id",
+            $where_params = array( "type",
+                                   "plugin_armadito_antiviruses_id",
                                    "plugin_armadito_agents_id");
         }
 
@@ -173,16 +203,28 @@ class PluginArmaditoEAVCommonDBTM extends CommonDBTM
         $dbmanager->prepareQuery($query);
         $dbmanager->bindQuery($query);
 
-        $dbmanager = $this->setCommonQueryValues($dbmanager, $query, $type, $value);
+        $dbmanager = $this->setCommonQueryValues($dbmanager, $query, $type, $value, $agentid);
         $dbmanager->executeQuery($query);
     }
 
-    function setCommonQueryParams()
+    function rmValueFromDB($type, $value, $agentid = -1)
+    {
+        global $DB;
+        $query  = "DELETE from `".$this->getTable()."`";;
+        $query .= $this->getWhereQueryForAgent($type, $agentid);
+
+        $ret   = $DB->query($query);
+        if (!$ret) {
+            throw new InvalidArgumentException(sprintf('Error isValueForAgentInDB : %s', $DB->error()));
+        }
+    }
+
+    function setCommonQueryParams($agentid = -1)
     {
         $params["value"]["type"]  = "s";
         $params["type"]["type"]   = "s";
 
-        if(isset($this->agentid) && isset($this->antivirus)) {
+        if($agentid >= 0) {
             $params['plugin_armadito_antiviruses_id']["type"] = "i";
             $params['plugin_armadito_agents_id']["type"] = "i";
         }
@@ -190,18 +232,15 @@ class PluginArmaditoEAVCommonDBTM extends CommonDBTM
         return $params;
     }
 
-    function setCommonQueryValues($dbmanager, $query, $type, $value)
+    function setCommonQueryValues($dbmanager, $query, $type, $value, $agentid = -1)
     {
         $dbmanager->setQueryValue($query, "value", $value);
         $dbmanager->setQueryValue($query, "type", $type);
 
-        if(($query == "UpdateValue") || ($type == "hasAVConfig")) {
+        if($agentid >= 0) {
             $dbmanager->setQueryValue($query, "plugin_armadito_antiviruses_id", $this->antivirus->getId());
-            $dbmanager->setQueryValue($query, "plugin_armadito_agents_id", $this->agentid);
-        }
-        else if($query == "NewValue") {
-            $dbmanager->setQueryValue($query, "plugin_armadito_antiviruses_id", $this->antivirus->getId());
-            $dbmanager->setQueryValue($query, "plugin_armadito_agents_id", 0);
+            $dbmanager->setQueryValue($query, "plugin_armadito_agents_id", $agentid);
+            PluginArmaditoLog::Verbose(" $query - $type = $value for agent ($agentid)");
         }
 
         return $dbmanager;

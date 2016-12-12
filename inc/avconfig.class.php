@@ -53,29 +53,35 @@ class PluginArmaditoAVConfig extends PluginArmaditoEAVCommonDBTM
 
     function run()
     {
+        $i = 0;
         foreach ($this->entries as $entry)
         {
+            $i++;
+
+            PluginArmaditoLog::Verbose("[".$i."] ".$entry->{'attr'}."=".$entry->{'value'});
+
             $is_agentrow_indb       = $this->isValueForAgentInDB($entry->{'attr'}, $this->agentid);
             $is_baserow_indb        = $this->isValueForAgentInDB($entry->{'attr'}, 0);
+            $is_baserow_equal       = $this->isValueEqualForAgentInDB($entry->{'attr'}, $entry->{'value'}, 0);
 
-            if($is_agentrow_indb) {
-                $this->updateValue($entry->{'attr'}, $entry->{'value'}, $this->agentid);
+            if($is_baserow_equal) {
+                $this->rmValueFromDB($entry->{'attr'}, $entry->{'value'}, $this->agentid);
                 continue;
             }
 
-            $is_baserow_equal  = $this->isValueEqualForAgentInDB($entry->{'attr'}, 0, $entry->{'value'});
-            if($is_baserow_equal) {
+            if($is_agentrow_indb) {
+                $this->updateValueInDB($entry->{'attr'}, $entry->{'value'}, $this->agentid);
                 continue;
             }
 
             if ($is_baserow_indb) {
-                $this->addValue($entry->{'attr'}, $entry->{'value'}, $this->agentid);
+                $this->addOrUpdateValueForAgent($entry->{'attr'}, $entry->{'value'}, $this->agentid);
             } else {
-                $this->addValue($entry->{'attr'}, $entry->{'value'}, 0);
+                $this->insertValueInDB($entry->{'attr'}, $entry->{'value'}, 0);
             }
         }
 
-        $this->addOrUpdateValue("hasAVConfig", 1);
+        $this->addOrUpdateValueForAgent("hasAVConfig", 1, $this->agentid);
     }
 }
 ?>
