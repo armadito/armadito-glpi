@@ -152,9 +152,9 @@ class PluginArmaditoMenu extends CommonGLPI
         $submenu->display();
     }
 
-    static function displayStateMenu()
+    static function displayAntivirusMenu()
     {
-        $submenu = new PluginArmaditoSubMenu('State');
+        $submenu = new PluginArmaditoSubMenu('Antiviruses');
         $menu_entries = array();
 
         if (Session::haveRight('plugin_armadito_states', READ))
@@ -162,6 +162,8 @@ class PluginArmaditoMenu extends CommonGLPI
             $menu_entries[] = new PluginArmaditoMenuEntry('Board', self::BOARD_PNG, 'stateboard.php');
             $menu_entries[] = new PluginArmaditoMenuEntry('States', self::LISTING_PNG, 'state.php');
         }
+
+        $menu_entries[] = new PluginArmaditoMenuEntry('Configurations', self::LISTING_PNG, 'avconfig.php');
 
         $submenu->addEntries($menu_entries);
         $submenu->display();
@@ -195,7 +197,7 @@ class PluginArmaditoMenu extends CommonGLPI
 
         if (Session::haveRight('plugin_armadito_scanconfigs', UPDATE))
         {
-            $menu_entries[] = new PluginArmaditoMenuEntry('Scan Configurations', self::LISTING_PNG, 'scanconfig.php');
+            $menu_entries[] = new PluginArmaditoMenuEntry('Configurations', self::LISTING_PNG, 'scanconfig.php');
         }
 
         $submenu->addEntries($menu_entries);
@@ -238,7 +240,7 @@ class PluginArmaditoMenu extends CommonGLPI
     {
         static::displayMenuHeader();
         static::displayGeneralMenu();
-        static::displayStateMenu();
+        static::displayAntivirusMenu();
         static::displayAlertsMenu();
         static::displayScansMenu();
         static::displayJobsMenu();
