@@ -35,8 +35,10 @@ if (isset($_GET["id"])) {
     $avconfigs_details->display(array(
         "id" => $_GET["id"]
     ));
-} else {
-    // Show error message
+}
+else
+{
+    $avconfigs_details->showErrorMessage();
 }
 
 Html::footer();

@@ -170,5 +170,10 @@ class PluginArmaditoAVConfigDetail extends PluginArmaditoEAVCommonDBTM
         return $data;
     }
 
+    function showErrorMessage()
+    {
+        echo "<div style='text-align: center;'><br><b>No id provided.</b><br></div>";
+    }
+
 }
 ?>
