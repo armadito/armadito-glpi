@@ -44,9 +44,9 @@ class PluginArmaditoScanConfig extends PluginArmaditoCommonDBTM
         }
 
         $this->antivirus_id = $POST["antivirus_id"];
-        $this->scan_name    = $POST["scan_name"];
-        $this->scan_path    = $POST["scan_path"];
-        $this->scan_options = $POST["scan_options"];
+        $this->scan_name    = Toolbox::stripslashes_deep($POST["scan_name"]);
+        $this->scan_path    = Toolbox::stripslashes_deep($POST["scan_path"]);
+        $this->scan_options = Toolbox::stripslashes_deep($POST["scan_options"]);
     }
 
     function initFromDB($id)
