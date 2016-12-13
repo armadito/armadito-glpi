@@ -82,16 +82,16 @@ CREATE TABLE `glpi_plugin_armadito_states` (
    `last_update` datetime DEFAULT NULL,
    `plugin_armadito_antiviruses_id` int(11) NOT NULL,
    `service_status` varchar(255) DEFAULT NULL,
-   `plugin_armadito_statedetails_id` int(11) NOT NULL,
+   `plugin_armadito_stateupdatedetails_id` int(11) NOT NULL,
    `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
    PRIMARY KEY (`id`),
    KEY `is_deleted` (`is_deleted`),
    UNIQUE KEY `plugin_armadito_agents_id` (`plugin_armadito_agents_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 
-DROP TABLE IF EXISTS `glpi_plugin_armadito_statedetails`;
+DROP TABLE IF EXISTS `glpi_plugin_armadito_stateupdatedetails`;
 
-CREATE TABLE `glpi_plugin_armadito_statedetails` (
+CREATE TABLE `glpi_plugin_armadito_stateupdatedetails` (
    `id` int(11) NOT NULL AUTO_INCREMENT,
    `plugin_armadito_agents_id` int(11) NOT NULL,
    `module_name` varchar(255) NOT NULL,

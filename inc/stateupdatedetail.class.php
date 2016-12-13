@@ -26,7 +26,7 @@ if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
-class PluginArmaditoStatedetail extends PluginArmaditoCommonDBTM
+class PluginArmaditoStateUpdateDetail extends PluginArmaditoCommonDBTM
 {
     static function getTypeName($nb = 0)
     {

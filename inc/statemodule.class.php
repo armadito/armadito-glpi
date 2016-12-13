@@ -55,7 +55,7 @@ class PluginArmaditoStateModule extends PluginArmaditoCommonDBTM
 
     function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
     {
-        if ($item->getType() == 'PluginArmaditoStatedetail') {
+        if ($item->getType() == 'PluginArmaditoStateUpdateDetail') {
             return __('Antivirus modules', 'armadito');
         }
         return '';
@@ -63,7 +63,7 @@ class PluginArmaditoStateModule extends PluginArmaditoCommonDBTM
 
     static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
     {
-        if ($item->getType() == 'PluginArmaditoStatedetail') {
+        if ($item->getType() == 'PluginArmaditoStateUpdateDetail') {
             $pfStatemodule = new self();
             $pfStatemodule->showForm($item->fields["plugin_armadito_agents_id"]);
         }
@@ -115,7 +115,7 @@ class PluginArmaditoStateModule extends PluginArmaditoCommonDBTM
     {
         global $DB;
 
-        $query = "SELECT * FROM `glpi_plugin_armadito_statedetails`
+        $query = "SELECT * FROM `glpi_plugin_armadito_stateupdatedetails`
                  WHERE `plugin_armadito_agents_id`='" . $agent_id . "'";
 
         $data = array();
@@ -134,7 +134,7 @@ class PluginArmaditoStateModule extends PluginArmaditoCommonDBTM
     {
         global $DB;
 
-        $query = "SELECT id FROM `glpi_plugin_armadito_statedetails`
+        $query = "SELECT id FROM `glpi_plugin_armadito_stateupdatedetails`
                  WHERE `plugin_armadito_agents_id`=? AND `module_name`=?";
 
         $stmt = $DB->prepare($query);
@@ -178,7 +178,7 @@ class PluginArmaditoStateModule extends PluginArmaditoCommonDBTM
         $params = $this->setCommonQueryParams();
         $query = "NewStateModule";
 
-        $dbmanager->addQuery($query, "INSERT", "glpi_plugin_armadito_statedetails", $params);
+        $dbmanager->addQuery($query, "INSERT", "glpi_plugin_armadito_stateupdatedetails", $params);
         $dbmanager->prepareQuery($query);
         $dbmanager->bindQuery($query);
 
@@ -192,7 +192,7 @@ class PluginArmaditoStateModule extends PluginArmaditoCommonDBTM
         $params = $this->setCommonQueryParams();
         $query = "UpdateStateModule";
 
-        $dbmanager->addQuery($query, "UPDATE", "glpi_plugin_armadito_statedetails", $params, array(
+        $dbmanager->addQuery($query, "UPDATE", "glpi_plugin_armadito_stateupdatedetails", $params, array(
             "plugin_armadito_agents_id",
             "module_name"
         ));

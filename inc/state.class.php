@@ -33,7 +33,7 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
     protected $agent;
     protected $obj;
     protected $antivirus;
-    protected $statedetails_id;
+    protected $stateupdatedetails_id;
 
     static function getTypeName($nb = 0)
     {
@@ -106,7 +106,7 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
         $items['Last Update']         = new PluginArmaditoSearchtext('last_update', $this->getTable());
         $items['Antivirus']           = new PluginArmaditoSearchitemlink('fullname', 'glpi_plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
         $items['Antivirus Service']   = new PluginArmaditoSearchtext('service_status', $this->getTable());
-        $items['Details']             = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_statedetails', 'PluginArmaditoStatedetail');
+        $items['Update Details']      = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_stateupdatedetails', 'PluginArmaditoStateUpdateDetail');
 
         return $search_options->get($items);
     }
@@ -117,7 +117,7 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
             $this->insertOrUpdateStateModules();
         }
 
-        $this->statedetails_id = $this->getTableIdForAgentId("glpi_plugin_armadito_statedetails");
+        $this->stateupdatedetails_id = $this->getTableIdForAgentId("glpi_plugin_armadito_stateupdatedetails");
 
         if ($this->isStateinDB()) {
             $this->updateState();
@@ -211,7 +211,7 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
     function setCommonQueryParams()
     {
         $params["plugin_armadito_antiviruses_id"]["type"]  = "i";
-        $params["plugin_armadito_statedetails_id"]["type"] = "i";
+        $params["plugin_armadito_stateupdatedetails_id"]["type"] = "i";
         $params["update_status"]["type"]                   = "s";
         $params["last_update"]["type"]                     = "s";
         $params["service_status"]["type"]                  = "s";
@@ -221,7 +221,7 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
 
     function setCommonQueryValues($dbmanager, $query)
     {
-        $dbmanager->setQueryValue($query, "plugin_armadito_statedetails_id", $this->statedetails_id);
+        $dbmanager->setQueryValue($query, "plugin_armadito_stateupdatedetails_id", $this->stateupdatedetails_id);
         $dbmanager->setQueryValue($query, "plugin_armadito_antiviruses_id", $this->antivirus->getId());
         $dbmanager->setQueryValue($query, "update_status", $this->obj->global_status);
         $dbmanager->setQueryValue($query, "last_update", $this->obj->last_update);

@@ -62,7 +62,7 @@ function registerPluginArmaditoClasses()
     ));
 
     Plugin::registerClass('PluginArmaditoState');
-    Plugin::registerClass('PluginArmaditoStatedetails');
+    Plugin::registerClass('PluginArmaditoStateUpdateDetail');
 }
 
 function setPluginArmaditoHooks( $debug_mode )

@@ -23,11 +23,11 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 
 include("../../../inc/includes.php");
 
-Session::checkRight('plugin_armadito_statedetail', READ);
+Session::checkRight('plugin_armadito_stateupdatedetail', READ);
 
-$statedetails = new PluginArmaditoStateDetail();
+$statedetails = new PluginArmaditoStateUpdateDetail();
 
-Html::header(__('Armadito', 'armadito'), $_SERVER["PHP_SELF"], "plugins", "pluginarmaditomenu", "statedetail");
+Html::header(__('Armadito', 'armadito'), $_SERVER["PHP_SELF"], "plugins", "pluginarmaditomenu", "stateupdatedetail");
 
 PluginArmaditoMenu::displayMenu("mini");
 
