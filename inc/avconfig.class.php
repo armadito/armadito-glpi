@@ -26,13 +26,15 @@ if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
-class PluginArmaditoAVConfig extends PluginArmaditoEAVCommonDBTM
+class PluginArmaditoAVConfig extends PluginArmaditoCommonDBTM
 {
     protected $id;
     protected $agentid;
     protected $agent;
-    protected $entries;
+    protected $obj;
     protected $antivirus;
+    protected $details;
+    protected $details_id;
 
     static function getTypeName($nb = 0)
     {
@@ -41,9 +43,12 @@ class PluginArmaditoAVConfig extends PluginArmaditoEAVCommonDBTM
 
     function initFromJson($jobj)
     {
-        $this->setAgentFromJson($jobj);
+        $this->details = new PluginArmaditoAVConfigDetail();
+        $this->details->initFromJson($jobj);
+
+        $this->agentid = $jobj->agent_id;
+        $this->agent = $this->details->getAgent();
         $this->antivirus = $this->agent->getAntivirus();
-        $this->entries = $jobj->task->obj;
     }
 
     function toJson()
@@ -53,35 +58,114 @@ class PluginArmaditoAVConfig extends PluginArmaditoEAVCommonDBTM
 
     function run()
     {
-        $i = 0;
-        foreach ($this->entries as $entry)
-        {
-            $i++;
+        $this->details->run();
+        $this->details_id = $this->getTableIdForAgentId("glpi_plugin_armadito_avconfigdetails");
 
-            PluginArmaditoLog::Verbose("[".$i."] ".$entry->{'attr'}."=".$entry->{'value'});
+        if ($this->isAVConfiginDB()) {
+            $this->updateAVConfig();
+        } else {
+            $this->insertAVConfig();
+        }
+    }
 
-            $is_agentrow_indb       = $this->isValueForAgentInDB($entry->{'attr'}, $this->agentid);
-            $is_baserow_indb        = $this->isValueForAgentInDB($entry->{'attr'}, 0);
-            $is_baserow_equal       = $this->isValueEqualForAgentInDB($entry->{'attr'}, $entry->{'value'}, 0);
+    function getSearchOptions()
+    {
+        $search_options = new PluginArmaditoSearchoptions('AVConfig');
 
-            if($is_baserow_equal) {
-                $this->rmValueFromDB($entry->{'attr'}, $entry->{'value'}, $this->agentid);
-                continue;
-            }
+        $items['Agent Id']            = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_agents', 'PluginArmaditoAgent');
+        $items['Antivirus']           = new PluginArmaditoSearchitemlink('fullname', 'glpi_plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
+        $items['Details']             = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_avconfigdetails', 'PluginArmaditoAVConfigDetail');
 
-            if($is_agentrow_indb) {
-                $this->updateValueInDB($entry->{'attr'}, $entry->{'value'}, $this->agentid);
-                continue;
-            }
+        return $search_options->get($items);
+    }
 
-            if ($is_baserow_indb) {
-                $this->addOrUpdateValueForAgent($entry->{'attr'}, $entry->{'value'}, $this->agentid);
-            } else {
-                $this->insertValueInDB($entry->{'attr'}, $entry->{'value'}, 0);
-            }
+    function isAVConfiginDB()
+    {
+        global $DB;
+
+        $query = "SELECT id FROM `glpi_plugin_armadito_avconfigs`
+                 WHERE `plugin_armadito_agents_id`='" . $this->agentid . "'";
+        $ret   = $DB->query($query);
+
+        if (!$ret) {
+            throw new InvalidArgumentException(sprintf('Error isAVConfiginDB : %s', $DB->error()));
         }
 
-        $this->addOrUpdateValueForAgent("hasAVConfig", 1, $this->agentid);
+        if ($DB->numrows($ret) > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    function insertAVConfig()
+    {
+        $dbmanager = new PluginArmaditoDbManager();
+        $params = $this->setCommonQueryParams();
+        $query = "NewAVConfig";
+
+        $dbmanager->addQuery($query, "INSERT", $this->getTable(), $params);
+        $dbmanager->prepareQuery($query);
+        $dbmanager->bindQuery($query);
+
+        $dbmanager = $this->setCommonQueryValues($dbmanager, $query);
+        $dbmanager->executeQuery($query);
+
+        $this->id = PluginArmaditoDbToolbox::getLastInsertedId();
+        PluginArmaditoToolbox::validateInt($this->id);
+        $this->logNewItem();
+    }
+
+    function updateAVConfig()
+    {
+        $dbmanager = new PluginArmaditoDbManager();
+        $params = $this->setCommonQueryParams();
+        $query = "UpdateAVConfig";
+
+        $dbmanager->addQuery($query, "UPDATE", $this->getTable(), $params, "plugin_armadito_agents_id");
+        $dbmanager->prepareQuery($query);
+        $dbmanager->bindQuery($query);
+
+        $dbmanager = $this->setCommonQueryValues($dbmanager, $query);
+        $dbmanager->executeQuery($query);
+    }
+
+    function setCommonQueryParams()
+    {
+        $params["plugin_armadito_antiviruses_id"]["type"]     = "i";
+        $params["plugin_armadito_avconfigdetails_id"]["type"] = "i";
+        $params["plugin_armadito_agents_id"]["type"]          = "i";
+        return $params;
+    }
+
+    function setCommonQueryValues($dbmanager, $query)
+    {
+        $dbmanager->setQueryValue($query, "plugin_armadito_antiviruses_id", $this->antivirus->getId());
+        $dbmanager->setQueryValue($query, "plugin_armadito_avconfigdetails_id", $this->details->getId());
+        $dbmanager->setQueryValue($query, "plugin_armadito_agents_id", $this->agentid);
+        return $dbmanager;
+    }
+
+    function getTableIdForAgentId($table)
+    {
+        global $DB;
+
+        $tableid    = 0;
+        $query = "SELECT id FROM `" . $table . "`
+                 WHERE `plugin_armadito_agents_id`='" . $this->agentid . "' AND `type`='hasAVConfig'";
+
+        $ret = $DB->query($query);
+
+        if (!$ret) {
+            throw new InvalidArgumentException(sprintf('Error getTableIdForAgentId : %s', $DB->error()));
+        }
+
+        if ($DB->numrows($ret) > 0) {
+            $data = $DB->fetch_assoc($ret);
+            $tableid   = $data["id"];
+        }
+
+        return $tableid;
     }
 }
 ?>

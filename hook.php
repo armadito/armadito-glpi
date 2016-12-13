@@ -94,7 +94,8 @@ function plugin_armadito_install()
                       'PluginArmaditoAlert' => 10,
                       'PluginArmaditoScan' => 10,
                       'PluginArmaditoScanConfig' => 10,
-                      'PluginArmaditoStateDetail' => 10
+                      'PluginArmaditoStateDetail' => 10,
+                      'PluginArmaditoAVConfigDetail' => 10,
                      );
 
     cleanAllDisplayPreferences($classes);

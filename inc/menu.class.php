@@ -163,7 +163,10 @@ class PluginArmaditoMenu extends CommonGLPI
             $menu_entries[] = new PluginArmaditoMenuEntry('States', self::LISTING_PNG, 'state.php');
         }
 
-        $menu_entries[] = new PluginArmaditoMenuEntry('Configurations', self::LISTING_PNG, 'avconfig.php');
+        if (Session::haveRight('plugin_armadito_avconfigs', READ))
+        {
+            $menu_entries[] = new PluginArmaditoMenuEntry('Configurations', self::LISTING_PNG, 'avconfig.php');
+        }
 
         $submenu->addEntries($menu_entries);
         $submenu->display();

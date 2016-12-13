@@ -32,6 +32,26 @@ class PluginArmaditoEAVCommonDBTM extends CommonDBTM
     {
     }
 
+    static function canView()
+    {
+        if(static::getProfileRights() == 'w' || static::getProfileRights() == 'r')
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    static function canCreate()
+    {
+        if(static::getProfileRights() == 'w')
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     static function getProfileRights()
     {
         return $_SESSION["glpi_plugin_armadito_profile"]['armadito'];

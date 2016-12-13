@@ -34,17 +34,18 @@ class PluginArmaditoProfile extends Profile
     {
         $rights_general = array();
 
-        $rights['Menu']          = new PluginArmaditoProfileRights('plugin_armadito_menu', 'PluginArmaditoMenu');
-        $rights['Jobs']          = new PluginArmaditoProfileRights('plugin_armadito_jobs', 'PluginArmaditoJob');
-        $rights['States']        = new PluginArmaditoProfileRights('plugin_armadito_states', 'PluginArmaditoState');
-        $rights['Statedetails']  = new PluginArmaditoProfileRights('plugin_armadito_statedetail', 'PluginArmaditoStateDetail');
-        $rights['Alerts']        = new PluginArmaditoProfileRights('plugin_armadito_alerts', 'PluginArmaditoAlert');
-        $rights['Scans']         = new PluginArmaditoProfileRights('plugin_armadito_scans', 'PluginArmaditoScan');
-        $rights['Antiviruses']   = new PluginArmaditoProfileRights('plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
-        $rights['ScanConfigs']   = new PluginArmaditoProfileRights('plugin_armadito_scanconfigs', 'PluginArmaditoScanConfig');
-        $rights['Configuration'] = new PluginArmaditoProfileRights('plugin_armadito_configuration', 'PluginArmaditoConfig');
-        $rights['Agents']        = new PluginArmaditoProfileRights('plugin_armadito_agents', 'PluginArmaditoAgent');
-        $rights['Schedulers']    = new PluginArmaditoProfileRights('plugin_armadito_schedulers', 'PluginArmaditoScheduler');
+        $rights['Menu']             = new PluginArmaditoProfileRights('plugin_armadito_menu', 'PluginArmaditoMenu');
+        $rights['Jobs']             = new PluginArmaditoProfileRights('plugin_armadito_jobs', 'PluginArmaditoJob');
+        $rights['States']           = new PluginArmaditoProfileRights('plugin_armadito_states', 'PluginArmaditoState');
+        $rights['Statedetails']     = new PluginArmaditoProfileRights('plugin_armadito_statedetail', 'PluginArmaditoStateDetail');
+        $rights['Alerts']           = new PluginArmaditoProfileRights('plugin_armadito_alerts', 'PluginArmaditoAlert');
+        $rights['Scans']            = new PluginArmaditoProfileRights('plugin_armadito_scans', 'PluginArmaditoScan');
+        $rights['Antiviruses']      = new PluginArmaditoProfileRights('plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
+        $rights['ScanConfigs']      = new PluginArmaditoProfileRights('plugin_armadito_scanconfigs', 'PluginArmaditoScanConfig');
+        $rights['Configuration']    = new PluginArmaditoProfileRights('plugin_armadito_configuration', 'PluginArmaditoConfig');
+        $rights['Agents']           = new PluginArmaditoProfileRights('plugin_armadito_agents', 'PluginArmaditoAgent');
+        $rights['Schedulers']       = new PluginArmaditoProfileRights('plugin_armadito_schedulers', 'PluginArmaditoScheduler');
+        $rights['AVConfigs']        = new PluginArmaditoProfileRights('plugin_armadito_avconfigs', 'PluginArmaditoAVConfig');
 
         foreach( $rights as $label => $profilerights )
         {
