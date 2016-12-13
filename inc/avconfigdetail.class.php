@@ -121,10 +121,24 @@ class PluginArmaditoAVConfigDetail extends PluginArmaditoEAVCommonDBTM
         echo "<th >" . __('Value', 'armadito') . "</th>";
         echo "</tr>";
 
+        $this->showEntriesForAgent($agent_id);
+        $this->showEntriesForAgent(0);
+
+        echo "</table>";
+    }
+
+
+    function showEntriesForAgent($agent_id)
+    {
         $agent_entries  = $this->findEntries($agent_id);
+        $table_header   = "Configuration specific to agent n° ". htmlspecialchars($agent_id);
+
+        if($agent_id == 0) {
+            $table_header = "Common configuration";
+        }
 
         echo "<tr class='tab_bg_1'>";
-        echo "<th colspan='2' > Configuration specific to agent n° ". htmlspecialchars($agent_id) ."</th>";
+        echo "<th colspan='2' >".$table_header."</th>";
         echo "</tr>";
 
         foreach ($agent_entries as $data) {
@@ -133,23 +147,8 @@ class PluginArmaditoAVConfigDetail extends PluginArmaditoEAVCommonDBTM
             echo "<td align='center'>" . htmlspecialchars($data["value"]) . "</td>";
             echo "</tr>";
         }
-
-        $common_entries = $this->findEntries(0);
-
-        echo "<tr class='tab_bg_1'>";
-        echo "<th colspan='2' > Common configuration </th>";
-        echo "</tr>";
-
-        foreach ($common_entries as $data) {
-            echo "<tr class='tab_bg_1'>";
-            echo "<td align='center'>" . htmlspecialchars($data["type"]) . "</td>";
-            echo "<td align='center'>" . htmlspecialchars($data["value"]) . "</td>";
-            echo "</tr>";
-        }
-
-
-        echo "</table>";
     }
+
 
     function findEntries($agent_id)
     {
