@@ -71,6 +71,18 @@ class PluginArmaditoAntivirus extends PluginArmaditoCommonDBTM
         }
     }
 
+    function getSearchOptions()
+    {
+        $search_options = new PluginArmaditoSearchoptions('Antivirus');
+
+        $items['Id']           = new PluginArmaditoSearchitemlink('id', $this->getTable(), 'PluginArmaditoAntivirus');
+        $items['Name']         = new PluginArmaditoSearchtext('name', $this->getTable());
+        $items['Version']      = new PluginArmaditoSearchtext('version', $this->getTable());
+        $items['OS Name']      = new PluginArmaditoSearchtext('osname', $this->getTable());
+
+        return $search_options->get($items);
+    }
+
     function isAntivirusInDB()
     {
         global $DB;

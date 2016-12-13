@@ -157,9 +157,10 @@ class PluginArmaditoMenu extends CommonGLPI
         $submenu = new PluginArmaditoSubMenu('Antiviruses');
         $menu_entries = array();
 
-        if (Session::haveRight('plugin_armadito_states', READ))
+        if (Session::haveRight('plugin_armadito_states', READ) && Session::haveRight('plugin_armadito_antiviruses', READ))
         {
             $menu_entries[] = new PluginArmaditoMenuEntry('Board', self::BOARD_PNG, 'stateboard.php');
+            $menu_entries[] = new PluginArmaditoMenuEntry('Antiviruses', self::LISTING_PNG, 'antivirus.php');
             $menu_entries[] = new PluginArmaditoMenuEntry('States', self::LISTING_PNG, 'state.php');
         }
 
