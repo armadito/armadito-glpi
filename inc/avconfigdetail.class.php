@@ -170,10 +170,5 @@ class PluginArmaditoAVConfigDetail extends PluginArmaditoEAVCommonDBTM
         return $data;
     }
 
-    function getEffectiveEntry($common_data, $agent_entries)
-    {
-
-        return $common_data;
-    }
 }
 ?>
