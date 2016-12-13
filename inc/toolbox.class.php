@@ -74,8 +74,8 @@ class PluginArmaditoToolbox
 
     static function formatDuration($duration) {
 
-        if(preg_match('/^(\d{1}):(\d{2}):(\d{2})$/i', $duration, $matches)) {
-            $duration = 'PT0'.$matches[1].'H'.$matches[2].'M'.$matches[3].'S';
+        if(preg_match('/^(\d{2}):(\d{2}):(\d{2})$/i', $duration, $matches)) {
+            $duration = 'PT'.$matches[1].'H'.$matches[2].'M'.$matches[3].'S';
         }
 
         return static::FormatISO8601DateInterval($duration);
