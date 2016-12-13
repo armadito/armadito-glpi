@@ -49,6 +49,14 @@ class PluginArmaditoAVConfig extends PluginArmaditoCommonDBTM
         $this->agentid = $jobj->agent_id;
         $this->agent = $this->details->getAgent();
         $this->antivirus = $this->agent->getAntivirus();
+        $this->setObj($jobj->task->obj);
+
+    }
+
+    function setObj($obj)
+    {
+        $this->obj = new StdClass;
+        $this->obj->realtime_status    = $this->setValueOrDefault($obj, "realtime_status", "string");
     }
 
     function toJson()
@@ -73,6 +81,8 @@ class PluginArmaditoAVConfig extends PluginArmaditoCommonDBTM
         $search_options = new PluginArmaditoSearchoptions('AVConfig');
 
         $items['Agent Id']            = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_agents', 'PluginArmaditoAgent');
+        $items['Last AVConfig']       = new PluginArmaditoSearchtext('last_avconfig', $this->getTable());
+        $items['Realtime Status']     = new PluginArmaditoSearchtext('realtime_status', $this->getTable());
         $items['Antivirus']           = new PluginArmaditoSearchitemlink('fullname', 'glpi_plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
         $items['Details']             = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_avconfigdetails', 'PluginArmaditoAVConfigDetail');
 
@@ -132,6 +142,8 @@ class PluginArmaditoAVConfig extends PluginArmaditoCommonDBTM
 
     function setCommonQueryParams()
     {
+        $params["realtime_status"]["type"]                    = "s";
+        $params["last_avconfig"]["type"]                      = "s";
         $params["plugin_armadito_antiviruses_id"]["type"]     = "i";
         $params["plugin_armadito_avconfigdetails_id"]["type"] = "i";
         $params["plugin_armadito_agents_id"]["type"]          = "i";
@@ -140,6 +152,8 @@ class PluginArmaditoAVConfig extends PluginArmaditoCommonDBTM
 
     function setCommonQueryValues($dbmanager, $query)
     {
+        $dbmanager->setQueryValue($query, "realtime_status", $this->obj->realtime_status);
+        $dbmanager->setQueryValue($query, "last_avconfig", date("Y-m-d H:i:s", time()));
         $dbmanager->setQueryValue($query, "plugin_armadito_antiviruses_id", $this->antivirus->getId());
         $dbmanager->setQueryValue($query, "plugin_armadito_avconfigdetails_id", $this->details->getId());
         $dbmanager->setQueryValue($query, "plugin_armadito_agents_id", $this->agentid);

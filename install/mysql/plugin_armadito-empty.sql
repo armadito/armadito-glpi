@@ -31,6 +31,8 @@ DROP TABLE IF EXISTS `glpi_plugin_armadito_avconfigs`;
 
 CREATE TABLE `glpi_plugin_armadito_avconfigs` (
    `id` int(11) NOT NULL AUTO_INCREMENT,
+   `realtime_status` varchar(255) DEFAULT NULL,
+   `last_avconfig` datetime DEFAULT NULL,
    `plugin_armadito_avconfigdetails_id` int(11) NOT NULL,
    `plugin_armadito_agents_id` int(11) NOT NULL,
    `plugin_armadito_antiviruses_id` int(11) NOT NULL,
@@ -79,7 +81,6 @@ CREATE TABLE `glpi_plugin_armadito_states` (
    `update_status` varchar(255) DEFAULT NULL,
    `last_update` datetime DEFAULT NULL,
    `plugin_armadito_antiviruses_id` int(11) NOT NULL,
-   `realtime_status` varchar(255) DEFAULT NULL,
    `service_status` varchar(255) DEFAULT NULL,
    `plugin_armadito_statedetails_id` int(11) NOT NULL,
    `is_deleted` tinyint(1) NOT NULL DEFAULT '0',

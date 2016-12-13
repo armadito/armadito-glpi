@@ -64,7 +64,6 @@ class PluginArmaditoStatedetail extends PluginArmaditoCommonDBTM
         $rows[] = new PluginArmaditoFormRow('Antivirus', $antivirus->getFullName());
         $rows[] = new PluginArmaditoFormRow('Update Status', $state->fields["update_status"]);
         $rows[] = new PluginArmaditoFormRow('Last Update', $state->fields["last_update"]);
-        $rows[] = new PluginArmaditoFormRow('Antivirus On-access', $state->fields["realtime_status"]);
         $rows[] = new PluginArmaditoFormRow('Antivirus Service', $state->fields["service_status"]);
 
         foreach( $rows as $row )

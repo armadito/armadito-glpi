@@ -51,7 +51,6 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
     {
         $this->obj = new StdClass;
         $this->obj->service_status  = $this->setValueOrDefault($obj, "service_status", "string");
-        $this->obj->realtime_status = $this->setValueOrDefault($obj, "realtime_status", "string");
         $this->obj->global_status   = $this->setValueOrDefault($obj, "global_status", "string");
         $this->obj->last_update     = $this->setValueOrDefault($obj, "global_update_timestamp", "timestamp");
         $this->obj->last_update     = date("Y-m-d H:i:s", $this->obj->last_update);
@@ -106,7 +105,6 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
         $items['Update Status']       = new PluginArmaditoSearchtext('update_status', $this->getTable());
         $items['Last Update']         = new PluginArmaditoSearchtext('last_update', $this->getTable());
         $items['Antivirus']           = new PluginArmaditoSearchitemlink('fullname', 'glpi_plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
-        $items['Antivirus On-access'] = new PluginArmaditoSearchtext('realtime_status', $this->getTable());
         $items['Antivirus Service']   = new PluginArmaditoSearchtext('service_status', $this->getTable());
         $items['Details']             = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_statedetails', 'PluginArmaditoStatedetail');
 
@@ -216,7 +214,6 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
         $params["plugin_armadito_statedetails_id"]["type"] = "i";
         $params["update_status"]["type"]                   = "s";
         $params["last_update"]["type"]                     = "s";
-        $params["realtime_status"]["type"]                 = "s";
         $params["service_status"]["type"]                  = "s";
         $params["plugin_armadito_agents_id"]["type"]       = "i";
         return $params;
@@ -228,7 +225,6 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
         $dbmanager->setQueryValue($query, "plugin_armadito_antiviruses_id", $this->antivirus->getId());
         $dbmanager->setQueryValue($query, "update_status", $this->obj->global_status);
         $dbmanager->setQueryValue($query, "last_update", $this->obj->last_update);
-        $dbmanager->setQueryValue($query, "realtime_status", $this->obj->realtime_status);
         $dbmanager->setQueryValue($query, "service_status", $this->obj->service_status);
         $dbmanager->setQueryValue($query, "plugin_armadito_agents_id", $this->agentid);
         return $dbmanager;
