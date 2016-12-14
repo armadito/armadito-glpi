@@ -300,5 +300,6 @@ class PluginArmaditoEAVCommonDBTM extends CommonDBTM
 
         $this->agent->initFromDB($this->agentid);
    }
+
 }
 ?>

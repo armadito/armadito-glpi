@@ -129,7 +129,6 @@ class PluginArmaditoAVConfigDetail extends PluginArmaditoEAVCommonDBTM
         echo "</table>";
     }
 
-
     function showEntriesForAgent($agent_id)
     {
         $agent_entries  = $this->findEntries($agent_id);
