@@ -44,7 +44,7 @@ DROP TABLE IF EXISTS `glpi_plugin_armadito_avconfigdetails`;
 CREATE TABLE `glpi_plugin_armadito_avconfigdetails` (
    `id` int(11) NOT NULL AUTO_INCREMENT,
    `type` varchar(255) DEFAULT NULL,
-   `value` TEXT DEFAULT NULL,
+   `value` TEXT,
    `plugin_armadito_agents_id` int(11) NOT NULL,
    `plugin_armadito_antiviruses_id` int(11) NOT NULL,
    PRIMARY KEY (`id`)
