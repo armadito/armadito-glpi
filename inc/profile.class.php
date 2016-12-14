@@ -38,6 +38,7 @@ class PluginArmaditoProfile extends Profile
         $rights['Jobs']               = new PluginArmaditoProfileRights('plugin_armadito_jobs', 'PluginArmaditoJob');
         $rights['States']             = new PluginArmaditoProfileRights('plugin_armadito_states', 'PluginArmaditoState');
         $rights['StateUpdateDetails'] = new PluginArmaditoProfileRights('plugin_armadito_stateupdatedetail', 'PluginArmaditoStateUpdateDetail');
+        $rights['StateAVDetails']     = new PluginArmaditoProfileRights('plugin_armadito_stateavdetail', 'PluginArmaditoStateAVDetail');
         $rights['Alerts']             = new PluginArmaditoProfileRights('plugin_armadito_alerts', 'PluginArmaditoAlert');
         $rights['Scans']              = new PluginArmaditoProfileRights('plugin_armadito_scans', 'PluginArmaditoScan');
         $rights['Antiviruses']        = new PluginArmaditoProfileRights('plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');

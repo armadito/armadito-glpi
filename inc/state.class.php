@@ -33,7 +33,9 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
     protected $agent;
     protected $obj;
     protected $antivirus;
+    protected $avdetails;
     protected $stateupdatedetails_id;
+    protected $stateavdetails_id;
 
     static function getTypeName($nb = 0)
     {
@@ -42,12 +44,17 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
 
     function initFromJson($jobj)
     {
-        $this->setAgentFromJson($jobj);
+        $this->avdetails = new PluginArmaditoStateAVDetail();
+        $this->avdetails->initFromJson($jobj);
+
+        $this->agentid = $jobj->agent_id;
+        $this->agent = $this->avdetails->getAgent();
         $this->antivirus = $this->agent->getAntivirus();
-        $this->setObj($jobj->task->obj);
+
+        $this->setUpdateStateObj($jobj->task->obj->dbinfo);
     }
 
-    function setObj($obj)
+    function setUpdateStateObj($obj)
     {
         $this->obj = new StdClass;
         $this->obj->service_status  = $this->setValueOrDefault($obj, "service_status", "string");
@@ -107,12 +114,16 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
         $items['Antivirus']           = new PluginArmaditoSearchitemlink('fullname', 'glpi_plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
         $items['Antivirus Service']   = new PluginArmaditoSearchtext('service_status', $this->getTable());
         $items['Update Details']      = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_stateupdatedetails', 'PluginArmaditoStateUpdateDetail');
+        $items['AV Details']          = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_stateavdetails', 'PluginArmaditoStateAVDetail');
 
         return $search_options->get($items);
     }
 
     function run()
     {
+        $this->avdetails->run();
+        $this->stateavdetails_id = $this->getTableIdForAgentId("glpi_plugin_armadito_stateavdetails");
+
         if (!empty($this->obj->modules)) {
             $this->insertOrUpdateStateModules();
         }
@@ -162,15 +173,22 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
         $query = "SELECT id FROM `" . $table . "`
                  WHERE `plugin_armadito_agents_id`='" . $this->agentid . "'";
 
+        if($table == 'glpi_plugin_armadito_stateavdetails') {
+            $query .= " AND `type`='hasAVConfig'";
+        }
+
         $ret = $DB->query($query);
 
         if (!$ret) {
             throw new InvalidArgumentException(sprintf('Error getTableIdForAgentId : %s', $DB->error()));
         }
 
+        PluginArmaditoLog::Debug($query);
+
         if ($DB->numrows($ret) > 0) {
             $data = $DB->fetch_assoc($ret);
             $tableid   = $data["id"];
+            PluginArmaditoLog::Debug("Found tableid =".$tableid);
         }
 
         return $tableid;
@@ -210,17 +228,19 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
 
     function setCommonQueryParams()
     {
-        $params["plugin_armadito_antiviruses_id"]["type"]  = "i";
+        $params["plugin_armadito_stateavdetails_id"]["type"]     = "i";
         $params["plugin_armadito_stateupdatedetails_id"]["type"] = "i";
-        $params["update_status"]["type"]                   = "s";
-        $params["last_update"]["type"]                     = "s";
-        $params["service_status"]["type"]                  = "s";
-        $params["plugin_armadito_agents_id"]["type"]       = "i";
+        $params["plugin_armadito_antiviruses_id"]["type"]        = "i";
+        $params["update_status"]["type"]                         = "s";
+        $params["last_update"]["type"]                           = "s";
+        $params["service_status"]["type"]                        = "s";
+        $params["plugin_armadito_agents_id"]["type"]             = "i";
         return $params;
     }
 
     function setCommonQueryValues($dbmanager, $query)
     {
+        $dbmanager->setQueryValue($query, "plugin_armadito_stateavdetails_id", $this->stateavdetails_id);
         $dbmanager->setQueryValue($query, "plugin_armadito_stateupdatedetails_id", $this->stateupdatedetails_id);
         $dbmanager->setQueryValue($query, "plugin_armadito_antiviruses_id", $this->antivirus->getId());
         $dbmanager->setQueryValue($query, "update_status", $this->obj->global_status);
