@@ -57,6 +57,29 @@ class PluginArmaditoEAVCommonDBTM extends CommonDBTM
         return $_SESSION["glpi_plugin_armadito_profile"]['armadito'];
     }
 
+    function getSearchOptions()
+    {
+        $search_options = new PluginArmaditoSearchoptions('AVConfig');
+
+        $items['Type']       = new PluginArmaditoSearchtext('type', $this->getTable());
+        $items['Value']      = new PluginArmaditoSearchtext('value', $this->getTable());
+
+        return $search_options->get($items);
+    }
+
+    function showExportForm($item_type)
+    {
+        global $CFG_GLPI;
+
+        echo "<form method='GET' action='".$CFG_GLPI["root_doc"]."/front/report.dynamic.php'
+            target='_blank'>";
+
+        echo Html::hidden('item_type', array('value' => $item_type));
+
+        PluginArmaditoToolbox::showOutputFormat();
+        Html::closeForm();
+    }
+
     function addValues($values, $update = TRUE)
     {
         foreach ($values as $type => $value) {

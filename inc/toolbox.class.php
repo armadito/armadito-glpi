@@ -115,5 +115,18 @@ class PluginArmaditoToolbox
         $interval = new DateInterval($ISO8601_dateinterval);
         return $interval->format('%dd %Hh %Im %Ss');
     }
+
+   static function showOutputFormat() {
+      global $CFG_GLPI;
+
+      $values['-'.Search::PDF_OUTPUT_LANDSCAPE] = __('All pages in landscape PDF');
+      $values['-'.Search::SYLK_OUTPUT]          = __('All pages in SLK');
+      $values['-'.Search::CSV_OUTPUT]           = __('All pages in CSV');
+
+      Dropdown::showFromArray('display_type', $values);
+      echo "<input type='image' name='export' class='pointer' src='".
+             $CFG_GLPI["root_doc"]."/pics/export.png' title=\""._sx('button', 'Export')."\" value=\"".
+             _sx('button', 'Export')."\">";
+   }
 }
 ?>

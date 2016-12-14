@@ -115,7 +115,9 @@ class PluginArmaditoAVConfigDetail extends PluginArmaditoEAVCommonDBTM
         PluginArmaditoToolbox::validateInt($id);
         $agent_id = $this->fields["plugin_armadito_agents_id"];
 
-        echo "<table class='tab_cadre_fixe'>";
+        $this->showExportForm("PluginArmaditoAVConfigDetail");
+
+        echo "<table class='tab_cadre_fixehov' style='table-layout: fixed;'>";
         echo "<tr>";
         echo "<th >" . __('Type', 'armadito') . "</th>";
         echo "<th >" . __('Value', 'armadito') . "</th>";
