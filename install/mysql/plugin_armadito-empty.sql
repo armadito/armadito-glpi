@@ -161,6 +161,7 @@ CREATE TABLE `glpi_plugin_armadito_scans` (
    `suspicious_count` int(11) DEFAULT NULL,
    `scanned_count` int(11) DEFAULT NULL,
    `start_time` datetime DEFAULT NULL,
+   `end_time` datetime DEFAULT NULL,
    `duration` varchar(255) DEFAULT NULL,
    `progress` int(11) DEFAULT NULL,
    `is_deleted` tinyint(1) NOT NULL DEFAULT '0',

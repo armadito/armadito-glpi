@@ -112,6 +112,7 @@ class PluginArmaditoScan extends PluginArmaditoCommonDBTM
         $items['Malware']        = new PluginArmaditoSearchtext('malware_count', $this->getTable());
         $items['Scanned']        = new PluginArmaditoSearchtext('scanned_count', $this->getTable());
         $items['Duration']       = new PluginArmaditoSearchtext('duration', $this->getTable());
+        $items['End time']       = new PluginArmaditoSearchtext('end_time', $this->getTable());
         $items['Antivirus']      = new PluginArmaditoSearchitemlink('fullname', 'glpi_plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
 
         return $search_options->get($items);
@@ -173,6 +174,7 @@ class PluginArmaditoScan extends PluginArmaditoCommonDBTM
         $dbmanager = new PluginArmaditoDbManager();
 
         $params["start_time"]["type"]              = "s";
+        $params["end_time"]["type"]              = "s";
         $params["duration"]["type"]                = "s";
         $params["malware_count"]["type"]           = "i";
         $params["suspicious_count"]["type"]        = "i";
@@ -187,6 +189,7 @@ class PluginArmaditoScan extends PluginArmaditoCommonDBTM
 
         $dbmanager->setQueryValue($query, "duration", $this->obj->duration);
         $dbmanager->setQueryValue($query, "start_time", $this->obj->start_time);
+        $dbmanager->setQueryValue($query, "end_time", $this->obj->end_time);
         $dbmanager->setQueryValue($query, "malware_count", $this->obj->malware_count);
         $dbmanager->setQueryValue($query, "suspicious_count", $this->obj->suspicious_count);
         $dbmanager->setQueryValue($query, "scanned_count", $this->obj->scanned_count);
