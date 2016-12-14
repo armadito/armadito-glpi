@@ -143,8 +143,8 @@ class PluginArmaditoAVConfigDetail extends PluginArmaditoEAVCommonDBTM
 
         foreach ($agent_entries as $data) {
             echo "<tr class='tab_bg_1'>";
-            echo "<td align='center'>" . htmlspecialchars($data["type"]) . "</td>";
-            echo "<td align='center'>" . htmlspecialchars($data["value"]) . "</td>";
+            echo "<td align='center' style='word-wrap: break-word; overflow-wrap: break-word;'>" . htmlspecialchars($data["type"]) . "</td>";
+            echo "<td align='center' style='word-wrap: break-word; overflow-wrap: break-word;'>" . htmlspecialchars($data["value"]) . "</td>";
             echo "</tr>";
         }
     }
