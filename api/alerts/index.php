@@ -34,12 +34,15 @@ if (isValidPOSTRequest($rawdata))
 
     try
     {
-        $jobj = PluginArmaditoToolbox::parseJSON($rawdata);
+        PluginArmaditoLog::Debug($rawdata);
+        $jobj   = PluginArmaditoToolbox::parseJSON($rawdata);
+        $job_id = isset($jobj->task->obj->job_id) ? $jobj->task->obj->job_id : 0;
 
         foreach( $jobj->task->obj->alerts as $alert_jobj )
         {
             $tmp_jobj = $jobj;
             $tmp_jobj->task->obj = $alert_jobj;
+            $tmp_jobj->task->obj->job_id = $job_id;
 
             $alert = new PluginArmaditoAlert();
             $alert->initFromJson($tmp_jobj);

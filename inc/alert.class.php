@@ -62,6 +62,7 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
         $this->obj->impact_severity = $this->setValueOrDefault($obj, "impact_severity", "integer");
         $this->obj->action = $this->setValueOrDefault($obj, "action", "string");
         $this->obj->info = $this->setValueOrDefault($obj, "info", "string");
+        $this->obj->jobid = $this->setValueOrDefault($obj, "job_id", "integer");
 
         $this->obj->detection_time = $this->setValueOrDefault($obj, "detection_time", "date");
         $this->obj->detection_time = PluginArmaditoToolbox::FormatDate($this->obj->detection_time);
@@ -85,6 +86,7 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
 
         $items['Alert Id']         = new PluginArmaditoSearchitemlink('id', $this->getTable(), 'PluginArmaditoAlert');
         $items['Agent Id']         = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_agents', 'PluginArmaditoAgent');
+        $items['Job Id']           = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_jobs', 'PluginArmaditoJob');
         $items['Threat name']      = new PluginArmaditoSearchtext('threat_name', $this->getTable());
         $items['Filepath']         = new PluginArmaditoSearchtext('filepath', $this->getTable());
         $items['Antivirus']        = new PluginArmaditoSearchitemlink('fullname', 'glpi_plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
@@ -138,6 +140,7 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
     {
         $params["plugin_armadito_agents_id"]["type"]       = "i";
         $params["plugin_armadito_antiviruses_id"]["type"]  = "i";
+        $params["plugin_armadito_jobs_id"]["type"]         = "i";
         $params["threat_name"]["type"]                     = "s";
         $params["module_name"]["type"]                     = "s";
         $params["filepath"]["type"]                        = "s";
@@ -153,6 +156,7 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
     {
         $dbmanager->setQueryValue($query, "plugin_armadito_agents_id", $this->agentid);
         $dbmanager->setQueryValue($query, "plugin_armadito_antiviruses_id", $this->antivirus->getId());
+        $dbmanager->setQueryValue($query, "plugin_armadito_jobs_id", $this->obj->jobid);
         $dbmanager->setQueryValue($query, "threat_name", $this->obj->threat_name);
         $dbmanager->setQueryValue($query, "filepath", $this->obj->filepath);
         $dbmanager->setQueryValue($query, "module_name", $this->obj->module_name);
