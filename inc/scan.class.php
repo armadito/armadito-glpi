@@ -220,18 +220,21 @@ class PluginArmaditoScan extends PluginArmaditoCommonDBTM
         $this->initForm($table_id, $options);
         $this->showFormHeader($options);
 
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>" . __('Name') . " :</td>";
-        echo "<td align='center'>";
-        Html::autocompletionTextField($this, 'name', array(
-            'size' => 40
-        ));
-        echo "</td>";
-        echo "<td>" . __('Agent Id', 'armadito') . "&nbsp;:</td>";
-        echo "<td align='center'>";
-        echo "<b>" . htmlspecialchars($this->fields["plugin_armadito_agents_id"]) . "</b>";
-        echo "</td>";
-        echo "</tr>";
+        $rows[] = new PluginArmaditoFormRow('Agent Id', $this->fields["plugin_armadito_agents_id"]);
+        $rows[] = new PluginArmaditoFormRow('Scan Id', $this->fields["id"]);
+        $rows[] = new PluginArmaditoFormRow('Job Id', $this->fields["plugin_armadito_jobs_id"]);
+        $rows[] = new PluginArmaditoFormRow('Scan Duration', $this->fields["duration"]);
+        $rows[] = new PluginArmaditoFormRow('Scan Start Time', $this->fields["start_time"]);
+        $rows[] = new PluginArmaditoFormRow('Scan End Time', $this->fields["end_time"]);
+        $rows[] = new PluginArmaditoFormRow('Scan Progress', $this->fields["progress"]);
+        $rows[] = new PluginArmaditoFormRow('Total Scanned', $this->fields["scanned_count"]);
+        $rows[] = new PluginArmaditoFormRow('Malwares', $this->fields["malware_count"]);
+        $rows[] = new PluginArmaditoFormRow('Suspicious', $this->fields["suspicious_count"]);
+
+        foreach( $rows as $row )
+        {
+            $row->write();
+        }
     }
 }
 ?>
