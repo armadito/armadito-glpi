@@ -51,6 +51,7 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
         $this->setAgentFromJson($jobj);
         $this->antivirus = $this->agent->getAntivirus();
         $this->setObj($jobj->task->obj);
+        $this->setScanIdOrDefault();
     }
 
     function setObj($obj)
@@ -61,12 +62,22 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
         $this->obj->module_name = $this->setValueOrDefault($obj, "module_name", "string");
         $this->obj->impact_severity = $this->setValueOrDefault($obj, "impact_severity", "integer");
         $this->obj->action = $this->setValueOrDefault($obj, "action", "string");
-        $this->obj->info = $this->setValueOrDefault($obj, "info", "string");
-        $this->obj->jobid = $this->setValueOrDefault($obj, "job_id", "integer");
+        $this->obj->info   = $this->setValueOrDefault($obj, "info", "string");
+        $this->obj->jobid  = $this->setValueOrDefault($obj, "job_id", "integer");
 
         $this->obj->detection_time = $this->setValueOrDefault($obj, "detection_time", "date");
         $this->obj->detection_time = PluginArmaditoToolbox::FormatDate($this->obj->detection_time);
         $this->obj->checksum = $this->computeChecksum();
+    }
+
+    function setScanIdOrDefault()
+    {
+        $this->obj->scanid = 0;
+        if( $this->obj->jobid > 0) {
+            $scan = new PluginArmaditoScan();
+            $scan->initFromDB($this->obj->jobid);
+            $this->obj->scanid = $scan->getId();
+        }
     }
 
     function computeChecksum()
@@ -87,6 +98,7 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
         $items['Alert Id']         = new PluginArmaditoSearchitemlink('id', $this->getTable(), 'PluginArmaditoAlert');
         $items['Agent Id']         = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_agents', 'PluginArmaditoAgent');
         $items['Job Id']           = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_jobs', 'PluginArmaditoJob');
+        $items['Scan Id']          = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_scans', 'PluginArmaditoScan');
         $items['Threat name']      = new PluginArmaditoSearchtext('threat_name', $this->getTable());
         $items['Filepath']         = new PluginArmaditoSearchtext('filepath', $this->getTable());
         $items['Antivirus']        = new PluginArmaditoSearchitemlink('fullname', 'glpi_plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
@@ -141,6 +153,7 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
         $params["plugin_armadito_agents_id"]["type"]       = "i";
         $params["plugin_armadito_antiviruses_id"]["type"]  = "i";
         $params["plugin_armadito_jobs_id"]["type"]         = "i";
+        $params["plugin_armadito_scans_id"]["type"]        = "i";
         $params["threat_name"]["type"]                     = "s";
         $params["module_name"]["type"]                     = "s";
         $params["filepath"]["type"]                        = "s";
@@ -157,6 +170,7 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
         $dbmanager->setQueryValue($query, "plugin_armadito_agents_id", $this->agentid);
         $dbmanager->setQueryValue($query, "plugin_armadito_antiviruses_id", $this->antivirus->getId());
         $dbmanager->setQueryValue($query, "plugin_armadito_jobs_id", $this->obj->jobid);
+        $dbmanager->setQueryValue($query, "plugin_armadito_scans_id", $this->obj->scanid);
         $dbmanager->setQueryValue($query, "threat_name", $this->obj->threat_name);
         $dbmanager->setQueryValue($query, "filepath", $this->obj->filepath);
         $dbmanager->setQueryValue($query, "module_name", $this->obj->module_name);
@@ -234,6 +248,8 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
 
         $rows[] = new PluginArmaditoFormRow('Id', $this->fields["id"]);
         $rows[] = new PluginArmaditoFormRow('Threat name', $this->fields["threat_name"]);
+        $rows[] = new PluginArmaditoFormRow('Job Id', $this->fields["plugin_armadito_jobs_id"]);
+        $rows[] = new PluginArmaditoFormRow('Scan Id', $this->fields["plugin_armadito_scans_id"]);
         $rows[] = new PluginArmaditoFormRow('File Path', $this->fields["filepath"]);
         $rows[] = new PluginArmaditoFormRow('Detection Time', $this->fields["detection_time"]);
         $rows[] = new PluginArmaditoFormRow('Action', $this->fields["action"]);

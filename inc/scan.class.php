@@ -55,6 +55,11 @@ class PluginArmaditoScan extends PluginArmaditoCommonDBTM
         $this->setObj($jobj->task->obj);
     }
 
+    function getId()
+    {
+        return $this->id;
+    }
+
     function setObj($obj)
     {
         $this->obj = new StdClass;
@@ -86,6 +91,7 @@ class PluginArmaditoScan extends PluginArmaditoCommonDBTM
 
         if ($DB->numrows($ret) > 0 && $data = $DB->fetch_assoc($ret))
         {
+            $this->id           = $data["id"];
             $this->agentid      = $data["plugin_armadito_agents_id"];
             $this->scanconfigid = $data["plugin_armadito_scanconfigs_id"];
 
