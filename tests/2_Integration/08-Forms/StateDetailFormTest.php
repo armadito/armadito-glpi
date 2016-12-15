@@ -28,7 +28,7 @@ class StateDetailFormTest extends CommonTestCase
     public function showForms()
     {
         ob_start();
-        $statedetail = new PluginArmaditoStatedetail();
+        $statedetail = new PluginArmaditoStateDetail();
         $statedetail->showForm(1);
         ob_end_clean();
     }
