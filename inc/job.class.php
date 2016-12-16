@@ -362,6 +362,7 @@ class PluginArmaditoJob extends PluginArmaditoCommonDBTM
         $rows[] = new PluginArmaditoFormRow('Job Priority', $this->fields["job_priority"]);
         $rows[] = new PluginArmaditoFormRow('Job Status', $this->fields["job_status"]);
         $rows[] = new PluginArmaditoFormRow('Job Start Time', $this->fields["start_time"]);
+        $rows[] = new PluginArmaditoFormRow('Job End Time', $this->fields["end_time"]);
         $rows[] = new PluginArmaditoFormRow('Job Duration', $this->fields["duration"]);
         $rows[] = new PluginArmaditoFormRow('Job Error Code', $this->fields["job_error_code"]);
         $rows[] = new PluginArmaditoFormRow('Job Error Message', base64_decode($this->fields["job_error_msg"]));
