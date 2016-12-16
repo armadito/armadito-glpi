@@ -15,7 +15,7 @@ function A6ostatHalfDonut(svgname, jsondata, title) {
           .cornerRadius(5)
           .donut(true);
 
-      chart.legend.margin({top: 20});
+      chart.legend.margin({top: 15});
       chart.pie.labelsOutside(true).donut(true);
 
       d3.select('#' + svgname)
@@ -52,6 +52,8 @@ function A6ostatBar(svgname, jsondata, title, width, jsonpalette) {
           .staggerLabels(true)
           .color(JSON.parse(jsonpalette))
           .showValues(false);
+
+      chart.margin({"top":30});
 
       d3.select('#' + svgname)
          .datum([JSON.parse(jsondata)])
