@@ -79,9 +79,9 @@ class PluginArmaditoJob extends PluginArmaditoCommonDBTM
         $this->id = $id_;
     }
 
-    function getAgentId()
+    function getAgent()
     {
-        return $this->agentid;
+        return $this->agent;
     }
 
     static function getTypeName($nb = 0)

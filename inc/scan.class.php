@@ -45,8 +45,11 @@ class PluginArmaditoScan extends PluginArmaditoCommonDBTM
 
     function initFromForm($jobobj, $POST)
     {
-        $this->agentid      = $jobobj->getAgentId();
+        $this->agent        = $jobobj->getAgent();
+        $this->agentid      = $this->agent->getId();
         $this->scanconfigid = PluginArmaditoToolbox::validateInt($POST["scanconfig_id"]);
+
+        $this->checkScanConfigForAgentAV();
     }
 
     function initFromJson($jobj)
@@ -75,6 +78,21 @@ class PluginArmaditoScan extends PluginArmaditoCommonDBTM
 
         $this->obj->duration = PluginArmaditoToolbox::FormatDuration($this->obj->duration);
         $this->obj->start_time = date("Y-m-d H:i:s", strtotime($this->obj->start_time));
+    }
+
+    function checkScanConfigForAgentAV()
+    {
+        $scanconfig = new PluginArmaditoScanConfig();
+        $scanconfig->initFromDB($this->scanconfigid);
+        $scanconfig_avid = $scanconfig->getAntivirusId();
+        $agent_avid = $this->agent->getAntivirusId();
+
+        if($agent_avid !== $scanconfig_avid) {
+            throw new InvalidArgumentException(sprintf("Cannot apply scan configuration (%d) for agent (%d) with antivirus (%d).",
+                                                        $this->scanconfigid,
+                                                        $this->agentid,
+                                                        $agent_avid ));
+        }
     }
 
     function initFromDB($job_id)

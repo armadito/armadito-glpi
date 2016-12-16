@@ -62,6 +62,11 @@ class PluginArmaditoScanConfig extends PluginArmaditoCommonDBTM
         $this->antivirus_id = $this->fields["plugin_armadito_antiviruses_id"];
     }
 
+    function getAntivirusId()
+    {
+        return $this->antivirus_id;
+    }
+
     function toJson()
     {
         return '{
