@@ -37,8 +37,25 @@ class PluginArmaditoJobBoard extends PluginArmaditoBoard
         echo "<table align='center'>";
         echo "<tr height='420'>";
         $this->showJobStatusChart();
+        $this->showLongestJobRunsChart();
         echo "</tr>";
         echo "</table>";
+    }
+
+    function showLongestJobRunsChart()
+    {
+        $data = $this->getLongestJobsData();
+
+        $colortbox = new PluginArmaditoColorToolbox();
+        $palette   = $colortbox->getPalette(12);
+
+        $bchart = new PluginArmaditoChartBar();
+        $bchart->init('longest_job_runs', __('Longest job runs', 'armadito'), $data);
+        $bchart->setPalette($palette);
+
+        echo "<td width='400'>";
+        $bchart->showChart();
+        echo "</td>";
     }
 
     function showJobStatusChart()
@@ -68,6 +85,89 @@ class PluginArmaditoJobBoard extends PluginArmaditoBoard
                 'key' => __($name, 'armadito'),
                 'value' => $n_status,
                 'color' => $color
+            );
+        }
+
+        return $data;
+    }
+
+    function getLongestJobsData()
+    {
+        global $DB;
+
+        $query = "SELECT id, job_type, duration FROM `glpi_plugin_armadito_jobs` WHERE `is_deleted`='0'";
+        $ret   = $DB->query($query);
+
+        if (!$ret) {
+            throw new InvalidArgumentException(sprintf('Error getLongestJobsData : %s', $DB->error()));
+        }
+
+        $longest_jobs = $this->initLongestJobsArray(10);
+
+        if ($DB->numrows($ret) > 0)
+        {
+             while ($job = $DB->fetch_assoc($ret))
+             {
+                $longest_jobs = $this->addToLongestJobsIfNeeded($longest_jobs, 10, $job);
+             }
+        }
+
+        return $this->toChartArray($longest_jobs, "longest_jobs", 10);
+    }
+
+    function initLongestJobsArray($size)
+    {
+        $longest_jobs = array();
+        for($i = 0; $i < $size; $i++){
+            $longest_jobs[$i]['value'] = 0;
+            $longest_jobs[$i]['label'] = '';
+        }
+
+        return $longest_jobs;
+    }
+
+    function addToLongestJobsIfNeeded($longest_jobs, $size, $job)
+    {
+        $job_secs_duration = PluginArmaditoToolbox::DurationToSeconds($job['duration']);
+
+        for($i = 0; $i < $size; $i++) {
+            if($job_secs_duration >= $longest_jobs[$i]['value']) {
+                $longest_jobs = $this->rotateLongestJobsArray($longest_jobs, $size, $i);
+
+                $longest_jobs[$i]['value'] = $job_secs_duration;
+                $longest_jobs[$i]['label'] = '['.$job['id'].'] ('.$job['job_type'].')';
+                break;
+            }
+        }
+
+        return $longest_jobs;
+    }
+
+    function rotateLongestJobsArray($longest_jobs, $size, $i_to_beinserted)
+    {
+         $rotated_array = array();
+         for($i = 0; $i < $size; $i++)
+         {
+            if($i > $i_to_beinserted && $i > 0) {
+                $rotated_array[$i] = $longest_jobs[$i-1];
+            }
+            else{
+                $rotated_array[$i] = $longest_jobs[$i];
+            }
+         }
+
+         return $rotated_array;
+    }
+
+    function toChartArray($jobs, $key, $size)
+    {
+        $data = array();
+        $data['key'] = $key;
+        for($i = 0; $i < $size; $i++) {
+
+            $data['values'][] = array(
+                'label' => '#'.($i+1).' '.$jobs[$i]['label'],
+                'value' => $jobs[$i]['value']
             );
         }
 

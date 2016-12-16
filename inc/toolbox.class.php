@@ -72,8 +72,8 @@ class PluginArmaditoToolbox
         }
     }
 
-    static function formatDuration($duration) {
-
+    static function formatDuration($duration)
+    {
         if(preg_match('/^(\d{2}):(\d{2}):(\d{2})$/i', $duration, $matches)) {
             $duration = 'PT'.$matches[1].'H'.$matches[2].'M'.$matches[3].'S';
         }
@@ -81,8 +81,8 @@ class PluginArmaditoToolbox
         return static::FormatISO8601DateInterval($duration);
     }
 
-    static function formatDate($date) {
-
+    static function formatDate($date)
+    {
         if(preg_match('/^(\d{10})$/i', $date, $matches)) {
            return static::Timestamp_to_MySQLDateTime($date);
         }
@@ -90,7 +90,8 @@ class PluginArmaditoToolbox
         return static::ISO8601DateTime_to_MySQLDateTime($date);
     }
 
-    static function computeDuration($timestamp_start, $timestamp_end) {
+    static function computeDuration($timestamp_start, $timestamp_end)
+    {
         $datetime_start = new DateTime();
         $datetime_end = new DateTime();
 
@@ -99,6 +100,15 @@ class PluginArmaditoToolbox
 
         $duration = $datetime_end->diff($datetime_start);
         return $duration->format('%dd %Hh %Im %Ss');
+    }
+
+    static function DurationToSeconds($duration)
+    {
+        if(preg_match('/^(\d+?)d (\d{2}?)h (\d{2}?)m (\d{2}?)s$/i', $duration, $matches)) {
+            return $matches[1]*86400 + $matches[2]*3600 + $matches[3]*60 + $matches[4];
+        }
+
+        return -1;
     }
 
     static function Timestamp_to_MySQLDateTime($timestamp) {
