@@ -253,7 +253,7 @@ class PluginArmaditoEAVCommonDBTM extends CommonDBTM
     function rmValueFromDB($type, $value, $agentid = -1)
     {
         global $DB;
-        $query  = "DELETE from `".$this->getTable()."`";;
+        $query  = "DELETE from `".$this->getTable()."`";
         $query .= $this->getWhereQueryForAgent($type, $agentid);
 
         $ret   = $DB->query($query);
