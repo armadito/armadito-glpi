@@ -220,10 +220,10 @@ class PluginArmaditoJob extends PluginArmaditoCommonDBTM
 
         $items['Job Id']         = new PluginArmaditoSearchitemlink('id', $this->getTable(), 'PluginArmaditoJob');
         $items['Agent Id']       = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_agents', 'PluginArmaditoAgent');
-        $items['Job Type']       = new PluginArmaditoSearchtext('job_type', $this->getTable());
-        $items['Job Priority']   = new PluginArmaditoSearchtext('job_priority', $this->getTable());
-        $items['Job Status']     = new PluginArmaditoSearchtext('job_status', $this->getTable());
-        $items['Job Start Time'] = new PluginArmaditoSearchtext('start_time', $this->getTable());
+        $items['Type']       = new PluginArmaditoSearchtext('job_type', $this->getTable());
+        $items['Priority']   = new PluginArmaditoSearchtext('job_priority', $this->getTable());
+        $items['Status']     = new PluginArmaditoSearchtext('job_status', $this->getTable());
+        $items['Start Time'] = new PluginArmaditoSearchtext('start_time', $this->getTable());
         $items['Antivirus']      = new PluginArmaditoSearchitemlink('fullname', 'glpi_plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
 
         return $search_options->get($items);
