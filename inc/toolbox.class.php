@@ -90,6 +90,17 @@ class PluginArmaditoToolbox
         return static::ISO8601DateTime_to_MySQLDateTime($date);
     }
 
+    static function computeDuration($timestamp_start, $timestamp_end) {
+        $datetime_start = new DateTime();
+        $datetime_end = new DateTime();
+
+        $datetime_start->setTimestamp($timestamp_start);
+        $datetime_end->setTimestamp($timestamp_end);
+
+        $duration = $datetime_end->diff($datetime_start);
+        return $duration->format('%dd %Hh %Im %Ss');
+    }
+
     static function Timestamp_to_MySQLDateTime($timestamp) {
         $datetime = new DateTime();
         $datetime->setTimestamp($timestamp);

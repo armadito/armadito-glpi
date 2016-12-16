@@ -126,6 +126,8 @@ CREATE TABLE `glpi_plugin_armadito_jobs` (
    `job_error_code` int(11) DEFAULT NULL,
    `job_error_msg` varchar(255) DEFAULT NULL,
    `start_time` datetime NOT NULL,
+   `end_time` datetime NOT NULL,
+   `duration` varchar(255) DEFAULT NULL,
    `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
    PRIMARY KEY (`id`),
    KEY `is_deleted` (`is_deleted`)

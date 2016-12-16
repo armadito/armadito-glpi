@@ -167,18 +167,19 @@ class PluginArmaditoJob extends PluginArmaditoCommonDBTM
     {
         $error_code = $this->jobj->task->obj->code;
         $error_msg  = $this->jobj->task->obj->message;
-        $start_time = date("Y-m-d H:i:s", $this->jobj->task->obj->start_time);
+        $start_time = $this->jobj->task->obj->start_time;
+        $end_time   = $this->jobj->task->obj->end_time;
 
         if ( $error_code == 0) {
-            $this->updateStatus("successful", $start_time);
+            $this->updateStatus("successful", $start_time, $end_time);
         }
         else {
-            $this->updateStatus("failed", $start_time);
+            $this->updateStatus("failed", $start_time, $end_time);
             $this->updateJobErrorInDB($error_code, $error_msg);
         }
     }
 
-    function updateStatus($newstatus, $start_time = 0)
+    function updateStatus($newstatus, $start_time = 0, $end_time = 0)
     {
         if (!$this->getFromDB($this->getId())) {
             throw new PluginArmaditoDbException("Unable to get job from database.");
@@ -187,7 +188,9 @@ class PluginArmaditoJob extends PluginArmaditoCommonDBTM
         $input               = array();
         $input['id']         = $this->getId();
         $input['job_status'] = $newstatus;
-        $input['start_time'] = $start_time;
+        $input['start_time'] = date("Y-m-d H:i:s", $start_time);
+        $input['end_time']   = date("Y-m-d H:i:s", $end_time);
+        $input['duration']   = PluginArmaditoToolbox::computeDuration($start_time, $end_time);
 
         if (!$this->update($input)) {
             throw new PluginArmaditoDbException("Error when updating job status in DB.");
@@ -218,13 +221,14 @@ class PluginArmaditoJob extends PluginArmaditoCommonDBTM
     {
         $search_options = new PluginArmaditoSearchoptions('Job');
 
-        $items['Job Id']         = new PluginArmaditoSearchitemlink('id', $this->getTable(), 'PluginArmaditoJob');
-        $items['Agent Id']       = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_agents', 'PluginArmaditoAgent');
+        $items['Job Id']     = new PluginArmaditoSearchitemlink('id', $this->getTable(), 'PluginArmaditoJob');
+        $items['Agent Id']   = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_agents', 'PluginArmaditoAgent');
         $items['Type']       = new PluginArmaditoSearchtext('job_type', $this->getTable());
         $items['Priority']   = new PluginArmaditoSearchtext('job_priority', $this->getTable());
         $items['Status']     = new PluginArmaditoSearchtext('job_status', $this->getTable());
         $items['Start Time'] = new PluginArmaditoSearchtext('start_time', $this->getTable());
-        $items['Antivirus']      = new PluginArmaditoSearchitemlink('fullname', 'glpi_plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
+        $items['Duration']   = new PluginArmaditoSearchtext('duration', $this->getTable());
+        $items['Antivirus']  = new PluginArmaditoSearchitemlink('fullname', 'glpi_plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
 
         return $search_options->get($items);
     }
@@ -358,6 +362,7 @@ class PluginArmaditoJob extends PluginArmaditoCommonDBTM
         $rows[] = new PluginArmaditoFormRow('Job Priority', $this->fields["job_priority"]);
         $rows[] = new PluginArmaditoFormRow('Job Status', $this->fields["job_status"]);
         $rows[] = new PluginArmaditoFormRow('Job Start Time', $this->fields["start_time"]);
+        $rows[] = new PluginArmaditoFormRow('Job Duration', $this->fields["duration"]);
         $rows[] = new PluginArmaditoFormRow('Job Error Code', $this->fields["job_error_code"]);
         $rows[] = new PluginArmaditoFormRow('Job Error Message', base64_decode($this->fields["job_error_msg"]));
 
