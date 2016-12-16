@@ -34,18 +34,16 @@ class PluginArmaditoJobBoard extends PluginArmaditoBoard
 
     function displayBoard()
     {
-        $restrict_entity = getEntitiesRestrictRequest(" AND", 'comp');
-        $data            = $this->getJobStatusData($restrict_entity);
-
         echo "<table align='center'>";
         echo "<tr height='420'>";
-        $this->showJobStatusChart($data);
+        $this->showJobStatusChart();
         echo "</tr>";
         echo "</table>";
     }
 
-    function showJobStatusChart($data)
+    function showJobStatusChart()
     {
+        $data  = $this->getJobStatusData();
         $chart = new PluginArmaditoChartHalfDonut();
         $chart->init('jobstatus', "Job(s) statuses", $data);
 
@@ -59,7 +57,7 @@ class PluginArmaditoJobBoard extends PluginArmaditoBoard
         return countElementsInTableForMyEntities('glpi_plugin_armadito_jobs', "`job_status`='" . $status . "'");
     }
 
-    function getJobStatusData($restrict_entity)
+    function getJobStatusData()
     {
         $statuses = PluginArmaditoJob::getAvailableStatuses();
 
