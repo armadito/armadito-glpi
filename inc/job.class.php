@@ -166,18 +166,19 @@ class PluginArmaditoJob extends PluginArmaditoCommonDBTM
     function updateJobStatus()
     {
         $error_code = $this->jobj->task->obj->code;
-        $error_msg = $this->jobj->task->obj->message;
+        $error_msg  = $this->jobj->task->obj->message;
+        $start_time = date("Y-m-d H:i:s", $this->jobj->task->obj->start_time);
 
         if ( $error_code == 0) {
-            $this->updateStatus("successful");
+            $this->updateStatus("successful", $start_time);
         }
         else {
-            $this->updateStatus("failed");
+            $this->updateStatus("failed", $start_time);
             $this->updateJobErrorInDB($error_code, $error_msg);
         }
     }
 
-    function updateStatus($newstatus)
+    function updateStatus($newstatus, $start_time = 0)
     {
         if (!$this->getFromDB($this->getId())) {
             throw new PluginArmaditoDbException("Unable to get job from database.");
@@ -186,6 +187,7 @@ class PluginArmaditoJob extends PluginArmaditoCommonDBTM
         $input               = array();
         $input['id']         = $this->getId();
         $input['job_status'] = $newstatus;
+        $input['start_time'] = $start_time;
 
         if (!$this->update($input)) {
             throw new PluginArmaditoDbException("Error when updating job status in DB.");
@@ -221,6 +223,7 @@ class PluginArmaditoJob extends PluginArmaditoCommonDBTM
         $items['Job Type']       = new PluginArmaditoSearchtext('job_type', $this->getTable());
         $items['Job Priority']   = new PluginArmaditoSearchtext('job_priority', $this->getTable());
         $items['Job Status']     = new PluginArmaditoSearchtext('job_status', $this->getTable());
+        $items['Job Start Time'] = new PluginArmaditoSearchtext('start_time', $this->getTable());
         $items['Antivirus']      = new PluginArmaditoSearchitemlink('fullname', 'glpi_plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
 
         return $search_options->get($items);
@@ -354,6 +357,7 @@ class PluginArmaditoJob extends PluginArmaditoCommonDBTM
         $rows[] = new PluginArmaditoFormRow('Job Type', $this->fields["job_type"]);
         $rows[] = new PluginArmaditoFormRow('Job Priority', $this->fields["job_priority"]);
         $rows[] = new PluginArmaditoFormRow('Job Status', $this->fields["job_status"]);
+        $rows[] = new PluginArmaditoFormRow('Job Start Time', $this->fields["start_time"]);
         $rows[] = new PluginArmaditoFormRow('Job Error Code', $this->fields["job_error_code"]);
         $rows[] = new PluginArmaditoFormRow('Job Error Message', base64_decode($this->fields["job_error_msg"]));
 
