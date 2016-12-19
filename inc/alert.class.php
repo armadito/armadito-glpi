@@ -102,11 +102,11 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
         $items['Threat name']      = new PluginArmaditoSearchtext('threat_name', $this->getTable());
         $items['Filepath']         = new PluginArmaditoSearchtext('filepath', $this->getTable());
         $items['Antivirus']        = new PluginArmaditoSearchitemlink('fullname', 'glpi_plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
-        $items['Module']           = new PluginArmaditoSearchtext('module_name', $this->getTable());
+        $items['Detection Time']   = new PluginArmaditoSearchtext('detection_time', $this->getTable());
+        $items['Severity']         = new PluginArmaditoSearchtext('impact_severity', $this->getTable());
         $items['Action']           = new PluginArmaditoSearchtext('action', $this->getTable());
         $items['Info']             = new PluginArmaditoSearchtext('info', $this->getTable());
-        $items['Severity']         = new PluginArmaditoSearchtext('impact_severity', $this->getTable());
-        $items['Detection Time']   = new PluginArmaditoSearchtext('detection_time', $this->getTable());
+        $items['Module']           = new PluginArmaditoSearchtext('module_name', $this->getTable());
 
         return $search_options->get($items);
     }
