@@ -91,7 +91,7 @@ function plugin_armadito_install()
     $classes = array( 'PluginArmaditoAgent' => 10,
                       'PluginArmaditoJob' => 10,
                       'PluginArmaditoState' => 10,
-                      'PluginArmaditoAlert' => 10,
+                      'PluginArmaditoAlert' => 15,
                       'PluginArmaditoScan' => 10,
                       'PluginArmaditoScanConfig' => 10,
                       'PluginArmaditoStateDetail' => 10,
