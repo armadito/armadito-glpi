@@ -49,7 +49,7 @@ class PluginArmaditoJobBoard extends PluginArmaditoBoard
         $colortbox = new PluginArmaditoColorToolbox();
         $palette   = $colortbox->getPalette(12);
 
-        $bchart = new PluginArmaditoChartBar();
+        $bchart = new PluginArmaditoChartHorizontalBar();
         $bchart->init('longest_job_runs', __('Longest job runs', 'armadito'), $data);
         $bchart->setPalette($palette);
 
@@ -135,7 +135,7 @@ class PluginArmaditoJobBoard extends PluginArmaditoBoard
                 $longest_jobs = $this->rotateLongestJobsArray($longest_jobs, $size, $i);
 
                 $longest_jobs[$i]['value'] = $job_secs_duration;
-                $longest_jobs[$i]['label'] = '['.$job['id'].'] ('.$job['job_type'].')';
+                $longest_jobs[$i]['label'] = 'Job '.$job['id'].' ('.$job['job_type'].')';
                 break;
             }
         }
@@ -166,7 +166,7 @@ class PluginArmaditoJobBoard extends PluginArmaditoBoard
         for($i = 0; $i < $size; $i++) {
 
             $data['values'][] = array(
-                'label' => '#'.($i+1).' '.$jobs[$i]['label'],
+                'label' => $jobs[$i]['label'],
                 'value' => $jobs[$i]['value']
             );
         }

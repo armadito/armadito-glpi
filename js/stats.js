@@ -51,9 +51,8 @@ function A6ostatBar(svgname, jsondata, title, width, jsonpalette) {
           .height(height)
           .staggerLabels(true)
           .color(JSON.parse(jsonpalette))
-          .showValues(false);
-
-      chart.margin({"top":30});
+          .showValues(false)
+          .margin({"top":30});
 
       d3.select('#' + svgname)
          .datum([JSON.parse(jsondata)])
@@ -73,3 +72,47 @@ function A6ostatBar(svgname, jsondata, title, width, jsonpalette) {
       return chart;
    });
 }
+
+
+function A6oHorizontalBar(svgname, jsondata, title, width, jsonpalette, ) {
+
+        nv.addGraph(function() {
+
+            var height = 400;
+
+            var chart = nv.models.multiBarHorizontalChart()
+                .x(function(d) { return d.label })
+                .y(function(d) { return d.value })
+                .margin({top: 50, right: 10, bottom: 50, left: 100})
+                .color(JSON.parse(jsonpalette))
+                .showControls(false)
+                .showValues(true)
+                .showYAxis(false)
+                .groupSpacing(0.5);
+
+            chart.valueFormat(
+                function(d)
+                {
+                    return d3.format(',f')(d) + " s"
+                }
+            );
+
+            d3.select('#' + svgname)
+             .datum([JSON.parse(jsondata)])
+             .attr('height', height)
+             .call(chart);
+
+            d3.select('#' + svgname)
+             .append('text')
+             .attr("x", width/2)
+             .attr("y", 10)
+             .attr('text-anchor', 'middle')
+             .style('font-weight', 'bold')
+             .text(title);
+
+            nv.utils.windowResize(chart.update);
+
+            return chart;
+        });
+}
+
