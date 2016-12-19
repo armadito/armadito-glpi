@@ -86,8 +86,9 @@ class PluginArmaditoToolbox
         if(preg_match('/^(\d{10})$/i', $date, $matches)) {
            return static::Timestamp_to_MySQLDateTime($date);
         }
-
-        return static::ISO8601DateTime_to_MySQLDateTime($date);
+        else {
+           throw new InvalidArgumentException(sprintf('Date is not a valid unix timestamp."'));
+        }
     }
 
     static function computeDuration($timestamp_start, $timestamp_end)
@@ -114,11 +115,6 @@ class PluginArmaditoToolbox
     static function Timestamp_to_MySQLDateTime($timestamp) {
         $datetime = new DateTime();
         $datetime->setTimestamp($timestamp);
-        return $datetime->format("Y-m-d H:i:s");
-    }
-
-    static function ISO8601DateTime_to_MySQLDateTime($ISO8601_datetime) {
-        $datetime = new DateTime($ISO8601_datetime);
         return $datetime->format("Y-m-d H:i:s");
     }
 
