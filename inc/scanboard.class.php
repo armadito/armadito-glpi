@@ -38,6 +38,7 @@ class PluginArmaditoScanBoard extends PluginArmaditoBoard
         echo "<tr height='420'>";
         $this->showScanStatusChart();
         $this->showLongestScansChart();
+        $this->showAverageDurationsChart();
         echo "</tr>";
         echo "</table>";
     }
@@ -63,6 +64,22 @@ class PluginArmaditoScanBoard extends PluginArmaditoBoard
 
         $bchart = new PluginArmaditoChartHorizontalBar();
         $bchart->init('longest_scans', __('Longest scans', 'armadito'), $data);
+        $bchart->setPalette($palette);
+
+        echo "<td width='400'>";
+        $bchart->showChart();
+        echo "</td>";
+    }
+
+    function showAverageDurationsChart()
+    {
+        $data = $this->getScanAverageDurationsData();
+
+        $colortbox = new PluginArmaditoColorToolbox();
+        $palette   = $colortbox->getPalette(12);
+
+        $bchart = new PluginArmaditoChartVerticalBar();
+        $bchart->init('average_scan_durations', __('Average scan durations', 'armadito'), $data);
         $bchart->setPalette($palette);
 
         echo "<td width='400'>";
@@ -99,12 +116,7 @@ class PluginArmaditoScanBoard extends PluginArmaditoBoard
     {
         global $DB;
 
-        $query = "SELECT id, plugin_armadito_scanconfigs_id, duration FROM `glpi_plugin_armadito_scans` WHERE `is_deleted`='0'";
-        $ret   = $DB->query($query);
-
-        if (!$ret) {
-            throw new InvalidArgumentException(sprintf('Error getLongestScansData : %s', $DB->error()));
-        }
+        $ret = $this->getScanDurationsFromDB();
 
         $arrayTop = new PluginArmaditoArrayTopChart(10);
         $arrayTop->init();
@@ -121,6 +133,66 @@ class PluginArmaditoScanBoard extends PluginArmaditoBoard
         }
 
         return $arrayTop->toChartArray("scan durations (secs)");
+    }
+
+    function getScanAverageDurationsData()
+    {
+        $data = array();
+        $data['key'] = "Average Scan durations";
+        $scanconfigs = PluginArmaditoScanConfig::getScanConfigsList();
+
+        foreach ($scanconfigs as $id => $name)
+        {
+            $data['values'][] = array(
+                'label' => $name,
+                'value' => $this->getAverageDurationForScanConfig($id)
+            );
+        }
+
+        return $data;
+    }
+
+    function getAverageDurationForScanConfig($scanconfig_id)
+    {
+        global $DB;
+
+        $ret = $this->getScanDurationsFromDB($scanconfig_id);
+        $average_duration = 0;
+
+        if ($DB->numrows($ret) > 0)
+        {
+             $i = 0;
+             while ($scan = $DB->fetch_assoc($ret))
+             {
+                $average_duration += PluginArmaditoToolbox::DurationToSeconds($scan['duration']);
+                $i++;
+             }
+
+             if($i > 0) {
+                $average_duration = $average_duration/$i;
+             }
+        }
+
+        return $average_duration;
+    }
+
+    function getScanDurationsFromDB($scanconfig_id = 0)
+    {
+        global $DB;
+
+        $query  = "SELECT id, duration FROM `glpi_plugin_armadito_scans` WHERE `is_deleted`='0' AND `progress`='100'";
+
+        if($scanconfig_id > 0) {
+            $query .= "AND `plugin_armadito_scanconfigs_id`='".$scanconfig_id."'";
+        }
+
+        $ret   = $DB->query($query);
+
+        if (!$ret) {
+            throw new InvalidArgumentException(sprintf('Error getLongestScansData : %s', $DB->error()));
+        }
+
+        return $ret;
     }
 }
 ?>
