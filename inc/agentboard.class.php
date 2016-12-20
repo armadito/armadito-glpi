@@ -55,7 +55,7 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard
         $colortbox = new PluginArmaditoColorToolbox();
         $palette   = $colortbox->getPalette(12);
 
-        $bchart = new PluginArmaditoChartBar();
+        $bchart = new PluginArmaditoChartVerticalBar();
         $bchart->init('agentconnections', __('Agent connections of last hours', 'armadito'), $data);
         $bchart->setPalette($palette);
 

@@ -77,7 +77,7 @@ class PluginArmaditoExampleBoard extends PluginArmaditoBoard
         $colortbox = new PluginArmaditoColorToolbox();
         $palette   = $colortbox->getPalette(12);
 
-        $bchart = new PluginArmaditoChartBar();
+        $bchart = new PluginArmaditoChartVerticalBar();
         $bchart->init('statbar_chart_example', __('StatBar Chart Preview', 'armadito'), $data);
         $bchart->setPalette($palette);
 

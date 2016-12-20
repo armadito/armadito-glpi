@@ -53,7 +53,7 @@ class PluginArmaditoAlertBoard extends PluginArmaditoBoard
         $colortbox = new PluginArmaditoColorToolbox();
         $palette   = $colortbox->getPalette(12);
 
-        $bchart = new PluginArmaditoChartBar();
+        $bchart = new PluginArmaditoChartVerticalBar();
         $bchart->init('lastalerts', __('Alerts of last hours', 'armadito'), $data);
         $bchart->setPalette($palette);
 

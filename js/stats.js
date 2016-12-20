@@ -38,7 +38,7 @@ function A6ostatHalfDonut(svgname, jsondata, title) {
 }
 
 
-function A6ostatBar(svgname, jsondata, title, width, jsonpalette) {
+function A6oVerticalBar(svgname, jsondata, title, width, jsonpalette) {
 
    nv.addGraph(function() {
 
