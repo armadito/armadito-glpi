@@ -102,76 +102,22 @@ class PluginArmaditoJobBoard extends PluginArmaditoBoard
             throw new InvalidArgumentException(sprintf('Error getLongestJobsData : %s', $DB->error()));
         }
 
-        $longest_jobs = $this->initLongestJobsArray(10);
+        $arrayTop = new PluginArmaditoArrayTopChart(10);
+        $arrayTop->init();
 
         if ($DB->numrows($ret) > 0)
         {
              while ($job = $DB->fetch_assoc($ret))
              {
-                $longest_jobs = $this->addToLongestJobsIfNeeded($longest_jobs, 10, $job);
+                $value = PluginArmaditoToolbox::DurationToSeconds($job['duration']);
+                $label = 'Job '.$job['id'].' ('.$job['job_type'].')';
+
+                $arrayTop->insertIfRelevant($value, $label);
              }
         }
 
-        return $this->toChartArray($longest_jobs, "longest_jobs", 10);
+        return $arrayTop->toChartArray("longest_jobs");
     }
 
-    function initLongestJobsArray($size)
-    {
-        $longest_jobs = array();
-        for($i = 0; $i < $size; $i++){
-            $longest_jobs[$i]['value'] = 0;
-            $longest_jobs[$i]['label'] = '';
-        }
-
-        return $longest_jobs;
-    }
-
-    function addToLongestJobsIfNeeded($longest_jobs, $size, $job)
-    {
-        $job_secs_duration = PluginArmaditoToolbox::DurationToSeconds($job['duration']);
-
-        for($i = 0; $i < $size; $i++) {
-            if($job_secs_duration >= $longest_jobs[$i]['value']) {
-                $longest_jobs = $this->rotateLongestJobsArray($longest_jobs, $size, $i);
-
-                $longest_jobs[$i]['value'] = $job_secs_duration;
-                $longest_jobs[$i]['label'] = 'Job '.$job['id'].' ('.$job['job_type'].')';
-                break;
-            }
-        }
-
-        return $longest_jobs;
-    }
-
-    function rotateLongestJobsArray($longest_jobs, $size, $i_to_beinserted)
-    {
-         $rotated_array = array();
-         for($i = 0; $i < $size; $i++)
-         {
-            if($i > $i_to_beinserted && $i > 0) {
-                $rotated_array[$i] = $longest_jobs[$i-1];
-            }
-            else{
-                $rotated_array[$i] = $longest_jobs[$i];
-            }
-         }
-
-         return $rotated_array;
-    }
-
-    function toChartArray($jobs, $key, $size)
-    {
-        $data = array();
-        $data['key'] = $key;
-        for($i = 0; $i < $size; $i++) {
-
-            $data['values'][] = array(
-                'label' => $jobs[$i]['label'],
-                'value' => $jobs[$i]['value']
-            );
-        }
-
-        return $data;
-    }
 }
 ?>
