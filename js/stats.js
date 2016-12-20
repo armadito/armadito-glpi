@@ -93,7 +93,7 @@ function A6oHorizontalBar(svgname, jsondata, title, width, jsonpalette ) {
             chart.valueFormat(
                 function(d)
                 {
-                    return d3.format(',f')(d) + " s"
+                    return d3.format(',f')(d)
                 }
             );
 
