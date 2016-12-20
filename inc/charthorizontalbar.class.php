@@ -42,10 +42,10 @@ class PluginArmaditoChartHorizontalBar extends PluginArmaditoChart
     {
         parent::showBackground();
         echo "<script>A6oHorizontalBar('" . $this->name . "',
-                    '" . json_encode($this->data) . "',
+                    '" . json_encode($this->data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) . "',
                     '" . $this->title . "',
                     '" . ($this->width - 30) . "',
-                    '" . json_encode($this->palette). "')</script>";
+                    '" . json_encode($this->palette). "');</script>";
     }
 }
 ?>
