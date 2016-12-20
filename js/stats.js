@@ -98,6 +98,7 @@ function A6oHorizontalBar(svgname, jsondata, title, width, jsonpalette ) {
             );
 
             chart.legend.margin({top: 15, right: 50});
+            chart.legend.maxKeyLength(200);
 
             d3.select('#' + svgname)
              .datum([JSON.parse(jsondata)])

@@ -40,6 +40,7 @@ class PluginArmaditoScanBoard extends PluginArmaditoBoard
         echo "<table align='center'>";
         echo "<tr height='420'>";
         $this->showScanStatusChart($data);
+        $this->showLongestScansChart();
         echo "</tr>";
         echo "</table>";
     }
@@ -51,6 +52,22 @@ class PluginArmaditoScanBoard extends PluginArmaditoBoard
 
         echo "<td width='380'>";
         $chart->showChart();
+        echo "</td>";
+    }
+
+    function showLongestScansChart()
+    {
+        $data = $this->getLongestScansData();
+
+        $colortbox = new PluginArmaditoColorToolbox();
+        $palette   = $colortbox->getPalette(12);
+
+        $bchart = new PluginArmaditoChartHorizontalBar();
+        $bchart->init('longest_scans', __('Longest scans', 'armadito'), $data);
+        $bchart->setPalette($palette);
+
+        echo "<td width='400'>";
+        $bchart->showChart();
         echo "</td>";
     }
 
@@ -77,6 +94,34 @@ class PluginArmaditoScanBoard extends PluginArmaditoBoard
         }
 
         return $data;
+    }
+
+    function getLongestScansData()
+    {
+        global $DB;
+
+        $query = "SELECT id, plugin_armadito_scanconfigs_id, duration FROM `glpi_plugin_armadito_scans` WHERE `is_deleted`='0'";
+        $ret   = $DB->query($query);
+
+        if (!$ret) {
+            throw new InvalidArgumentException(sprintf('Error getLongestScansData : %s', $DB->error()));
+        }
+
+        $arrayTop = new PluginArmaditoArrayTopChart(10);
+        $arrayTop->init();
+
+        if ($DB->numrows($ret) > 0)
+        {
+             while ($scan = $DB->fetch_assoc($ret))
+             {
+                $value = PluginArmaditoToolbox::DurationToSeconds($scan['duration']);
+                $label = 'Scan '.$scan['id'];
+
+                $arrayTop->insertIfRelevant($value, $label);
+             }
+        }
+
+        return $arrayTop->toChartArray("scan durations (secs)");
     }
 }
 ?>
