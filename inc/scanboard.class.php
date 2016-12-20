@@ -34,19 +34,18 @@ class PluginArmaditoScanBoard extends PluginArmaditoBoard
 
     function displayBoard()
     {
-        $restrict_entity = getEntitiesRestrictRequest(" AND", 'comp');
-        $data            = $this->getScanStatusData($restrict_entity);
-
         echo "<table align='center'>";
         echo "<tr height='420'>";
-        $this->showScanStatusChart($data);
+        $this->showScanStatusChart();
         $this->showLongestScansChart();
         echo "</tr>";
         echo "</table>";
     }
 
-    function showScanStatusChart($data)
+    function showScanStatusChart()
     {
+        $data = $this->getScanStatusData();
+
         $chart = new PluginArmaditoChartHalfDonut();
         $chart->init('scanstatus', "Scan(s) statuses", $data);
 
@@ -79,7 +78,7 @@ class PluginArmaditoScanBoard extends PluginArmaditoBoard
         return countElementsInTableForMyEntities('glpi_plugin_armadito_jobs', $endquery);
     }
 
-    function getScanStatusData($restrict_entity)
+    function getScanStatusData()
     {
         $statuses = PluginArmaditoJob::getAvailableStatuses();
 
