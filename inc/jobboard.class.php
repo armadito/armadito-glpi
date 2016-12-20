@@ -116,7 +116,7 @@ class PluginArmaditoJobBoard extends PluginArmaditoBoard
              }
         }
 
-        return $arrayTop->toChartArray("longest_jobs");
+        return $arrayTop->toChartArray("job durations (secs)");
     }
 
 }
