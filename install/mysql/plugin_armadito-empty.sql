@@ -145,7 +145,7 @@ CREATE TABLE `glpi_plugin_armadito_alerts` (
    `filepath` varchar(255) DEFAULT NULL,
    `module_name` varchar(255) DEFAULT NULL,
    `impact_severity` varchar(255) DEFAULT NULL,
-   `info` text DEFAULT NULL,
+   `info` text,
    `action` varchar(255) DEFAULT NULL,
    `detection_time` datetime DEFAULT NULL,
    `checksum` varchar(255) DEFAULT NULL,

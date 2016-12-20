@@ -74,7 +74,7 @@ function A6ostatBar(svgname, jsondata, title, width, jsonpalette) {
 }
 
 
-function A6oHorizontalBar(svgname, jsondata, title, width, jsonpalette, ) {
+function A6oHorizontalBar(svgname, jsondata, title, width, jsonpalette ) {
 
         nv.addGraph(function() {
 
