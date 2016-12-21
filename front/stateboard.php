@@ -23,13 +23,21 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 
 include("../../../inc/includes.php");
 
-if (PluginArmaditoMenu::canView()) {
+if (PluginArmaditoMenu::canView())
+{
     Html::header(__('Armadito', 'armadito'), $_SERVER["PHP_SELF"], "plugins", "pluginarmaditomenu", "stateboard");
 
     PluginArmaditoMenu::displayHeader();
     PluginArmaditoMenu::displayMenu("mini");
-    $board = new PluginArmaditoStateBoard();
-    $board->displayBoard();
+
+    try {
+        $board = new PluginArmaditoStateBoard();
+        $board->displayBoard();
+    }
+    catch(Exception $e) {
+        PluginArmaditoLog::Error($e->getMessage(), 500);
+    }
+
 } else {
     Html::displayRightError();
 }
