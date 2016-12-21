@@ -25,50 +25,34 @@ if (!defined('GLPI_ROOT')) {
     die("Sorry. You can't access directly to this file");
 }
 
-
-class PluginArmaditoBoardConf extends PluginArmaditoConf
+class PluginArmaditoGeneralConf extends PluginArmaditoConf
 {
     function showForm()
     {
-        $paConfig = $this->initConfigForm($options, __('Boards', 'armadito'));
-
-        $h = htmlspecialchars($paConfig->getValue('colorpalette_h'));
-        $s = htmlspecialchars($paConfig->getValue('colorpalette_s'));
-        $v = htmlspecialchars($paConfig->getValue('colorpalette_v'));
+        $paConfig = $this->initConfigForm($options, __('Global configuration', 'armadito'));
 
         echo "<tr class='tab_bg_1'>";
-        echo "<td>".__('Color Palette Hue', 'armadito')."&nbsp;:</td>";
+        echo "<td>".__('Debug level (minimum)', 'armadito')."&nbsp;:</td>";
         echo "<td width='20%'>";
-        echo "<input type='text' name='colorpalette_h' value='" . $h . "'/>";
+
+        $array    = array();
+        $array[0] = "Verbose";
+        $array[1] = "Debug";
+        $array[2] = "Info";
+        $array[3] = "Warning";
+        $array[4] = "Error";
+        Dropdown::showFromArray("debug_minlevel", $array,  array('value' =>  $paConfig->getValue('debug_minlevel')));
         echo "</td>";
         echo "</tr>";
 
         echo "<tr class='tab_bg_1'>";
-        echo "<td>".__('Color Palette Saturation', 'armadito')."&nbsp;:</td>";
+        echo "<td>".__('Use Armadito Scheduler (experimental)', 'armadito')."&nbsp;:</td>";
         echo "<td width='20%'>";
-        echo "<input type='text' name='colorpalette_s' value='" . $s . "'/>";
+        Dropdown::showYesNo("armaditoscheduler", $paConfig->getValue('armaditoscheduler'));
         echo "</td>";
         echo "</tr>";
-
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>".__('Color Palette Value', 'armadito')."&nbsp;:</td>";
-        echo "<td width='20%'>";
-        echo "<input type='text' name='colorpalette_v' value='" . $v . "'/>";
-        echo "</td>";
-        echo "</tr>";
-
-        $this->showBoardExample($h, $s, $v);
 
         $paConfig->showFormFooter();
-    }
-
-    function showBoardExample ($h, $s, $v)
-    {
-        $board = new PluginArmaditoExampleBoard();
-        $board->setHue($h);
-        $board->setSaturation($s);
-        $board->setValue($v);
-        $board->displayBoard();
     }
 }
 ?>

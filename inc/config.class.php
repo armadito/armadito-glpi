@@ -61,23 +61,28 @@ class PluginArmaditoConfig extends PluginArmaditoEAVCommonDBTM
 
        switch ($tabnum) {
           case 0:
-             $item->showForm();
+             $generalconf = new PluginArmaditoGeneralConf();
+             $generalconf->showForm();
              break;
           case 1:
              $boardconf = new PluginArmaditoBoardConf();
              $boardconf->showForm();
              break;
           case 2:
-             $item->showStatesForm();
+             $stateconf = new PluginArmaditoStateConf();
+             $stateconf->showForm();
              break;
           case 3:
-             $item->showAlertsForm();
+             $alertconf = new PluginArmaditoAlertConf();
+             $alertconf->showForm();
              break;
           case 4:
-             $item->showScansForm();
+             $scanconf = new PluginArmaditoScanConf();
+             $scanconf->showForm();
              break;
           case 5:
-             $item->showJobsForm();
+             $jobconf = new PluginArmaditoJobConf();
+             $jobconf->showForm();
              break;
           default:
              break;
@@ -113,97 +118,11 @@ class PluginArmaditoConfig extends PluginArmaditoEAVCommonDBTM
         $this->addValues($this->default_conf);
     }
 
-    function initConfigForm($options, $title)
-    {
-        $paConfig = new PluginArmaditoConfig();
-        $paConfig->fields['id'] = 1;
-        $options['colspan'] = 4;
-        $paConfig->showFormHeader($options);
-
-        echo "<tr class='headerRow'>";
-        echo "<th colspan='".$options['colspan']."'>";
-        echo $title;
-        echo "</th>";
-        echo "<th colspan='".$options['colspan']."'></th>";
-        echo "</tr>";
-
-        return $paConfig;
-    }
-
     function showFormFooter($options = array())
     {
         $options['candel'] = FALSE;
         $options['colspan'] = 4;
         $this->showFormButtons($options);
-    }
-
-    function showForm($options = array())
-    {
-        $paConfig = $this->initConfigForm($options, __('Global configuration', 'armadito'));
-
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>".__('Debug level (minimum)', 'armadito')."&nbsp;:</td>";
-        echo "<td width='20%'>";
-
-        $array    = array();
-        $array[0] = "Verbose";
-        $array[1] = "Debug";
-        $array[2] = "Info";
-        $array[3] = "Warning";
-        $array[4] = "Error";
-        Dropdown::showFromArray("debug_minlevel", $array,  array('value' =>  $this->getValue('debug_minlevel')));
-        echo "</td>";
-        echo "</tr>";
-
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>".__('Use Armadito Scheduler (experimental)', 'armadito')."&nbsp;:</td>";
-        echo "<td width='20%'>";
-        Dropdown::showYesNo("armaditoscheduler", $this->getValue('armaditoscheduler'));
-        echo "</td>";
-        echo "</tr>";
-
-        $paConfig->showFormFooter();
-        return TRUE;
-    }
-
-    function showStatesForm($options = array())
-    {
-        $paConfig = $this->initConfigForm($options, __('States configuration', 'armadito'));
-        $paConfig->showFormFooter();
-        return TRUE;
-    }
-
-    function showAlertsForm($options = array())
-    {
-        $paConfig = $this->initConfigForm($options, __('Alerts configuration', 'armadito'));
-        $paConfig->showFormFooter();
-        return TRUE;
-    }
-
-    function showScansForm($options = array())
-    {
-        $paConfig = $this->initConfigForm($options, __('Scans configuration', 'armadito'));
-        $paConfig->showFormFooter();
-        return TRUE;
-    }
-
-    function showJobsForm($options = array())
-    {
-        $paConfig = $this->initConfigForm($options, __('Jobs configuration', 'armadito'));
-
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>".__('Maximum jobs agents can get by round', 'armadito')."&nbsp;:</td>";
-        echo "<td width='20%'>";
-        Dropdown::showNumber("getjobs_limit", array(
-             'value' => $this->getValue('getjobs_limit'),
-             'min' => 1,
-             'max' => 100)
-         );
-        echo "</td>";
-        echo "</tr>";
-
-        $paConfig->showFormFooter();
-        return TRUE;
     }
 
     static function loadCache()
