@@ -27,7 +27,7 @@ function A6oDonutChart(jsonparams) {
       d3.select('#' + params.svgname)
          .append('text')
          .attr("x", params.width/2)
-         .attr("y", 10)
+         .attr("y", 15)
          .attr('text-anchor', 'middle')
          .style('font-weight', 'bold')
          .text(params.title);
@@ -61,7 +61,7 @@ function A6oVerticalBarChart(jsonparams) {
       d3.select('#' + params.svgname)
          .append('text')
          .attr("x", params.width/2)
-         .attr("y", 10)
+         .attr("y", 15)
          .attr('text-anchor', 'middle')
          .style('font-weight', 'bold')
          .text(params.title);
@@ -108,7 +108,7 @@ function A6oHorizontalBarChart(jsonparams) {
         d3.select('#' + params.svgname)
          .append('text')
          .attr("x", params.width/2)
-         .attr("y", 10)
+         .attr("y", 15)
          .attr('text-anchor', 'middle')
          .style('font-weight', 'bold')
          .text(params.title);
