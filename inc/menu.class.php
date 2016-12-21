@@ -136,10 +136,11 @@ class PluginArmaditoMenu extends CommonGLPI
         $submenu = new PluginArmaditoSubMenu('General');
         $menu_entries = array();
 
-        if (Session::haveRight('plugin_armadito_agents', READ))
+        if (Session::haveRight('plugin_armadito_agents', READ) && Session::haveRight('plugin_armadito_antiviruses', READ))
         {
             $menu_entries[] = new PluginArmaditoMenuEntry('Board', self::BOARD_PNG, 'menu.php');
             $menu_entries[] = new PluginArmaditoMenuEntry('Agents', self::LISTING_PNG, 'agent.php');
+            $menu_entries[] = new PluginArmaditoMenuEntry('Antiviruses', self::LISTING_PNG, 'antivirus.php');
         }
 
         if (Session::haveRight('config', UPDATE)
@@ -152,15 +153,14 @@ class PluginArmaditoMenu extends CommonGLPI
         $submenu->display();
     }
 
-    static function displayAntivirusMenu()
+    static function displayStatesMenu()
     {
-        $submenu = new PluginArmaditoSubMenu('Antiviruses');
+        $submenu = new PluginArmaditoSubMenu('States');
         $menu_entries = array();
 
-        if (Session::haveRight('plugin_armadito_states', READ) && Session::haveRight('plugin_armadito_antiviruses', READ))
+        if (Session::haveRight('plugin_armadito_states', READ))
         {
             $menu_entries[] = new PluginArmaditoMenuEntry('Board', self::BOARD_PNG, 'stateboard.php');
-            $menu_entries[] = new PluginArmaditoMenuEntry('Antiviruses', self::LISTING_PNG, 'antivirus.php');
             $menu_entries[] = new PluginArmaditoMenuEntry('States', self::LISTING_PNG, 'state.php');
         }
 
@@ -244,7 +244,7 @@ class PluginArmaditoMenu extends CommonGLPI
     {
         static::displayMenuHeader();
         static::displayGeneralMenu();
-        static::displayAntivirusMenu();
+        static::displayStatesMenu();
         static::displayAlertsMenu();
         static::displayScansMenu();
         static::displayJobsMenu();
