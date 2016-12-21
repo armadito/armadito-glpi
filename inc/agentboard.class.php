@@ -82,7 +82,7 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard
         echo "</td>";
     }
 
-    function showAntivirusChart($restrict_entity)
+    function showAntivirusChart()
     {
         $params = array(
             "svgname" => 'antiviruses',
