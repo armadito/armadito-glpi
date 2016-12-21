@@ -1,16 +1,15 @@
-function A6ostatHalfDonut(svgname, jsondata, title) {
+function A6oDonutChart(jsonparams) {
+
+   var params = JSON.parse(jsonparams);
 
    nv.addGraph(function() {
-
-      var width = 400,
-          height = 400;
 
       var chart = nv.models.pieChart()
           .x(function(d) { return d.key })
           .y(function(d) { return d.value })
           .showLabels(false)
-          .width(width)
-          .height(height)
+          .width(params.width)
+          .height(params.height)
           .padAngle(.08)
           .cornerRadius(5)
           .donut(true);
@@ -18,104 +17,105 @@ function A6ostatHalfDonut(svgname, jsondata, title) {
       chart.legend.margin({top: 15});
       chart.pie.labelsOutside(true).donut(true);
 
-      d3.select('#' + svgname)
-          .datum(JSON.parse(jsondata))
+      d3.select('#' + params.svgname)
+          .datum(params.data)
           .transition().duration(1200)
-          .attr('width', width)
-          .attr('height', height)
+          .attr('width', params.width)
+          .attr('height', params.height)
           .call(chart);
 
-      d3.select('#' + svgname)
+      d3.select('#' + params.svgname)
          .append('text')
-         .attr("x", width/2)
+         .attr("x", params.width/2)
          .attr("y", 10)
          .attr('text-anchor', 'middle')
          .style('font-weight', 'bold')
-         .text(title);
+         .text(params.title);
 
       return chart;
    });
 }
 
 
-function A6oVerticalBar(svgname, jsondata, title, width, jsonpalette) {
+function A6oVerticalBarChart(jsonparams) {
+
+   var params = JSON.parse(jsonparams);
 
    nv.addGraph(function() {
-
-      var height = 400;
 
       var chart = nv.models.discreteBarChart()
           .x(function(d) { return d.label })
           .y(function(d) { return d.value })
-          .width(width)
-          .height(height)
+          .width(params.width)
+          .height(params.height)
           .staggerLabels(true)
-          .color(JSON.parse(jsonpalette))
+          .color(params.palette)
           .showValues(false)
           .margin({"top":30});
 
-      d3.select('#' + svgname)
-         .datum([JSON.parse(jsondata)])
-         .attr('height', height)
+      d3.select('#' + params.svgname)
+         .datum([params.data])
+         .attr('height', params.height)
          .call(chart);
 
-      d3.select('#' + svgname)
+      d3.select('#' + params.svgname)
          .append('text')
-         .attr("x", width/2)
+         .attr("x", params.width/2)
          .attr("y", 10)
          .attr('text-anchor', 'middle')
          .style('font-weight', 'bold')
-         .text(title);
+         .text(params.title);
 
       nv.utils.windowResize(chart.update);
 
       return chart;
    });
+
 }
 
 
-function A6oHorizontalBar(svgname, jsondata, title, width, jsonpalette ) {
+function A6oHorizontalBarChart(jsonparams) {
 
-        nv.addGraph(function() {
+    var params = JSON.parse(jsonparams);
 
-            var height = 400;
+    nv.addGraph(function() {
 
-            var chart = nv.models.multiBarHorizontalChart()
-                .x(function(d) { return d.label })
-                .y(function(d) { return d.value })
-                .margin({top: 50, right: 10, bottom: 50, left: 100})
-                .color(JSON.parse(jsonpalette))
-                .showControls(false)
-                .showValues(true)
-                .showYAxis(false)
-                .groupSpacing(0.5);
+        var chart = nv.models.multiBarHorizontalChart()
+            .x(function(d) { return d.label })
+            .y(function(d) { return d.value })
+            .margin({top: 50, right: 10, bottom: 50, left: 100})
+            .color(params.palette)
+            .showControls(false)
+            .showValues(true)
+            .showYAxis(false)
+            .groupSpacing(0.5);
 
-            chart.valueFormat(
-                function(d)
-                {
-                    return d3.format(',f')(d)
-                }
-            );
+        chart.valueFormat(
+            function(d)
+            {
+                return d3.format(',f')(d)
+            }
+        );
 
-            chart.legend.margin({top: 15, right: 50});
-            chart.legend.maxKeyLength(200);
+        chart.legend.margin({top: 15, right: 50});
+        chart.legend.maxKeyLength(200);
 
-            d3.select('#' + svgname)
-             .datum([JSON.parse(jsondata)])
-             .attr('height', height)
-             .call(chart);
+        d3.select('#' + params.svgname)
+         .datum([params.data])
+         .attr('height', params.height)
+         .call(chart);
 
-            d3.select('#' + svgname)
-             .append('text')
-             .attr("x", width/2)
-             .attr("y", 10)
-             .attr('text-anchor', 'middle')
-             .style('font-weight', 'bold')
-             .text(title);
+        d3.select('#' + params.svgname)
+         .append('text')
+         .attr("x", params.width/2)
+         .attr("y", 10)
+         .attr('text-anchor', 'middle')
+         .style('font-weight', 'bold')
+         .text(params.title);
 
-            nv.utils.windowResize(chart.update);
+        nv.utils.windowResize(chart.update);
 
-            return chart;
-        });
+        return chart;
+    });
 }
 

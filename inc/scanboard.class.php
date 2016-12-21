@@ -45,10 +45,15 @@ class PluginArmaditoScanBoard extends PluginArmaditoBoard
 
     function showScanStatusChart()
     {
-        $data = $this->getScanStatusData();
+        $params = array(
+            "svgname" => 'scanstatus',
+            "title"   => "Scan(s) statuses",
+            "width"   => 370,
+            "height"  => 400,
+            "data"    => $this->getScanStatusData()
+        );
 
-        $chart = new PluginArmaditoChartHalfDonut();
-        $chart->init('scanstatus', "Scan(s) statuses", $data);
+        $chart = new PluginArmaditoChart("DonutChart", $params);
 
         echo "<td width='380'>";
         $chart->showChart();
@@ -57,14 +62,18 @@ class PluginArmaditoScanBoard extends PluginArmaditoBoard
 
     function showLongestScansChart()
     {
-        $data = $this->getLongestScansData();
-
         $colortbox = new PluginArmaditoColorToolbox();
-        $palette   = $colortbox->getPalette(12);
 
-        $bchart = new PluginArmaditoChartHorizontalBar();
-        $bchart->init('longest_scans', __('Longest scans', 'armadito'), $data);
-        $bchart->setPalette($palette);
+        $params = array(
+            "svgname" => 'longest_scans',
+            "title"   => __('Longest scans', 'armadito'),
+            "palette" => $colortbox->getPalette(12),
+            "width"   => 370,
+            "height"  => 400,
+            "data"    => $this->getLongestScansData()
+        );
+
+        $bchart = new PluginArmaditoChart("HorizontalBarChart", $params);
 
         echo "<td width='400'>";
         $bchart->showChart();
@@ -73,14 +82,18 @@ class PluginArmaditoScanBoard extends PluginArmaditoBoard
 
     function showAverageDurationsChart()
     {
-        $data = $this->getScanAverageDurationsData();
-
         $colortbox = new PluginArmaditoColorToolbox();
-        $palette   = $colortbox->getPalette(12);
 
-        $bchart = new PluginArmaditoChartVerticalBar();
-        $bchart->init('average_scan_durations', __('Average scan durations', 'armadito'), $data);
-        $bchart->setPalette($palette);
+        $params = array(
+            "svgname" => 'average_scan_durations',
+            "title"   => __('Average scan durations', 'armadito'),
+            "palette" => $colortbox->getPalette(12),
+            "width"   => 370,
+            "height"  => 400,
+            "data"    => $this->getScanAverageDurationsData()
+        );
+
+        $bchart = new PluginArmaditoChart("VerticalBarChart", $params);
 
         echo "<td width='400'>";
         $bchart->showChart();

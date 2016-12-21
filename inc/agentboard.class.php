@@ -34,39 +34,76 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard
 
     function displayBoard()
     {
-        $restrict_entity = getEntitiesRestrictRequest(" AND", 'comp');
-
         echo "<table align='center'>";
         echo "<tr height='420'>";
 
-        $this->addAntivirusChart($restrict_entity);
-        $this->addComputersChart($restrict_entity);
-        $this->addLastContactsChart($restrict_entity);
+        $this->showAntivirusChart();
+        $this->showComputersChart();
+        $this->showLastContactsChart();
 
         echo "</tr>";
         echo "</table>";
     }
 
-    function addLastContactsChart($restrict_entity)
+    function showLastContactsChart()
     {
-        // Number of agent connections in last hour, 6 hours, 24 hours
-        $data = PluginArmaditoLastContactStat::getLastHours(12);
-
         $colortbox = new PluginArmaditoColorToolbox();
-        $palette   = $colortbox->getPalette(12);
 
-        $bchart = new PluginArmaditoChartVerticalBar();
-        $bchart->init('agentconnections', __('Agent connections of last hours', 'armadito'), $data);
-        $bchart->setPalette($palette);
+        $params = array(
+            "svgname" => 'agentconnections',
+            "title"   => __('Agent connections of last hours', 'armadito'),
+            "palette" => $colortbox->getPalette(12),
+            "width"   => 370,
+            "height"  => 400,
+            "data"    => PluginArmaditoLastContactStat::getLastHours(12)
+        );
+
+        $bchart = new PluginArmaditoChart("VerticalBarChart", $params);
 
         echo "<td width='400'>";
         $bchart->showChart();
         echo "</td>";
     }
 
-    function addComputersChart($restrict_entity)
+    function showComputersChart()
+    {
+        $params = array(
+            "svgname" => 'armaditocomputers',
+            "title"   => __('Armadito computers', 'armadito'),
+            "width"   => 370,
+            "height"  => 400,
+            "data"    => $this->getComputersChartData()
+        );
+
+        $hchart = new PluginArmaditoChart("DonutChart", $params);
+
+        echo "<td width='380'>";
+        $hchart->showChart();
+        echo "</td>";
+    }
+
+    function showAntivirusChart($restrict_entity)
+    {
+        $params = array(
+            "svgname" => 'antiviruses',
+            "title"   => __('Antiviruses repartition', 'armadito'),
+            "width"   => 370,
+            "height"  => 400,
+            "data"    => $this->getAntivirusChartData()
+        );
+
+        $hchart = new PluginArmaditoChart("DonutChart", $params);
+
+        echo "<td width='380'>";
+        $hchart->showChart();
+        echo "</td>";
+    }
+
+    function getComputersChartData()
     {
         global $DB;
+
+        $restrict_entity = getEntitiesRestrictRequest(" AND", 'comp');
 
         $armaditoComputers  = 0;
         $query_ao_computers = "SELECT COUNT(comp.`id`) as nb_computers
@@ -88,36 +125,19 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard
         $colortbox = new PluginArmaditoColorToolbox();
         $palette   = $colortbox->getPalette(2);
 
-        $dataComputer   = array();
-        $dataComputer[] = array(
+        $data   = array();
+        $data[] = array(
             'key' => __('Armadito agents', 'armadito'),
             'value' => $armaditoComputers,
             'color' => $palette[0]
         );
-        $dataComputer[] = array(
+        $data[] = array(
             'key' => __('Others', 'armadito'),
             'value' => ($allComputers - $armaditoComputers),
             'color' => $palette[1]
         );
 
-        $hchart = new PluginArmaditoChartHalfDonut();
-        $hchart->init('armaditocomputers', __('Armadito computers', 'armadito'), $dataComputer, 370);
-
-        echo "<td width='380'>";
-        $hchart->showChart();
-        echo "</td>";
-    }
-
-    function addAntivirusChart($restrict_entity)
-    {
-        $data = $this->getAntivirusChartData();
-
-        $hchart = new PluginArmaditoChartHalfDonut();
-        $hchart->init('antiviruses', __('Antiviruses repartition', 'armadito'), $data, 370);
-
-        echo "<td width='380'>";
-        $hchart->showChart();
-        echo "</td>";
+        return $data;
     }
 
     function countAgentsForAV($AV_id)

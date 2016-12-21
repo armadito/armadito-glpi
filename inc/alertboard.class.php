@@ -34,61 +34,67 @@ class PluginArmaditoAlertBoard extends PluginArmaditoBoard
 
     function displayBoard()
     {
-        $restrict_entity = getEntitiesRestrictRequest(" AND", 'comp');
-
         echo "<table align='center'>";
         echo "<tr height='420'>";
-
-        $this->addAlertsByVirusNameChart($restrict_entity);
-        $this->addLastAlertsChart($restrict_entity);
-        $this->addAlertsByAntivirusChart($restrict_entity);
-
+        $this->showAlertsByVirusNameChart();
+        $this->showLastAlertsChart();
+        $this->showAlertsByAntivirusChart();
         echo "</tr>";
         echo "</table>";
     }
 
-    function addLastAlertsChart($restrict_entity)
+    function showLastAlertsChart()
     {
-        $data = PluginArmaditoLastAlertStat::getLastHours(12);
         $colortbox = new PluginArmaditoColorToolbox();
-        $palette   = $colortbox->getPalette(12);
 
-        $bchart = new PluginArmaditoChartVerticalBar();
-        $bchart->init('lastalerts', __('Alerts of last hours', 'armadito'), $data);
-        $bchart->setPalette($palette);
+        $params = array(
+            "svgname" => 'lastalerts',
+            "title"   => __('Alerts of last hours', 'armadito'),
+            "palette" => $colortbox->getPalette(12),
+            "width"   => 370,
+            "height"  => 400,
+            "data"    => PluginArmaditoLastAlertStat::getLastHours(12)
+        );
+
+        $bchart = new PluginArmaditoChart("VerticalBarChart", $params);
 
         echo "<td width='400'>";
         $bchart->showChart();
         echo "</td>";
     }
 
-    function addAlertsByVirusNameChart($restrict_entity)
+    function showAlertsByVirusNameChart()
     {
-        $data = $this->getAlertsByVirusNameChartData();
+        $params = array(
+            "svgname" => 'alerts_by_virusnames',
+            "title"   => __('Alerts by names', 'armadito'),
+            "width"   => 370,
+            "height"  => 400,
+            "data"    => $this->getAlertsByVirusNameChartData()
+        );
 
-        $hchart = new PluginArmaditoChartHalfDonut();
-        $hchart->init('alerts_by_virusnames', __('Alerts by names', 'armadito'), $data, 370);
+        $hchart = new PluginArmaditoChart("DonutChart", $params);
 
         echo "<td width='380'>";
         $hchart->showChart();
         echo "</td>";
     }
 
-    function addAlertsByAntivirusChart($restrict_entity)
+    function showAlertsByAntivirusChart()
     {
-        $data = $this->getAlertsByAntivirusChartData();
+        $params = array(
+            "svgname" => 'alerts_by_antiviruses',
+            "title"   => __('Alerts by antiviruses', 'armadito'),
+            "width"   => 370,
+            "height"  => 400,
+            "data"    => $this->getAlertsByAntivirusChartData()
+        );
 
-        $hchart = new PluginArmaditoChartHalfDonut();
-        $hchart->init('alerts_by_antiviruses', __('Alerts by antiviruses', 'armadito'), $data, 370);
+        $hchart = new PluginArmaditoChart("DonutChart", $params);
 
         echo "<td width='380'>";
         $hchart->showChart();
         echo "</td>";
-    }
-
-    function countAlertsForAV($AV_id)
-    {
-        return countElementsInTableForMyEntities('glpi_plugin_armadito_alerts', "`plugin_armadito_antiviruses_id`='" . $AV_id . "'");
     }
 
     function getAlertsByAntivirusChartData()
@@ -112,6 +118,11 @@ class PluginArmaditoAlertBoard extends PluginArmaditoBoard
         }
 
         return $data;
+    }
+
+    function countAlertsForAV($AV_id)
+    {
+        return countElementsInTableForMyEntities('glpi_plugin_armadito_alerts', "`plugin_armadito_antiviruses_id`='" . $AV_id . "'");
     }
 
     function getAlertsByVirusNameChartData()

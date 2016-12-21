@@ -28,26 +28,30 @@ if (!defined('GLPI_ROOT')) {
 class PluginArmaditoChart extends CommonGLPI
 {
 
-    protected $title;
-    protected $data;
-    protected $name;
-    protected $width;
+    protected $type;
+    protected $params;
 
-    function __construct()
+    function __construct($type, $params = array())
     {
+        $this->type   = $type;
+        $this->params = $params;
     }
 
-    function init($name_, $title_, $data_, $width_ = 400)
+    function showSvg()
     {
-        $this->name  = $name_;
-        $this->title = $title_;
-        $this->data  = $data_;
-        $this->width = $width_;
+        echo '<svg width="' . $this->params["width"] . '" style="background-color: #f3f3f3;" id="' . $this->params["svgname"] . '"></svg>';
     }
 
-    function showBackground()
+    function showChart()
     {
-        echo '<svg width="' . $this->width . '" style="background-color: #f3f3f3;" id="' . $this->name . '"></svg>';
+        $this->showSvg();
+
+        echo "<script>A6o".$this->type."('" .
+                 json_encode($this->params, JSON_HEX_TAG
+                                          | JSON_HEX_APOS
+                                          | JSON_HEX_QUOT
+                                          | JSON_HEX_AMP) .
+              "');</script>";
     }
 }
 ?>

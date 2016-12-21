@@ -34,29 +34,28 @@ class PluginArmaditoStateBoard extends PluginArmaditoBoard
 
     function displayBoard()
     {
-        $restrict_entity = getEntitiesRestrictRequest(" AND", 'comp');
-        $data            = $this->getUpdateStatusData($restrict_entity);
-
         echo "<table align='center'>";
         echo "<tr height='420'>";
-        $this->showUpdateStatusChart($data);
+        $this->showUpdateStatusChart();
         echo "</tr>";
         echo "</table>";
     }
 
-    function showUpdateStatusChart($data)
+    function showUpdateStatusChart()
     {
-        $chart = new PluginArmaditoChartHalfDonut();
-        $chart->init('updatestatus', "AV Update(s) statuses", $data);
+        $params = array(
+            "svgname" => 'updatestatus',
+            "title"   => __('AV Update(s) statuses', 'armadito'),
+            "width"   => 370,
+            "height"  => 400,
+            "data"    => $this->getUpdateStatusData()
+        );
+
+        $chart = new PluginArmaditoChart("DonutChart", $params);
 
         echo "<td width='380'>";
         $chart->showChart();
         echo "</td>";
-    }
-
-    function countUpdateStatus($status)
-    {
-        return countElementsInTableForMyEntities('glpi_plugin_armadito_states', "`update_status`='" . $status . "'");
     }
 
     function getUpdateStatusData($restrict_entity)
@@ -75,5 +74,11 @@ class PluginArmaditoStateBoard extends PluginArmaditoBoard
 
         return $data;
     }
+
+    function countUpdateStatus($status)
+    {
+        return countElementsInTableForMyEntities('glpi_plugin_armadito_states', "`update_status`='" . $status . "'");
+    }
+
 }
 ?>

@@ -44,14 +44,18 @@ class PluginArmaditoJobBoard extends PluginArmaditoBoard
 
     function showLongestJobRunsChart()
     {
-        $data = $this->getLongestJobsData();
-
         $colortbox = new PluginArmaditoColorToolbox();
-        $palette   = $colortbox->getPalette(12);
 
-        $bchart = new PluginArmaditoChartHorizontalBar();
-        $bchart->init('longest_job_runs', __('Longest job runs', 'armadito'), $data);
-        $bchart->setPalette($palette);
+        $params = array(
+            "svgname" => 'longest_job_runs',
+            "title"   => __('Longest job runs', 'armadito'),
+            "palette" => $colortbox->getPalette(12),
+            "width"   => 370,
+            "height"  => 400,
+            "data"    => $this->getLongestJobsData()
+        );
+
+        $bchart = new PluginArmaditoChart("HorizontalBarChart", $params);
 
         echo "<td width='400'>";
         $bchart->showChart();
@@ -60,18 +64,19 @@ class PluginArmaditoJobBoard extends PluginArmaditoBoard
 
     function showJobStatusChart()
     {
-        $data  = $this->getJobStatusData();
-        $chart = new PluginArmaditoChartHalfDonut();
-        $chart->init('jobstatus', "Job(s) statuses", $data);
+        $params = array(
+            "svgname" => 'jobstatus',
+            "title"   => "Job(s) statuses",
+            "width"   => 370,
+            "height"  => 400,
+            "data"    => $this->getJobStatusData()
+        );
+
+        $chart = new PluginArmaditoChart("DonutChart", $params);
 
         echo "<td width='380'>";
         $chart->showChart();
         echo "</td>";
-    }
-
-    function countJobStatus($status)
-    {
-        return countElementsInTableForMyEntities('glpi_plugin_armadito_jobs', "`job_status`='" . $status . "'");
     }
 
     function getJobStatusData()
@@ -89,6 +94,11 @@ class PluginArmaditoJobBoard extends PluginArmaditoBoard
         }
 
         return $data;
+    }
+
+    function countJobStatus($status)
+    {
+        return countElementsInTableForMyEntities('glpi_plugin_armadito_jobs', "`job_status`='" . $status . "'");
     }
 
     function getLongestJobsData()
