@@ -57,6 +57,7 @@ class PluginArmaditoExampleBoard extends PluginArmaditoBoard
         echo "<tr height='420'>";
         $this->addDonutChart();
         $this->addVerticalBarChart();
+        $this->addHorizontalBarChart();
         echo "</tr>";
         echo "</table>";
     }
@@ -98,10 +99,32 @@ class PluginArmaditoExampleBoard extends PluginArmaditoBoard
         echo "</td>";
     }
 
+
+    function addHorizontalBarChart()
+    {
+        $colortbox = new PluginArmaditoColorToolbox();
+
+        $params = array(
+            "svgname" => 'horizontalbar_chart_example',
+            "title"   => __('HorizontalBar Chart Preview', 'armadito'),
+            "palette" => $colortbox->getPalette(12),
+            "width"   => 370,
+            "height"  => 400,
+            "data"    => $this->getHorizontalBarChartData()
+        );
+
+        $bchart = new PluginArmaditoChart("HorizontalBarChart", $params);
+
+        echo "<td width='400'>";
+        $bchart->showChart();
+        echo "</td>";
+    }
+
+
     function getVerticalBarChartData()
     {
         $data        = array();
-        $data['key'] = 'test';
+        $data['key'] = 'value';
 
         $fibonacci = array("0", "1", "1", "2", "3", "5", "8",
                            "13", "21", "34", "55", "89");
@@ -109,6 +132,23 @@ class PluginArmaditoExampleBoard extends PluginArmaditoBoard
         for ($i = 11; $i >= 0; $i--) {
             $data['values'][] = array(
                 'label' => 12-$i.'h',
+                'value' => $fibonacci[$i]
+            );
+        }
+        return $data;
+    }
+
+    function getHorizontalBarChartData()
+    {
+        $data        = array();
+        $data['key'] = 'value';
+
+        $fibonacci = array("0", "1", "1", "2", "3", "5", "8",
+                           "13", "21", "34", "55", "89");
+
+        for ($i = 11; $i >= 0; $i--) {
+            $data['values'][] = array(
+                'label' => 'Group '.$i,
                 'value' => $fibonacci[$i]
             );
         }
