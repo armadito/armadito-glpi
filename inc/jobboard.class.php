@@ -38,8 +38,26 @@ class PluginArmaditoJobBoard extends PluginArmaditoBoard
         echo "<tr height='420'>";
         $this->showJobStatusChart();
         $this->showLongestJobRunsChart();
+        $this->showAverageDurationsChart();
         echo "</tr>";
         echo "</table>";
+    }
+
+    function showJobStatusChart()
+    {
+        $params = array(
+            "svgname" => 'jobstatus',
+            "title"   => "Job(s) statuses",
+            "width"   => 370,
+            "height"  => 400,
+            "data"    => $this->getJobStatusData()
+        );
+
+        $chart = new PluginArmaditoChart("DonutChart", $params);
+
+        echo "<td width='380'>";
+        $chart->showChart();
+        echo "</td>";
     }
 
     function showLongestJobRunsChart()
@@ -62,20 +80,23 @@ class PluginArmaditoJobBoard extends PluginArmaditoBoard
         echo "</td>";
     }
 
-    function showJobStatusChart()
+    function showAverageDurationsChart()
     {
+        $colortbox = new PluginArmaditoColorToolbox();
+
         $params = array(
-            "svgname" => 'jobstatus',
-            "title"   => "Job(s) statuses",
+            "svgname" => 'average_job_durations',
+            "title"   => __('Average job durations', 'armadito'),
+            "palette" => $colortbox->getPalette(12),
             "width"   => 370,
             "height"  => 400,
-            "data"    => $this->getJobStatusData()
+            "data"    => $this->getJobAverageDurationsData()
         );
 
-        $chart = new PluginArmaditoChart("DonutChart", $params);
+        $bchart = new PluginArmaditoChart("VerticalBarChart", $params);
 
-        echo "<td width='380'>";
-        $chart->showChart();
+        echo "<td width='400'>";
+        $bchart->showChart();
         echo "</td>";
     }
 
@@ -129,5 +150,84 @@ class PluginArmaditoJobBoard extends PluginArmaditoBoard
         return $arrayTop->toChartArray("job durations (secs)");
     }
 
+    function getJobAverageDurationsData()
+    {
+        $data = array();
+        $data['key'] = "Average Job durations";
+        $job_types = $this->getJobTypesList();
+
+        foreach ($job_types as $job_type)
+        {
+            $data['values'][] = array(
+                'label' => $job_type,
+                'value' => $this->getAverageDurationForJobType($job_type)
+            );
+        }
+
+        return $data;
+    }
+
+    function getJobTypesList()
+    {
+        global $DB;
+
+        $job_types = array();
+
+        $query  = "SELECT DISTINCT `job_type` FROM `glpi_plugin_armadito_jobs`";
+        $ret   = $DB->query($query);
+
+        if (!$ret) {
+            throw new InvalidArgumentException(sprintf('Error getJobTypesList : %s', $DB->error()));
+        }
+
+        if ($DB->numrows($ret) > 0)
+        {
+             while ($job = $DB->fetch_assoc($ret))
+             {
+                $job_types[] = $job['job_type'];
+             }
+        }
+
+        return $job_types;
+    }
+
+    function getAverageDurationForJobType($job_type)
+    {
+        global $DB;
+
+        $ret = $this->getJobDurationsFromDB($job_type);
+        $average_duration = 0;
+
+        if ($DB->numrows($ret) > 0)
+        {
+             $i = 0;
+             while ($job = $DB->fetch_assoc($ret))
+             {
+                $average_duration += PluginArmaditoToolbox::DurationToSeconds($job['duration']);
+                $i++;
+             }
+
+             if($i > 0) {
+                $average_duration = $average_duration/$i;
+             }
+        }
+
+        return $average_duration;
+    }
+
+    function getJobDurationsFromDB($job_type)
+    {
+        global $DB;
+
+        $query  = "SELECT id, duration FROM `glpi_plugin_armadito_jobs` WHERE `is_deleted`='0' AND `job_status`='successful'";
+
+        $ret   = $DB->query($query);
+
+        if (!$ret) {
+            throw new InvalidArgumentException(sprintf('Error getJobDurations : %s', $DB->error()));
+        }
+
+        return $ret;
+    }
 }
 ?>
