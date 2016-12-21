@@ -64,7 +64,8 @@ class PluginArmaditoConfig extends PluginArmaditoEAVCommonDBTM
              $item->showForm();
              break;
           case 1:
-             $item->showBoardsForm();
+             $boardconf = new PluginArmaditoBoardConf();
+             $boardconf->showForm();
              break;
           case 2:
              $item->showStatesForm();
@@ -136,15 +137,6 @@ class PluginArmaditoConfig extends PluginArmaditoEAVCommonDBTM
         $this->showFormButtons($options);
     }
 
-    function showBoardExample ($h, $s, $v)
-    {
-        $board = new PluginArmaditoExampleBoard();
-        $board->setHue($h);
-        $board->setSaturation($s);
-        $board->setValue($v);
-        $board->displayBoard();
-    }
-
     function showForm($options = array())
     {
         $paConfig = $this->initConfigForm($options, __('Global configuration', 'armadito'));
@@ -170,40 +162,6 @@ class PluginArmaditoConfig extends PluginArmaditoEAVCommonDBTM
         echo "</td>";
         echo "</tr>";
 
-        $paConfig->showFormFooter();
-        return TRUE;
-    }
-
-    function showBoardsForm($options = array())
-    {
-        $paConfig = $this->initConfigForm($options, __('Boards', 'armadito'));
-
-        $h = htmlspecialchars($this->getValue('colorpalette_h'));
-        $s = htmlspecialchars($this->getValue('colorpalette_s'));
-        $v = htmlspecialchars($this->getValue('colorpalette_v'));
-
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>".__('Color Palette Hue', 'armadito')."&nbsp;:</td>";
-        echo "<td width='20%'>";
-        echo "<input type='text' name='colorpalette_h' value='" . $h . "'/>";
-        echo "</td>";
-        echo "</tr>";
-
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>".__('Color Palette Saturation', 'armadito')."&nbsp;:</td>";
-        echo "<td width='20%'>";
-        echo "<input type='text' name='colorpalette_s' value='" . $s . "'/>";
-        echo "</td>";
-        echo "</tr>";
-
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>".__('Color Palette Value', 'armadito')."&nbsp;:</td>";
-        echo "<td width='20%'>";
-        echo "<input type='text' name='colorpalette_v' value='" . $v . "'/>";
-        echo "</td>";
-        echo "</tr>";
-
-        $paConfig->showBoardExample($h, $s, $v);
         $paConfig->showFormFooter();
         return TRUE;
     }
