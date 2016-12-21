@@ -59,6 +59,7 @@ function pluginArmaditoInstall($version, $migrationname = 'Migration')
 
     PluginArmaditoLastContactStat::init();
     PluginArmaditoLastAlertStat::init();
+    PluginArmaditoLastUpdateStat::init();
 }
 
 ?>

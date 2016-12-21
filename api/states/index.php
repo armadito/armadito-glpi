@@ -38,6 +38,7 @@ if (isValidPOSTRequest($rawdata))
         $state = new PluginArmaditoState();
         $state->initFromJson($jobj);
         $state->run();
+        $state->updateLastUpdateStat();
 
         writeHttpOKResponse("");
     }

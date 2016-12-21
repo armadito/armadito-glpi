@@ -119,6 +119,11 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
         return $search_options->get($items);
     }
 
+    function updateLastUpdateStat()
+    {
+        PluginArmaditoLastUpdateStat::increment($this->obj->last_update);
+    }
+
     function run()
     {
         $this->avdetails->run();

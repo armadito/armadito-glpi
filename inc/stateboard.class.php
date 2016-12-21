@@ -37,6 +37,7 @@ class PluginArmaditoStateBoard extends PluginArmaditoBoard
         echo "<table align='center'>";
         echo "<tr height='420'>";
         $this->showUpdateStatusChart();
+        $this->showLastUpdatesChart();
         echo "</tr>";
         echo "</table>";
     }
@@ -58,7 +59,27 @@ class PluginArmaditoStateBoard extends PluginArmaditoBoard
         echo "</td>";
     }
 
-    function getUpdateStatusData($restrict_entity)
+    function showLastUpdatesChart()
+    {
+        $colortbox = new PluginArmaditoColorToolbox();
+
+        $params = array(
+            "svgname" => 'lastupdates',
+            "title"   => __('Updates of last hours', 'armadito'),
+            "palette" => $colortbox->getPalette(12),
+            "width"   => 370,
+            "height"  => 400,
+            "data"    => PluginArmaditoLastUpdateStat::getLastHours(12)
+        );
+
+        $bchart = new PluginArmaditoChart("VerticalBarChart", $params);
+
+        echo "<td width='400'>";
+        $bchart->showChart();
+        echo "</td>";
+    }
+
+    function getUpdateStatusData()
     {
         $statuses = PluginArmaditoState::getAvailableStatuses();
 

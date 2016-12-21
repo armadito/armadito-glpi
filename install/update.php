@@ -65,13 +65,22 @@ function do_lastalertstat_migration($migration)
 function do_lastcontactstat_migration($migration)
 {
     if (!TableExists("glpi_plugin_armadito_lastcontactstats")) {
-        do_laststat_migration($migration,'glpi_plugin_armadito_lastalertstats');
+        do_laststat_migration($migration,'glpi_plugin_armadito_lastcontactstats');
         PluginArmaditoLastContactStat::init();
+    }
+}
+
+function do_lastupdatestat_migration($migration)
+{
+    if (!TableExists("glpi_plugin_armadito_lastupdatestats")) {
+        do_laststat_migration($migration,'glpi_plugin_armadito_lastupdatestats');
+        PluginArmaditoLastUpdateStat::init();
     }
 }
 
 function do_laststat_migration($migration, $table_name)
 {
+
     $a_table            = array();
     $a_table['name']    = $table_name;
     $a_table['oldname'] = array();
