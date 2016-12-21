@@ -192,8 +192,7 @@ class PluginArmaditoEAVCommonDBTM extends CommonDBTM
         }
 
         if ($DB->numrows($ret) > 0) {
-            $data     = $DB->fetch_assoc($ret);
-            return $data;
+            return $DB->fetch_assoc($ret);
         }
 
         return "";
