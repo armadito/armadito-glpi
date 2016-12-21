@@ -52,12 +52,14 @@ function pluginArmaditoUpdate($current_version, $migrationname = 'Migration')
     $migration->displayMessage("Update of plugin Armadito");
 
     do_lastcontactstat_migration($migration);
+    do_lastalertstat_migration($migration);
+    do_lastupdatestat_migration($migration);
 }
 
 function do_lastalertstat_migration($migration)
 {
     if (!TableExists("glpi_plugin_armadito_lastalertstats")) {
-        do_laststat_migration($migration,'glpi_plugin_armadito_lastcontactstats');
+        do_laststat_migration($migration,'glpi_plugin_armadito_lastalertstats');
         PluginArmaditoLastAlertStat::init();
     }
 }
