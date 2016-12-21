@@ -28,8 +28,15 @@ if (PluginArmaditoMenu::canView()) {
 
     PluginArmaditoMenu::displayHeader();
     PluginArmaditoMenu::displayMenu("mini");
-    $board = new PluginArmaditoAgentBoard();
-    $board->displayBoard();
+
+    try {
+        $board = new PluginArmaditoAgentBoard();
+        $board->displayBoard();
+    }
+    catch(Exception $e) {
+        PluginArmaditoLog::Error($e->getMessage());
+    }
+
 } else {
     Html::displayRightError();
 }

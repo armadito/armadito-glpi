@@ -35,7 +35,7 @@ if (PluginArmaditoMenu::canView())
         $board->displayBoard();
     }
     catch(Exception $e) {
-        PluginArmaditoLog::Error($e->getMessage(), 500);
+        PluginArmaditoLog::Error($e->getMessage());
     }
 
 } else {
