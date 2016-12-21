@@ -37,6 +37,7 @@ class PluginArmaditoStateBoard extends PluginArmaditoBoard
         echo "<table align='center'>";
         echo "<tr height='420'>";
         $this->showUpdateStatusChart();
+        $this->showMostCriticalUpdatesChart();
         $this->showLastUpdatesChart();
         echo "</tr>";
         echo "</table>";
@@ -59,13 +60,33 @@ class PluginArmaditoStateBoard extends PluginArmaditoBoard
         echo "</td>";
     }
 
+    function showMostCriticalUpdatesChart()
+    {
+        $colortbox = new PluginArmaditoColorToolbox();
+
+        $params = array(
+            "svgname" => 'most_critical_updates',
+            "title"   => __('Most critical updates', 'armadito'),
+            "palette" => $colortbox->getPalette(12),
+            "width"   => 370,
+            "height"  => 400,
+            "data"    => $this->getMostCriticalUpdatesData()
+        );
+
+        $bchart = new PluginArmaditoChart("HorizontalBarChart", $params);
+
+        echo "<td width='400'>";
+        $bchart->showChart();
+        echo "</td>";
+    }
+
     function showLastUpdatesChart()
     {
         $colortbox = new PluginArmaditoColorToolbox();
 
         $params = array(
             "svgname" => 'lastupdates',
-            "title"   => __('Updates of last hours', 'armadito'),
+            "title"   => __('AV Update(s) of last hours', 'armadito'),
             "palette" => $colortbox->getPalette(12),
             "width"   => 370,
             "height"  => 400,
@@ -101,5 +122,46 @@ class PluginArmaditoStateBoard extends PluginArmaditoBoard
         return countElementsInTableForMyEntities('glpi_plugin_armadito_states', "`update_status`='" . $status . "'");
     }
 
+    function getMostCriticalUpdatesData()
+    {
+        global $DB;
+
+        $ret = $this->getLastUpdatesFromDB();
+
+        $arrayTop = new PluginArmaditoArrayTopChart(10);
+        $arrayTop->init();
+
+        if ($DB->numrows($ret) > 0)
+        {
+             while ($state = $DB->fetch_assoc($ret))
+             {
+                $lastupdate_ts = PluginArmaditoToolbox::MySQLDateTime_to_Timestamp($state['last_update']);
+                $now_ts        = time();
+                $duration      = PluginArmaditoToolbox::computeDuration($lastupdate_ts, $now_ts);
+
+                $value = PluginArmaditoToolbox::DurationToSeconds($duration);
+                $label = 'Agent '.$state['plugin_armadito_agents_id'];
+
+                $arrayTop->insertIfRelevant($value, $label);
+             }
+        }
+
+        return $arrayTop->toChartArray("time since last update (secs)");
+    }
+
+    function getLastUpdatesFromDB()
+    {
+        global $DB;
+
+        $query  = "SELECT plugin_armadito_agents_id, last_update FROM `glpi_plugin_armadito_states` WHERE `is_deleted`='0'";
+
+        $ret   = $DB->query($query);
+
+        if (!$ret) {
+            throw new InvalidArgumentException(sprintf('Error getLastUpdates : %s', $DB->error()));
+        }
+
+        return $ret;
+    }
 }
 ?>

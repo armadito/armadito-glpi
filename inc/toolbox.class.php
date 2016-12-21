@@ -118,6 +118,11 @@ class PluginArmaditoToolbox
         return $datetime->format("Y-m-d H:i:s");
     }
 
+    static function MySQLDateTime_to_Timestamp($ISO8601_datetime) {
+        $datetime = new DateTime($ISO8601_datetime);
+        return $datetime->getTimestamp();
+    }
+
     static function getDayOfYearFromISO8601DateTime($ISO8601_datetime) {
         $datetime = new DateTime($ISO8601_datetime);
         return $datetime->format("z");
