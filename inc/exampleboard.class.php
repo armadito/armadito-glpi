@@ -56,37 +56,49 @@ class PluginArmaditoExampleBoard extends PluginArmaditoBoard
         echo "<table align='center'>";
         echo "<tr height='420'>";
         $this->addDonutChart();
-        $this->addStatBarChart();
+        $this->addVerticalBarChart();
         echo "</tr>";
         echo "</table>";
     }
 
     function addDonutChart()
     {
-        $data = $this->getDonutChartData();
-        $hchart = new PluginArmaditoChartHalfDonut();
-        $hchart->init('donut_chart_example', __('Donut Chart Preview', 'armadito'), $data, 370);
+        $params = array(
+            "svgname" => 'donut_chart_example',
+            "title"   => __('Donut Chart Preview', 'armadito'),
+            "width"   => 370,
+            "height"  => 400,
+            "data"    => $this->getDonutChartData()
+        );
+
+        $hchart = new PluginArmaditoChart("DonutChart", $params);
+
         echo "<td width='380'>";
         $hchart->showChart();
         echo "</td>";
     }
 
-    function addStatBarChart()
+    function addVerticalBarChart()
     {
-        $data = $this->getStatBarChartData();
         $colortbox = new PluginArmaditoColorToolbox();
-        $palette   = $colortbox->getPalette(12);
 
-        $bchart = new PluginArmaditoChartVerticalBar();
-        $bchart->init('statbar_chart_example', __('StatBar Chart Preview', 'armadito'), $data);
-        $bchart->setPalette($palette);
+        $params = array(
+            "svgname" => 'verticalbar_chart_example',
+            "title"   => __('VerticalBar Chart Preview', 'armadito'),
+            "palette" => $colortbox->getPalette(12),
+            "width"   => 370,
+            "height"  => 400,
+            "data"    => $this->getVerticalBarChartData()
+        );
+
+        $bchart = new PluginArmaditoChart("VerticalBarChart", $params);
 
         echo "<td width='400'>";
         $bchart->showChart();
         echo "</td>";
     }
 
-    function getStatBarChartData()
+    function getVerticalBarChartData()
     {
         $data        = array();
         $data['key'] = 'test';
