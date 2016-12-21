@@ -85,12 +85,13 @@ class PluginArmaditoScanBoard extends PluginArmaditoBoard
         $colortbox = new PluginArmaditoColorToolbox();
 
         $params = array(
-            "svgname" => 'average_scan_durations',
-            "title"   => __('Average scan durations', 'armadito'),
-            "palette" => $colortbox->getPalette(12),
-            "width"   => 370,
-            "height"  => 400,
-            "data"    => $this->getScanAverageDurationsData()
+            "svgname"   => 'average_scan_durations',
+            "title"     => __('Average scan durations', 'armadito'),
+            "palette"   => $colortbox->getPalette(12),
+            "width"     => 370,
+            "height"    => 400,
+            "data"      => $this->getScanAverageDurationsData(),
+            "showXAxis" => false
         );
 
         $bchart = new PluginArmaditoChart("VerticalBarChart", $params);

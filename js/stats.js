@@ -50,8 +50,9 @@ function A6oVerticalBarChart(jsonparams) {
           .height(params.height)
           .staggerLabels(true)
           .color(params.palette)
-          .showValues(false)
           .margin({"top":30});
+
+      applyParamsOnChart(chart, params);
 
       d3.select('#' + params.svgname)
          .datum([params.data])
@@ -72,7 +73,6 @@ function A6oVerticalBarChart(jsonparams) {
    });
 
 }
-
 
 function A6oHorizontalBarChart(jsonparams) {
 
@@ -118,4 +118,22 @@ function A6oHorizontalBarChart(jsonparams) {
         return chart;
     });
 }
+
+function applyParamsOnChart(chart, params) {
+
+      if(params.showXAxis != null) {
+          chart.showXAxis(params.showXAxis);
+      }
+
+      if(params.showYAxis != null) {
+          chart.showYAxis(params.showYAxis);
+      }
+
+      if(params.showValues != null) {
+          chart.showValues(params.showValues);
+      }
+
+      return chart;
+}
+
 

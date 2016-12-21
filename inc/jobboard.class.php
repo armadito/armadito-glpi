@@ -85,12 +85,14 @@ class PluginArmaditoJobBoard extends PluginArmaditoBoard
         $colortbox = new PluginArmaditoColorToolbox();
 
         $params = array(
-            "svgname" => 'average_job_durations',
-            "title"   => __('Average job durations', 'armadito'),
-            "palette" => $colortbox->getPalette(12),
-            "width"   => 370,
-            "height"  => 400,
-            "data"    => $this->getJobAverageDurationsData()
+            "svgname"    => 'average_job_durations',
+            "title"      => __('Average job durations', 'armadito'),
+            "palette"    => $colortbox->getPalette(12),
+            "width"      => 370,
+            "height"     => 400,
+            "data"       => $this->getJobAverageDurationsData(),
+            "showValues" => true,
+            "showYAxis"  => false
         );
 
         $bchart = new PluginArmaditoChart("VerticalBarChart", $params);
