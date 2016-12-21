@@ -48,12 +48,13 @@ class PluginArmaditoAlertBoard extends PluginArmaditoBoard
         $colortbox = new PluginArmaditoColorToolbox();
 
         $params = array(
-            "svgname" => 'lastalerts',
-            "title"   => __('Alerts of last hours', 'armadito'),
-            "palette" => $colortbox->getPalette(12),
-            "width"   => 370,
-            "height"  => 400,
-            "data"    => PluginArmaditoLastAlertStat::getLastHours(12)
+            "svgname"       => 'lastalerts',
+            "title"         => __('Alerts of last hours', 'armadito'),
+            "palette"       => $colortbox->getPalette(12),
+            "width"         => 370,
+            "height"        => 400,
+            "data"          => PluginArmaditoLastAlertStat::getLastHours(12),
+            "staggerLabels" => true
         );
 
         $bchart = new PluginArmaditoChart("VerticalBarChart", $params);

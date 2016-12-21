@@ -85,12 +85,13 @@ class PluginArmaditoStateBoard extends PluginArmaditoBoard
         $colortbox = new PluginArmaditoColorToolbox();
 
         $params = array(
-            "svgname" => 'lastupdates',
-            "title"   => __('AV Update(s) of last hours', 'armadito'),
-            "palette" => $colortbox->getPalette(12),
-            "width"   => 370,
-            "height"  => 400,
-            "data"    => PluginArmaditoLastUpdateStat::getLastHours(12)
+            "svgname"       => 'lastupdates',
+            "title"         => __('AV Update(s) of last hours', 'armadito'),
+            "palette"       => $colortbox->getPalette(12),
+            "width"         => 370,
+            "height"        => 400,
+            "data"          => PluginArmaditoLastUpdateStat::getLastHours(12),
+            "staggerLabels" => true
         );
 
         $bchart = new PluginArmaditoChart("VerticalBarChart", $params);

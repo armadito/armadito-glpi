@@ -50,12 +50,13 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard
         $colortbox = new PluginArmaditoColorToolbox();
 
         $params = array(
-            "svgname" => 'agentconnections',
-            "title"   => __('Agent connections of last hours', 'armadito'),
-            "palette" => $colortbox->getPalette(12),
-            "width"   => 370,
-            "height"  => 400,
-            "data"    => PluginArmaditoLastContactStat::getLastHours(12)
+            "svgname"       => 'agentconnections',
+            "title"         => __('Agent connections of last hours', 'armadito'),
+            "palette"       => $colortbox->getPalette(12),
+            "width"         => 370,
+            "height"        => 400,
+            "data"          => PluginArmaditoLastContactStat::getLastHours(12),
+            "staggerLabels" => true
         );
 
         $bchart = new PluginArmaditoChart("VerticalBarChart", $params);

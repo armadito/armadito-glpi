@@ -48,7 +48,6 @@ function A6oVerticalBarChart(jsonparams) {
           .y(function(d) { return d.value })
           .width(params.width)
           .height(params.height)
-          .staggerLabels(true)
           .color(params.palette)
           .margin({"top":30});
 
@@ -131,6 +130,14 @@ function applyParamsOnChart(chart, params) {
 
       if(params.showValues != null) {
           chart.showValues(params.showValues);
+      }
+
+      if(params.showLabels != null) {
+          chart.showLabels(params.showLabels);
+      }
+
+      if(params.staggerLabels != null) {
+          chart.staggerLabels(params.staggerLabels);
       }
 
       return chart;
