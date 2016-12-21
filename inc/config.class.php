@@ -28,6 +28,8 @@ if (!defined('GLPI_ROOT')) {
 class PluginArmaditoConfig extends PluginArmaditoEAVCommonDBTM
 {
     public $displaylist = FALSE;
+    protected $default_conf;
+
     static $rightname = 'plugin_armadito_configuration';
 
     CONST ACTION_CLEAN = 0;
@@ -94,20 +96,20 @@ class PluginArmaditoConfig extends PluginArmaditoEAVCommonDBTM
     function initConfigModule($getOnly = FALSE)
     {
 
-        $input               = array();
-        $input['version']    = PLUGIN_ARMADITO_VERSION;
-        $input['debug_minlevel'] = 1;
-        $input['getjobs_limit'] = 10;
-        $input['colorpalette_h'] = 0.07;
-        $input['colorpalette_s'] = 0.3;
-        $input['colorpalette_v'] = 0.99;
-        $input['armaditoscheduler'] = '0';
+        $this->default_conf = array();
+        $this->default_conf['version']    = PLUGIN_ARMADITO_VERSION;
+        $this->default_conf['debug_minlevel'] = 1;
+        $this->default_conf['getjobs_limit'] = 10;
+        $this->default_conf['armaditoscheduler'] = '0';
+        $this->default_conf['colorpalette_h'] = 0.07;
+        $this->default_conf['colorpalette_s'] = 0.3;
+        $this->default_conf['colorpalette_v'] = 0.99;
 
         if ($getOnly) {
-            return $input;
+            return $this->default_conf;
         }
 
-        $this->addValues($input);
+        $this->addValues($this->default_conf);
     }
 
     function initConfigForm($options, $title)
