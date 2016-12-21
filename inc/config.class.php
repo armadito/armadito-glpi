@@ -98,7 +98,7 @@ class PluginArmaditoConfig extends PluginArmaditoEAVCommonDBTM
         $input['version']    = PLUGIN_ARMADITO_VERSION;
         $input['debug_minlevel'] = 1;
         $input['getjobs_limit'] = 10;
-        $input['colorpalette_h'] = 0.8;
+        $input['colorpalette_h'] = 0.07;
         $input['colorpalette_s'] = 0.3;
         $input['colorpalette_v'] = 0.99;
         $input['armaditoscheduler'] = '0';
