@@ -93,7 +93,7 @@ function A6oHorizontalBarChart(jsonparams) {
         chart.valueFormat(
             function(d)
             {
-                return d3.format(',f')(d)
+                return d3.format('r')(d)
             }
         );
 
