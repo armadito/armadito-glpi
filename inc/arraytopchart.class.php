@@ -50,10 +50,13 @@ class PluginArmaditoArrayTopChart
         $data['key'] = $key;
         for($i = 0; $i < $this->size; $i++) {
 
-            $data['values'][] = array(
-                'label' => $this->data[$i]['label'],
-                'value' => $this->data[$i]['value']
-            );
+            if($this->data[$i]['label'] != "" ) {
+
+                $data['values'][] = array(
+                    'label' => $this->data[$i]['label'],
+                    'value' => $this->data[$i]['value']
+                );
+            }
         }
 
         return $data;
