@@ -103,7 +103,7 @@ class PluginArmaditoScanBoard extends PluginArmaditoBoard
     function countScanStatus($status)
     {
         global $DB;
-        $endquery = "`job_status`='" . $DB->escape($status) . "' AND `job_type`='Scan'";
+        $endquery = "`job_status`='" . $DB->escape($status) . "' AND `job_type`='Scan' AND `is_deleted`='0'";
 
         return countElementsInTableForMyEntities('glpi_plugin_armadito_jobs', $endquery);
     }
