@@ -180,7 +180,7 @@ CREATE TABLE `glpi_plugin_armadito_scanconfigs` (
    `id` int(11) NOT NULL AUTO_INCREMENT,
    `scan_name` varchar(255) DEFAULT NULL,
    `scan_path` varchar(255) DEFAULT NULL,
-   `scan_options` text DEFAULT NULL,
+   `scan_options` text,
    `plugin_armadito_antiviruses_id` int(11) NOT NULL,
    `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
    PRIMARY KEY (`id`),
