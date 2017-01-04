@@ -33,7 +33,7 @@ class ApiRunJobsTest extends CommonTestCase
     protected function updateJob($agentid, $jobid, $message, $code, $uuid)
     {
         $json = '{"agent_id":"'.$agentid.'","task":
-                   {"obj":{"message":"'.$message.'","code":'.$code.',"job_id":"'.$jobid.'"},
+                   {"obj":{"message":"'.$message.'","code":'.$code.',"job_id":"'.$jobid.'", "start_time": 0, "end_time": 0},
                    "name":"Runjobs","antivirus":{"version":"0.12.0-exp","name":"Armadito"}},"agent_version":"0.1.0_02", "uuid": "'.$uuid.'"}';
 
         $jobj = PluginArmaditoToolbox::parseJSON($json);
