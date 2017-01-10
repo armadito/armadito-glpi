@@ -37,10 +37,10 @@ class ApiStatesTest extends CommonTestCase
                                 "modules": [{"name":"clamav","mod_update_timestamp":1479467793,"mod_status":"up-to-date","bases":[{"version":"22558","signature_count":890643,"name":"daily.cld","full_path":"/home/vhamon/workspace/armadito-av/build/linux/scripts/../out/install/armadito-av/var/lib/armadito/bases/clamav/daily.cld","base_update_ts":1479467793},{"full_path":"/home/vhamon/workspace/armadito-av/build/linux/scripts/../out/install/armadito-av/var/lib/armadito/bases/clamav/main.cvd","base_update_ts":1458170226,"version":"57","name":"main.cvd","signature_count":4218790},{"name":"bytecode.cld","signature_count":54,"version":"284","base_update_ts":1477591452,"full_path":"/home/vhamon/workspace/armadito-av/build/linux/scripts/../out/install/armadito-av/var/lib/armadito/bases/clamav/bytecode.cld"}]},{"mod_status":"up-to-date","mod_update_timestamp":1409556600,"name":"moduleH1"}],
                                 "global_status":"up-to-date"},
                        "avdetails": [
-                                     { "attr":"onaccess:enabled", "value": 0 },
-                                     { "attr":"onaccess:scan_archive", "value": 1 },
-                                     { "attr":"modules:moduleX:param1", "value": "C:\\" },
-                                     { "attr":"modules:moduleY:param1", "value": "OK" }
+                                     { "attr": "onaccess:enabled", "value": 0 },
+                                     { "attr": "onaccess:scan_archive", "value": 1 },
+                                     { "attr": "modules:moduleX:param1", "value": "C" },
+                                     { "attr": "modules:moduleY:param1", "value": "OK" }
                                     ]
                       }';
 
