@@ -50,6 +50,8 @@ For full documentation of crontab, see `CronHowto <https://help.ubuntu.com/commu
 Armadito Scheduler
 ******************
 
-**Armadito Scheduler** is a task scheduler conceived for maximize equitability in the repartition of tasks over time.
+.. warning:: It is still under experimentation.
+
+**Armadito Scheduler** is a task scheduler conceived with the purpose of maximizing equitability in the repartition of tasks over time.
 
 * **Source Code** : `Github Armadito-Scheduler <https://github.com/armadito/armadito-scheduler>`_
