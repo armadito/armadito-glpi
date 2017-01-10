@@ -34,14 +34,15 @@ class ApiAlertsTest extends CommonTestCase
 
     protected function insertOrUpdateAlert($agentid, $detection_time, $malware_type, $uuid)
     {
-        $json_alert = '{"alerts":
-            {
-             "name" : "'.$malware_type.'",
-             "filepath" : "/home/malwares/X",
-             "action" : "cleaned",
-             "detection_time" : '.$detection_time.'
-            }
-        }';
+        $json_alert = '{
+                         "job_id": 1,
+                         {
+                             "name" : "'.$malware_type.'",
+                             "filepath" : "/home/malwares/X",
+                             "action" : "cleaned",
+                             "detection_time" : '.$detection_time.'
+                         }
+                       }';
 
         $json  = '{
   "task": {"obj": '.$json_alert.',
@@ -58,8 +59,12 @@ class ApiAlertsTest extends CommonTestCase
         $jobj = PluginArmaditoToolbox::parseJSON($json);
         $alert = new PluginArmaditoAlert();
         $alert->initFromJson($jobj);
-        $alert->insertAlert();
-        $alert->updateAlertStat();
+
+        if(!$alert->isAlertInDB()) {
+            $alert->insertAlert();
+            $alert->updateAlertStat();
+        }
+
         $agent = new PluginArmaditoAgent();
         $agent->updateLastAlert($alert);
     }
