@@ -66,7 +66,7 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
         $this->obj->jobid  = $this->setValueOrDefault($obj, "job_id", "integer");
 
         $this->obj->detection_time = $this->setValueOrDefault($obj, "detection_time", "date");
-        $this->obj->detection_time = PluginArmaditoToolbox::FormatDate($this->obj->detection_time);
+        $this->obj->detection_time = PluginArmaditoToolbox::formatDate($this->obj->detection_time);
         $this->obj->checksum = $this->computeChecksum();
     }
 
