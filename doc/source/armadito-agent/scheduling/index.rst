@@ -30,14 +30,26 @@ Win32Native
 ***********
 
 Win32Native is a wrapper to the native "SCHTASKS" program of Windows.
+It basically simplify the use of schtasks in the agent specific case.
+For full documentation on possibilities offered by Schtasks, see on `MSDN Schtasks.exe <https://msdn.microsoft.com/en-us/library/windows/desktop/bb736357(v=vs.85).aspx>`_.
+
+* **Configuration example** : `scheduler-win32native.cfg <https://github.com/armadito/armadito-agent/blob/DEV/etc/scheduler-win32native.cfg>`_
+* **Configuration file path** : <installdir>\\etc\\scheduler-win32native.cfg
+* **Source File** : `Scheduler/Win32Native.pm <https://github.com/armadito/armadito-agent/blob/DEV/lib/Armadito/Agent/Scheduler/Win32Native.pm>`_
 
 Cron
 ****
 
 Cron simply add/update a crontab configuration file for Armadito Agent.
+For full documentation of crontab, see `CronHowto <https://help.ubuntu.com/community/CronHowto>`_.
+
+* **Configuration example** : `scheduler-cron.cfg <https://github.com/armadito/armadito-agent/blob/DEV/etc/scheduler-cron.cfg>`_
+* **Configuration file path** : <installdir>/etc/scheduler-cron.cfg
+* **Source File** : `Scheduler/Cron.pm <https://github.com/armadito/armadito-agent/blob/DEV/lib/Armadito/Agent/Scheduler/Cron.pm>`_
 
 Armadito Scheduler
 ******************
 
 **Armadito Scheduler** is a task scheduler conceived for maximize equitability in the repartition of tasks over time.
 
+* **Source Code** : `Github Armadito-Scheduler <https://github.com/armadito/armadito-scheduler>`_
