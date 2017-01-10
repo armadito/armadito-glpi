@@ -113,6 +113,11 @@ class PluginArmaditoStateAVDetail extends PluginArmaditoEAVCommonDBTM
     function showForm($id, $options = array())
     {
         PluginArmaditoToolbox::validateInt($id);
+
+        if(!$this->getFromDB($id)){
+            PluginArmaditoLog::Error("Unable to getFromDB AVdetails for ID : ".$id);
+        }
+
         $agent_id = $this->fields["plugin_armadito_agents_id"];
 
         echo "<table class='tab_cadre_fixe'>";
