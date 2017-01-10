@@ -27,9 +27,9 @@ class ApiAlertsTest extends CommonTestCase
      */
     public function POSTrequests()
     {
-        $this->insertOrUpdateAlert(2, "1483605762", "Pdf.Dropper.Agent-1507034", "4C4C4544-0033-4A10-8051-FFFFFFFFFFFF");
-        $this->insertOrUpdateAlert(3, "1483605770", "Pdf.Dropper.Agent-1507034", "4C4C4544-0033-4A10-8051-BBBBBBBBBBBB");
-        $this->insertOrUpdateAlert(3, "1483605777", "Win.Trojan.Elpapok-1", "4C4C4544-0033-4A10-8051-BBBBBBBBBBBB");
+        $this->insertOrUpdateAlert(2, 1483605762, "Pdf.Dropper.Agent-1507034", "4C4C4544-0033-4A10-8051-FFFFFFFFFFFF");
+        $this->insertOrUpdateAlert(3, 1483605770, "Pdf.Dropper.Agent-1507034", "4C4C4544-0033-4A10-8051-BBBBBBBBBBBB");
+        $this->insertOrUpdateAlert(3, 1483605777, "Win.Trojan.Elpapok-1", "4C4C4544-0033-4A10-8051-BBBBBBBBBBBB");
     }
 
     protected function insertOrUpdateAlert($agentid, $detection_time, $malware_type, $uuid)
