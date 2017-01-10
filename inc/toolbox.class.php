@@ -87,7 +87,7 @@ class PluginArmaditoToolbox
            return static::Timestamp_to_MySQLDateTime($date);
         }
         else {
-           throw new InvalidArgumentException(sprintf('Date is not a valid unix timestamp."'));
+           throw new InvalidArgumentException(sprintf('Date is not a valid unix timestamp : %s"', $date));
         }
     }
 
