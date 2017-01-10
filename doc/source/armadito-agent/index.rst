@@ -7,5 +7,7 @@ Armadito Agent
    :maxdepth: 2
 
    introduction/index.rst
+   tasks/index.rst
+   scheduling/index.rst
    compilation/index.rst
    installation/index.rst
