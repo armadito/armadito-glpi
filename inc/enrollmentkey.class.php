@@ -54,7 +54,7 @@ class PluginArmaditoEnrollmentKey extends PluginArmaditoCommonDBTM
     function initFromDB($id)
     {
         if (!$this->getFromDB($id)) {
-            throw new PluginArmaditoDbException('Scanconfig initFromDB failed.');
+            throw new PluginArmaditoDbException('EnrollmentKey initFromDB failed.');
         }
 
         $this->id              = $id;
@@ -62,6 +62,38 @@ class PluginArmaditoEnrollmentKey extends PluginArmaditoCommonDBTM
         $this->use_counter     = $this->fields["use_counter"];
         $this->creation_date   = $this->fields["creation_date"];
         $this->expiration_date = $this->fields["expiration_date"];
+    }
+
+    function initFromJson($jobj)
+    {
+        if(!$this->isEnrollmentKeyInDB($jobj->key)){
+            throw new InvalidArgumentException(sprintf('Enrollment key not found in database'));
+        }
+
+        $this->initFromDB($this->id);
+    }
+
+    function isEnrollmentKeyInDB($key_value)
+    {
+        global $DB;
+
+        PluginArmaditoToolbox::validateKey($key_value);
+
+        $query = "SELECT id FROM `glpi_plugin_armadito_enrollmentkeys`
+                WHERE `value`='" . $key_value . "'";
+        $ret   = $DB->query($query);
+
+        if (!$ret) {
+            throw new InvalidArgumentException(sprintf('Error isEnrollmentKeyInDB : %s', $DB->error()));
+        }
+
+        if ($DB->numrows($ret) > 0) {
+            $data     = $DB->fetch_assoc($ret);
+            $this->id = PluginArmaditoToolbox::validateInt($data["id"]);
+            return true;
+        }
+
+        return false;
     }
 
     function insertEnrollmentKeyInDB()
@@ -182,13 +214,45 @@ class PluginArmaditoEnrollmentKey extends PluginArmaditoCommonDBTM
         static $max = 60466175; // ZZZZZZ in decimal
 
         return strtoupper(sprintf(
-            "%04s-%04s-%04s-%04s-%04s",
+            "%05s-%05s-%05s-%05s-%05s",
             base_convert(mt_rand(0, $max), 10, 36),
             base_convert(mt_rand(0, $max), 10, 36),
             base_convert(mt_rand(0, $max), 10, 36),
             base_convert(mt_rand(0, $max), 10, 36),
             base_convert(mt_rand(0, $max), 10, 36)
         ));
+    }
+
+    function checkKeyExpiration()
+    {
+        $now_ts = time();
+        $expiration_ts = PluginArmaditoToolbox::MySQLDateTime_to_Timestamp($this->expiration_date);
+
+        if($now_ts > $expiration_ts) {
+            throw new InvalidArgumentException(sprintf('Your enrollment key has expired.'));
+        }
+    }
+
+    function checkKeyUsability()
+    {
+        if($this->use_counter <= 0) {
+            throw new InvalidArgumentException(sprintf('Your enrollment key reached its maximum usage count.'));
+        }
+    }
+
+    function decrementUseCounter()
+    {
+        $input                = array();
+        $input['id']          = $this->id;
+        $input['use_counter'] = $this->use_counter-1;
+
+        if($this->use_counter <= 0){
+           $input['use_counter'] = 0;
+        }
+
+        if (!$this->update($input)) {
+            throw new PluginArmaditoDbException("Error when decrementing EnrollmentKey use counter.");
+        }
     }
 }
 ?>

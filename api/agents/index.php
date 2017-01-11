@@ -35,7 +35,6 @@ if (isValidPOSTRequest($rawdata))
     try
     {
         $jobj = PluginArmaditoToolbox::parseJSON($rawdata);
-
         $agent = new PluginArmaditoAgent();
         $agent->initFromJson($jobj);
         $agent->insertOrUpdateInDB();

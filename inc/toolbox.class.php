@@ -56,6 +56,19 @@ class PluginArmaditoToolbox
         return $ret;
     }
 
+    static function validateKey($var)
+    {
+        $ret = filter_var($var, FILTER_VALIDATE_REGEXP, array(
+            "options" => array(
+                "regexp" => "/^[A-Z0-9]{5}\-[A-Z0-9]{5}\-[A-Z0-9]{5}\-[A-Z0-9]{5}\-[A-Z0-9]{5}$/"
+            )
+        ));
+        if ($ret != $var) {
+            throw new InvalidArgumentException(sprintf('Invalid Key format : "%s"', $var));
+        }
+        return $ret;
+    }
+
     static function validateUUID($var)
     {
         $ret = filter_var($var, FILTER_VALIDATE_REGEXP, array(

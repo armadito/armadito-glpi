@@ -33,6 +33,12 @@ class PluginArmaditoAgent extends PluginArmaditoCommonDBTM
 
     function initFromJson($jobj)
     {
+        $enrollmentkey = new PluginArmaditoEnrollmentKey();
+        $enrollmentkey->initFromJson($jobj->task->obj);
+        $enrollmentkey->checkKeyExpiration();
+        $enrollmentkey->checkKeyUsability();
+        $enrollmentkey->decrementUseCounter();
+
         $this->id        = PluginArmaditoToolbox::validateInt($jobj->agent_id);
         $this->jobj      = $jobj;
         $this->antivirus = new PluginArmaditoAntivirus();
