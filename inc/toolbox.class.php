@@ -39,6 +39,14 @@ class PluginArmaditoToolbox
         }
     }
 
+    static function validateDate($date, $format = 'Y-m-d H:i:s')
+    {
+        $d = DateTime::createFromFormat($format, $date);
+        if(!$d || !($d->format($format) == $date)) {
+            throw new InvalidArgumentException(sprintf('Invalid Date format ('.$format.') : "%s"', $date));
+        }
+    }
+
     static function validateInt($var)
     {
         $ret = filter_var($var, FILTER_VALIDATE_INT);

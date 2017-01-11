@@ -96,7 +96,8 @@ function plugin_armadito_install()
                       'PluginArmaditoScanConfig' => 10,
                       'PluginArmaditoStateDetail' => 10,
                       'PluginArmaditoAVConfig' => 10,
-                      'PluginArmaditoAntivirus' => 10
+                      'PluginArmaditoAntivirus' => 10,
+                      'PluginArmaditoEnrollmentKey' => 10
                      );
 
     cleanAllDisplayPreferences($classes);

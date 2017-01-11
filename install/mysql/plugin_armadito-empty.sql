@@ -188,6 +188,19 @@ CREATE TABLE `glpi_plugin_armadito_scanconfigs` (
    UNIQUE KEY `scan_name` (`scan_name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 
+DROP TABLE IF EXISTS `glpi_plugin_armadito_enrollmentkeys`;
+
+CREATE TABLE `glpi_plugin_armadito_enrollmentkeys` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `value` varchar(255) DEFAULT NULL,
+   `creation_date` datetime DEFAULT NULL,
+   `expiration_date` datetime DEFAULT NULL,
+   `use_counter` int(11) DEFAULT NULL,
+   `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+   PRIMARY KEY (`id`),
+   KEY `is_deleted` (`is_deleted`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
+
 DROP TABLE IF EXISTS `glpi_plugin_armadito_lastcontactstats`;
 
 CREATE TABLE `glpi_plugin_armadito_lastcontactstats` (

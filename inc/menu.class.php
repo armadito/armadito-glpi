@@ -64,8 +64,9 @@ class PluginArmaditoMenu extends CommonGLPI
     static function getAdditionalMenuOptions()
     {
         $elements = array(
-            'scanconfig' => 'PluginArmaditoScanConfig',
-            'config' => 'PluginArmaditoConfig'
+            'scanconfig'    => 'PluginArmaditoScanConfig',
+            'enrollmentkey' => 'PluginArmaditoEnrollmentKey',
+            'config'        => 'PluginArmaditoConfig'
         );
 
         $options = array();
@@ -141,6 +142,10 @@ class PluginArmaditoMenu extends CommonGLPI
             $menu_entries[] = new PluginArmaditoMenuEntry('Board', self::BOARD_PNG, 'menu.php');
             $menu_entries[] = new PluginArmaditoMenuEntry('Agents', self::LISTING_PNG, 'agent.php');
             $menu_entries[] = new PluginArmaditoMenuEntry('Antiviruses', self::LISTING_PNG, 'antivirus.php');
+        }
+
+        if (Session::haveRight('plugin_armadito_enrollmentkeys', READ)) {
+            $menu_entries[] = new PluginArmaditoMenuEntry('Enrollment Keys', self::LISTING_PNG, 'enrollmentkey.php');
         }
 
         if (Session::haveRight('config', UPDATE)

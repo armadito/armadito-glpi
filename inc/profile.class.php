@@ -47,6 +47,7 @@ class PluginArmaditoProfile extends Profile
         $rights['Agents']             = new PluginArmaditoProfileRights('plugin_armadito_agents', 'PluginArmaditoAgent');
         $rights['Schedulers']         = new PluginArmaditoProfileRights('plugin_armadito_schedulers', 'PluginArmaditoScheduler');
         $rights['AVConfigs']          = new PluginArmaditoProfileRights('plugin_armadito_avconfigs', 'PluginArmaditoAVConfig');
+        $rights['EnrollmentKeys']     = new PluginArmaditoProfileRights('plugin_armadito_enrollmentkeys', 'PluginArmaditoEnrollmentKey');
 
         foreach( $rights as $label => $profilerights )
         {
