@@ -27,7 +27,7 @@ class EnrollmentKeyTest extends CommonTestCase
      */
     public function FormAdd()
     {
-        $this->NewEnrollmentKey(1, "2017-01-12 11:06","2017-01-12 13:06", 5, "0RV2V-2RYTX-NX4OW-7LARZ-KZQAJ");
+        $this->NewEnrollmentKey(1, "2017-01-12 11:06","2017-01-12 13:06", 10, "0RV2V-2RYTX-NX4OW-7LARZ-KZQAJ");
         $this->NewEnrollmentKey(2, "2017-01-12 11:06","2019-01-12 11:16", 15, "9LTKF-WTDYW-MFU83-XKYEN-P4VEO");
     }
 
