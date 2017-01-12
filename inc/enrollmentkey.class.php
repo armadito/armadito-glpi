@@ -80,7 +80,7 @@ class PluginArmaditoEnrollmentKey extends PluginArmaditoCommonDBTM
         PluginArmaditoToolbox::validateKey($key_value);
 
         $query = "SELECT id FROM `glpi_plugin_armadito_enrollmentkeys`
-                WHERE `value`='" . $key_value . "'";
+                WHERE `value`='" . $key_value . "' AND `is_deleted`=0";
         $ret   = $DB->query($query);
 
         if (!$ret) {
