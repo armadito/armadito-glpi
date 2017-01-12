@@ -113,7 +113,6 @@ class PluginArmaditoEnrollmentKey extends PluginArmaditoCommonDBTM
         $this->logNewItem();
     }
 
-    // Revoke ?? Change Expiration date ? Change use_counter ?
     function updateEnrollmentKeyInDB()
     {
         $dbmanager = new PluginArmaditoDbManager();
