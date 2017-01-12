@@ -33,9 +33,8 @@ class EnrollmentKeyTest extends CommonTestCase
 
     protected function NewEnrollmentKey($id, $creation_date, $expiration_date , $use_counter, $key)
     {
-        $this->initEnrollmentKey($id, $creation_date, $expiration_date , $use_counter);
-        $this->value = $key;
-
+        $enrollmentkey = $this->initEnrollmentKey($id, $creation_date, $expiration_date , $use_counter);
+        $enrollmentkey->setValue($key);
         $enrollmentkey->insertEnrollmentKeyInDB();
     }
 

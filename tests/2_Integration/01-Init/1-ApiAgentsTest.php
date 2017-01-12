@@ -29,21 +29,21 @@ class ApiAgentsTest extends CommonTestCase
     {
         // Scheduler id should be from 0 to N without any gaps
         // Agent id is just an auto_incremented id
-        $this->insertOrUpdateAgent(0, 1, 1, "4C4C4544-0033-4A10-8051-BBBBBBBBBBBB");
-        $this->insertOrUpdateAgent(0, 2, 2, "4C4C4544-0033-4A10-8051-FFFFFFFFFFFF");
-        $this->insertOrUpdateAgent(2, 2, 2, "4C4C4544-0033-4A10-8051-FFFFFFFFFFFF");
-        $this->insertOrUpdateAgent(0, 2, 2, "4C4C4544-0033-4A10-8051-FFFFFFFFFFFF");
+        $this->insertOrUpdateAgent(0, 1, 1, "4C4C4544-0033-4A10-8051-BBBBBBBBBBBB", "0RV2V-2RYTX-NX4OW-7LARZ-KZQAJ");
+        $this->insertOrUpdateAgent(0, 2, 2, "4C4C4544-0033-4A10-8051-FFFFFFFFFFFF", "0RV2V-2RYTX-NX4OW-7LARZ-KZQAJ");
+        $this->insertOrUpdateAgent(2, 2, 2, "4C4C4544-0033-4A10-8051-FFFFFFFFFFFF", "0RV2V-2RYTX-NX4OW-7LARZ-KZQAJ");
+        $this->insertOrUpdateAgent(0, 2, 2, "4C4C4544-0033-4A10-8051-FFFFFFFFFFFF", "0RV2V-2RYTX-NX4OW-7LARZ-KZQAJ");
 
         $this->purgeAgent(1);
 
-        $this->insertOrUpdateAgent(0, 3, 1, "4C4C4544-0033-4A10-8051-BBBBBBBBBBBB", 1);
-        $this->insertOrUpdateAgent(0, 4, 3, "4C4C4544-0033-4A10-8051-AAAAAAAAAAAA", 1);
+        $this->insertOrUpdateAgent(0, 3, 1, "4C4C4544-0033-4A10-8051-BBBBBBBBBBBB", "0RV2V-2RYTX-NX4OW-7LARZ-KZQAJ");
+        $this->insertOrUpdateAgent(0, 4, 3, "4C4C4544-0033-4A10-8051-AAAAAAAAAAAA", "0RV2V-2RYTX-NX4OW-7LARZ-KZQAJ");
     }
 
-    protected function insertOrUpdateAgent($current_agentid, $new_agentid, $new_schedulerid, $uuid)
+    protected function insertOrUpdateAgent($current_agentid, $new_agentid, $new_schedulerid, $uuid, $key)
     {
         $json  = '{
-  "task": {"obj":"{}",
+  "task": {"obj":"{ "key": "'.$key.'" }",
            "name":"Enrollment",
            "antivirus": {
                          "name":"Armadito",

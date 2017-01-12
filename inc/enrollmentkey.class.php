@@ -51,6 +51,11 @@ class PluginArmaditoEnrollmentKey extends PluginArmaditoCommonDBTM
         $this->value           = $this->generateRandomKey();
     }
 
+    function setValue($key_value)
+    {
+        $this->value = $key_value;
+    }
+
     function initFromDB($id)
     {
         if (!$this->getFromDB($id)) {
