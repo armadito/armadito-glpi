@@ -43,7 +43,7 @@ class ApiAgentsTest extends CommonTestCase
     protected function insertOrUpdateAgent($current_agentid, $new_agentid, $new_schedulerid, $uuid, $key)
     {
         $json  = '{
-  "task": {"obj":"{ "key": "'.$key.'" }",
+  "task": {"obj": { "key": "'.$key.'" },
            "name":"Enrollment",
            "antivirus": {
                          "name":"Armadito",
