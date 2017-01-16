@@ -9,25 +9,27 @@ Enrollment
 
 -- POST **/api/agents** :
 
-**1** - After retrieving computer's UUID, the agent sends a request to add or update agent in database.
+**1** - After retrieving computer's UUID, the agent sends a request containing enrollment key to add or update agent in database.
 
-**2** - An ID from **0** to **number_of_agents** is assigned and sent back to agent.
+**2** - Enrollment key validity is checked on server side.
 
-**3** - Then the agent stores persistently this ID.
+**3** - An ID from **0** to **number_of_agents** is assigned and sent back to agent if enrollment is authorized.
+
+**4** - Then the agent stores persistently this ID.
 
 Enrollment is mandatory and need to be done when agent is not in database (removed or first time). If your computer changes his UUID, a new agent ID will be assigned when running this task again. It means that the previous ID will still be in database. It is then administrator's choice to keep it or remove it by using plugin's web interface.
 
 **Example** :
 ::
 
-    armadito-agent -t "Enrollment"
+    $ armadito-agent -t "Enrollment" -k "AAAAA-AAAAA-AAAAA-AAAAA-AAAAA"
 
 Getjobs
 *******
 
 -- GET **/api/jobs** :
 
-**1** - The agent sends a request to get assigned jobs.
+**1** - Enrolled agent sends a request to get assigned jobs.
 
 **2** - The plugin sends back an array of jobs in a json message.
 
@@ -39,16 +41,16 @@ By default, it is limited to 10 jobs but you can change this value in **General*
 **Example** :
 ::
 
-    armadito-agent -t "Getjobs"
+    $ armadito-agent -t "Getjobs"
 
 Runjobs
 *******
 
 -- POST **/api/jobs**
 
-**1** - Get list of previously stored jobs
+**1** - Get list of previously stored jobs (locally)
 
-**2** - Execute these jobs
+**2** - Execute these jobs sequentially
 
 **3** - Sends Jobs execution statuses to GLPI. It can includes error messages.
 
@@ -59,29 +61,24 @@ A Job can have 4 differents levels of priority :
 * high   = 2
 * urgent = 3
 
-There is at least two ways to use this priority system :
 
-* By a single call, jobs are executed one after another according to their priority level.
+Job priority can be selected by administrator when creating a new job in Armadito Plugin for GLPI.
+Note that, at each call of **Runjobs**, jobs are executed sequentially according to their priority level.
 
-**Example** :
+Example 1, tasks are executed after waiting 10 seconds :
 ::
 
-    armadito-agent -t "Runjobs"
+    $ armadito-agent -t "Runjobs" -w 10
 
-OR
 
-* Multiple calls, but only jobs for a single priority level are executed at a time.
-
-In the following example, "urgent" tasks will be executed after waiting 5 seconds, "low" priority tasks after 30 seconds.
-
-**Example** :
+Example 2, tasks are executed after waiting randomly between 0 and 10 seconds :
 ::
-    armadito-agent -t "Runjobs" -p 3 -w 5
-    armadito-agent -t "Runjobs" -p 2 -w 10
-    armadito-agent -t "Runjobs" -p 1 -w 15
-    armadito-agent -t "Runjobs" -p 0 -w 30
 
-.. note:: Cron, Armadito Scheduler or any other task scheduling solution can use one of these ways for executing jobs.
+    $ armadito-agent -t "Runjobs" -wr 10
+
+
+.. note:: It works in combination with **Getjobs** task. **Getjobs** should be run more often than **Runjobs** in order to fully benefit from job priority system.
+
 
 State
 *****
@@ -99,7 +96,7 @@ For Armadito Antivirus, the first step consists on sending a GET request to REST
 **Example** :
 ::
 
-    armadito-agent -t "State"
+    $ armadito-agent -t "State"
 
 Scan
 ****
@@ -115,7 +112,7 @@ Scan
 **Example** :
 ::
 
-    armadito-agent -t "Scan"
+    $ armadito-agent -t "Scan"
 
 Alerts
 ******
@@ -131,4 +128,5 @@ Alerts
 **Example** :
 ::
 
-    armadito-agent -t "Alerts" --alert-dir /var/spool/armadito --max-alerts 10
+    $ armadito-agent -t "Alerts"
+
