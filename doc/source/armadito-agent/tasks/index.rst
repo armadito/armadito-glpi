@@ -119,7 +119,7 @@ Alerts
 
 -- POST **/api/alerts**
 
-**1** - Read MAX_ALERTS inside specified alerts directory
+**1** - Retrieve Antivirus specific alerts
 
 **2** - Send alerts in a json message to plugin Armadito for GLPI
 
@@ -129,4 +129,7 @@ Alerts
 ::
 
     $ armadito-agent -t "Alerts"
+
+
+.. note:: A checksum considering main characteristics is computed on server side. It allows to avoid inserting duplicates.
 
