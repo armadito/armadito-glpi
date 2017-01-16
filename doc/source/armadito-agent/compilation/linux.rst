@@ -13,7 +13,7 @@ Ubuntu
 ~~~~~~
 ::
 
-   $ sudo apt-get install libmodule-install-perl
+   $ sudo apt-get install libmodule-install-perl cpanminus
 
 
 Instructions
@@ -22,7 +22,13 @@ Instructions
 Get the last version of Armadito Agent sources on github :
 ::
 
-   git clone -b DEV https://github.com/armadito/armadito-agent
+   $ git clone -b DEV https://github.com/armadito/armadito-agent
+
+
+To install all dependencies automatically :
+::
+
+   $ cpanm --quiet --installdeps --no-test .
 
 
 Then, at root of project's sources :

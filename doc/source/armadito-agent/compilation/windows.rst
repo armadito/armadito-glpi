@@ -12,8 +12,8 @@ Modules
 ~~~~~~~
 ::
 
-   cpan install inc::Module::Install
-   cpan install -f Authen::Simple
+   $ cpan install inc::Module::Install
+   $ cpan install App::Cpanminus
 
 .. note:: You might have to **force** Authen::Simple installation due to a known issue  : https://rt.cpan.org/Public/Bug/Display.html?id=100750
 
@@ -23,7 +23,14 @@ Instructions
 Get the last version of Armadito Agent sources on github :
 ::
 
-   git clone -b DEV https://github.com/armadito/armadito-agent
+   $ git clone -b DEV https://github.com/armadito/armadito-agent
+
+
+To install all dependencies automatically :
+::
+
+   $ cpanm --quiet --installdeps --no-test .
+
 
 Then, at root of project's sources :
 ::
