@@ -28,16 +28,17 @@ class ApiAlertsTest extends CommonTestCase
     public function POSTrequests()
     {
         $json_alerts = '{ "alerts" :';
-        $json_alerts .= $this->getJsonForAlert(2, 1483605762, "Pdf.Dropper.Agent-1507034", "4C4C4544-0033-4A10-8051-FFFFFFFFFFFF");
-        $json_alerts .= $this->getJsonForAlert(3, 1483605770, "Pdf.Dropper.Agent-1507034", "4C4C4544-0033-4A10-8051-BBBBBBBBBBBB");
-        $json_alerts .= $this->getJsonForAlert(3, 1483605777, "Win.Trojan.Elpapok-1", "4C4C4544-0033-4A10-8051-BBBBBBBBBBBB");
+        $json_alerts .= $this->getJsonForAlert(1483605762, "Pdf.Dropper.Agent-1507034");
+        $json_alerts .= $this->getJsonForAlert(1483605770, "Pdf.Dropper.Agent-1507034");
+        $json_alerts .= $this->getJsonForAlert(1483605777, "Win.Trojan.Elpapok-1");
         $json_alerts  = rtrim($json_alerts, ",");
         $json_alerts .= '}';
 
-        $this->insertAlerts($json_alerts);
+        $this->insertAlerts($json_alerts, 2, "4C4C4544-0033-4A10-8051-FFFFFFFFFFFF");
+        $this->insertAlerts($json_alerts, 3, "4C4C4544-0033-4A10-8051-BBBBBBBBBBBB");
     }
 
-    protected function getJsonForAlert($agentid, $detection_time, $malware_type, $uuid)
+    protected function getJsonForAlert($detection_time, $malware_type)
     {
         return '{
                  "job_id": 1,
@@ -48,7 +49,7 @@ class ApiAlertsTest extends CommonTestCase
                 },';
     }
 
-    protected function insertAlerts($json_alerts)
+    protected function insertAlerts($json_alerts, $agentid, $uuid)
     {
         $json  = '{
           "task": {"obj": '.$json_alerts.',
