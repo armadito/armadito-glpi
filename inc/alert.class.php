@@ -33,8 +33,11 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
     protected $agent;
     protected $detection_time;
     protected $antivirus;
+    protected $dbmanager;
 
     static $rightname = 'plugin_armadito_alerts';
+
+    const INSERT_QUERY = "NewAlert";
 
     function getDetectionTime()
     {
@@ -44,6 +47,16 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
     function getAgentId()
     {
         return $this->agentid;
+    }
+
+    function getDbManager()
+    {
+        return $this->dbmanager;
+    }
+
+    function setDbManager($dbmanager)
+    {
+        $this->dbmanager = $dbmanager;
     }
 
     function initFromJson($jobj)
@@ -130,18 +143,25 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
         return false;
     }
 
+    function prepareInsertQuery()
+    {
+        $this->dbmanager = new PluginArmaditoDbManager();
+        $params = $this->setCommonQueryParams();
+
+        $this->dbmanager->addQuery(self::INSERT_QUERY, "INSERT", $this->getTable(), $params);
+        $this->dbmanager->prepareQuery(self::INSERT_QUERY);
+        $this->dbmanager->bindQuery(self::INSERT_QUERY);
+    }
+
+    function closeInsertQuery()
+    {
+        $this->dbmanager->closeQuery(self::INSERT_QUERY);
+    }
+
     function insertAlert()
     {
-        $dbmanager = new PluginArmaditoDbManager();
-        $params = $this->setCommonQueryParams();
-        $query = "NewAlert";
-
-        $dbmanager->addQuery($query, "INSERT", $this->getTable(), $params);
-        $dbmanager->prepareQuery($query);
-        $dbmanager->bindQuery($query);
-
-        $dbmanager = $this->setCommonQueryValues($dbmanager, $query);
-        $dbmanager->executeQuery($query);
+        $this->setCommonQueryValues(self::INSERT_QUERY);
+        $this->dbmanager->executeQuery(self::INSERT_QUERY, false);
 
         $this->id = PluginArmaditoDbToolbox::getLastInsertedId();
         PluginArmaditoToolbox::validateInt($this->id);
@@ -165,21 +185,20 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
         return $params;
     }
 
-    function setCommonQueryValues( $dbmanager, $query )
+    function setCommonQueryValues( $query )
     {
-        $dbmanager->setQueryValue($query, "plugin_armadito_agents_id", $this->agentid);
-        $dbmanager->setQueryValue($query, "plugin_armadito_antiviruses_id", $this->antivirus->getId());
-        $dbmanager->setQueryValue($query, "plugin_armadito_jobs_id", $this->obj->jobid);
-        $dbmanager->setQueryValue($query, "plugin_armadito_scans_id", $this->obj->scanid);
-        $dbmanager->setQueryValue($query, "threat_name", $this->obj->threat_name);
-        $dbmanager->setQueryValue($query, "filepath", $this->obj->filepath);
-        $dbmanager->setQueryValue($query, "module_name", $this->obj->module_name);
-        $dbmanager->setQueryValue($query, "detection_time", $this->obj->detection_time);
-        $dbmanager->setQueryValue($query, "impact_severity", $this->obj->impact_severity);
-        $dbmanager->setQueryValue($query, "checksum", $this->obj->checksum);
-        $dbmanager->setQueryValue($query, "action", $this->obj->action);
-        $dbmanager->setQueryValue($query, "info", $this->obj->info);
-        return $dbmanager;
+        $this->dbmanager->setQueryValue($query, "plugin_armadito_agents_id", $this->agentid);
+        $this->dbmanager->setQueryValue($query, "plugin_armadito_antiviruses_id", $this->antivirus->getId());
+        $this->dbmanager->setQueryValue($query, "plugin_armadito_jobs_id", $this->obj->jobid);
+        $this->dbmanager->setQueryValue($query, "plugin_armadito_scans_id", $this->obj->scanid);
+        $this->dbmanager->setQueryValue($query, "threat_name", $this->obj->threat_name);
+        $this->dbmanager->setQueryValue($query, "filepath", $this->obj->filepath);
+        $this->dbmanager->setQueryValue($query, "module_name", $this->obj->module_name);
+        $this->dbmanager->setQueryValue($query, "detection_time", $this->obj->detection_time);
+        $this->dbmanager->setQueryValue($query, "impact_severity", $this->obj->impact_severity);
+        $this->dbmanager->setQueryValue($query, "checksum", $this->obj->checksum);
+        $this->dbmanager->setQueryValue($query, "action", $this->obj->action);
+        $this->dbmanager->setQueryValue($query, "info", $this->obj->info);
     }
 
     function updateAlertStat ()

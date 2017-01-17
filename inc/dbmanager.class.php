@@ -141,7 +141,7 @@ class PluginArmaditoDbManager
         return $bindargs;
     }
 
-    function executeQuery($name)
+    function executeQuery($name, $close_query = true)
     {
         if (!$this->statements[$name]->execute()) {
             $lasterror = $this->statements[$name]->error;
@@ -149,7 +149,9 @@ class PluginArmaditoDbManager
             throw new PluginArmaditoDbException(sprintf('executeQuery ' . $name . ' failed. %s', $lasterror));
         }
 
-        $this->closeQuery($name);
+        if($close_query) {
+            $this->closeQuery($name);
+        }
     }
 
     function closeQuery($name)

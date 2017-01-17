@@ -34,9 +34,12 @@ if (isValidPOSTRequest($rawdata))
 
     try
     {
-        PluginArmaditoLog::Debug($rawdata);
         $jobj   = PluginArmaditoToolbox::parseJSON($rawdata);
         $job_id = isset($jobj->task->obj->job_id) ? $jobj->task->obj->job_id : 0;
+
+        $alertdb = new PluginArmaditoAlert();
+        $alertdb->prepareInsertQuery();
+        $dbmanager = $alertdb->getDbManager();
 
         foreach( $jobj->task->obj->alerts as $alert_jobj )
         {
@@ -46,12 +49,15 @@ if (isValidPOSTRequest($rawdata))
 
             $alert = new PluginArmaditoAlert();
             $alert->initFromJson($tmp_jobj);
+            $alert->setDbManager($dbmanager);
 
             if(!$alert->isAlertInDB()) {
                 $alert->insertAlert();
                 $alert->updateAlertStat();
             }
         }
+
+        $alertdb->closeInsertQuery();
 
         if($alert)
         {
