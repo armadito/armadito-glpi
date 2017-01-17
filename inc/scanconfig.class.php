@@ -237,5 +237,57 @@ class PluginArmaditoScanConfig extends PluginArmaditoCommonDBTM
             echo "Please enroll a new device with Armadito Agent.<br>";
         }
     }
+
+    function manageRequest()
+    {
+        if (isset($_POST['add']))
+        {
+            $this->addFromForm();
+        }
+        else if (isset ($_POST["update"]))
+        {
+            $this->updateFromForm();
+        }
+
+        if (isset($_GET["id"])) {
+            $this->display(array(
+                "id" => $_GET["id"]
+            ));
+        } else {
+            $this->display(array(
+                "id" => 0
+            ));
+        }
+    }
+
+    function addFromForm()
+    {
+        try {
+            $data = $this->prepareFormdata($_POST);
+            $this->initFromForm($data);
+            $this->insertScanConfigInDB();
+        }
+        catch (Exception $e) {
+            echo "<span style=\"color:red\"> ". htmlspecialchars($e->getMessage()) ."</span><br>";
+        }
+
+        Html::redirect(Toolbox::getItemTypeSearchURL('PluginArmaditoScanConfig'));
+    }
+
+    function updateFromForm()
+    {
+        Session::checkRight('plugin_armadito_scanconfigs', UPDATE);
+
+        try {
+            $data = $this->prepareFormdata($_POST);
+            $this->initFromForm($data);
+            $this->updateScanConfigInDB();
+        }
+        catch (Exception $e) {
+            echo "<span style=\"color:red\"> ". htmlspecialchars($e->getMessage()) ."</span><br>";
+        }
+
+        Html::back();
+    }
 }
 ?>

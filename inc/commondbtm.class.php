@@ -129,5 +129,13 @@ class PluginArmaditoCommonDBTM extends CommonDBTM
         Log::history($this->id, $this->getType(), $changes, 0,
             Log::HISTORY_CREATE_ITEM);
     }
+
+    function prepareFormData($data)
+    {
+        unset($data['add']);
+        unset($data['_glpi_csrf_token']);
+
+        return $data;
+    }
 }
 ?>

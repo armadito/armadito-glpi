@@ -23,62 +23,19 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 
 include("../../../inc/includes.php");
 
-function getFormdata()
-{
-    $data = $_POST;
-    unset($data['add']);
-    unset($data['_glpi_csrf_token']);
-
-    return $data;
-}
-
 Session::checkRight('plugin_armadito_scanconfigs', READ);
 
-Html::header(__('Features', 'armadito'), $_SERVER["PHP_SELF"], "plugins", "pluginarmaditomenu", "scanconfig");
+function displayHeader()
+{
+    Html::header(__('Features', 'armadito'), $_SERVER["PHP_SELF"], "plugins", "pluginarmaditomenu", "scanconfig");
 
-PluginArmaditoMenu::displayHeader();
-PluginArmaditoMenu::displayMenu("mini");
+    PluginArmaditoMenu::displayHeader();
+    PluginArmaditoMenu::displayMenu("mini");
+}
 
+displayHeader();
 $scanConfig = new PluginArmaditoScanConfig();
-
-if (isset($_POST['add']))
-{
-    try {
-        $data = getFormdata();
-        $scanConfig->initFromForm($data);
-        $scanConfig->insertScanConfigInDB();
-    }
-    catch (Exception $e) {
-        echo "<span style=\"color:red\"> ". htmlspecialchars($e->getMessage()) ."</span><br>";
-    }
-
-    Html::redirect(Toolbox::getItemTypeSearchURL('PluginArmaditoScanConfig'));
-}
-else if (isset ($_POST["update"]))
-{
-    Session::checkRight('plugin_armadito_scanconfigs', UPDATE);
-
-    try {
-        $data = getFormdata();
-        $scanConfig->initFromForm($data);
-        $scanConfig->updateScanConfigInDB();
-    }
-    catch (Exception $e) {
-        echo "<span style=\"color:red\"> ". htmlspecialchars($e->getMessage()) ."</span><br>";
-    }
-
-    Html::back();
-}
-
-if (isset($_GET["id"])) {
-    $scanConfig->display(array(
-        "id" => $_GET["id"]
-    ));
-} else {
-    $scanConfig->display(array(
-        "id" => 0
-    ));
-}
-
+$scanConfig->manageRequest();
 Html::footer();
+
 ?>
