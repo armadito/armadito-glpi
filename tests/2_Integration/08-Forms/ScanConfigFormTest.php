@@ -34,6 +34,9 @@ class ScanConfigFormTest extends CommonTestCase
         PluginArmaditoScanConfig::showNoScanConfigForm();
         PluginArmaditoScanConfig::showNoAntivirusForm();
 
+        $_GET["id"] = 3;
+        $scanconfig->manageRequest();
+
         ob_end_clean();
     }
 }
