@@ -34,7 +34,7 @@ class ApiAlertsTest extends CommonTestCase
 
     protected function insertOrUpdateAlert($agentid, $detection_time, $malware_type, $uuid)
     {
-        $rawdata = '{
+        $json_alert = '{
                          "job_id": 1,
                          "name" : "'.$malware_type.'",
                          "filepath" : "/home/malwares/X",
@@ -54,7 +54,8 @@ class ApiAlertsTest extends CommonTestCase
   "agent_id":'.$agentid.',
   "uuid": "'.$uuid.'"}';
 
-        PluginArmaditoAlert::manageApiRequest($rawdata);
+
+        PluginArmaditoAlert::manageApiRequest($json);
     }
 }
 
