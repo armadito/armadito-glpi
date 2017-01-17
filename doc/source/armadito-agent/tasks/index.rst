@@ -24,6 +24,29 @@ Enrollment is mandatory and need to be done when agent is not in database (remov
 
     $ armadito-agent -t "Enrollment" -k "AAAAA-AAAAA-AAAAA-AAAAA-AAAAA"
 
+
+Scheduler
+*********
+
+-- GET & POST **/api/schedulers**
+
+**1** - Retrieve Scheduler configuration defined into plugin Armadito for GLPI (if there is one)
+
+**2** - Update local Scheduler configuration (if needed)
+
+**3** - Retrieve current local Scheduler configuration
+
+**4** - Send it in a json message to plugin Armadito for GLPI
+
+**5** - Store only differences in database
+
+
+**Example** :
+::
+
+    $ armadito-agent -t "Scheduler"
+
+
 Getjobs
 *******
 
@@ -79,7 +102,6 @@ Example 2, tasks are executed after waiting randomly between 0 and 10 seconds :
 
 .. note:: It works in combination with **Getjobs** task. **Getjobs** should be run more often than **Runjobs** in order to fully benefit from job priority system.
 
-
 State
 *****
 
@@ -132,4 +154,29 @@ Alerts
 
 
 .. note:: A checksum considering main characteristics is computed on server side. It allows to avoid inserting duplicates.
+
+AVConfig
+********
+
+-- GET & POST **/api/avconfigs**
+
+**1** - Retrieve Antivirus configuration defined into plugin Armadito for GLPI (if there is one)
+
+**2** - Update local computer Antivirus' configuration (if needed)
+
+**3** - Retrieve current local Antivirus configuration
+
+**4** - Send it in a json message to plugin Armadito for GLPI
+
+**5** - Store only differences in database
+
+
+**Example** :
+::
+
+    $ armadito-agent -t "AVConfigs"
+
+.. note:: The way Step **5** has been implemented leads to a great reduction of database size. Indeed, if 1000 agents have the same configuration, only 1 copy will be stored.
+
+
 
