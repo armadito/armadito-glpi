@@ -27,33 +27,40 @@ class ApiAlertsTest extends CommonTestCase
      */
     public function POSTrequests()
     {
-        $this->insertOrUpdateAlert(2, 1483605762, "Pdf.Dropper.Agent-1507034", "4C4C4544-0033-4A10-8051-FFFFFFFFFFFF");
-        $this->insertOrUpdateAlert(3, 1483605770, "Pdf.Dropper.Agent-1507034", "4C4C4544-0033-4A10-8051-BBBBBBBBBBBB");
-        $this->insertOrUpdateAlert(3, 1483605777, "Win.Trojan.Elpapok-1", "4C4C4544-0033-4A10-8051-BBBBBBBBBBBB");
+        $json_alerts = '{ "alerts" :';
+        $json_alerts .= $this->getJsonForAlert(2, 1483605762, "Pdf.Dropper.Agent-1507034", "4C4C4544-0033-4A10-8051-FFFFFFFFFFFF");
+        $json_alerts .= $this->getJsonForAlert(3, 1483605770, "Pdf.Dropper.Agent-1507034", "4C4C4544-0033-4A10-8051-BBBBBBBBBBBB");
+        $json_alerts .= $this->getJsonForAlert(3, 1483605777, "Win.Trojan.Elpapok-1", "4C4C4544-0033-4A10-8051-BBBBBBBBBBBB");
+        $json_alerts  = rtrim($json_alerts, ",");
+        $json_alerts .= '}';
+
+        $this->insertAlerts($json_alerts);
     }
 
-    protected function insertOrUpdateAlert($agentid, $detection_time, $malware_type, $uuid)
+    protected function getJsonForAlert($agentid, $detection_time, $malware_type, $uuid)
     {
-        $json_alert = '{
-                         "job_id": 1,
-                         "name" : "'.$malware_type.'",
-                         "filepath" : "/home/malwares/X",
-                         "action" : "cleaned",
-                         "detection_time" : '.$detection_time.'
-                       }';
+        return '{
+                 "job_id": 1,
+                 "name" : "'.$malware_type.'",
+                 "filepath" : "/home/malwares/X",
+                 "action" : "cleaned",
+                 "detection_time" : '.$detection_time.'
+                },';
+    }
 
+    protected function insertAlerts($json_alerts)
+    {
         $json  = '{
-  "task": {"obj": '.$json_alert.',
-           "name":"Alerts",
-           "antivirus": {
-                         "name":"Armadito",
-                         "version":"0.10.2"
-                        }
-          },
-  "agent_version":"2.3.18",
-  "agent_id":'.$agentid.',
-  "uuid": "'.$uuid.'"}';
-
+          "task": {"obj": '.$json_alerts.',
+                   "name":"Alerts",
+                   "antivirus": {
+                                 "name":"Armadito",
+                                 "version":"0.10.2"
+                                }
+                  },
+          "agent_version":"2.3.18",
+          "agent_id":'.$agentid.',
+          "uuid": "'.$uuid.'"}';
 
         PluginArmaditoAlert::manageApiRequest($json);
     }
