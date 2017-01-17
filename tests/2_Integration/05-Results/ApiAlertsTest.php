@@ -63,6 +63,7 @@ class ApiAlertsTest extends CommonTestCase
           "agent_id":'.$agentid.',
           "uuid": "'.$uuid.'"}';
 
+        echo $json."\n";
         PluginArmaditoAlert::manageApiRequest($json);
     }
 }
