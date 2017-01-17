@@ -27,12 +27,12 @@ class ApiAlertsTest extends CommonTestCase
      */
     public function POSTrequests()
     {
-        $json_alerts = '{ "alerts" :';
+        $json_alerts = '{ "alerts" : [';
         $json_alerts .= $this->getJsonForAlert(1483605762, "Pdf.Dropper.Agent-1507034");
         $json_alerts .= $this->getJsonForAlert(1483605770, "Pdf.Dropper.Agent-1507034");
         $json_alerts .= $this->getJsonForAlert(1483605777, "Win.Trojan.Elpapok-1");
         $json_alerts  = rtrim($json_alerts, ",");
-        $json_alerts .= '}';
+        $json_alerts .= ']';
 
         $this->insertAlerts($json_alerts, 2, "4C4C4544-0033-4A10-8051-FFFFFFFFFFFF");
         $this->insertAlerts($json_alerts, 3, "4C4C4544-0033-4A10-8051-BBBBBBBBBBBB");
