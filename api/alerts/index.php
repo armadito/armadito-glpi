@@ -34,37 +34,7 @@ if (isValidPOSTRequest($rawdata))
 
     try
     {
-        $jobj   = PluginArmaditoToolbox::parseJSON($rawdata);
-        $job_id = isset($jobj->task->obj->job_id) ? $jobj->task->obj->job_id : 0;
-
-        $alertdb = new PluginArmaditoAlert();
-        $alertdb->prepareInsertQuery();
-        $dbmanager = $alertdb->getDbManager();
-
-        foreach( $jobj->task->obj->alerts as $alert_jobj )
-        {
-            $tmp_jobj = $jobj;
-            $tmp_jobj->task->obj = $alert_jobj;
-            $tmp_jobj->task->obj->job_id = $job_id;
-
-            $alert = new PluginArmaditoAlert();
-            $alert->initFromJson($tmp_jobj);
-            $alert->setDbManager($dbmanager);
-
-            if(!$alert->isAlertInDB()) {
-                $alert->insertAlert();
-                $alert->updateAlertStat();
-            }
-        }
-
-        $alertdb->closeInsertQuery();
-
-        if($alert)
-        {
-            $agent = new PluginArmaditoAgent();
-            $agent->updateLastAlert($alert);
-        }
-
+        PluginArmaditoAlert::manageApiRequest($rawdata);
         writeHttpOKResponse("");
     }
     catch(PluginArmaditoJsonException $e)
