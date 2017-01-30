@@ -11,7 +11,26 @@
 Armadito for GLPI
 =================
 
-Armadito for GLPI is an open-source solution to manage computer antiviruses on IT infrastructures. It could be used to manage various kind of Antiviruses.
+**Armadito for GLPI is an open-source solution to manage computer antiviruses on IT infrastructures.
+It could be used to manage various kind of Antiviruses.**
+
+Compatibility matrix :
+
++-------------+-----------+----------+------+--------+----------+-------+
+| Antivirus   | OS        | Versions | Scan | Alerts | AVConfig | State |
++=============+===========+==========+======+========+==========+=======+
+| Armadito    | Linux     | 0.12.8   | Yes  | Yes    | Soon     | Yes   |
++-------------+-----------+----------+------+--------+----------+-------+
+| Kaspersky   | Windows   | 17.0.0   | Yes  | Yes    | Yes      | Yes   |
++-------------+-----------+----------+------+--------+----------+-------+
+| ESET Nod32  | Linux     | 4.0      | Yes  | Yes    | Soon     | Yes   |
++-------------+-----------+----------+------+--------+----------+-------+
+| Avast       | Windows   |          | Soon | Soon   | Soon     | Soon  |
++-------------+-----------+----------+------+--------+----------+-------+
+| 360TotalSec | Windows   |          | Soon | Soon   | Soon     | Soon  |
++-------------+-----------+----------+------+--------+----------+-------+
+| ...         | ...       |  ...     | ...  | ...    | ...      | ...   |
++-------------+-----------+----------+------+--------+----------+-------+
 
 
 This solution can be divided into two subprojects :
