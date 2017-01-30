@@ -7,13 +7,13 @@ Board
 Deployed scan results are stored in GLPI database.
 Also, some charts gives an overview of what has been successful or not.
 Scan durations can be compared to each other.
-It leads to a better management of future scans, because you are able to know how long a specific scan take in your infrastructure,
+It leads to a better management of future scans, because you are able to know how long a specific scan take in your infrastructure.
 
 For now, there is three charts :
 
 * **ScanStatusChart** : shows deployed scans statuses' repartition
-* **showLongestScansChart** : shows top ten longest scans
-* **showAverageDurationsChart** : shows average duration by scan configuration
+* **LongestScansChart** : shows top ten longest scans
+* **AverageDurationsChart** : shows average duration by scan configuration
 
 Scans
 -----
