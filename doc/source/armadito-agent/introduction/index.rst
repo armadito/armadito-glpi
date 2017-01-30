@@ -11,6 +11,7 @@ This agent basically provides a set of tasks that can be executed at any time :
 * **State** : get antivirus status and send it to GLPI.
 * **Scan** : on-demand scan and send results to GLPI.
 * **Alerts** : check for virus alerts and send it to GLPI.
+* **AVConfig** : manage antiviruses' configurations
 
 .. note:: You can also find a fully detailed documentation on `CPAN <http://search.cpan.org/search?query=Armadito-Agent&mode=all>`_.
 
