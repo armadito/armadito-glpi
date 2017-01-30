@@ -45,13 +45,6 @@ class PluginArmaditoGeneralConf extends PluginArmaditoConf
         echo "</td>";
         echo "</tr>";
 
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>".__('Use Armadito Scheduler (experimental)', 'armadito')."&nbsp;:</td>";
-        echo "<td width='20%'>";
-        Dropdown::showYesNo("armaditoscheduler", $paConfig->getValue('armaditoscheduler'));
-        echo "</td>";
-        echo "</tr>";
-
         $paConfig->showFormFooter();
     }
 }
