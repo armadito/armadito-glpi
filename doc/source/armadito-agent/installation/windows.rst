@@ -2,7 +2,7 @@ Installation on Windows
 =======================
 
 Basically, armadito-agent's installation on Windows can be made offline or online.
-It means at least two different kind of installers. We provides command line installation examples for both installers.
+It means at least two different kind of installers. We provide command line installation examples for both installers.
 We decided to use **Inno Setup** also because it is quite simple, open source and well documented.
 Also, it is a good alternative to Perl Dev Kit (now not available for individual sales) and old school installations with cpan.
 
