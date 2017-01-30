@@ -8,3 +8,9 @@ Armadito for GLPI
 
    introduction/index.rst
    installation/index.rst
+   enrollment/index.rst
+   states/index.rst
+   alerts/index.rst
+   scans/index.rst
+   jobs/index.rst
+   schedulers/index.rst
