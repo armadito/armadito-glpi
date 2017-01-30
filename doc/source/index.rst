@@ -56,6 +56,7 @@ This solution can be divided into two subprojects :
    :maxdepth: 2
 
    intro/index.rst
+   tutorial/index.rst
    armadito-agent/index.rst
    armadito-glpi/index.rst
    api/index.rst
