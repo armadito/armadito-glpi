@@ -174,7 +174,7 @@ AVConfig
 **Example** :
 ::
 
-    $ armadito-agent -t "AVConfigs"
+    $ armadito-agent -t "AVConfig"
 
 .. note:: The way Step **5** has been implemented leads to a great reduction of database size. Indeed, if 1000 agents have the same configuration, only 1 copy will be stored.
 
