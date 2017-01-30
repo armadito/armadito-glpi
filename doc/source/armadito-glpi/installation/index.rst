@@ -21,6 +21,3 @@ Go into GLPI plugins directory, then get the lastest version of plugin sources o
 
 
 Then, after logging into GLPI you should be able to install and enable Armadito Plugin. To do this, go to **Setup > Plugins** and select Armadito.
-
-
-.. danger:: Using the plugin before the official release means that your plugin database is not guaranted to be perfectly migrated. Also, this is a **DEVELOPER ONLY** version.
