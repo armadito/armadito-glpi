@@ -8,4 +8,5 @@ Armadito for GLPI
 
    introduction/index.rst
    installation/index.rst
+   configuration/index.rst
    manual/index.rst
