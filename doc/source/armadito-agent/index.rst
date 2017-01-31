@@ -11,3 +11,5 @@ Armadito Agent
    scheduling/index.rst
    compilation/index.rst
    installation/index.rst
+   configuration/index.rst
+   enrollment/index.rst

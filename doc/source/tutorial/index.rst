@@ -23,8 +23,18 @@ To create a new enrollment key, go to **General** > **Enrollment Keys** menu in 
 
 **3** - Validate form by clicking on add button
 
-3. Agents installation and enrollment
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3. Agents installation
+~~~~~~~~~~~~~~~~~~~~~~
 
-* :doc:`Linux  </armadito-agent/installation/linux>`
-* :doc:`Windows  </armadito-agent/installation/windows>`
+* :doc:`Linux Tutorial  </armadito-agent/installation/linux>`
+* :doc:`Windows Tutorial  </armadito-agent/installation/windows>`
+
+4. Agents configuration
+~~~~~~~~~~~~~~~~~~~~~~~
+
+* :doc:`Tutorial  </armadito-agent/configuration/index>`
+
+5. Agents enrollment
+~~~~~~~~~~~~~~~~~~~~
+
+* :doc:`Tutorial </armadito-agent/enrollment/index>`

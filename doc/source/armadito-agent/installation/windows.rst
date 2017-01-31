@@ -17,12 +17,6 @@ In both cases, installation can be done without providing a good enrollement key
 Administrators should be able to fastly generate enrollment key(s) from Armadito plugin for GLPI from menu General > Enrollment Keys.
 
 **If you installed without a valid enrollment key**, no worry, you will still be able to enroll later.
-To do so, you can type in a command prompt (with admin rights) :
-
-::
-
-   $ armadito-agent -t "Enrollment" -k "AAAAE-AAAAD-AAAAF-AAAAZ-AAAA5"
-
 
 Offline installer
 -----------------
