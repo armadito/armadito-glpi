@@ -13,23 +13,26 @@
     # Armadito for GLPI
 
 	Most Antiviruses editors provide their own management solution.
-    While it is a good solution for most companies, it can be an expensive solution.
-    Besides, most antiviruses management services are not open-source, leading users to worrying about their data.
+	While it is a good solution for most companies, it can be an
+	expensive solution. Indeed, most antiviruses management services
+	are not open-source, leading users to worrying about their data.
 
-	Also, Armadito for GLPI aims to be a free and open-source alternative for these needs.
-	Conceived as modular as possible, it should offer a reduced development effort for new features.
-	In addition, a great attention is given to code quality, see SonarQube.com for details.
+	Also, Armadito for GLPI aims to be a free and open-source
+	alternative for these needs. Conceived as modular as possible,
+	it should offer a reduced development effort for new features.
+	In addition, a great attention is given to code quality,
+	see SonarQube.com for details.
 
 	Compatiblity matrix :
 
-	| Antivirus   | OS        | Versions | Scan | Alerts | AVConfig | State |
-	|:------------|:---------:|:--------:|:----:|:------:|:--------:|:-----:|
-	| Armadito    | Linux     | 0.12.8   | Yes  | Yes    | Soon     | Yes   |
-	| Kaspersky   | Windows   | 17.0.0   | Yes  | Yes    | Yes      | Yes   |
-	| ESET Nod32  | Linux     | 4.0      | Yes  | Yes    | Soon     | Yes   |
-	| Avast       | Windows   |          | Soon | Soon   | Soon     | Soon  |
-	| 360TotalSec | Windows   |          | Soon | Soon   | Soon     | Soon  |
-	| ...         | ...       |  ...     | ...  | ...    | ...      | ...   |
+	| Antivirus | OS     | Versions | Scan | Alert | AVConf | State |
+	|:----------|:------:|:--------:|:----:|:-----:|:------:|:-----:|
+	| Armadito  | Linux  | 0.12.8   | Yes  | Yes   | Soon   | Yes   |
+	| Kaspersky | Win32  | 17.0.0   | Yes  | Yes   | Yes    | Yes   |
+	| ESETNod32 | Linux  | 4.0      | Yes  | Yes   | Soon   | Yes   |
+	| Avast     | Win32  |          | Soon | Soon  | Soon   | Soon  |
+	| 360Total  | Win32  |          | Soon | Soon  | Soon   | Soon  |
+	| ...       | ...    |  ...     | ...  | ...   | ...    | ...   |
 		  </en>
         </long>
     </description>
