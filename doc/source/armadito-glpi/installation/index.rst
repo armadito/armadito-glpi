@@ -1,23 +1,16 @@
 Installation
 ============
 
-For now, you can only install it by downloading sources from github.
-Later on, the plugin should be on `GLPI plugins <http://plugins.glpi-project.org/#/>`_.
-
 Prerequisites
 -------------
 
-* Git client
 * GLPI installed >= 9.1
 
 Instructions
 ------------
 
-Go into GLPI plugins directory, then get the lastest version of plugin sources on github :
-::
+**1** - Download last version `here <https://github.com/armadito/armadito-glpi/releases>`_
 
-   cd WEBSERVER_DIR/glpi/plugins/
-   git clone -b DEV https://github.com/armadito/armadito-glpi armadito
+**2** - Log into GLPI
 
-
-Then, after logging into GLPI you should be able to install and enable Armadito Plugin. To do this, go to **Setup > Plugins** and select Armadito.
+**3** - Install and enable the plugin in GLPI : go to **Setup > Plugins** and select Armadito.
