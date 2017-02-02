@@ -10,14 +10,20 @@
        </short>
        <long>
           <en>
-	Most Antiviruses editors provide their own management solution. While it is a good solution for most companies, it can be an expensive solution. Besides, most antiviruses management services are not open-source, leading users to worrying about their data.
+    # Armadito for GLPI
 
-	Also, Armadito for GLPI aims to be a free and open-source alternative for these needs. Conceived as modular as possible, it should offer a reduced development effort for new features. In addition, a great attention is given to code quality, see SonarQube.com for details.
+	Most Antiviruses editors provide their own management solution.
+    While it is a good solution for most companies, it can be an expensive solution.
+    Besides, most antiviruses management services are not open-source, leading users to worrying about their data.
+
+	Also, Armadito for GLPI aims to be a free and open-source alternative for these needs.
+	Conceived as modular as possible, it should offer a reduced development effort for new features.
+	In addition, a great attention is given to code quality, see SonarQube.com for details.
 
 	Compatiblity matrix :
 
 	| Antivirus   | OS        | Versions | Scan | Alerts | AVConfig | State |
-	|-------------|-----------|----------|------|--------|----------|-------|
+	|:------------|:---------:|:--------:|:----:|:------:|:--------:|:-----:|
 	| Armadito    | Linux     | 0.12.8   | Yes  | Yes    | Soon     | Yes   |
 	| Kaspersky   | Windows   | 17.0.0   | Yes  | Yes    | Yes      | Yes   |
 	| ESET Nod32  | Linux     | 4.0      | Yes  | Yes    | Soon     | Yes   |
@@ -25,8 +31,7 @@
 	| 360TotalSec | Windows   |          | Soon | Soon   | Soon     | Soon  |
 	| ...         | ...       |  ...     | ...  | ...    | ...      | ...   |
 		  </en>
-          <fr></fr>
-       </long>
+        </long>
     </description>
     <homepage>http://armadito-glpi.readthedocs.io/en/dev/</homepage>
     <download>https://github.com/armadito/armadito-glpi/releases</download>
