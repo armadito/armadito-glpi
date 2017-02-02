@@ -47,6 +47,14 @@ For full documentation of crontab, see `CronHowto <https://help.ubuntu.com/commu
 * **Configuration file path** : <installdir>/etc/scheduler-cron.cfg
 * **Source File** : `Scheduler/Cron.pm <https://github.com/armadito/armadito-agent/blob/DEV/lib/Armadito/Agent/Scheduler/Cron.pm>`_
 
+
+In order to apply a new/updated configuration :
+
+::
+
+    armadito-agent -t "Scheduler"
+
+
 Armadito Scheduler
 ******************
 
