@@ -24,14 +24,14 @@ see SonarQube.com for details.
 
 Compatiblity matrix :
 
-| Antivirus | OS     | Versions | Scan | Alert | AVConf | State |
-|-----------|--------|----------|------|-------|--------|-------|
-| Armadito  | Linux  | 0.12.8   | Yes  | Yes   | Soon   | Yes   |
-| Kaspersky | Win32  | 17.0.0   | Yes  | Yes   | Yes    | Yes   |
-| ESETNod32 | Linux  | 4.0      | Yes  | Yes   | Soon   | Yes   |
-| Avast     | Win32  |          | Soon | Soon  | Soon   | Soon  |
-| 360Total  | Win32  |          | Soon | Soon  | Soon   | Soon  |
-| ...       | ...    |  ...     | ...  | ...   | ...    | ...   |
+| Antivirus | OS     | Version | Scan | Alert | AVConf | State |
+|-----------|--------|---------|------|-------|--------|-------|
+| Armadito  | Linux  | 0.12.8  | Yes  | Yes   | Soon   | Yes   |
+| Kaspersky | Win32  | 17.0.0  | Yes  | Yes   | Yes    | Yes   |
+| ESETNod32 | Linux  | 4.0     | Yes  | Yes   | Soon   | Yes   |
+| Avast     | Win32  |         | Soon | Soon  | Soon   | Soon  |
+| 360Total  | Win32  |         | Soon | Soon  | Soon   | Soon  |
+| ...       | ...    |  ...    | ...  | ...   | ...    | ...   |
 		  </en>
         </long>
     </description>
@@ -57,6 +57,8 @@ Compatiblity matrix :
           <tag>antivirus</tag>
           <tag>management</tag>
           <tag>open-source</tag>
+          <tag>linux</tag>
+          <tag>windows</tag>
        </en>
     </tags>
     <screenshots>
