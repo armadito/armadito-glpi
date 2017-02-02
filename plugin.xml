@@ -6,7 +6,6 @@
     <description>
        <short>
           <en>Armadito for GLPI is an open-source solution to manage computer antiviruses on IT infrastructures. It could be used to manage various kind of Antiviruses.</en>
-          <fr>Armadito for GLPI est une solution open-source de gestion d'un parc informatique d'antivirus. Il peut s'agir de différents types d'antivirus.</fr>
        </short>
        <long>
           <en>
@@ -59,11 +58,6 @@
           <tag>management</tag>
           <tag>open-source</tag>
        </en>
-       <fr>
-          <tag>antivirus</tag>
-          <tag>management</tag>
-          <tag>open-source</tag>
-       </fr>
     </tags>
     <screenshots>
        <screenshot>http://armadito-glpi.readthedocs.io/en/dev/_images/list_agents.png</screenshot>
