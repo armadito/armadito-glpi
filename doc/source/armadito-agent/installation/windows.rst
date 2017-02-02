@@ -18,6 +18,14 @@ Administrators should be able to fastly generate enrollment key(s) from Armadito
 
 **If you installed without a valid enrollment key**, no worry, you will still be able to enroll later.
 
+
+Download Installer
+------------------
+
+Offline or Online :
+`https://github.com/armadito/armadito-agent/releases <https://github.com/armadito/armadito-agent/releases>`_
+
+
 Offline installer
 -----------------
 
@@ -28,7 +36,7 @@ Batch example :
 ::
 
    @ECHO OFF
-   set version=0.1.0_02
+   set version=0.10.1
    set programpath=%~dp0\..
 
    %programpath%\out\Armadito-Agent-%version%-Setup-Offline.exe ^
@@ -38,17 +46,26 @@ Batch example :
 Online installer
 ----------------
 
-Whereas Online installer is smaller (~0.5MB) but downloads dependencies at installtime on a cpan mirror.
+Whereas Online installer is smaller (~0.5MB) but dependencies are downloaded at installtime on a cpan mirror.
 Furthermore, it allows agent to use already installed local perl distribution.
 Note that you can use a custom cpan mirror with that installer.
 CPAN proxy configuration has also been simplified.
+
+Prerequisites
+~~~~~~~~~~~~~
+
+* a recent perl distribution installed on each agent's computer.
+
+Strawberry Perl is recommanded but not mandatory.
+
+To install Strawberry Perl, see `strawberryperl.com <http://strawberryperl.com/>`_.
 
 Batch example :
 
 ::
 
    @ECHO OFF
-   set version=0.1.0_02
+   set version=0.10.1
    set programpath=%~dp0\..
 
    %programpath%\out\Armadito-Agent-%version%-Setup-Online.exe ^
