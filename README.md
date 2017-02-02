@@ -10,6 +10,16 @@ Plugin Armadito for GLPI
 
 Armadito is an open-source antivirus.
 
+| Antivirus   | OS        | Versions | Scan | Alerts | AVConfig | State |
+|-------------|-----------|----------|------|--------|----------|-------|
+| Armadito    | Linux     | 0.12.8   | Yes  | Yes    | Soon     | Yes   |
+| Kaspersky   | Windows   | 17.0.0   | Yes  | Yes    | Yes      | Yes   |
+| ESET Nod32  | Linux     | 4.0      | Yes  | Yes    | Soon     | Yes   |
+| Avast       | Windows   |          | Soon | Soon   | Soon     | Soon  |
+| 360TotalSec | Windows   |          | Soon | Soon   | Soon     | Soon  |
+| ...         | ...       |  ...     | ...  | ...    | ...      | ...   |
+
+
 This repository contains the source code of the Plugin Armadito for GLPI.
 
 Copyright (C) 2010-2016 by the FusionInventory Development Team.

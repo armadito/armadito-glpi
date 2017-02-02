@@ -17,7 +17,7 @@
 	Compatiblity matrix :
 
 	| Antivirus   | OS        | Versions | Scan | Alerts | AVConfig | State |
-	+-------------|-----------|----------|------|--------|----------|-------|
+	|-------------|-----------|----------|------|--------|----------|-------|
 	| Armadito    | Linux     | 0.12.8   | Yes  | Yes    | Soon     | Yes   |
 	| Kaspersky   | Windows   | 17.0.0   | Yes  | Yes    | Yes      | Yes   |
 	| ESET Nod32  | Linux     | 4.0      | Yes  | Yes    | Soon     | Yes   |
