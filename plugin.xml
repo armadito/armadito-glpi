@@ -2,15 +2,17 @@
     <name>Armadito plugin for GLPI</name>
     <key>armadito-glpi</key>
     <state>beta</state>
-    <logo>https://github.com/armadito/armadito-glpi/raw/DEV/pics/logo-armadito-192x192.png</logo>
+    <logo>https://raw.githubusercontent.com/armadito/armadito-glpi/DEV/pics/logo-armadito-192x192.png</logo>
     <description>
        <short>
           <en>Armadito for GLPI is an open-source solution to manage computer antiviruses on IT infrastructures. It could be used to manage various kind of Antiviruses.</en>
-          <lang>en_GB</lang>
+          <fr>Armadito for GLPI est une solution open-source de gestion d'un parc informatique d'antivirus. Il peut s'agir de différents types d'antivirus.</fr>
        </short>
        <long>
-          <en>Armadito for GLPI est une solution open-source de gestion d'un parc informatique d'antivirus. Il peut s'agir de différents types d'antivirus.</en>
-          <lang>fr_FR</lang>
+          <en>Most Antiviruses editors provide their own management solution. While it is a good solution for most companies, it can be an expensive solution. Besides, most antiviruses management services are not open-source, leading users to worrying about their data.
+
+Also, Armadito for GLPI aims to be a free and open-source alternative for these needs. Conceived as modular as possible, it should offer a reduced development effort for new features. In addition, a great attention is given to code quality, see SonarQube.com for details.</en>
+          <fr></fr>
        </long>
     </description>
     <homepage>http://armadito-glpi.readthedocs.io/en/dev/</homepage>
@@ -28,16 +30,19 @@
     </versions>
     <langs>
        <lang>en_GB</lang>
-       <lang>fr_FR</lang>
     </langs>
     <license>AGPLv3+</license>
     <tags>
        <en>
           <tag>antivirus</tag>
+          <tag>management</tag>
+          <tag>open-source</tag>
        </en>
-       <lang>
+       <fr>
           <tag>antivirus</tag>
-       </lang>
+          <tag>management</tag>
+          <tag>open-source</tag>
+       </fr>
     </tags>
     <screenshots>
        <screenshot>http://armadito-glpi.readthedocs.io/en/dev/_images/list_agents.png</screenshot>
