@@ -2,7 +2,7 @@
     <name>Armadito plugin for GLPI</name>
     <key>armadito-glpi</key>
     <state>beta</state>
-    <logo>https://github.com/armadito/armadito-glpi/blob/DEV/pics/logo-armadito-192x192.png</logo>
+    <logo>https://github.com/armadito/armadito-glpi/raw/DEV/pics/logo-armadito-192x192.png</logo>
     <description>
        <short>
           <en>Armadito for GLPI is an open-source solution to manage computer antiviruses on IT infrastructures. It could be used to manage various kind of Antiviruses.</en>
