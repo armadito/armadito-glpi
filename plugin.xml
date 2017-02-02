@@ -1,0 +1,47 @@
+ <root>
+    <name>Armadito plugin for GLPI</name>
+    <key>armadito-glpi</key>
+    <state>beta</state>
+    <logo>https://github.com/armadito/armadito-glpi/blob/DEV/pics/logo-armadito-192x192.png</logo>
+    <description>
+       <short>
+          <en>Armadito for GLPI is an open-source solution to manage computer antiviruses on IT infrastructures. It could be used to manage various kind of Antiviruses.</en>
+          <lang>en_GB</lang>
+       </short>
+       <long>
+          <en>Armadito for GLPI est une solution open-source de gestion d'un parc informatique d'antivirus. Il peut s'agir de différents types d'antivirus.</en>
+          <lang>fr_FR</lang>
+       </long>
+    </description>
+    <homepage>http://armadito-glpi.readthedocs.io/en/dev/</homepage>
+    <download>https://github.com/armadito/armadito-glpi/releases</download>
+    <issues>https://github.com/armadito/armadito-glpi/issues</issues>
+    <readme>https://github.com/armadito/armadito-glpi/blob/DEV/README.md</readme>
+    <authors>
+       <author>Valentin Hamon</author>
+    </authors>
+    <versions>
+       <version>
+          <num>0.10.1</num>
+          <compatibility>9.1.1</compatibility>
+       </version>
+    </versions>
+    <langs>
+       <lang>en_GB</lang>
+       <lang>fr_FR</lang>
+    </langs>
+    <license>AGPLv3+</license>
+    <tags>
+       <en>
+          <tag>antivirus</tag>
+       </en>
+       <lang>
+          <tag>antivirus</tag>
+       </lang>
+    </tags>
+    <screenshots>
+       <screenshot>http://armadito-glpi.readthedocs.io/en/dev/_images/list_agents.png</screenshot>
+       <screenshot>http://armadito-glpi.readthedocs.io/en/dev/_images/newscan_form.png</screenshot>
+       <screenshot>http://armadito-glpi.readthedocs.io/en/dev/_images/config_colors.png</screenshot>
+    </screenshots>
+ </root>
