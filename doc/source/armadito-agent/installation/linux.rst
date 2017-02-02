@@ -2,8 +2,8 @@ Installation on Linux
 =====================
 
 A PPA is provided for Ubuntu in order to simplify installation.
-For other distributions, installation can always be done by following instructions given in *Build from Sources* previous section of this documentation.
-Later works could include packaging for other distributions. Contributions on that part could be really useful for the project.
+
+.. note:: For other distributions, installation can always be done by following instructions given in *Build from Sources* previous section of this documentation.
 
 Ubuntu with PPA
 ---------------
@@ -11,7 +11,7 @@ Ubuntu with PPA
 Currently available for :
 
 * xenial (16.04LTS)
-
+* trusty (14.04LTS)
 
 To install :
 ::
