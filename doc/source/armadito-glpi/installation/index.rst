@@ -11,6 +11,8 @@ Instructions
 
 **1** - Download last version `here <https://github.com/armadito/armadito-glpi/releases>`_
 
-**2** - Log into GLPI
+**2** - Unzip and copy files into a new folder called armadito, i.e. **/<glpi_install_dir>/plugins/armadito**.
 
-**3** - Install and enable the plugin in GLPI : go to **Setup > Plugins** and select Armadito.
+**3** - Log into GLPI
+
+**4** - Install and enable the plugin in GLPI : go to **Setup > Plugins** and select Armadito.
