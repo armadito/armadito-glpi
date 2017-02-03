@@ -66,3 +66,5 @@ To enroll/re-enroll an agent, just type the following with **admin/superuser** r
 
    $ armadito-agent -t "Enrollment" -k "AAAAE-AAAAD-AAAAF-AAAAZ-AAAA5"
 
+.. note:: Feel free to ask on `forum.armadito.org <https://forum.armadito.org>`_ if you have any question.
+
