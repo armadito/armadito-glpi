@@ -9,7 +9,7 @@ php:
 env:
   global:
    - secure: "6CS/QqMYascIfYN2Gowp+N5ubZiON0/BkH/hfiwNUwLfWo2/zRHQI6TUp+emJTH5CaAurE4RQjto99Hf1FDWBhc7McpYc+00rqS4NT9wr4q84mU+B4HOGQXsENZDGeCny0UoK8fzKl869YV3pYXXS8emytTUZPr4Jx7BeTqVGZJw8pByq3h6CnVLlT9MMShFzCx4bmpMMF/JF1ZY8/PmmI/pY7eSuwcXeQ/0a0InwhwPahk+E4x7VMrijE0C0w99uEnzMiyqU5GKhPC3INjwkNcykEvmc+a85UCtCrfGx+58O5AUg9aRsT8ZkLIocT7cBQezEOi4uMoil9tcwyowJeIvG9OTXpbrROUHrcHGK/4+lMlAIYPd0t9Z02uzX/u9DBOfcMNIArPZjXle4bBCGqtpHzoh2Y5XCV5tu904YTkXnciz8UyB1TbedRnksaRMVeFDN48c2fCQlJ9ypIqnNTgYvm3iJuSm53x/cLprETkipyEf597dTiocYHoLWBdvYlYQ8/SJLiQ83zFLmOSQ7o3IkdLSr/WVSjHWFSvNCs+JlKlnlaQjU3H1Z/V7Tu4N1Z9GdQLYWxXzU+c74WGqV4vz0xcE6VcuyZQwm/P9/frsqIYdZOHUYKAeRt92vW2Vf+ALUoJsuy4j7uNCVbwtQ+PcyUXZovby314tvzAqC5A="
-   - GLPI=master
+   - VGLPI=9.1.1
 
 cache:
   directories:
@@ -30,8 +30,8 @@ addons:
 before_install:
  - JAVA_HOME="/usr/lib/jvm/java-8-oracle"
  - cd ..
- - wget https://github.com/glpi-project/glpi/archive/9.1.1.tar.gz
- - tar -xzvf 9.1.1.tar.gz glpi
+ - wget https://github.com/glpi-project/glpi/archive/${VGLPI}.tar.gz
+ - tar -xzvf ${VGLPI}.tar.gz -C glpi
  - cd glpi
  - composer install --no-dev
  - cd ..
