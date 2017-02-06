@@ -22,6 +22,9 @@ it should offer a reduced development effort for new features.
 In addition, a great attention is given to code quality,
 see SonarQube.com for details.
 
+If you have any questions or need any help, please feel free to
+open a topic on our forum : [forum.armadito.org]: https://forum.armadito.org
+
 Compatiblity matrix :
 
 | Antivirus | OS     | Version | Scan | Alert | AVConf | State |
