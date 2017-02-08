@@ -26,5 +26,6 @@ Copyright (C) 2010-2016 by the FusionInventory Development Team.
 Copyright (C) Teclib', 2016
 
 See Online documentation at : <http://armadito-glpi.readthedocs.io/en/dev/>
+
 Ask your questions on forum : <https://forum.armadito.org>
  
