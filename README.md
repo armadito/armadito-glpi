@@ -8,7 +8,9 @@ Plugin Armadito for GLPI
 [![Coverage](http://sonarqube.com/api/badges/measure?key=armadito:glpi:DEV:DEV&metric=coverage)](http://sonarqube.com/dashboard/index/armadito:glpi:DEV:DEV)
 [![Duplication](http://sonarqube.com/api/badges/measure?key=armadito:glpi:DEV:DEV&metric=duplicated_lines_density)](http://sonarqube.com/dashboard/index/armadito:glpi:DEV:DEV)
 
-Armadito is an open-source antivirus.
+Armadito for GLPI is an open-source solution to manage computer antiviruses on IT infrastructures. It could be used to manage various kind of Antiviruses.
+
+Compatibility matrix :
 
 | Antivirus   | OS        | Versions | Scan | Alerts | AVConfig | State |
 |-------------|-----------|----------|------|--------|----------|-------|
@@ -20,9 +22,9 @@ Armadito is an open-source antivirus.
 | ...         | ...       |  ...     | ...  | ...    | ...      | ...   |
 
 
-This repository contains the source code of the Plugin Armadito for GLPI.
-
 Copyright (C) 2010-2016 by the FusionInventory Development Team.
 Copyright (C) Teclib', 2016
 
 See Online documentation at : <http://armadito-glpi.readthedocs.io/en/dev/>
+Ask your questions on forum : <https://forum.armadito.org>
+ 
