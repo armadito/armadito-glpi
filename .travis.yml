@@ -31,8 +31,8 @@ before_install:
  - JAVA_HOME="/usr/lib/jvm/java-8-oracle"
  - cd ..
  - wget https://github.com/glpi-project/glpi/archive/$VGLPI.tar.gz
- - mkdir glpi
- - tar -xzvf $VGLPI.tar.gz -C glpi
+ - tar -xzvf $VGLPI.tar.gz
+ - mv glpi-$VGLPI glpi
  - cd glpi
  - composer install --no-dev
  - cd ..
