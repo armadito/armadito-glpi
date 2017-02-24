@@ -43,7 +43,7 @@ class ApiAlertsTest extends CommonTestCase
         return '{
                  "job_id": 1,
                  "name" : "'.$malware_type.'",
-                 "filepath" : "/home/malwares/X",
+                 "filepath" : "/home/malware/X",
                  "action" : "cleaned",
                  "detection_time" : '.$detection_time.'
                 },';

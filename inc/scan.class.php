@@ -246,7 +246,7 @@ class PluginArmaditoScan extends PluginArmaditoCommonDBTM
         $rows[] = new PluginArmaditoFormRow('Scan End Time', $this->fields["end_time"]);
         $rows[] = new PluginArmaditoFormRow('Scan Progress', $this->fields["progress"]);
         $rows[] = new PluginArmaditoFormRow('Total Scanned', $this->fields["scanned_count"]);
-        $rows[] = new PluginArmaditoFormRow('Malwares', $this->fields["malware_count"]);
+        $rows[] = new PluginArmaditoFormRow('Malware', $this->fields["malware_count"]);
         $rows[] = new PluginArmaditoFormRow('Suspicious', $this->fields["suspicious_count"]);
 
         foreach( $rows as $row )
