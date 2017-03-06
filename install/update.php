@@ -50,67 +50,6 @@ function pluginArmaditoUpdate($current_version, $migrationname = 'Migration')
     $migration = new $migrationname($current_version);
     $migration->displayMessage("Migration Classname : " . $migrationname);
     $migration->displayMessage("Update of plugin Armadito");
-
-    do_lastcontactstat_migration($migration);
-    do_lastalertstat_migration($migration);
-    do_lastupdatestat_migration($migration);
-}
-
-function do_lastalertstat_migration($migration)
-{
-    if (!TableExists("glpi_plugin_armadito_lastalertstats")) {
-        do_laststat_migration($migration,'glpi_plugin_armadito_lastalertstats');
-        PluginArmaditoLastAlertStat::init();
-    }
-}
-
-function do_lastcontactstat_migration($migration)
-{
-    if (!TableExists("glpi_plugin_armadito_lastcontactstats")) {
-        do_laststat_migration($migration,'glpi_plugin_armadito_lastcontactstats');
-        PluginArmaditoLastContactStat::init();
-    }
-}
-
-function do_lastupdatestat_migration($migration)
-{
-    if (!TableExists("glpi_plugin_armadito_lastupdatestats")) {
-        do_laststat_migration($migration,'glpi_plugin_armadito_lastupdatestats');
-        PluginArmaditoLastUpdateStat::init();
-    }
-}
-
-function do_laststat_migration($migration, $table_name)
-{
-
-    $a_table            = array();
-    $a_table['name']    = $table_name;
-    $a_table['oldname'] = array();
-
-    $a_table['fields']            = array();
-    $a_table['fields']['id']      = array(
-        'type' => "smallint(3) NOT NULL AUTO_INCREMENT",
-        'value' => ''
-    );
-    $a_table['fields']['day']     = array(
-        'type' => "smallint(3) NOT NULL DEFAULT '0'",
-        'value' => ''
-    );
-    $a_table['fields']['hour']    = array(
-        'type' => "tinyint(2) NOT NULL DEFAULT '0'",
-        'value' => ''
-    );
-    $a_table['fields']['counter'] = array(
-        'type' => 'integer',
-        'value' => NULL
-    );
-
-    $a_table['oldfields'] = array();
-    $a_table['renamefields'] = array();
-    $a_table['keys'] = array();
-    $a_table['oldkeys'] = array();
-
-    migrateTablesArmadito($migration, $a_table);
 }
 
 ?>
