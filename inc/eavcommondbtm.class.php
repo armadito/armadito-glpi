@@ -300,5 +300,45 @@ class PluginArmaditoEAVCommonDBTM extends CommonDBTM
         $this->agent->initFromDB($this->agentid);
    }
 
+   function showEntriesForAgent($agent_id, $antivirus_id)
+   {
+        $agent_entries  = $this->findEntries($agent_id, $antivirus_id);
+        $table_header   = "Configuration specific to agent n° ". htmlspecialchars($agent_id);
+
+        if($agent_id == 0) {
+            $table_header = "Common configuration";
+        }
+
+        echo "<tr class='tab_bg_1'>";
+        echo "<th colspan='2' >".$table_header."</th>";
+        echo "</tr>";
+
+        foreach ($agent_entries as $data) {
+            echo "<tr class='tab_bg_1'>";
+            echo "<td align='center' style='word-wrap: break-word; overflow-wrap: break-word;'>" . htmlspecialchars($data["type"]) . "</td>";
+            echo "<td align='center' style='word-wrap: break-word; overflow-wrap: break-word;'>" . htmlspecialchars($data["value"]) . "</td>";
+            echo "</tr>";
+        }
+   }
+
+   function findEntries($agent_id, $antivirus_id)
+   {
+        global $DB;
+
+        $query = "SELECT id, value, type FROM `".$this->getTable()."`
+                 WHERE `plugin_armadito_agents_id`='" . $agent_id . "'
+                 AND `plugin_armadito_antiviruses_id`='". $antivirus_id ."'";
+
+        $data = array();
+        if ($result = $DB->query($query)) {
+            if($DB->numrows($result)) {
+                while ($line = $DB->fetch_assoc($result)) {
+                    $data[$line['id']] = $line;
+                }
+            }
+        }
+
+        return $data;
+   }
 }
 ?>
