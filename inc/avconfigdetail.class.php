@@ -113,7 +113,9 @@ class PluginArmaditoAVConfigDetail extends PluginArmaditoEAVCommonDBTM
     function showForm($id, $options = array())
     {
         PluginArmaditoToolbox::validateInt($id);
+
         $agent_id = $this->fields["plugin_armadito_agents_id"];
+        $antivirus_id = $this->fields["plugin_armadito_antiviruses_id"];
 
         $this->showExportForm("PluginArmaditoAVConfigDetail");
 
@@ -123,15 +125,15 @@ class PluginArmaditoAVConfigDetail extends PluginArmaditoEAVCommonDBTM
         echo "<th >" . __('Value', 'armadito') . "</th>";
         echo "</tr>";
 
-        $this->showEntriesForAgent($agent_id);
-        $this->showEntriesForAgent(0);
+        $this->showEntriesForAgent($agent_id, $antivirus_id);
+        $this->showEntriesForAgent(0, $antivirus_id);
 
         echo "</table>";
     }
 
-    function showEntriesForAgent($agent_id)
+    function showEntriesForAgent($agent_id, $antivirus_id)
     {
-        $agent_entries  = $this->findEntries($agent_id);
+        $agent_entries  = $this->findEntries($agent_id, $antivirus_id);
         $table_header   = "Configuration specific to agent n° ". htmlspecialchars($agent_id);
 
         if($agent_id == 0) {
@@ -150,13 +152,13 @@ class PluginArmaditoAVConfigDetail extends PluginArmaditoEAVCommonDBTM
         }
     }
 
-
-    function findEntries($agent_id)
+    function findEntries($agent_id, $antivirus_id)
     {
         global $DB;
 
         $query = "SELECT id, value, type FROM `glpi_plugin_armadito_avconfigdetails`
-                 WHERE `plugin_armadito_agents_id`='" . $agent_id . "'";
+                 WHERE `plugin_armadito_agents_id`='" . $agent_id . "'
+                 AND `plugin_armadito_antiviruses_id`='". $antivirus_id ."'";
 
         $data = array();
         if ($result = $DB->query($query)) {
