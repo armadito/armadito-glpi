@@ -354,5 +354,41 @@ class PluginArmaditoEAVCommonDBTM extends CommonDBTM
 
         return $data;
    }
+
+   function performOptimizedInsertion()
+   {
+        $i = 0;
+        foreach ($this->entries as $entry)
+        {
+            $i++;
+
+            PluginArmaditoLog::Verbose("[".$i."] ".$entry->{'attr'}."=".$entry->{'value'});
+
+            $is_agentrow_indb       = $this->isValueForAgentInDB($entry->{'attr'}, $this->agentid);
+            $is_baserow_indb        = $this->isValueForAgentInDB($entry->{'attr'}, 0);
+            $is_baserow_equal       = $this->isValueEqualForAgentInDB($entry->{'attr'}, $entry->{'value'}, 0);
+
+            if($is_baserow_equal) {
+                $this->rmValueFromDB($entry->{'attr'}, $entry->{'value'}, $this->agentid);
+                continue;
+            }
+
+            if($is_agentrow_indb) {
+                $this->updateValueInDB($entry->{'attr'}, $entry->{'value'}, $this->agentid);
+                continue;
+            }
+
+            if ($is_baserow_indb) {
+                $this->addOrUpdateValueForAgent($entry->{'attr'}, $entry->{'value'}, $this->agentid);
+            } else {
+                $this->insertValueInDB($entry->{'attr'}, $entry->{'value'}, 0);
+            }
+        }
+
+        $this->addOrUpdateValueForAgent("hasAVConfig", 1, $this->agentid);
+
+        $this->id = PluginArmaditoDbToolbox::getLastInsertedId();
+        PluginArmaditoToolbox::validateInt($this->id);
+   }
 }
 ?>
