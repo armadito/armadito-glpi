@@ -300,6 +300,20 @@ class PluginArmaditoEAVCommonDBTM extends CommonDBTM
         $this->agent->initFromDB($this->agentid);
    }
 
+   function showEAVForm($agent_id, $antivirus_id)
+   {
+        echo "<table class='tab_cadre_fixehov' style='table-layout: fixed;'>";
+        echo "<tr>";
+        echo "<th >" . __('Type', 'armadito') . "</th>";
+        echo "<th >" . __('Value', 'armadito') . "</th>";
+        echo "</tr>";
+
+        $this->showEntriesForAgent($agent_id, $antivirus_id);
+        $this->showEntriesForAgent(0, $antivirus_id);
+
+        echo "</table>";
+   }
+
    function showEntriesForAgent($agent_id, $antivirus_id)
    {
         $agent_entries  = $this->findEntries($agent_id, $antivirus_id);

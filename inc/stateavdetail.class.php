@@ -121,16 +121,7 @@ class PluginArmaditoStateAVDetail extends PluginArmaditoEAVCommonDBTM
         $agent_id     = $this->fields["plugin_armadito_agents_id"];
         $antivirus_id = $this->fields["plugin_armadito_antiviruses_id"];
 
-        echo "<table class='tab_cadre_fixe'>";
-        echo "<tr>";
-        echo "<th >" . __('Type', 'armadito') . "</th>";
-        echo "<th >" . __('Value', 'armadito') . "</th>";
-        echo "</tr>";
-
-        $this->showEntriesForAgent($agent_id, $antivirus_id);
-        $this->showEntriesForAgent(0, $antivirus_id);
-
-        echo "</table>";
+        $this->showEAVForm($agent_id, $antivirus_id);
     }
 
     function showErrorMessage()

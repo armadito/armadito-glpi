@@ -118,23 +118,12 @@ class PluginArmaditoAVConfigDetail extends PluginArmaditoEAVCommonDBTM
         $antivirus_id = $this->fields["plugin_armadito_antiviruses_id"];
 
         $this->showExportForm("PluginArmaditoAVConfigDetail");
-
-        echo "<table class='tab_cadre_fixehov' style='table-layout: fixed;'>";
-        echo "<tr>";
-        echo "<th >" . __('Type', 'armadito') . "</th>";
-        echo "<th >" . __('Value', 'armadito') . "</th>";
-        echo "</tr>";
-
-        $this->showEntriesForAgent($agent_id, $antivirus_id);
-        $this->showEntriesForAgent(0, $antivirus_id);
-
-        echo "</table>";
+        $this->showEAVForm($agent_id, $antivirus_id);
     }
 
     function showErrorMessage()
     {
         echo "<div style='text-align: center;'><br><b>No id provided.</b><br></div>";
     }
-
 }
 ?>
