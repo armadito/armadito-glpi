@@ -50,7 +50,6 @@ class PluginArmaditoAVConfig extends PluginArmaditoCommonDBTM
         $this->agent = $this->details->getAgent();
         $this->antivirus = $this->agent->getAntivirus();
         $this->setObj($jobj->task->obj);
-
     }
 
     function setObj($obj)
@@ -155,7 +154,7 @@ class PluginArmaditoAVConfig extends PluginArmaditoCommonDBTM
         $dbmanager->setQueryValue($query, "realtime_status", $this->obj->realtime_status);
         $dbmanager->setQueryValue($query, "last_avconfig", date("Y-m-d H:i:s", time()));
         $dbmanager->setQueryValue($query, "plugin_armadito_antiviruses_id", $this->antivirus->getId());
-        $dbmanager->setQueryValue($query, "plugin_armadito_avconfigdetails_id", $this->details->getId());
+        $dbmanager->setQueryValue($query, "plugin_armadito_avconfigdetails_id", $this->details_id);
         $dbmanager->setQueryValue($query, "plugin_armadito_agents_id", $this->agentid);
         return $dbmanager;
     }
