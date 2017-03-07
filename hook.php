@@ -63,29 +63,57 @@ function cleanAllDisplayPreferences( $classes )
     }
 }
 
+function getCurrentPluginVersion()
+{
+    global $DB;
+
+    if (!TableExists("glpi_plugin_armadito_configs")) {
+        return "0";
+    }
+
+    $query = "SELECT value FROM glpi_plugin_armadito_configs WHERE `type`='version'";
+    $ret   = $DB->query($query);
+
+    if (!$ret) {
+        return "-1";
+    }
+
+    $data = array();
+    if ($DB->numrows($ret) > 0) {
+        $data = $DB->fetch_assoc($ret);
+        return $data['value'];
+    }
+
+    return "-1";
+}
+
+
+function updateOrInstall()
+{
+    $version_detected = getCurrentPluginVersion();
+
+    if (isset($version_detected) &&
+        (defined('FORCE_UPGRADE') || ($version_detected != PLUGIN_ARMADITO_VERSION && $version_detected != '0')))
+    {
+        require_once(GLPI_ROOT . "/plugins/armadito/install/update.php");
+        pluginArmaditoUpdate($version_detected, PLUGIN_ARMADITO_VERSION, 'Migration');
+    }
+    else if ((isset($version_detected)) && ($version_detected == PLUGIN_ARMADITO_VERSION))
+    {
+        //Same version : Nothing to do
+    }
+    else
+    {
+        require_once(GLPI_ROOT . "/plugins/armadito/install/install.php");
+        pluginArmaditoInstall(PLUGIN_ARMADITO_VERSION, 'Migration');
+    }
+}
+
 function plugin_armadito_install()
 {
     ini_set("max_execution_time", "0");
 
-    if (basename($_SERVER['SCRIPT_NAME']) != "cli_install.php") {
-        Html::header(__('Setup'), $_SERVER['PHP_SELF'], "config", "plugins");
-        $migrationname = 'Migration';
-    } else {
-        $migrationname = 'CliMigration';
-    }
-
-    require_once(GLPI_ROOT . "/plugins/armadito/install/update.php");
-    $version_detected = pluginArmaditoGetCurrentVersion();
-
-    if (isset($version_detected) &&
-        (defined('FORCE_UPGRADE') || ($version_detected != PLUGIN_ARMADITO_VERSION && $version_detected != '0'))) {
-        pluginArmaditoUpdate($version_detected, $migrationname);
-    } else if ((isset($version_detected)) && ($version_detected == PLUGIN_ARMADITO_VERSION)) {
-        //Same version : Nothing to do
-    } else {
-        require_once(GLPI_ROOT . "/plugins/armadito/install/install.php");
-        pluginArmaditoInstall(PLUGIN_ARMADITO_VERSION, $migrationname);
-    }
+    updateOrInstall();
 
     // erase user display preferences and set default instead
     $classes = array( 'PluginArmaditoAgent' => 10,
