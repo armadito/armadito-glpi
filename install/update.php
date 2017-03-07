@@ -22,25 +22,7 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 **/
 require_once("classloader.php");
 
-function pluginArmaditoGetCurrentVersion()
-{
-    global $DB;
-
-    if (!TableExists("glpi_plugin_armadito_configs")) {
-        return "0";
-    }
-
-    $query = "SELECT version FROM glpi_plugin_armadito_configs LIMIT 1";
-
-    $data = array();
-    if ($result = $DB->query($query) && $DB->numrows($result) == "1") {
-        $data = $DB->fetch_assoc($result);
-    }
-
-    return $data['version'];
-}
-
-function pluginArmaditoUpdate($current_version, $migrationname = 'Migration')
+function pluginArmaditoUpdate($current_version, $new_version, $migrationname = 'Migration')
 {
     ini_set("max_execution_time", "0");
     ini_set("memory_limit", "-1");
@@ -50,6 +32,23 @@ function pluginArmaditoUpdate($current_version, $migrationname = 'Migration')
     $migration = new $migrationname($current_version);
     $migration->displayMessage("Migration Classname : " . $migrationname);
     $migration->displayMessage("Update of plugin Armadito");
+
+    do_migration($migration, $current_version, $new_version);
 }
 
+function do_migration($migration, $from_version, $to_version)
+{
+    global $DB;
+
+    # TODO : Validate versions
+
+    $migration->displayMessage("Migration from ".$from_version." to ".$to_version);
+    $DB_file = GLPI_ROOT . "/plugins/armadito/install/mysql/".$from_version."_to_".$to_version.".sql";
+
+    if (!$DB->runFile($DB_file)) {
+        $migration->displayMessage("Error on creation of tables in database");
+    } else {
+        $migration->displayMessage("Migration of plugin Armadito successful");
+    }
+}
 ?>
