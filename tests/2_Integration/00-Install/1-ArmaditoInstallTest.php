@@ -24,6 +24,7 @@ along with Armadito Plugin for GLPI. If not, see <http://www.gnu.org/licenses/>.
 require_once(GLPI_ROOT . "/plugins/armadito/install/climigration.class.php");
 include(GLPI_ROOT . "/plugins/armadito/install/update.php");
 include(GLPI_ROOT . "/plugins/armadito/setup.php");
+include(GLPI_ROOT . "/plugins/armadito/hook.php");
 
 class ArmaditoInstallTest extends CommonTestCase
 {
