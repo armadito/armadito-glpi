@@ -88,7 +88,7 @@ class ArmaditoInstallTest extends CommonTestCase
         }
 
         $plugin = new Plugin();
-        $current_version = pluginArmaditoGetCurrentVersion();
+        $current_version = getCurrentPluginVersion();
         $migration = new CliMigration($current_version);
 
         if (!isset($current_version)) {
