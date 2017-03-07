@@ -38,6 +38,22 @@ class PluginArmaditoScheduler extends PluginArmaditoCommonDBTM
         return __('Scheduler', 'armadito');
     }
 
+    function initFromJson($jobj)
+    {
+        $this->details = new PluginArmaditoSchedulerDetail();
+        $this->details->initFromJson($jobj);
+
+        $this->agentid = $jobj->agent_id;
+        $this->agent = $this->details->getAgent();
+        $this->antivirus = $this->agent->getAntivirus();
+        $this->setObj($jobj->task->obj);
+    }
+
+    function setObj($obj)
+    {
+        $this->obj = new StdClass;
+    }
+
     function insertSchedulerInDB()
     {
         $dbmanager = new PluginArmaditoDbManager();

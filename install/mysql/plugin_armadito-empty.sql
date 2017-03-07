@@ -59,6 +59,18 @@ CREATE TABLE `glpi_plugin_armadito_schedulers` (
    PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 
+
+DROP TABLE IF EXISTS `glpi_plugin_armadito_schedulerdetails`;
+
+CREATE TABLE `glpi_plugin_armadito_schedulerdetails` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `type` varchar(255) DEFAULT NULL,
+   `value` text,
+   `plugin_armadito_agents_id` int(11) NOT NULL,
+   `plugin_armadito_antiviruses_id` int(11) NOT NULL,
+   PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
+
 DROP TABLE IF EXISTS `glpi_plugin_armadito_antiviruses`;
 
 CREATE TABLE `glpi_plugin_armadito_antiviruses` (
