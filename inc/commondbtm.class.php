@@ -137,5 +137,27 @@ class PluginArmaditoCommonDBTM extends CommonDBTM
 
         return $data;
     }
+
+    function getTableIdForAgentId($table)
+    {
+        global $DB;
+
+        $tableid    = 0;
+        $query = "SELECT id FROM `" . $table . "`
+                 WHERE `plugin_armadito_agents_id`='" . $this->agentid . "' AND `type`='hasAVConfig'";
+
+        $ret = $DB->query($query);
+
+        if (!$ret) {
+            throw new InvalidArgumentException(sprintf('Error getTableIdForAgentId : %s', $DB->error()));
+        }
+
+        if ($DB->numrows($ret) > 0) {
+            $data = $DB->fetch_assoc($ret);
+            $tableid   = $data["id"];
+        }
+
+        return $tableid;
+    }
 }
 ?>
