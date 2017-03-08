@@ -203,7 +203,7 @@ class PluginArmaditoAgent extends PluginArmaditoCommonDBTM
     {
         try {
             $Scheduler = new PluginArmaditoScheduler();
-            $Scheduler->init($agent->fields["id"]);
+            $Scheduler->init($agent);
             $Scheduler->setUnused();
         }
         catch(Exception $e)
