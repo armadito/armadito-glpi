@@ -119,18 +119,21 @@ class PluginArmaditoScheduler extends PluginArmaditoCommonDBTM
 
     function setCommonQueryParams()
     {
-        $params["plugin_armadito_agents_id"]["type"] = "i";
         $params["plugin_armadito_antiviruses_id"]["type"] = "i";
         $params["plugin_armadito_schedulerdetails_id"]["type"] = "i";
         $params["is_used"]["type"] = "i";
+        $params["plugin_armadito_agents_id"]["type"] = "i";
+        /* plugin_armadito_agents_id must be at end, for when it is an update */
+
         return $params;
     }
+
     function setCommonQueryValues($dbmanager, $query)
     {
-        $dbmanager->setQueryValue($query, "plugin_armadito_agents_id", $this->agentid);
         $dbmanager->setQueryValue($query, "plugin_armadito_antiviruses_id", $this->antivirus->getId());
         $dbmanager->setQueryValue($query, "plugin_armadito_schedulerdetails_id", $this->details_id);
         $dbmanager->setQueryValue($query, "is_used", 1);
+        $dbmanager->setQueryValue($query, "plugin_armadito_agents_id", $this->agentid);
         return $dbmanager;
     }
 
