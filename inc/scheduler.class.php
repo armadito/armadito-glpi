@@ -221,6 +221,23 @@ class PluginArmaditoScheduler extends PluginArmaditoCommonDBTM
 
         return NULL;
     }
+
+    function showForm($table_id, $options = array())
+    {
+        PluginArmaditoToolbox::validateInt($table_id);
+
+        $this->initForm($table_id, $options);
+        $this->showFormHeader($options);
+
+        $rows[] = new PluginArmaditoFormRow('Id', $this->fields["id"]);
+        $rows[] = new PluginArmaditoFormRow('Agent Id', $this->fields["plugin_armadito_agents_id"]);
+        $rows[] = new PluginArmaditoFormRow('Antivirus', $this->fields["plugin_armadito_antiviruses_id"]);
+
+        foreach( $rows as $row )
+        {
+            $row->write();
+        }
+    }
 }
 
 ?>
