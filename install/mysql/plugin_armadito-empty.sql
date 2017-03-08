@@ -54,6 +54,7 @@ DROP TABLE IF EXISTS `glpi_plugin_armadito_schedulers`;
 
 CREATE TABLE `glpi_plugin_armadito_schedulers` (
    `id` int(11) NOT NULL AUTO_INCREMENT,
+   `name` varchar(255) DEFAULT NULL,
    `plugin_armadito_agents_id` int(11) NOT NULL,
    `plugin_armadito_antiviruses_id` int(11) NOT NULL,
    `plugin_armadito_schedulerdetails_id` int(11) NOT NULL,
