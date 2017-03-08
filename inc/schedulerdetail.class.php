@@ -71,7 +71,7 @@ class PluginArmaditoSchedulerDetail extends PluginArmaditoEAVCommonDBTM
     {
         $this->setAgentFromJson($jobj);
         $this->antivirus = $this->agent->getAntivirus();
-        $this->entries = $jobj->task->obj;
+        $this->entries = $jobj->task->obj->confdetails;
     }
 
     function run()
