@@ -234,7 +234,7 @@ class PluginArmaditoMenu extends CommonGLPI
         $paConfig = new PluginArmaditoConfig();
         $menu_entries = array();
 
-        if ($paConfig->getValue('armaditoscheduler') && Session::haveRight('plugin_armadito_schedulers', READ))
+        if (Session::haveRight('plugin_armadito_schedulers', READ))
         {
             $menu_entries[] = new PluginArmaditoMenuEntry('Board', self::BOARD_PNG, 'schedulerboard.php');
             $menu_entries[] = new PluginArmaditoMenuEntry('Schedulers', self::LISTING_PNG, 'scheduler.php');
