@@ -48,12 +48,18 @@ class PluginArmaditoScheduler extends PluginArmaditoCommonDBTM
         $this->agentid = $jobj->agent_id;
         $this->agent = $this->details->getAgent();
         $this->antivirus = $this->agent->getAntivirus();
-        $this->setObj($jobj->task->obj);
     }
 
-    function setObj($obj)
+    function getSearchOptions()
     {
-        $this->obj = new StdClass;
+        $search_options = new PluginArmaditoSearchoptions('Scheduler');
+
+        $items['Scheduler Id']  = new PluginArmaditoSearchitemlink('id', $this->getTable(), 'PluginArmaditoScheduler');
+        $items['Agent Id']      = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_agents', 'PluginArmaditoAgent');
+        $items['Antivirus']     = new PluginArmaditoSearchitemlink('fullname', 'glpi_plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
+        $items['Details']       = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_schedulerdetails', 'PluginArmaditoSchedulerDetail');
+
+        return $search_options->get($items);
     }
 
     function insertSchedulerInDB()
