@@ -56,7 +56,7 @@ CREATE TABLE `glpi_plugin_armadito_schedulers` (
    `id` int(11) NOT NULL AUTO_INCREMENT,
    `plugin_armadito_agents_id` int(11) NOT NULL,
    `plugin_armadito_antiviruses_id` int(11) NOT NULL,
-   `plugin_armadito_schedulerdetails_id` int(11) NOT NULL,
+   `plugin_armadito_schedulerdetails_id` int(11) NOT NULL DEFAULT '0',
    `is_used` tinyint(1) NOT NULL DEFAULT '0',
    PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
