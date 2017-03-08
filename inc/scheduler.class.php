@@ -27,6 +27,8 @@ class PluginArmaditoScheduler extends PluginArmaditoCommonDBTM
 {
     protected $id;
     protected $agentid;
+    protected $details;
+    protected $details_id;
 
     function init($agent_id)
     {
@@ -138,7 +140,10 @@ class PluginArmaditoScheduler extends PluginArmaditoCommonDBTM
 
     function insertOrUpdateInDB()
     {
-        if($this->isAgentInDB())
+        $this->details->run();
+        $this->details_id = $this->getTableIdForAgentId("glpi_plugin_armadito_schedulerdetails");
+
+        if($this->isSchedulerForAgentInDB())
         {
             $this->updateSchedulerInDB();
         }
@@ -156,7 +161,7 @@ class PluginArmaditoScheduler extends PluginArmaditoCommonDBTM
         }
     }
 
-    function isAgentInDB()
+    function isSchedulerForAgentInDB()
     {
         global $DB;
 

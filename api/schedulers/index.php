@@ -37,7 +37,7 @@ if (isValidPOSTRequest($rawdata))
         $jobj = PluginArmaditoToolbox::parseJSON($rawdata);
         $scheduler = new PluginArmaditoScheduler();
         $scheduler->initFromJson($jobj);
-        $scheduler->run();
+        $scheduler->insertOrUpdateInDB();
 
         writeHttpOKResponse("");
     }
