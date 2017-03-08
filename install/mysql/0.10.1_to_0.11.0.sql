@@ -11,3 +11,4 @@ CREATE TABLE `glpi_plugin_armadito_schedulerdetails` (
 
 ALTER TABLE `glpi_plugin_armadito_schedulers` ADD `plugin_armadito_antiviruses_id` int(11) NOT NULL;
 ALTER TABLE `glpi_plugin_armadito_schedulers` ADD `plugin_armadito_schedulerdetails_id` int(11) NOT NULL;
+ALTER TABLE `glpi_plugin_armadito_schedulers` ADD `name` varchar(255) DEFAULT NULL;

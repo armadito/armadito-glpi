@@ -30,6 +30,7 @@ class PluginArmaditoScheduler extends PluginArmaditoCommonDBTM
     protected $details;
     protected $details_id;
     protected $antivirus;
+    protected $obj;
 
     function init($agent)
     {
@@ -37,6 +38,8 @@ class PluginArmaditoScheduler extends PluginArmaditoCommonDBTM
         $this->agentid = $agent->getId();
         $this->antivirus = $this->agent->getAntivirus();
         $this->details_id = 0;
+        $this->obj = new StdClass;
+        $this->obj->name = "unknown";
     }
 
     static function getTypeName($nb = 0)
@@ -53,6 +56,13 @@ class PluginArmaditoScheduler extends PluginArmaditoCommonDBTM
         $this->agentid = $jobj->agent_id;
         $this->agent = $this->details->getAgent();
         $this->antivirus = $this->agent->getAntivirus();
+        $this->setObj($jobj->task->obj);
+    }
+
+    function setObj($obj)
+    {
+        $this->obj = new StdClass;
+        $this->obj->name    = $this->setValueOrDefault($obj, "name", "string");
     }
 
     function getSearchOptions()
@@ -61,6 +71,7 @@ class PluginArmaditoScheduler extends PluginArmaditoCommonDBTM
 
         $items['Scheduler Id']  = new PluginArmaditoSearchitemlink('id', $this->getTable(), 'PluginArmaditoScheduler');
         $items['Agent Id']      = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_agents', 'PluginArmaditoAgent');
+        $items['Name']          = new PluginArmaditoSearchtext('name', $this->getTable());
         $items['Antivirus']     = new PluginArmaditoSearchitemlink('fullname', 'glpi_plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
         $items['Details']       = new PluginArmaditoSearchitemlink('id', 'glpi_plugin_armadito_schedulerdetails', 'PluginArmaditoSchedulerDetail');
 
@@ -119,6 +130,7 @@ class PluginArmaditoScheduler extends PluginArmaditoCommonDBTM
 
     function setCommonQueryParams()
     {
+        $params["name"]["type"] = "s";
         $params["plugin_armadito_antiviruses_id"]["type"] = "i";
         $params["plugin_armadito_schedulerdetails_id"]["type"] = "i";
         $params["is_used"]["type"] = "i";
@@ -130,6 +142,7 @@ class PluginArmaditoScheduler extends PluginArmaditoCommonDBTM
 
     function setCommonQueryValues($dbmanager, $query)
     {
+        $dbmanager->setQueryValue($query, "name", $this->obj->name);
         $dbmanager->setQueryValue($query, "plugin_armadito_antiviruses_id", $this->antivirus->getId());
         $dbmanager->setQueryValue($query, "plugin_armadito_schedulerdetails_id", $this->details_id);
         $dbmanager->setQueryValue($query, "is_used", 1);
@@ -232,6 +245,7 @@ class PluginArmaditoScheduler extends PluginArmaditoCommonDBTM
         $rows[] = new PluginArmaditoFormRow('Id', $this->fields["id"]);
         $rows[] = new PluginArmaditoFormRow('Agent Id', $this->fields["plugin_armadito_agents_id"]);
         $rows[] = new PluginArmaditoFormRow('Antivirus', $this->fields["plugin_armadito_antiviruses_id"]);
+        $rows[] = new PluginArmaditoFormRow('Name', $this->fields["name"]);
 
         foreach( $rows as $row )
         {
