@@ -141,7 +141,7 @@ class PluginArmaditoScheduler extends PluginArmaditoCommonDBTM
 
     function setUnused()
     {
-        if($this->isAgentInDB())
+        if($this->isSchedulerForAgentInDB())
         {
             $input                               = array();
             $input['id']                         = $this->id;
