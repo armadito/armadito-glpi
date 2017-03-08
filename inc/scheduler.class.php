@@ -29,6 +29,7 @@ class PluginArmaditoScheduler extends PluginArmaditoCommonDBTM
     protected $agentid;
     protected $details;
     protected $details_id;
+    protected $antivirus;
 
     function init($agent_id)
     {
