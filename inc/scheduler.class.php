@@ -34,7 +34,7 @@ class PluginArmaditoScheduler extends PluginArmaditoCommonDBTM
     function init($agent)
     {
         $this->agent = $agent;
-        $this->agentid = $agent->fields["id"];
+        $this->agentid = $agent->getId();
         $this->antivirus = $this->agent->getAntivirus();
     }
 
