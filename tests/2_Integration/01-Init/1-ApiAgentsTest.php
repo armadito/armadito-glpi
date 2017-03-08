@@ -62,7 +62,7 @@ class ApiAgentsTest extends CommonTestCase
         $this->assertEquals($new_agentid, $agent->getId());
 
         $Scheduler = new PluginArmaditoScheduler();
-        $Scheduler->init($agent->getId());
+        $Scheduler->init($agent);
         $Scheduler->insertOrUpdateInDB();
         $this->assertEquals($new_schedulerid, $Scheduler->getId());
 
@@ -77,12 +77,16 @@ class ApiAgentsTest extends CommonTestCase
     protected function purgeAgent($agentid)
     {
         global $DB;
-        $query = "DELETE from `glpi_plugin_armadito_agents` WHERE `id` = '".$agentid."'";
-        $DB->query($query);
+
+        $agent = new PluginArmaditoAgent();
+        $agent->initFromDB($agentid);
 
         $Scheduler = new PluginArmaditoScheduler();
-        $Scheduler->init($agentid);
+        $Scheduler->init($agent);
         $Scheduler->setUnused();
+
+        $query = "DELETE from `glpi_plugin_armadito_agents` WHERE `id` = '".$agentid."'";
+        $DB->query($query);
     }
 }
 

@@ -40,7 +40,7 @@ if (isValidPOSTRequest($rawdata))
         $agent->insertOrUpdateInDB();
 
         $Scheduler = new PluginArmaditoScheduler();
-        $Scheduler->init($agent->getId());
+        $Scheduler->init($agent);
         $Scheduler->insertOrUpdateInDB();
         $agent->updateSchedulerId($Scheduler->getId());
 
