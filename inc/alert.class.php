@@ -73,7 +73,6 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
         $this->obj->threat_name = $this->setValueOrDefault($obj, "name", "string");
         $this->obj->filepath = $this->setValueOrDefault($obj, "filepath", "string");
         $this->obj->module_name = $this->setValueOrDefault($obj, "module_name", "string");
-        $this->obj->impact_severity = $this->setValueOrDefault($obj, "impact_severity", "integer");
         $this->obj->action = $this->setValueOrDefault($obj, "action", "string");
         $this->obj->info   = $this->setValueOrDefault($obj, "info", "string");
         $this->obj->jobid  = $this->setValueOrDefault($obj, "job_id", "integer");
@@ -116,7 +115,6 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
         $items['Filepath']         = new PluginArmaditoSearchtext('filepath', $this->getTable());
         $items['Antivirus']        = new PluginArmaditoSearchitemlink('fullname', 'glpi_plugin_armadito_antiviruses', 'PluginArmaditoAntivirus');
         $items['Detection Time']   = new PluginArmaditoSearchtext('detection_time', $this->getTable());
-        $items['Severity']         = new PluginArmaditoSearchtext('impact_severity', $this->getTable());
         $items['Action']           = new PluginArmaditoSearchtext('action', $this->getTable());
         $items['Info']             = new PluginArmaditoSearchtext('info', $this->getTable());
         $items['Module']           = new PluginArmaditoSearchtext('module_name', $this->getTable());
@@ -211,7 +209,6 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
         $params["threat_name"]["type"]                     = "s";
         $params["module_name"]["type"]                     = "s";
         $params["filepath"]["type"]                        = "s";
-        $params["impact_severity"]["type"]                 = "s";
         $params["detection_time"]["type"]                  = "s";
         $params["checksum"]["type"]                        = "s";
         $params["action"]["type"]                          = "s";
@@ -229,7 +226,6 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
         $this->dbmanager->setQueryValue($query, "filepath", $this->obj->filepath);
         $this->dbmanager->setQueryValue($query, "module_name", $this->obj->module_name);
         $this->dbmanager->setQueryValue($query, "detection_time", $this->obj->detection_time);
-        $this->dbmanager->setQueryValue($query, "impact_severity", $this->obj->impact_severity);
         $this->dbmanager->setQueryValue($query, "checksum", $this->obj->checksum);
         $this->dbmanager->setQueryValue($query, "action", $this->obj->action);
         $this->dbmanager->setQueryValue($query, "info", $this->obj->info);
