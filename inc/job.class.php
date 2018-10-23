@@ -217,7 +217,7 @@ class PluginArmaditoJob extends PluginArmaditoCommonDBTM
         $dbmanager->executeQuery($query);
     }
 
-    function getSearchOptions()
+    function rawSearchOptions()
     {
         $search_options = new PluginArmaditoSearchoptions('Job');
 

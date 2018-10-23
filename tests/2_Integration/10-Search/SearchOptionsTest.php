@@ -38,7 +38,7 @@ class SearchOptionsTest extends CommonTestCase
         {
             $class = 'PluginArmadito'.$class;
             $item = new $class();
-            $item->getSearchOptions();
+            $item->rawSearchOptions();
         }
     }
 }

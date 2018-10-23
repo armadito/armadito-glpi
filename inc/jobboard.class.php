@@ -121,7 +121,10 @@ class PluginArmaditoJobBoard extends PluginArmaditoBoard
 
     function countJobStatus($status)
     {
-        return countElementsInTableForMyEntities('glpi_plugin_armadito_jobs', "`job_status`='" . $status . "'");
+        return countElementsInTableForMyEntities(
+            'glpi_plugin_armadito_jobs',
+            ['job_status' => $status]
+        );
     }
 
     function getLongestJobsData()

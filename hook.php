@@ -67,7 +67,7 @@ function getCurrentPluginVersion()
 {
     global $DB;
 
-    if (!TableExists("glpi_plugin_armadito_configs")) {
+    if (!$DB->tableExists("glpi_plugin_armadito_configs")) {
         return "0";
     }
 

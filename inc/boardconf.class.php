@@ -30,7 +30,7 @@ class PluginArmaditoBoardConf extends PluginArmaditoConf
 {
     function showForm()
     {
-        $paConfig = $this->initConfigForm($options, __('Boards', 'armadito'));
+        $paConfig = $this->initConfigForm([], __('Boards', 'armadito'));
 
         $h = htmlspecialchars($paConfig->getValue('colorpalette_h'));
         $s = htmlspecialchars($paConfig->getValue('colorpalette_s'));

@@ -120,7 +120,12 @@ class PluginArmaditoStateBoard extends PluginArmaditoBoard
 
     function countUpdateStatus($status)
     {
-        return countElementsInTableForMyEntities('glpi_plugin_armadito_states', "`update_status`='" . $status . "'");
+        return countElementsInTableForMyEntities(
+            'glpi_plugin_armadito_states',
+            [
+                'update_status' => $status,
+            ]
+        );
     }
 
     function getMostCriticalUpdatesData()

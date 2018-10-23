@@ -31,19 +31,21 @@ class PluginArmaditoSetup
 {
     static function uninstall()
     {
+        global $DB;
+
         PluginArmaditoProfile::uninstallProfile();
         ProfileRight::deleteProfileRights(array(
             'armadito:read'
         ));
 
-        if (TableExists("glpi_plugin_armadito_configs")) {
+        if ($DB->tableExists("glpi_plugin_armadito_configs")) {
             $query = "DROP TABLE `glpi_plugin_armadito_configs`";
             if (!PluginArmaditoToolbox::ExecQuery($query)) {
                 die();
             }
         }
 
-        if (TableExists("glpi_plugin_armadito_agents")) {
+        if ($DB->tableExists("glpi_plugin_armadito_agents")) {
             $query = "DROP TABLE `glpi_plugin_armadito_agents`";
             if (!PluginArmaditoToolbox::ExecQuery($query)) {
                 die();

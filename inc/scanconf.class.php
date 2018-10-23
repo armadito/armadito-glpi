@@ -30,7 +30,7 @@ class PluginArmaditoScanConf extends PluginArmaditoConf
 {
     function showForm()
     {
-        $paConfig = $this->initConfigForm($options, __('Scans configuration', 'armadito'));
+        $paConfig = $this->initConfigForm([], __('Scans configuration', 'armadito'));
         $paConfig->showFormFooter();
     }
 }

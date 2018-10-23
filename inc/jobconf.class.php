@@ -30,7 +30,7 @@ class PluginArmaditoJobConf extends PluginArmaditoConf
 {
     function showForm()
     {
-        $paConfig = $this->initConfigForm($options, __('Jobs configuration', 'armadito'));
+        $paConfig = $this->initConfigForm([], __('Jobs configuration', 'armadito'));
 
         echo "<tr class='tab_bg_1'>";
         echo "<td>".__('Maximum jobs agents can get by round', 'armadito')."&nbsp;:</td>";

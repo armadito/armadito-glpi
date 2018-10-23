@@ -104,7 +104,7 @@ class PluginArmaditoState extends PluginArmaditoCommonDBTM
         return $this->agent;
     }
 
-    function getSearchOptions()
+    function rawSearchOptions()
     {
         $search_options = new PluginArmaditoSearchoptions('State');
 

@@ -25,6 +25,11 @@ include_once("inc/toolbox.class.php");
 
 define("PLUGIN_ARMADITO_VERSION", "0.10.1");
 
+// Minimal GLPI version, inclusive
+define("PLUGIN_ARMADITO_MIN_GLPI", "9.3");
+// Maximum GLPI version, exclusive
+define("PLUGIN_ARMADITO_MAX_GLPI", "9.4");
+
 function plugin_init_armadito()
 {
     global $PLUGIN_HOOKS;
@@ -104,26 +109,41 @@ function scriptEndsWith($scriptname)
 
 function plugin_version_armadito()
 {
-    return array(
-        'name' => 'Armadito',
-        'shortname' => 'armadito',
-        'version' => PLUGIN_ARMADITO_VERSION,
-        'author' => '<a href="mailto:armadito@teclib.com">Teclib\'</a>',
-        'license' => 'AGPLv3+',
-        'homepage' => 'http://armadito-glpi.readthedocs.io/en/dev/index.html',
-        'minGlpiVersion' => '9.1'
-    );
+    return [
+        'name'         => 'Armadito',
+        'shortname'    => 'armadito',
+        'version'      => PLUGIN_ARMADITO_VERSION,
+        'author'       => '<a href="mailto:armadito@teclib.com">Teclib\'</a>',
+        'license'      => 'AGPLv3+',
+        'homepage'     => 'http://armadito-glpi.readthedocs.io/en/dev/index.html',
+        'requirements' => [
+            'glpi' => [
+                'min' => PLUGIN_ARMADITO_MIN_GLPI,
+                'max' => PLUGIN_ARMADITO_MAX_GLPI,
+            ]
+        ]
+    ];
 }
 
 function plugin_armadito_check_prerequisites()
 {
-    if (!isset($_SESSION['glpi_plugins'])) {
-        $_SESSION['glpi_plugins'] = array();
-    }
 
-    if (version_compare(GLPI_VERSION, '9.1', 'lt')) {
-        echo __('Your GLPI version not compatible, require >= 9.1', 'armadito');
-        return FALSE;
+    //Version check is not done by core in GLPI < 9.2 but has to be delegated to core in GLPI >= 9.2.
+    if (!method_exists('Plugin', 'checkGlpiVersion')) {
+        $version = preg_replace('/^((\d+\.?)+).*$/', '$1', GLPI_VERSION);
+        $matchMinGlpiReq = version_compare($version, PLUGIN_ARMADITO_MIN_GLPI, '>=');
+        $matchMaxGlpiReq = version_compare($version, PLUGIN_ARMADITO_MAX_GLPI, '<');
+
+        if (!$matchMinGlpiReq || !$matchMaxGlpiReq) {
+            echo vsprintf(
+                __('This plugin requires GLPI >= %1$s and < %2$s.', 'armadito'),
+                [
+                    PLUGIN_ARMADITO_MIN_GLPI,
+                    PLUGIN_ARMADITO_MAX_GLPI,
+                ]
+            );
+            return false;
+        }
     }
 
     return true;

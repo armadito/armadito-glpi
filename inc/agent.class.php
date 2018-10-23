@@ -247,7 +247,7 @@ class PluginArmaditoAgent extends PluginArmaditoCommonDBTM
         return $tabname;
     }
 
-    function getSearchOptions()
+    function rawSearchOptions()
     {
         $search_options = new PluginArmaditoSearchoptions('Agent');
         $paConfig = new PluginArmaditoConfig();

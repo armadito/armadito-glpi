@@ -123,7 +123,7 @@ class PluginArmaditoScan extends PluginArmaditoCommonDBTM
         return $this->scanconfigobj->toJson();
     }
 
-    function getSearchOptions()
+    function rawSearchOptions()
     {
         $search_options = new PluginArmaditoSearchoptions('Scan');
 

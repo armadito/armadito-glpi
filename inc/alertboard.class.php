@@ -123,7 +123,10 @@ class PluginArmaditoAlertBoard extends PluginArmaditoBoard
 
     function countAlertsForAV($AV_id)
     {
-        return countElementsInTableForMyEntities('glpi_plugin_armadito_alerts', "`plugin_armadito_antiviruses_id`='" . $AV_id . "'");
+        return countElementsInTableForMyEntities(
+            'glpi_plugin_armadito_alerts',
+            ['plugin_armadito_antiviruses_id' => $AV_id]
+        );
     }
 
     function getAlertsByVirusNameChartData()

@@ -86,7 +86,11 @@ class PluginArmaditoProfile extends Profile
         $a_rights  = $paProfile->getAllRights();
 
         foreach ($a_rights as $data) {
-            if (countElementsInTable("glpi_profilerights", "`name` = '" . $data['field'] . "'") == 0) {
+            $count = countElementsInTable(
+                 'glpi_profilerights',
+                 ['name' => $data['field']]
+            );
+            if ($count == 0) {
                 ProfileRight::addProfileRights(array(
                     $data['field']
                 ));
