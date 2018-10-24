@@ -103,7 +103,7 @@ class PluginArmaditoAlert extends PluginArmaditoCommonDBTM
          return hash("sha256", $unique_string);
     }
 
-    function getSearchOptions()
+    function rawSearchOptions()
     {
         $search_options = new PluginArmaditoSearchoptions('Alert');
 

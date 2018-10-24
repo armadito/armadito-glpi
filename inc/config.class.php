@@ -132,7 +132,7 @@ class PluginArmaditoConfig extends PluginArmaditoEAVCommonDBTM
         //Test if table exists before loading cache
         //The only case where table doesn't exists is when you click on
         //uninstall the plugin and it's already uninstalled
-        if (TableExists('glpi_plugin_armadito_configs')) {
+        if ($DB->tableExists('glpi_plugin_armadito_configs')) {
             $PF_CONFIG = array();
             foreach ($DB->request('glpi_plugin_armadito_configs') as $data) {
                 $PF_CONFIG[$data['type']] = $data['value'];

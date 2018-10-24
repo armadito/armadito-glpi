@@ -30,8 +30,11 @@ class PluginArmaditoSearchoptions
 
     function __construct( $name )
     {
-        $this->tab           = array();
-        $this->tab['common'] = __($name, 'armadito');
+        $this->tab = [];
+        $this->tab[] = [
+            'id'   => 'common',
+            'name' => __($name, 'armadito')
+        ];
     }
 
     function get($items)
@@ -40,7 +43,7 @@ class PluginArmaditoSearchoptions
         foreach ($items as $key => $item)
         {
             $item->setName($key);
-            $this->tab = $item->getOptions($this->tab, $i);
+            $this->tab[] = $item->getOptions($this->tab, $i);
             $i++;
         }
 

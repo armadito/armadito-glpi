@@ -30,7 +30,7 @@ class PluginArmaditoStateConf extends PluginArmaditoConf
 {
     function showForm()
     {
-        $paConfig = $this->initConfigForm($options, __('States configuration', 'armadito'));
+        $paConfig = $this->initConfigForm([], __('States configuration', 'armadito'));
         $paConfig->showFormFooter();
     }
 }

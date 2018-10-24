@@ -29,7 +29,7 @@ class PluginArmaditoGeneralConf extends PluginArmaditoConf
 {
     function showForm()
     {
-        $paConfig = $this->initConfigForm($options, __('Global configuration', 'armadito'));
+        $paConfig = $this->initConfigForm([], __('Global configuration', 'armadito'));
 
         echo "<tr class='tab_bg_1'>";
         echo "<td>".__('Debug level (minimum)', 'armadito')."&nbsp;:</td>";

@@ -45,12 +45,14 @@ class PluginArmaditoSearchitemlink
 
     function getOptions($tab, $i)
     {
-        $tab[$i]['table']         = $this->table;
-        $tab[$i]['field']         = $this->field;
-        $tab[$i]['name']          = __($this->name, 'armadito');
-        $tab[$i]['datatype']      = 'itemlink';
-        $tab[$i]['itemlink_type'] = $this->type;
-        $tab[$i]['massiveaction'] = FALSE;
+        $tab = [];
+        $tab['id']            = $i;
+        $tab['table']         = $this->table;
+        $tab['field']         = $this->field;
+        $tab['name']          = __($this->name, 'armadito');
+        $tab['datatype']      = 'itemlink';
+        $tab['itemlink_type'] = $this->type;
+        $tab['massiveaction'] = FALSE;
         return $tab;
     }
 }

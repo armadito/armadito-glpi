@@ -65,7 +65,7 @@ class PluginArmaditoScheduler extends PluginArmaditoCommonDBTM
         $this->obj->name    = $this->setValueOrDefault($obj, "name", "string");
     }
 
-    function getSearchOptions()
+    function rawSearchOptions()
     {
         $search_options = new PluginArmaditoSearchoptions('Scheduler');
 

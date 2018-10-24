@@ -34,7 +34,7 @@ class PluginArmaditoEAVCommonDBTM extends CommonDBTM
 
     static function canView()
     {
-        if(static::getProfileRights() == 'w' || static::getProfileRights() == 'r')
+        if(static::getProfileRights() == 'w' || static::getProfileRights() == 'r')
         {
             return true;
         }
@@ -57,7 +57,7 @@ class PluginArmaditoEAVCommonDBTM extends CommonDBTM
         return $_SESSION["glpi_plugin_armadito_profile"]['armadito'];
     }
 
-    function getSearchOptions()
+    function rawSearchOptions()
     {
         $search_options = new PluginArmaditoSearchoptions('AVConfig');
 
@@ -115,16 +115,6 @@ class PluginArmaditoEAVCommonDBTM extends CommonDBTM
         } else {
             return $this->insertValueInDB($type, $value);
         }
-    }
-
-    function isActive($type)
-    {
-        $value = $this->getValue($type);
-        if($value === NULL){
-           return FALSE;
-        }
-
-        return $value;
     }
 
     function getValue($type)

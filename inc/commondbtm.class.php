@@ -54,7 +54,7 @@ class PluginArmaditoCommonDBTM extends CommonDBTM
 
     static function canView()
     {
-        if(static::getProfileRights() == 'w' || static::getProfileRights() == 'r')
+        if(static::getProfileRights() == 'w' || static::getProfileRights() == 'r')
         {
             return true;
         }

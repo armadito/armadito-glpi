@@ -30,7 +30,7 @@ class PluginArmaditoAlertConf extends PluginArmaditoConf
 {
     function showForm()
     {
-        $paConfig = $this->initConfigForm($options, __('Alerts configuration', 'armadito'));
+        $paConfig = $this->initConfigForm([], __('Alerts configuration', 'armadito'));
         $paConfig->showFormFooter();
     }
 }

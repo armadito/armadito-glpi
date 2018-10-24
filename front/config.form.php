@@ -44,14 +44,16 @@ if (isset($_POST['update'])) {
 }
 
 $a_config = current($pfConfig->find("", "", 1));
-$pfConfig->getFromDB($a_config['id']);
-if (isset($_GET['glpi_tab'])) {
-    $_SESSION['glpi_tabs']['pluginarmaditoconfiguration'] = $_GET['glpi_tab'];
-    Html::redirect(Toolbox::getItemTypeFormURL($pfConfig->getType()));
+if ($pfConfig->getFromDB($a_config['id'])) {
+    if (isset($_GET['glpi_tab'])) {
+        Session::setActiveTab(PluginArmaditoConfig::class, $_GET['glpi_tab']);
+        Html::redirect(Toolbox::getItemTypeFormURL($pfConfig->getType()));
+    }
+
+    $pfConfig->display(array(
+        "id" => $a_config["id"]
+    ));
 }
-$pfConfig->showTabs(array());
-$pfConfig->addDivForTabs();
-unset($_SESSION['glpi_tabs']['pluginarmaditoconfiguration']);
 
 Html::footer();
 

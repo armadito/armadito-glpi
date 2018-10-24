@@ -133,7 +133,7 @@ class PluginArmaditoScanConfig extends PluginArmaditoCommonDBTM
         return __('Scan configuration', 'armadito');
     }
 
-    function getSearchOptions()
+    function rawSearchOptions()
     {
         $search_options = new PluginArmaditoSearchoptions('ScanConfig');
 

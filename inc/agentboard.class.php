@@ -121,7 +121,10 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard
             $armaditoComputers = $data_ao_computers['nb_computers'];
         }
 
-        $allComputers = countElementsInTableForMyEntities('glpi_computers', "`is_deleted`='0' AND `is_template`='0'");
+        $allComputers = countElementsInTableForMyEntities(
+            'glpi_computers',
+            ['is_deleted' => '0', 'is_template' => '0']
+        );
 
         $colortbox = new PluginArmaditoColorToolbox();
         $palette   = $colortbox->getPalette(2);
@@ -143,7 +146,10 @@ class PluginArmaditoAgentBoard extends PluginArmaditoBoard
 
     function countAgentsForAV($AV_id)
     {
-        return countElementsInTableForMyEntities('glpi_plugin_armadito_agents', "`plugin_armadito_antiviruses_id`='" . $AV_id . "'");
+        return countElementsInTableForMyEntities(
+            'glpi_plugin_armadito_agents',
+            ['plugin_armadito_antiviruses_id' => $AV_id]
+        );
     }
 
     function getAntivirusChartData()

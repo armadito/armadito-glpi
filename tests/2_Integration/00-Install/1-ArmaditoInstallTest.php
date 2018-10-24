@@ -83,7 +83,7 @@ class ArmaditoInstallTest extends CommonTestCase
             die("No DB connection\n");
         }
 
-        if (!TableExists("glpi_configs")) {
+        if (!$DB->tableExists("glpi_configs")) {
             die("GLPI not installed\n");
         }
 

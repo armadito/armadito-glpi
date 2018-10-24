@@ -75,7 +75,7 @@ class PluginArmaditoAVConfig extends PluginArmaditoCommonDBTM
         }
     }
 
-    function getSearchOptions()
+    function rawSearchOptions()
     {
         $search_options = new PluginArmaditoSearchoptions('AVConfig');
 

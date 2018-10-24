@@ -43,11 +43,13 @@ class PluginArmaditoSearchtext
 
     function getOptions($tab, $i)
     {
-        $tab[$i]['table']         = $this->table;
-        $tab[$i]['field']         = $this->field;
-        $tab[$i]['name']          = __($this->name, 'armadito');
-        $tab[$i]['datatype']      = 'text';
-        $tab[$i]['massiveaction'] = FALSE;
+        $tab = [];
+        $tab['id']            = $i;
+        $tab['table']         = $this->table;
+        $tab['field']         = $this->field;
+        $tab['name']          = __($this->name, 'armadito');
+        $tab['datatype']      = 'text';
+        $tab['massiveaction'] = FALSE;
         return $tab;
     }
 }

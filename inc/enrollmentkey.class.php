@@ -158,7 +158,7 @@ class PluginArmaditoEnrollmentKey extends PluginArmaditoCommonDBTM
         return __('Enrollment Key', 'armadito');
     }
 
-    function getSearchOptions()
+    function rawSearchOptions()
     {
         $search_options = new PluginArmaditoSearchoptions('EnrollmentKey');
 
